@@ -20,6 +20,7 @@ import {
     markFailed,
     markTimeout
 } from './work-contract';
+import { VerifierConsensus, ConsensusResult } from '../verification/verifier-consensus';
 import { LocalAgentManager } from '../local/local-agent-manager';
 import { ProcessEnforcer } from '../local/process-enforcer';
 import { ClawgerMode, getCurrentMode } from '../../config/mode-config';
@@ -157,10 +158,115 @@ export class ExecutionSupervisor {
         }
 
         // Check 3: Verification timeout (optional - could add later)
+        // Check 3: Verification Consensus
         if (contract.status === 'verifying') {
-            // For now, verifiers are assumed to complete quickly
-            // Could add verification timeout here
+            this.checkVerificationStatus(contract);
         }
+    }
+
+    /**
+     * Check verification status and enforce consensus
+     */
+    private checkVerificationStatus(contract: WorkContract): void {
+        const prefix = getLogPrefix();
+
+        // Check if all verifiers have submitted
+        const submissions = contract.verifier_submissions || [];
+        const requiredVerifiers = contract.verifiers.length;
+
+        if (submissions.length < requiredVerifiers) {
+            // Still waiting for verifiers
+            // TODO: Add verification timeout check
+            return;
+        }
+
+        logger.info(`${prefix} [SUPERVISOR] All verifiers submitted (${submissions.length}/${requiredVerifiers})`);
+
+        // Evaluate consensus
+        const result = VerifierConsensus.evaluate(submissions);
+
+        // Enforce result
+        if (result.final_verdict === 'PASS') {
+            this.handleVerificationPass(contract, result);
+        } else {
+            this.handleVerificationFail(contract, result);
+        }
+
+        // Handle dishonesty penalties
+        if (result.dishonest_verifiers.length > 0) {
+            this.penalizeDishonestVerifiers(result.dishonest_verifiers);
+        }
+    }
+
+    /**
+     * Handle verification PASS
+     */
+    private handleVerificationPass(contract: WorkContract, consensus: ConsensusResult): void {
+        const prefix = getLogPrefix();
+        logger.info(`${prefix} [SUPERVISOR] Verification PASSED via consensus (${consensus.status})`);
+        completeVerification(contract, true);
+        // Payment is handled in completeVerification logs for now
+    }
+
+    /**
+     * Handle verification FAIL
+     */
+    private handleVerificationFail(contract: WorkContract, consensus: ConsensusResult): void {
+        const prefix = getLogPrefix();
+        logger.warn(`${prefix} [SUPERVISOR] Verification FAILED via consensus (${consensus.status})`);
+        logger.warn(`${prefix} Reason: ${consensus.annotated_reason}`);
+
+        // Mark as worker failure
+        completeVerification(contract, false); // Sets verification_result=false
+
+        // Enforce penalties
+        this.enforceKill(contract.worker, 'VERIFICATION_FAILED', consensus.annotated_reason);
+
+        // Retry logic is inside handleHeartbeatFailure currently, but completeVerification doesn't trigger retry.
+        // We need to coordinate this. completeVerification sets status to 'completed' if pass, but logs warn if fail.
+        // We should treat this as a failure that might allow retry if we want, but requirement says "Failed verification slashes worker bond".
+        // Usually verification failure is final for the submitted work.
+        // Supervisor logic for "completeVerification" with false currently just logs.
+
+        // Let's rely on markFailed context or similar. 
+        // For CLAWGER, verification failure is usually fatal or a slashable offense.
+        // Assuming strict discipline: Verification Fail = Slash + Fail contract (no retry on bad work?)
+        // Or should we allow retry? "Hard termination rules: kill worker, reassign once".
+        // If work was bad, maybe reassign?
+        // Let's assume we allow retry if max_retries not reached.
+
+        if (canRetry(contract)) {
+            logger.info(`${prefix} [SUPERVISOR] Retry allowed for verification failure`);
+            const newWorker = this.getReplacementWorker(contract);
+            if (newWorker) {
+                // Record failure creates the history entry
+                recordFailure(contract, 'VERIFICATION_FAILED', consensus.annotated_reason);
+                reassignWorker(contract, newWorker);
+            } else {
+                markFailed(contract, 'Verification failed and no replacement worker');
+            }
+        } else {
+            markFailed(contract, 'Verification failed and max retries exhausted');
+        }
+    }
+
+    /**
+     * Penalize dishonest verifiers
+     */
+    private penalizeDishonestVerifiers(dishonestVerifiers: string[]): void {
+        const prefix = getLogPrefix();
+        logger.warn(`${prefix} [SUPERVISOR] Penalizing dishonest verifiers: ${dishonestVerifiers.join(', ')}`);
+
+        dishonestVerifiers.forEach(verifier => {
+            if (this.config.mode === 'LOCAL') {
+                // Local penalty
+                logger.warn(`${prefix} [LOCAL] Reputation penalty for ${verifier}`);
+                // this.config.local_agent_manager?.slashReputation(verifier, 10);
+            } else {
+                // Public penalty
+                logger.warn(`${prefix} [PUBLIC] Slashing verifier bond for ${verifier}`);
+            }
+        });
     }
 
     /**

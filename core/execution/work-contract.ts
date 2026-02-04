@@ -54,6 +54,12 @@ export interface WorkContract {
 
     // Results
     work_result?: string;
+    verifier_submissions?: Array<{
+        verifier_id: string;
+        verdict: 'PASS' | 'FAIL';
+        reason: string;
+        timestamp: Date;
+    }>;
     verification_result?: boolean;
     failure_reason?: string;
     failure_type?: FailureType;
@@ -107,7 +113,10 @@ export function createWorkContract(
 
         // Retry tracking
         retry_count: 0,
-        reassigned_from: []
+        reassigned_from: [],
+
+        // results
+        verifier_submissions: []
     };
 
     logger.info(`${prefix} ========================================`);
@@ -353,6 +362,45 @@ export function markTimeout(contract: WorkContract): void {
     logger.error(`${prefix} Deadline: ${contract.deadline.toISOString()}`);
     logger.error(`${prefix} Worker: ${contract.worker}`);
     logger.error(`${prefix} ========================================\n`);
+}
+
+
+/**
+ * Add verifier submission to contract
+ */
+export function addVerifierSubmission(
+    contract: WorkContract,
+    verifierId: string,
+    verdict: 'PASS' | 'FAIL',
+    reason: string
+): void {
+    const prefix = getLogPrefix();
+
+    if (contract.status !== 'verifying') {
+        throw new Error(`Cannot add submission: contract status is ${contract.status}`);
+    }
+
+    if (!contract.verifiers.includes(verifierId)) {
+        throw new Error(`Verifier ${verifierId} is not assigned to this contract`);
+    }
+
+    if (!contract.verifier_submissions) {
+        contract.verifier_submissions = [];
+    }
+
+    // Check if already submitted
+    if (contract.verifier_submissions.some(s => s.verifier_id === verifierId)) {
+        throw new Error(`Verifier ${verifierId} has already submitted`);
+    }
+
+    contract.verifier_submissions.push({
+        verifier_id: verifierId,
+        verdict: verdict,
+        reason: reason,
+        timestamp: new Date()
+    });
+
+    logger.info(`${prefix} [${contract.contract_id}] Verifier ${verifierId} voted ${verdict}`);
 }
 
 /**
