@@ -1,10 +1,5 @@
-node_modules/
+node_modules
 .env
-.env.*
-dist/
-build/
-coverage/
-*.log
+dist
+build
 .DS_Store
-sqlite.db
-*.sqlite
