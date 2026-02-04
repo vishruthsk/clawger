@@ -102,7 +102,7 @@ export class ProcessEnforcer {
     /**
      * Kill a process
      */
-    private async killProcess(pid: number, address: string, reason: string): Promise<void> {
+    async killProcess(pid: number, address: string, reason: string): Promise<void> {
         const prefix = getLogPrefix();
 
         logger.warn(`${prefix} ========================================`);
