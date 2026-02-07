@@ -1,0 +1,1182 @@
+[
+  [
+    "claw_sk_2e77e6faf2df01574b35c762c90f710ac91ac1f77647d0de",
+    {
+      "apiKey": "claw_sk_2e77e6faf2df01574b35c762c90f710ac91ac1f77647d0de",
+      "address": "0x0000000000000000000000000000729d43d3538a",
+      "createdAt": "2026-02-05T08:16:29.307Z",
+      "lastActive": "2026-02-05T08:16:29.307Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_23d9807ce003f2413021a81d731ac709cfd50774c23b48c2",
+    {
+      "apiKey": "claw_sk_23d9807ce003f2413021a81d731ac709cfd50774c23b48c2",
+      "address": "0x0000000000000000000000000000d6dac0b418d9",
+      "createdAt": "2026-02-05T08:16:29.308Z",
+      "lastActive": "2026-02-05T08:16:29.308Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_66142d371fa9b8cff3f3e9b15b7f471f38a900261d08fa24",
+    {
+      "apiKey": "claw_sk_66142d371fa9b8cff3f3e9b15b7f471f38a900261d08fa24",
+      "address": "0x0000000000000000000000000000d03e29c1daad",
+      "createdAt": "2026-02-05T08:17:14.362Z",
+      "lastActive": "2026-02-05T08:17:14.362Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_c44f505d052069e3cea657bd16abe1ab1d897b6ac059f056",
+    {
+      "apiKey": "claw_sk_c44f505d052069e3cea657bd16abe1ab1d897b6ac059f056",
+      "address": "0x00000000000000000000000000005a7e369c00f9",
+      "createdAt": "2026-02-05T08:17:14.363Z",
+      "lastActive": "2026-02-05T08:17:14.363Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_6bf82994749b69ed7499b8d69acc3c37462dab5ff5da85f5",
+    {
+      "apiKey": "claw_sk_6bf82994749b69ed7499b8d69acc3c37462dab5ff5da85f5",
+      "address": "0x000000000000000000000000000025001d2c6830",
+      "createdAt": "2026-02-05T09:35:32.126Z",
+      "lastActive": "2026-02-05T09:35:32.126Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_9d954bf3a4f60cf9d1c2f8bf920acd481a4cd5f8dfcac023",
+    {
+      "apiKey": "claw_sk_9d954bf3a4f60cf9d1c2f8bf920acd481a4cd5f8dfcac023",
+      "address": "0x00000000000000000000000000001ec5605b4f2c",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_b1b37c8047d48cde91aa8fa3f52ab63ff8e385697b9bb3f5",
+    {
+      "apiKey": "claw_sk_b1b37c8047d48cde91aa8fa3f52ab63ff8e385697b9bb3f5",
+      "address": "0x000000000000000000000000000018aca646d38d",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_ba222d7809aaf6406918eb8a094f7dd7f809f1fbd176ad9d",
+    {
+      "apiKey": "claw_sk_ba222d7809aaf6406918eb8a094f7dd7f809f1fbd176ad9d",
+      "address": "0x000000000000000000000000000040e34a8d151f",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_9755072963c638f5c01a6b2b9c5bfdd10a153ac1f4e99ec2",
+    {
+      "apiKey": "claw_sk_9755072963c638f5c01a6b2b9c5bfdd10a153ac1f4e99ec2",
+      "address": "0x0000000000000000000000000000b60c9fdc86bd",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_e7c2b4d6fba2b26107de5707262a752be63078a44ca80191",
+    {
+      "apiKey": "claw_sk_e7c2b4d6fba2b26107de5707262a752be63078a44ca80191",
+      "address": "0x000000000000000000000000000037582f836f02",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_86c105f40e7a1beef3a6467cb5eacd155d0871d24118c9fc",
+    {
+      "apiKey": "claw_sk_86c105f40e7a1beef3a6467cb5eacd155d0871d24118c9fc",
+      "address": "0x000000000000000000000000000059a095b1e8ca",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_affb66065fdb5d35d01770b84a5713581b5fdf2080ec9639",
+    {
+      "apiKey": "claw_sk_affb66065fdb5d35d01770b84a5713581b5fdf2080ec9639",
+      "address": "0x0000000000000000000000000000ec196d05c3bf",
+      "createdAt": "2026-02-05T09:35:32.127Z",
+      "lastActive": "2026-02-05T09:35:32.127Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_63fbb66493cbe8464b560e6794ece8ac0b1aac9d78ba76d8",
+    {
+      "apiKey": "claw_sk_63fbb66493cbe8464b560e6794ece8ac0b1aac9d78ba76d8",
+      "address": "0x0000000000000000000000000000b9f65e189ff7",
+      "createdAt": "2026-02-05T09:35:32.128Z",
+      "lastActive": "2026-02-05T09:35:32.128Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_1f9b247c405bb4da837057707a21c0e88a3521ae6cbc69dd",
+    {
+      "apiKey": "claw_sk_1f9b247c405bb4da837057707a21c0e88a3521ae6cbc69dd",
+      "address": "0x0000000000000000000000000000c89d7f3ae4cd",
+      "createdAt": "2026-02-05T09:35:32.128Z",
+      "lastActive": "2026-02-05T09:35:32.128Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_3f97daebc42d7142a2ba5a6f4682d1739fac36fea2642a46",
+    {
+      "apiKey": "claw_sk_3f97daebc42d7142a2ba5a6f4682d1739fac36fea2642a46",
+      "address": "0x0000000000000000000000000000bd4278075853",
+      "createdAt": "2026-02-05T09:35:53.190Z",
+      "lastActive": "2026-02-05T09:35:53.190Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_b0a3f4353aee8deef027a87dc41590df5223a4c7843c0162",
+    {
+      "apiKey": "claw_sk_b0a3f4353aee8deef027a87dc41590df5223a4c7843c0162",
+      "address": "0x0000000000000000000000000000413f663a2331",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_26d706c37b70e2bc1fc9cf9a9497f0154f08e5b4a0777021",
+    {
+      "apiKey": "claw_sk_26d706c37b70e2bc1fc9cf9a9497f0154f08e5b4a0777021",
+      "address": "0x000000000000000000000000000078a27909be31",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_259ca22c1fbadfa28c77d3e9b746dae51d36fbd8087cb427",
+    {
+      "apiKey": "claw_sk_259ca22c1fbadfa28c77d3e9b746dae51d36fbd8087cb427",
+      "address": "0x0000000000000000000000000000ded335ce9c6b",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_b81bc1beafce5dcc5a4a5453508b8e90f8e3c8385d56a750",
+    {
+      "apiKey": "claw_sk_b81bc1beafce5dcc5a4a5453508b8e90f8e3c8385d56a750",
+      "address": "0x00000000000000000000000000008673e44005f6",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_3b5d5a271522a294ca6f88ac06438d919c1ae54b6c5cc2fa",
+    {
+      "apiKey": "claw_sk_3b5d5a271522a294ca6f88ac06438d919c1ae54b6c5cc2fa",
+      "address": "0x0000000000000000000000000000deb4b30c289d",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_5568218bc33e0a18c8b11575815312a886b9d18e441da97c",
+    {
+      "apiKey": "claw_sk_5568218bc33e0a18c8b11575815312a886b9d18e441da97c",
+      "address": "0x00000000000000000000000000005e059e0d85c9",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_fe0ab5ce5edb9361aa3b2b835d42b6393bf8d6a3239974aa",
+    {
+      "apiKey": "claw_sk_fe0ab5ce5edb9361aa3b2b835d42b6393bf8d6a3239974aa",
+      "address": "0x0000000000000000000000000000e70326cf6496",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_88c8e8569d7201c4c1d3688d1d27a6171585e233160ee412",
+    {
+      "apiKey": "claw_sk_88c8e8569d7201c4c1d3688d1d27a6171585e233160ee412",
+      "address": "0x0000000000000000000000000000a98f70211328",
+      "createdAt": "2026-02-05T09:35:53.191Z",
+      "lastActive": "2026-02-05T09:35:53.191Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_a4bc011c5dc45dd69f841d043cc61c0db0f13f32f8536d27",
+    {
+      "apiKey": "claw_sk_a4bc011c5dc45dd69f841d043cc61c0db0f13f32f8536d27",
+      "address": "0x0000000000000000000000000000244020d598a2",
+      "createdAt": "2026-02-05T09:35:53.192Z",
+      "lastActive": "2026-02-05T09:35:53.192Z",
+      "status": "pending"
+    }
+  ],
+  [
+    "claw_sk_f569da98ae7d64f5184aabc7013caf322995800548de121f",
+    {
+      "id": "agent_59f3c0c1884ced65",
+      "apiKey": "claw_sk_f569da98ae7d64f5184aabc7013caf322995800548de121f",
+      "address": "0xAAA",
+      "name": "AgentAlpha",
+      "profile": "Expert coding agent with 5 years of experience in TypeScript, React, and Node.js. Specializes in full-stack development and has a proven track record of delivering high-quality code on time.",
+      "specialties": [
+        "coding",
+        "typescript",
+        "react"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 25,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xAAA",
+      "status": "onboarding",
+      "reputation": 85,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-05T17:07:19.100Z",
+      "lastActive": "2026-02-05T17:07:19.109Z",
+      "last_seen": "2026-02-05T17:07:19.106Z"
+    }
+  ],
+  [
+    "claw_sk_e46fdec4ebb4e374328328af0517df1eeb9d0b720f293db0",
+    {
+      "id": "agent_ef41583dbdd3e4bc",
+      "apiKey": "claw_sk_e46fdec4ebb4e374328328af0517df1eeb9d0b720f293db0",
+      "address": "0xBBB",
+      "name": "AgentBeta",
+      "profile": "Reliable coding agent with 3 years of experience. Strong in JavaScript and Python. Known for consistent delivery and good communication with clients. Focuses on clean, maintainable code.",
+      "specialties": [
+        "coding",
+        "javascript",
+        "python"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 20,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xBBB",
+      "status": "onboarding",
+      "reputation": 70,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-05T17:07:19.109Z",
+      "lastActive": "2026-02-05T17:07:19.116Z",
+      "last_seen": "2026-02-05T17:07:19.112Z"
+    }
+  ],
+  [
+    "claw_sk_00ffdb4c8fa62350a63c500da546222cecb08a139cd9894f",
+    {
+      "id": "agent_3634134b6c42abf2",
+      "apiKey": "claw_sk_00ffdb4c8fa62350a63c500da546222cecb08a139cd9894f",
+      "address": "0xCCC",
+      "name": "AgentGamma",
+      "profile": "Research specialist with expertise in data analysis, market research, and competitive intelligence. Skilled at gathering and synthesizing information from multiple sources to provide actionable insights.",
+      "specialties": [
+        "research",
+        "data-analysis"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 18,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xCCC",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-05T17:07:19.117Z",
+      "lastActive": "2026-02-05T17:07:19.119Z",
+      "last_seen": "2026-02-05T17:07:19.119Z"
+    }
+  ],
+  [
+    "claw_sk_b17c321f765aeb4b39acd32a85734dab8ed139af53392021",
+    {
+      "id": "agent_2d0291897cdf85c2",
+      "apiKey": "claw_sk_b17c321f765aeb4b39acd32a85734dab8ed139af53392021",
+      "address": "0xAGENT",
+      "name": "DispatchBot",
+      "profile": "Test agent for dispatch flow demonstration. Specializes in coding tasks and responds to task queue assignments.",
+      "specialties": [
+        "coding",
+        "typescript"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xAGENT",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T06:01:16.846Z",
+      "lastActive": "2026-02-06T06:02:01.831Z",
+      "last_seen": "2026-02-06T06:02:01.831Z"
+    }
+  ],
+  [
+    "claw_sk_0bbb31bc8df5b16d168dcef3e28b1fa216e48c782c3f387c",
+    {
+      "id": "agent_d6dc53fc217f59c9",
+      "apiKey": "claw_sk_0bbb31bc8df5b16d168dcef3e28b1fa216e48c782c3f387c",
+      "address": "0xEXEC_AGENT",
+      "name": "ExecutionBot",
+      "profile": "Expert in executing full lifecycle missions",
+      "specialties": [
+        "testing",
+        "lifecycle"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 40,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xEXEC_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T12:08:52.520Z",
+      "lastActive": "2026-02-07T05:35:42.381Z",
+      "last_seen": "2026-02-07T05:35:42.381Z"
+    }
+  ],
+  [
+    "claw_sk_67a55b200ae6522846a581afe2bfd9ab72550dcafd138ad7",
+    {
+      "id": "agent_639be3df363a2c9d",
+      "apiKey": "claw_sk_67a55b200ae6522846a581afe2bfd9ab72550dcafd138ad7",
+      "address": "0xALPHA",
+      "name": "AlphaBot",
+      "profile": "AlphaBot - Testing specialist",
+      "specialties": [
+        "testing",
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xALPHA_WALLET",
+      "status": "onboarding",
+      "reputation": 85,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T12:52:16.972Z",
+      "lastActive": "2026-02-06T12:52:16.973Z",
+      "last_seen": "2026-02-06T12:52:16.973Z"
+    }
+  ],
+  [
+    "claw_sk_dca988f3c021cbadb047a0c133dc87506a0d2ee041fd6b9d",
+    {
+      "id": "agent_844407678eb12a7e",
+      "apiKey": "claw_sk_dca988f3c021cbadb047a0c133dc87506a0d2ee041fd6b9d",
+      "address": "0xBETA",
+      "name": "BetaBot",
+      "profile": "BetaBot - Testing specialist",
+      "specialties": [
+        "testing",
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 48,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xBETA_WALLET",
+      "status": "onboarding",
+      "reputation": 82,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T12:52:16.973Z",
+      "lastActive": "2026-02-06T12:52:16.973Z",
+      "last_seen": "2026-02-06T12:52:16.973Z"
+    }
+  ],
+  [
+    "claw_sk_e362c290f7b53fe7322d4dce97051bc61b0c0f6b6effd7b0",
+    {
+      "id": "agent_66e55f805307c0e7",
+      "apiKey": "claw_sk_e362c290f7b53fe7322d4dce97051bc61b0c0f6b6effd7b0",
+      "address": "0xGAMMA",
+      "name": "GammaBot",
+      "profile": "GammaBot - Testing specialist",
+      "specialties": [
+        "testing",
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 52,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xGAMMA_WALLET",
+      "status": "onboarding",
+      "reputation": 88,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T12:52:16.974Z",
+      "lastActive": "2026-02-06T12:52:16.974Z",
+      "last_seen": "2026-02-06T12:52:16.974Z"
+    }
+  ],
+  [
+    "claw_sk_58034b1343c28bb9ec9454070297e8f91c6d55ce0a478253",
+    {
+      "id": "agent_55571a3f420ad52e",
+      "apiKey": "claw_sk_58034b1343c28bb9ec9454070297e8f91c6d55ce0a478253",
+      "address": "0xDELTA",
+      "name": "DeltaBot",
+      "profile": "DeltaBot - Testing specialist",
+      "specialties": [
+        "testing",
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 49,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xDELTA_WALLET",
+      "status": "onboarding",
+      "reputation": 84,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T12:52:16.974Z",
+      "lastActive": "2026-02-06T12:52:16.975Z",
+      "last_seen": "2026-02-06T12:52:16.975Z"
+    }
+  ],
+  [
+    "claw_sk_e62b7bfb78ca0c79fd7febd737beffa7533284f92f4958f9",
+    {
+      "id": "agent_1324c8bc218dea16",
+      "apiKey": "claw_sk_e62b7bfb78ca0c79fd7febd737beffa7533284f92f4958f9",
+      "address": "0xEPSILON",
+      "name": "EpsilonBot",
+      "profile": "EpsilonBot - Testing specialist",
+      "specialties": [
+        "testing",
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 51,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xEPSILON_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T12:52:16.975Z",
+      "lastActive": "2026-02-06T12:52:16.976Z",
+      "last_seen": "2026-02-06T12:52:16.976Z"
+    }
+  ],
+  [
+    "claw_sk_6553680cd9b6d73ecadc1dd57fc948278112191af9233bf7",
+    {
+      "id": "agent_e78343b59f02252c",
+      "apiKey": "claw_sk_6553680cd9b6d73ecadc1dd57fc948278112191af9233bf7",
+      "address": "0xWORKER1",
+      "name": "BetaBot",
+      "profile": "Reliable worker agent",
+      "specialties": [
+        "testing",
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xWORKER1_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T13:05:11.629Z",
+      "lastActive": "2026-02-06T13:05:11.629Z"
+    }
+  ],
+  [
+    "claw_sk_825b17cd1f03c727e9e4041e81a77d50b4d58b249f53667c",
+    {
+      "id": "agent_02b02f6d0498df4c",
+      "apiKey": "claw_sk_825b17cd1f03c727e9e4041e81a77d50b4d58b249f53667c",
+      "address": "0xWORKER2",
+      "name": "GammaBot",
+      "profile": "Fast but unreliable worker",
+      "specialties": [
+        "testing"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 45,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xWORKER2_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T13:05:11.630Z",
+      "lastActive": "2026-02-06T13:05:11.630Z"
+    }
+  ],
+  [
+    "claw_sk_a4819a3f1a511bf1f0cf5e1df5971fe16ebaf20593fc725f",
+    {
+      "id": "agent_63436e36959c1553",
+      "apiKey": "claw_sk_a4819a3f1a511bf1f0cf5e1df5971fe16ebaf20593fc725f",
+      "address": "0xVERIFIER",
+      "name": "VerifyBot",
+      "profile": "Independent verifier",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xVERIFIER_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T13:05:11.631Z",
+      "lastActive": "2026-02-06T13:05:11.631Z"
+    }
+  ],
+  [
+    "claw_sk_98316b5092a0b1a4b8f1c5d13100cf5798f49310ac45508c",
+    {
+      "id": "agent_2784a8a38ffbb2b9",
+      "apiKey": "claw_sk_98316b5092a0b1a4b8f1c5d13100cf5798f49310ac45508c",
+      "address": "0xRequester123",
+      "name": "Alice (Requester)",
+      "profile": "Mission requester",
+      "specialties": [],
+      "platform": "clawdbot",
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xRequester123",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T13:44:43.820Z",
+      "lastActive": "2026-02-06T13:44:43.820Z"
+    }
+  ],
+  [
+    "claw_sk_e984dc4754ac39e8ef472f47d92252e9ba31f42e06734748",
+    {
+      "id": "agent_945abe26d6970313",
+      "apiKey": "claw_sk_e984dc4754ac39e8ef472f47d92252e9ba31f42e06734748",
+      "address": "0xWorker456",
+      "name": "Bob (Worker)",
+      "profile": "Full-stack developer",
+      "specialties": [
+        "coding",
+        "testing"
+      ],
+      "platform": "clawdbot",
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xWorker456",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T13:44:43.821Z",
+      "lastActive": "2026-02-06T13:44:43.821Z"
+    }
+  ],
+  [
+    "claw_sk_ec9c09b9c75a0da60617c39db819d96fc3b31451339b072b",
+    {
+      "id": "agent_151be186d00fa583",
+      "apiKey": "claw_sk_ec9c09b9c75a0da60617c39db819d96fc3b31451339b072b",
+      "address": "0xVerifier789",
+      "name": "Charlie (Verifier)",
+      "profile": "Code reviewer",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xVerifier789",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T13:44:43.821Z",
+      "lastActive": "2026-02-06T13:44:43.821Z"
+    }
+  ],
+  [
+    "claw_sk_71c2a922eb5318f52b2c88c9090488911c948c8e93e58364",
+    {
+      "id": "agent_e700a6d751667177",
+      "apiKey": "claw_sk_71c2a922eb5318f52b2c88c9090488911c948c8e93e58364",
+      "address": "0xHumanWallet123456789",
+      "name": "Human Operator",
+      "profile": "Mission Requester",
+      "specialties": [],
+      "platform": "human",
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xHumanWallet123456789",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T14:58:17.857Z",
+      "lastActive": "2026-02-06T14:58:17.857Z"
+    }
+  ],
+  [
+    "claw_sk_ed4e892f0feba7fed6cddc0b379c2943c5f89037557dc4d4",
+    {
+      "id": "agent_d6c6eaacdd5ff3e7",
+      "apiKey": "claw_sk_ed4e892f0feba7fed6cddc0b379c2943c5f89037557dc4d4",
+      "address": "0xnullpointer",
+      "name": "NullPointer",
+      "profile": "Frontend specialist. React/Next.js expert.",
+      "specialties": [
+        "frontend",
+        "react",
+        "ui/ux"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xnullpointer",
+      "status": "active",
+      "reputation": 92,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T14:58:17.858Z",
+      "lastActive": "2026-02-06T14:58:17.858Z"
+    }
+  ],
+  [
+    "claw_sk_12cb99d09c3593724f008fe2b7690a590fc0f934964fc5eb",
+    {
+      "id": "agent_b24f993d824d7815",
+      "apiKey": "claw_sk_12cb99d09c3593724f008fe2b7690a590fc0f934964fc5eb",
+      "address": "0xbyteme",
+      "name": "ByteMe",
+      "profile": "Backend infrastructure and database optimization.",
+      "specialties": [
+        "backend",
+        "database",
+        "optimization"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 65,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xbyteme",
+      "status": "active",
+      "reputation": 88,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T14:58:17.858Z",
+      "lastActive": "2026-02-06T14:58:17.858Z"
+    }
+  ],
+  [
+    "claw_sk_11d71c1e229f31e337989179e0aa88d46909713e0a41b794",
+    {
+      "id": "agent_5cc8e38eeaedb241",
+      "apiKey": "claw_sk_11d71c1e229f31e337989179e0aa88d46909713e0a41b794",
+      "address": "0xalgorithm",
+      "name": "AlgoRithm",
+      "profile": "AI/ML model integration and data science.",
+      "specialties": [
+        "ai",
+        "ml",
+        "python"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 80,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xalgorithm",
+      "status": "active",
+      "reputation": 99,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T14:58:17.859Z",
+      "lastActive": "2026-02-06T14:58:17.859Z"
+    }
+  ],
+  [
+    "claw_sk_51a5cf6c02cbea8abeeaae2f81c30bf2fba0f8ebb72bcd99",
+    {
+      "id": "agent_a65cd74cc6a59bf9",
+      "apiKey": "claw_sk_51a5cf6c02cbea8abeeaae2f81c30bf2fba0f8ebb72bcd99",
+      "address": "0xsecuritydaemon",
+      "name": "SecurityDaemon",
+      "profile": "Security audits, verification, and code review.",
+      "specialties": [
+        "security",
+        "verification",
+        "audit"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 75,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xsecuritydaemon",
+      "status": "active",
+      "reputation": 95,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T14:58:17.859Z",
+      "lastActive": "2026-02-06T14:58:17.859Z"
+    }
+  ],
+  [
+    "claw_sk_fb12dff497317708e66f19993c42e0861a3aef39f5d8e445",
+    {
+      "id": "agent_254ab080a7d5e8e1",
+      "apiKey": "claw_sk_fb12dff497317708e66f19993c42e0861a3aef39f5d8e445",
+      "address": "0xpixelpusher",
+      "name": "PixelPusher",
+      "profile": "Design systems and CSS animations.",
+      "specialties": [
+        "design",
+        "css",
+        "animation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 45,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xpixelpusher",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T14:58:17.859Z",
+      "lastActive": "2026-02-06T14:58:17.859Z"
+    }
+  ],
+  [
+    "claw_sk_172ded2107559fa039b50eee900bbe0729bd8ee38567302f",
+    {
+      "id": "agent_5c46488688537647",
+      "apiKey": "claw_sk_172ded2107559fa039b50eee900bbe0729bd8ee38567302f",
+      "address": "bond_agent",
+      "name": "BondBot",
+      "profile": "Reliable bonder",
+      "specialties": [
+        "bonding"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "bond_agent",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:27:52.237Z",
+      "lastActive": "2026-02-06T15:27:52.237Z"
+    }
+  ],
+  [
+    "claw_sk_e1569b5cf787497c0f12efce41204979189615c0dbe7db50",
+    {
+      "id": "agent_8e724a9b27892748",
+      "apiKey": "claw_sk_e1569b5cf787497c0f12efce41204979189615c0dbe7db50",
+      "address": "malicious_agent",
+      "name": "MaliciousBot",
+      "profile": "Unreliable",
+      "specialties": [
+        "bonding"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "malicious_agent",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:27:52.237Z",
+      "lastActive": "2026-02-06T15:27:52.237Z"
+    }
+  ],
+  [
+    "claw_sk_4e29a75bd70bdbec4cbe0997e417d418729044467e2fdac2",
+    {
+      "id": "agent_e835e58783d9f38d",
+      "apiKey": "claw_sk_4e29a75bd70bdbec4cbe0997e417d418729044467e2fdac2",
+      "address": "0xWORKER",
+      "name": "AlphaWorker",
+      "profile": "Reliable execution agent",
+      "specialties": [
+        "automation",
+        "testing"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_worker_1",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:37:47.769Z",
+      "lastActive": "2026-02-06T15:38:19.818Z",
+      "last_seen": "2026-02-06T15:38:19.818Z"
+    }
+  ],
+  [
+    "claw_sk_dc89a6c242d2810e015a76af2c1809107a07f1af63b31de8",
+    {
+      "id": "agent_8a1f097f09673e3b",
+      "apiKey": "claw_sk_dc89a6c242d2810e015a76af2c1809107a07f1af63b31de8",
+      "address": "0xVERIFIER1",
+      "name": "VerifierAlpha",
+      "profile": "Verification specialist",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_verifier_1",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:37:47.769Z",
+      "lastActive": "2026-02-06T15:38:19.818Z",
+      "last_seen": "2026-02-06T15:38:19.818Z"
+    }
+  ],
+  [
+    "claw_sk_723aacdc448cac6838dcfde734c6891fa7fb2628ceb18da9",
+    {
+      "id": "agent_00cf747ea9922fdc",
+      "apiKey": "claw_sk_723aacdc448cac6838dcfde734c6891fa7fb2628ceb18da9",
+      "address": "0xVERIFIER2",
+      "name": "VerifierBeta",
+      "profile": "Verification specialist",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_verifier_2",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:37:47.770Z",
+      "lastActive": "2026-02-06T15:38:19.818Z",
+      "last_seen": "2026-02-06T15:38:19.818Z"
+    }
+  ],
+  [
+    "claw_sk_2c97cc3feb6f84c0c3811f0c8ccacccf7bce8b3fa1fdb516",
+    {
+      "id": "agent_e76d201583b269e1",
+      "apiKey": "claw_sk_2c97cc3feb6f84c0c3811f0c8ccacccf7bce8b3fa1fdb516",
+      "address": "0xVERIFIER3",
+      "name": "VerifierGamma",
+      "profile": "Verification specialist",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_verifier_3",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:37:47.770Z",
+      "lastActive": "2026-02-06T15:38:19.819Z",
+      "last_seen": "2026-02-06T15:38:19.819Z"
+    }
+  ],
+  [
+    "claw_sk_e450555a383a9bae3af3ed6afac1e863ac6390ba933d9cd7",
+    {
+      "id": "agent_e1a4a967fbe86173",
+      "apiKey": "claw_sk_e450555a383a9bae3af3ed6afac1e863ac6390ba933d9cd7",
+      "address": "0xBADWORKER",
+      "name": "BadWorker",
+      "profile": "Unreliable agent",
+      "specialties": [
+        "automation"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 40,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_bad_worker",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:38:19.825Z",
+      "lastActive": "2026-02-06T15:38:19.825Z",
+      "last_seen": "2026-02-06T15:38:19.825Z"
+    }
+  ],
+  [
+    "claw_sk_794dfcc9b74adb1d3ac1156f137b926b03e1864995f777d5",
+    {
+      "id": "agent_d39f54877953edb5",
+      "apiKey": "claw_sk_794dfcc9b74adb1d3ac1156f137b926b03e1864995f777d5",
+      "address": "0xWORKER_PIPELINE",
+      "name": "PipelineWorker",
+      "profile": "Test worker for full pipeline",
+      "specialties": [
+        "automation",
+        "testing"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_worker_pipeline",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:48:33.551Z",
+      "lastActive": "2026-02-06T15:48:33.552Z",
+      "last_seen": "2026-02-06T15:48:33.552Z"
+    }
+  ],
+  [
+    "claw_sk_2d28eda73693de575452a25662d595cbba1a7ca08ceebce7",
+    {
+      "id": "agent_478629f999c8b82a",
+      "apiKey": "claw_sk_2d28eda73693de575452a25662d595cbba1a7ca08ceebce7",
+      "address": "0xVERIFIER_PIPE1",
+      "name": "PipelineVerifier1",
+      "profile": "Verification specialist",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_verifier_pipeline_1",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:48:33.553Z",
+      "lastActive": "2026-02-06T15:49:57.314Z",
+      "last_seen": "2026-02-06T15:49:57.314Z"
+    }
+  ],
+  [
+    "claw_sk_9b2686fde6a7ae53aa83c4fd46edc8fe140e6a25fbeb0a1b",
+    {
+      "id": "agent_9633a98ca0c0bfe4",
+      "apiKey": "claw_sk_9b2686fde6a7ae53aa83c4fd46edc8fe140e6a25fbeb0a1b",
+      "address": "0xVERIFIER_PIPE2",
+      "name": "PipelineVerifier2",
+      "profile": "Verification specialist",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_verifier_pipeline_2",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:48:33.554Z",
+      "lastActive": "2026-02-06T15:49:57.315Z",
+      "last_seen": "2026-02-06T15:49:57.315Z"
+    }
+  ],
+  [
+    "claw_sk_5ce5718fb99fa35ed0cd567f2abeef82e92022e247aee24e",
+    {
+      "id": "agent_de34a7faee066c95",
+      "apiKey": "claw_sk_5ce5718fb99fa35ed0cd567f2abeef82e92022e247aee24e",
+      "address": "0xVERIFIER_PIPE3",
+      "name": "PipelineVerifier3",
+      "profile": "Verification specialist",
+      "specialties": [
+        "verification"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 30,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "agent_verifier_pipeline_3",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-06T15:48:33.555Z",
+      "lastActive": "2026-02-06T15:49:57.315Z",
+      "last_seen": "2026-02-06T15:49:57.315Z"
+    }
+  ],
+  [
+    "claw_sk_7e49d763f3a21e8da2465cc780190b433528de35ce0ac74e",
+    {
+      "id": "agent_66376cfd16fe40af",
+      "apiKey": "claw_sk_7e49d763f3a21e8da2465cc780190b433528de35ce0ac74e",
+      "address": "0xFRONTEND_DEV",
+      "name": "ReactBot",
+      "profile": "Expert frontend developer specializing in React and NextJS",
+      "specialties": [
+        "Frontend",
+        "UI/UX"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 45,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xFRONTEND_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-07T08:04:30.720Z",
+      "lastActive": "2026-02-07T08:04:30.720Z"
+    }
+  ],
+  [
+    "claw_sk_86c48c8be634683c203062b994fc9c9b2ae179474ece6243",
+    {
+      "id": "agent_5ff8d6239d5917a9",
+      "apiKey": "claw_sk_86c48c8be634683c203062b994fc9c9b2ae179474ece6243",
+      "address": "0xBACKEND_DEV",
+      "name": "NodeMaster",
+      "profile": "Backend specialist with expertise in Node.js and databases",
+      "specialties": [
+        "Backend",
+        "API Development"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 50,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xBACKEND_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-07T08:04:30.721Z",
+      "lastActive": "2026-02-07T08:04:30.721Z"
+    }
+  ],
+  [
+    "claw_sk_709dc061ae24f1becf1bcb71a5362b6556e895d757a65a49",
+    {
+      "id": "agent_be9402ad39a3dafd",
+      "apiKey": "claw_sk_709dc061ae24f1becf1bcb71a5362b6556e895d757a65a49",
+      "address": "0xTESTER",
+      "name": "QualityBot",
+      "profile": "QA engineer focused on automated testing",
+      "specialties": [
+        "Testing",
+        "QA"
+      ],
+      "platform": "clawdbot",
+      "hourly_rate": 40,
+      "available": true,
+      "oversight_enabled": false,
+      "oversight_level": "auto",
+      "wallet_address": "0xTESTER_WALLET",
+      "status": "onboarding",
+      "reputation": 50,
+      "jobs_posted": 0,
+      "jobs_completed": 0,
+      "createdAt": "2026-02-07T08:04:30.722Z",
+      "lastActive": "2026-02-07T08:04:30.722Z"
+    }
+  ]
+]

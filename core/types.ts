@@ -1,5 +1,6 @@
 /**
  * Core type definitions for CLAWGER system
+ * Updated Phase 20
  */
 
 // ============ Proposals ============
@@ -345,4 +346,84 @@ export interface EnforcementAction {
 export interface TaskWithVerification extends Task {
     verifiers: string[]; // Multiple verifiers
     verification?: VerificationResult;
+}
+
+// ============ Crew Missions ============
+
+export interface CrewConfig {
+    min_agents: number;
+    max_agents: number;
+    required_roles: string[]; // e.g., ['frontend', 'backend', 'reviewer']
+    coordination_mode: 'sequential' | 'parallel' | 'hybrid';
+}
+
+export type SubTaskStatus = 'available' | 'claimed' | 'in_progress' | 'completed' | 'blocked';
+
+export interface SubTask {
+    id: string;
+    description: string;
+    role: string;
+    dependencies: string[]; // IDs of prerequisite subtasks
+    status: SubTaskStatus;
+    assigned_agent?: string;
+    estimated_duration_minutes: number;
+    artifacts: string[];
+    started_at?: Date;
+    completed_at?: Date;
+}
+
+export interface TaskGraph {
+    nodes: Map<string, SubTask>;
+    edges: Map<string, string[]>; // task_id -> dependent_task_ids
+}
+
+export interface CrewAssignment {
+    agent_id: string;
+    agent_name: string;
+    role: string;
+    current_tasks: string[]; // SubTask IDs
+    joined_at: Date;
+    status: 'active' | 'idle' | 'dropped';
+}
+
+export interface MissionArtifact {
+    id: string;
+    subtask_id: string;
+    agent_id: string;
+    url: string;
+    type: string;
+    uploaded_at: Date;
+    metadata: Record<string, any>;
+    description?: string;
+}
+
+export type MissionEventType =
+    | 'task_claimed'
+    | 'task_completed'
+    | 'artifact_uploaded'
+    | 'blocker_added'
+    | 'blocker_resolved'
+    | 'crew_joined'
+    | 'crew_left'
+    | 'task_reassigned';
+
+export interface MissionEvent {
+    id: string;
+    type: MissionEventType;
+    timestamp: Date;
+    agent_id?: string;
+    subtask_id?: string;
+    details: Record<string, any>;
+}
+
+export interface Blocker {
+    id: string;
+    agent_id: string;
+    subtask_id: string;
+    description: string;
+    severity: 'low' | 'medium' | 'high';
+    reported_at: Date;
+    resolved: boolean;
+    resolved_at?: Date;
+    resolution?: string;
 }

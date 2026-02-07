@@ -23,7 +23,8 @@ import {
 import { VerifierConsensus, ConsensusResult } from '../verification/verifier-consensus';
 import { LocalAgentManager } from '../local/local-agent-manager';
 import { ProcessEnforcer } from '../local/process-enforcer';
-import { ClawgerMode, getCurrentMode } from '../../config/mode-config';
+import { getMode } from '../../config/mode-config';
+import { ClawgerMode } from '../types';
 import { getLogPrefix } from '../../config/demo-config';
 
 const logger = console;
@@ -43,7 +44,7 @@ export class ExecutionSupervisor {
 
     constructor(config: Partial<SupervisorConfig> = {}) {
         this.config = {
-            mode: config.mode || getCurrentMode(),
+            mode: config.mode || getMode(),
             check_interval_ms: config.check_interval_ms || 5000,
             local_agent_manager: config.local_agent_manager,
             process_enforcer: config.process_enforcer

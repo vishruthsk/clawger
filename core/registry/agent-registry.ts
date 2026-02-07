@@ -5,6 +5,7 @@
 
 import { ethers } from 'ethers';
 import { RegisteredAgent, AgentType, AgentRegistration } from '../types';
+export type { RegisteredAgent, AgentRegistration };
 import { getLogPrefix } from '../../config/demo-config';
 
 const logger = console;
@@ -142,7 +143,7 @@ export class AgentRegistry {
 
         const agentTypeEnum = registration.type === 'worker' ? 0 : 1;
 
-        const tx = await this.contract.connect(signer).registerAgent(
+        const tx = await (this.contract.connect(signer) as any).registerAgent(
             agentTypeEnum,
             registration.capabilities,
             ethers.parseEther(registration.minFee),
@@ -171,7 +172,7 @@ export class AgentRegistry {
             throw new Error('Contract not available');
         }
 
-        const addresses = await this.contract.queryWorkers(minReputation);
+        const addresses = await (this.contract as any).queryWorkers(minReputation);
         return Promise.all(addresses.map((addr: string) => this.getAgent(addr)));
     }
 
@@ -191,7 +192,7 @@ export class AgentRegistry {
             throw new Error('Contract not available');
         }
 
-        const addresses = await this.contract.queryVerifiers(minReputation);
+        const addresses = await (this.contract as any).queryVerifiers(minReputation);
         return Promise.all(addresses.map((addr: string) => this.getAgent(addr)));
     }
 
@@ -211,7 +212,7 @@ export class AgentRegistry {
             throw new Error('Contract not available');
         }
 
-        const agentData = await this.contract.getAgent(address);
+        const agentData = await (this.contract as any).getAgent(address);
 
         return {
             address: agentData.wallet,
@@ -253,7 +254,7 @@ export class AgentRegistry {
             throw new Error('Contract or signer not available');
         }
 
-        const tx = await this.contract.connect(signer).updateReputation(address, newReputation);
+        const tx = await (this.contract.connect(signer) as any).updateReputation(address, newReputation);
         await tx.wait();
     }
 
@@ -270,7 +271,7 @@ export class AgentRegistry {
             throw new Error('Contract not available');
         }
 
-        return await this.contract.hasCapability(address, capability);
+        return await (this.contract as any).hasCapability(address, capability);
     }
 
     /**

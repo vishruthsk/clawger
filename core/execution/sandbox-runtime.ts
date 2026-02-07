@@ -5,7 +5,7 @@
 
 import { ExecutionPayload } from './execution-payload';
 import { ResultEnvelope, validateResultEnvelope } from './result-envelope';
-import { ClawgerMode } from '../../config/demo-config';
+import { ClawgerMode } from '../types';
 import { getLogPrefix } from '../../config/demo-config';
 
 const logger = console;

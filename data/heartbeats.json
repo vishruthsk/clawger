@@ -1,0 +1,10 @@
+[
+  {
+    "agent_id": "agent_2d0291897cdf85c2",
+    "last_poll": "2026-02-06T06:02:01.835Z",
+    "last_task_ack": null,
+    "poll_count": 1,
+    "task_ack_count": 0,
+    "is_active": false
+  }
+]

@@ -1,0 +1,2614 @@
+{
+  "balances": {
+    "0x1234567890123456789012345678901234567890": 10000,
+    "0x0987654321098765432109876543210987654321": 5000,
+    "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd": 2500,
+    "human_requester": 1900,
+    "agent_d6dc53fc217f59c9": 50,
+    "test_requester": 5000,
+    "requester_alice": 903,
+    "agent_e78343b59f02252c": 300,
+    "agent_02b02f6d0498df4c": 200,
+    "agent_63436e36959c1553": 104,
+    "0xrequester123": 1000,
+    "0xworker456": 500,
+    "0xverifier789": 200,
+    "agent_2784a8a38ffbb2b9": 4900,
+    "agent_945abe26d6970313": 2600,
+    "agent_151be186d00fa583": 1000,
+    "agent_e700a6d751667177": 18000,
+    "agent_d6c6eaacdd5ff3e7": 2000,
+    "agent_b24f993d824d7815": 2000,
+    "agent_5cc8e38eeaedb241": 2300,
+    "agent_a65cd74cc6a59bf9": 3600,
+    "agent_254ab080a7d5e8e1": 2000,
+    "protocol_treasury": 100,
+    "econ_requester": 10000,
+    "bond_agent": 2000,
+    "malicious_agent": 2000,
+    "0xrequester": 19935,
+    "agent_worker_1": 1050,
+    "agent_verifier_1": 405,
+    "agent_verifier_2": 405,
+    "agent_verifier_3": 405,
+    "agent_bad_worker": 500,
+    "0xrequester_pipeline": 19935,
+    "agent_worker_pipeline": 500,
+    "agent_verifier_pipeline_1": 405,
+    "agent_verifier_pipeline_2": 405,
+    "agent_verifier_pipeline_3": 405,
+    "agent_844407678eb12a7e": 600
+  },
+  "escrows": {
+    "mission_1770379660954_vadxh1": {
+      "missionId": "mission_1770379660954_vadxh1",
+      "owner": "human_requester",
+      "amount": 50,
+      "locked_at": "2026-02-06T12:07:40.954Z",
+      "status": "locked"
+    },
+    "mission_1770379694583_vpg61n": {
+      "missionId": "mission_1770379694583_vpg61n",
+      "owner": "human_requester",
+      "amount": 50,
+      "locked_at": "2026-02-06T12:08:14.584Z",
+      "status": "locked"
+    },
+    "mission_1770379732522_7uq9nl": {
+      "missionId": "mission_1770379732522_7uq9nl",
+      "owner": "human_requester",
+      "amount": 50,
+      "locked_at": "2026-02-06T12:08:52.523Z",
+      "status": "released",
+      "released_to": "agent_d6dc53fc217f59c9",
+      "released_at": "2026-02-06T12:08:52.526Z"
+    },
+    "mission_1770382336976_zyhm19": {
+      "missionId": "mission_1770382336976_zyhm19",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.977Z",
+      "status": "locked"
+    },
+    "mission_1770382336979_a2l33a": {
+      "missionId": "mission_1770382336979_a2l33a",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.979Z",
+      "status": "locked"
+    },
+    "mission_1770382336981_3z3ygd": {
+      "missionId": "mission_1770382336981_3z3ygd",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.981Z",
+      "status": "locked"
+    },
+    "mission_1770382336982_y9bbjh": {
+      "missionId": "mission_1770382336982_y9bbjh",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.982Z",
+      "status": "locked"
+    },
+    "mission_1770382336983_orsjym": {
+      "missionId": "mission_1770382336983_orsjym",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.983Z",
+      "status": "locked"
+    },
+    "mission_1770382336984_m9kx3z": {
+      "missionId": "mission_1770382336984_m9kx3z",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.984Z",
+      "status": "locked"
+    },
+    "mission_1770382336985_gnd3dl": {
+      "missionId": "mission_1770382336985_gnd3dl",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.985Z",
+      "status": "locked"
+    },
+    "mission_1770382336986_c9oflo": {
+      "missionId": "mission_1770382336986_c9oflo",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.987Z",
+      "status": "locked"
+    },
+    "mission_1770382336988_0yi8je": {
+      "missionId": "mission_1770382336988_0yi8je",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.988Z",
+      "status": "locked"
+    },
+    "mission_1770382336990_dmjv84": {
+      "missionId": "mission_1770382336990_dmjv84",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.990Z",
+      "status": "locked"
+    },
+    "mission_1770382336991_9pcbpf": {
+      "missionId": "mission_1770382336991_9pcbpf",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.992Z",
+      "status": "locked"
+    },
+    "mission_1770382336993_vvh4my": {
+      "missionId": "mission_1770382336993_vvh4my",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.993Z",
+      "status": "locked"
+    },
+    "mission_1770382336995_8aqfgw": {
+      "missionId": "mission_1770382336995_8aqfgw",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.995Z",
+      "status": "locked"
+    },
+    "mission_1770382336996_wcseid": {
+      "missionId": "mission_1770382336996_wcseid",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.996Z",
+      "status": "locked"
+    },
+    "mission_1770382336997_p6my9u": {
+      "missionId": "mission_1770382336997_p6my9u",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.997Z",
+      "status": "locked"
+    },
+    "mission_1770382336998_tw4cj1": {
+      "missionId": "mission_1770382336998_tw4cj1",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:16.999Z",
+      "status": "locked"
+    },
+    "mission_1770382337000_tajqnv": {
+      "missionId": "mission_1770382337000_tajqnv",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:17.000Z",
+      "status": "locked"
+    },
+    "mission_1770382337001_jk79tt": {
+      "missionId": "mission_1770382337001_jk79tt",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:17.001Z",
+      "status": "locked"
+    },
+    "mission_1770382337002_74rxxh": {
+      "missionId": "mission_1770382337002_74rxxh",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:17.003Z",
+      "status": "locked"
+    },
+    "mission_1770382337005_h4eyry": {
+      "missionId": "mission_1770382337005_h4eyry",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:17.006Z",
+      "status": "locked"
+    },
+    "mission_1770382337007_x1d7no": {
+      "missionId": "mission_1770382337007_x1d7no",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:17.007Z",
+      "status": "locked"
+    },
+    "mission_1770382337008_6i4wux": {
+      "missionId": "mission_1770382337008_6i4wux",
+      "owner": "test_requester",
+      "amount": 40,
+      "locked_at": "2026-02-06T12:52:17.009Z",
+      "status": "locked"
+    },
+    "mission_success_001": {
+      "missionId": "mission_success_001",
+      "owner": "requester_alice",
+      "amount": 100,
+      "locked_at": "2026-02-06T13:05:11.634Z",
+      "status": "released",
+      "released_to": "agent_e78343b59f02252c",
+      "released_at": "2026-02-06T13:05:11.636Z"
+    },
+    "mission_fail_002": {
+      "missionId": "mission_fail_002",
+      "owner": "requester_alice",
+      "amount": 80,
+      "locked_at": "2026-02-06T13:05:11.637Z",
+      "status": "released",
+      "released_to": "requester_alice",
+      "released_at": "2026-02-06T13:05:11.638Z"
+    },
+    "mission_timeout_003": {
+      "missionId": "mission_timeout_003",
+      "owner": "requester_alice",
+      "amount": 60,
+      "locked_at": "2026-02-06T13:05:11.639Z",
+      "status": "released",
+      "released_to": "requester_alice",
+      "released_at": "2026-02-06T13:05:11.641Z"
+    },
+    "mission_1770385528540_6nzm98": {
+      "missionId": "mission_1770385528540_6nzm98",
+      "owner": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "locked_at": "2026-02-06T13:45:28.540Z",
+      "status": "locked"
+    },
+    "mission_1770385607982_e7eiz9": {
+      "missionId": "mission_1770385607982_e7eiz9",
+      "owner": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "locked_at": "2026-02-06T13:46:47.982Z",
+      "status": "locked"
+    },
+    "mission_1770385689823_m5o8ph": {
+      "missionId": "mission_1770385689823_m5o8ph",
+      "owner": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "locked_at": "2026-02-06T13:48:09.824Z",
+      "status": "locked"
+    },
+    "mission_1770385831897_test": {
+      "missionId": "mission_1770385831897_test",
+      "owner": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "locked_at": "2026-02-06T13:50:31.897Z",
+      "status": "locked"
+    },
+    "mission_1770385975189_rj75js": {
+      "missionId": "mission_1770385975189_rj75js",
+      "owner": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "locked_at": "2026-02-06T13:52:55.189Z",
+      "status": "released",
+      "released_to": "agent_945abe26d6970313",
+      "released_at": "2026-02-06T13:52:55.191Z"
+    },
+    "mission_1770389897860_8ormza": {
+      "missionId": "mission_1770389897860_8ormza",
+      "owner": "agent_e700a6d751667177",
+      "amount": 500,
+      "locked_at": "2026-02-06T14:58:17.860Z",
+      "status": "locked"
+    },
+    "mission_1770389897861_qj9iv5": {
+      "missionId": "mission_1770389897861_qj9iv5",
+      "owner": "agent_e700a6d751667177",
+      "amount": 300,
+      "locked_at": "2026-02-06T14:58:17.861Z",
+      "status": "locked"
+    },
+    "mission_1770389897861_5i55ym": {
+      "missionId": "mission_1770389897861_5i55ym",
+      "owner": "agent_e700a6d751667177",
+      "amount": 1000,
+      "locked_at": "2026-02-06T14:58:17.861Z",
+      "status": "released",
+      "released_to": "agent_a65cd74cc6a59bf9",
+      "released_at": "2026-02-06T14:58:17.862Z"
+    },
+    "mission_1770390663701_ae8hl7": {
+      "missionId": "mission_1770390663701_ae8hl7",
+      "owner": "agent_e700a6d751667177",
+      "amount": 500,
+      "locked_at": "2026-02-06T15:11:03.701Z",
+      "status": "locked"
+    },
+    "mission_1770390663702_0zizfs": {
+      "missionId": "mission_1770390663702_0zizfs",
+      "owner": "agent_e700a6d751667177",
+      "amount": 300,
+      "locked_at": "2026-02-06T15:11:03.702Z",
+      "status": "locked"
+    },
+    "mission_1770390663702_a509ch": {
+      "missionId": "mission_1770390663702_a509ch",
+      "owner": "agent_e700a6d751667177",
+      "amount": 1000,
+      "locked_at": "2026-02-06T15:11:03.703Z",
+      "status": "released",
+      "released_to": "agent_a65cd74cc6a59bf9",
+      "released_at": "2026-02-06T15:11:03.703Z"
+    },
+    "mission_1770391672238_2geu6z": {
+      "missionId": "mission_1770391672238_2geu6z",
+      "owner": "econ_requester",
+      "amount": 500,
+      "locked_at": "2026-02-06T15:27:52.238Z",
+      "status": "locked"
+    },
+    "mission_1770391715394_trky7j": {
+      "missionId": "mission_1770391715394_trky7j",
+      "owner": "econ_requester",
+      "amount": 90,
+      "locked_at": "2026-02-06T15:28:35.394Z",
+      "status": "slashed",
+      "slashed_amount": 0,
+      "slashed_at": "2026-02-06T15:28:35.395Z"
+    },
+    "mission_1770392267771_t7b5s1": {
+      "missionId": "mission_1770392267771_t7b5s1",
+      "owner": "0xrequester",
+      "amount": 100,
+      "locked_at": "2026-02-06T15:37:47.771Z",
+      "status": "locked"
+    },
+    "mission_1770392299819_xm2v7e": {
+      "missionId": "mission_1770392299819_xm2v7e",
+      "owner": "0xrequester",
+      "amount": 50,
+      "locked_at": "2026-02-06T15:38:19.819Z",
+      "status": "released",
+      "released_to": "agent_worker_1",
+      "released_at": "2026-02-06T15:38:19.823Z"
+    },
+    "bond_mission_1770392299819_xm2v7e": {
+      "missionId": "bond_mission_1770392299819_xm2v7e",
+      "owner": "agent_worker_1",
+      "amount": 5,
+      "locked_at": "2026-02-06T15:38:19.821Z",
+      "status": "released",
+      "released_to": "agent_worker_1",
+      "released_at": "2026-02-06T15:38:19.822Z"
+    },
+    "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_1": {
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_1",
+      "owner": "agent_verifier_1",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:38:19.821Z",
+      "status": "released",
+      "released_to": "agent_verifier_1",
+      "released_at": "2026-02-06T15:38:19.824Z"
+    },
+    "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_2": {
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_2",
+      "owner": "agent_verifier_2",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:38:19.821Z",
+      "status": "released",
+      "released_to": "agent_verifier_2",
+      "released_at": "2026-02-06T15:38:19.824Z"
+    },
+    "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_3": {
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_3",
+      "owner": "agent_verifier_3",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:38:19.822Z",
+      "status": "released",
+      "released_to": "agent_verifier_3",
+      "released_at": "2026-02-06T15:38:19.825Z"
+    },
+    "mission_1770392299826_c7l7cr": {
+      "missionId": "mission_1770392299826_c7l7cr",
+      "owner": "0xrequester",
+      "amount": 50,
+      "locked_at": "2026-02-06T15:38:19.826Z",
+      "status": "released",
+      "released_to": "0xrequester",
+      "released_at": "2026-02-06T15:38:19.828Z"
+    },
+    "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_1": {
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_1",
+      "owner": "agent_verifier_1",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:38:19.826Z",
+      "status": "released",
+      "released_to": "agent_verifier_1",
+      "released_at": "2026-02-06T15:38:19.829Z"
+    },
+    "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_2": {
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_2",
+      "owner": "agent_verifier_2",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:38:19.827Z",
+      "status": "released",
+      "released_to": "agent_verifier_2",
+      "released_at": "2026-02-06T15:38:19.829Z"
+    },
+    "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_3": {
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_3",
+      "owner": "agent_verifier_3",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:38:19.827Z",
+      "status": "released",
+      "released_to": "agent_verifier_3",
+      "released_at": "2026-02-06T15:38:19.829Z"
+    },
+    "mission_1770392913557_wygm36": {
+      "missionId": "mission_1770392913557_wygm36",
+      "owner": "0xrequester_pipeline",
+      "amount": 50,
+      "locked_at": "2026-02-06T15:48:33.558Z",
+      "status": "locked"
+    },
+    "mission_1770392997316_3qpis2": {
+      "missionId": "mission_1770392997316_3qpis2",
+      "owner": "0xrequester_pipeline",
+      "amount": 50,
+      "locked_at": "2026-02-06T15:49:57.316Z",
+      "status": "released",
+      "released_to": "agent_844407678eb12a7e",
+      "released_at": "2026-02-06T15:49:57.326Z"
+    },
+    "bond_mission_1770392997316_3qpis2": {
+      "missionId": "bond_mission_1770392997316_3qpis2",
+      "owner": "agent_844407678eb12a7e",
+      "amount": 5,
+      "locked_at": "2026-02-06T15:49:57.320Z",
+      "status": "released",
+      "released_to": "agent_844407678eb12a7e",
+      "released_at": "2026-02-06T15:49:57.325Z"
+    },
+    "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_1": {
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_1",
+      "owner": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:49:57.321Z",
+      "status": "released",
+      "released_to": "agent_verifier_pipeline_1",
+      "released_at": "2026-02-06T15:49:57.328Z"
+    },
+    "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_2": {
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_2",
+      "owner": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:49:57.322Z",
+      "status": "released",
+      "released_to": "agent_verifier_pipeline_2",
+      "released_at": "2026-02-06T15:49:57.329Z"
+    },
+    "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_3": {
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_3",
+      "owner": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:49:57.322Z",
+      "status": "released",
+      "released_to": "agent_verifier_pipeline_3",
+      "released_at": "2026-02-06T15:49:57.330Z"
+    },
+    "mission_1770392997331_e9ius5": {
+      "missionId": "mission_1770392997331_e9ius5",
+      "owner": "0xrequester_pipeline",
+      "amount": 50,
+      "locked_at": "2026-02-06T15:49:57.332Z",
+      "status": "released",
+      "released_to": "0xrequester_pipeline",
+      "released_at": "2026-02-06T15:49:57.337Z"
+    },
+    "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_1": {
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_1",
+      "owner": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:49:57.334Z",
+      "status": "released",
+      "released_to": "agent_verifier_pipeline_1",
+      "released_at": "2026-02-06T15:49:57.339Z"
+    },
+    "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_2": {
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_2",
+      "owner": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:49:57.334Z",
+      "status": "released",
+      "released_to": "agent_verifier_pipeline_2",
+      "released_at": "2026-02-06T15:49:57.340Z"
+    },
+    "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_3": {
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_3",
+      "owner": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "locked_at": "2026-02-06T15:49:57.335Z",
+      "status": "released",
+      "released_to": "agent_verifier_pipeline_3",
+      "released_at": "2026-02-06T15:49:57.341Z"
+    },
+    "mission_1770442542382_gff9cf": {
+      "missionId": "mission_1770442542382_gff9cf",
+      "owner": "human_requester",
+      "amount": 50,
+      "locked_at": "2026-02-07T05:35:42.382Z",
+      "status": "released",
+      "released_to": "agent_844407678eb12a7e",
+      "released_at": "2026-02-07T05:35:42.387Z"
+    },
+    "bond_mission_1770442542382_gff9cf": {
+      "missionId": "bond_mission_1770442542382_gff9cf",
+      "owner": "agent_844407678eb12a7e",
+      "amount": 5,
+      "locked_at": "2026-02-07T05:35:42.384Z",
+      "status": "released",
+      "released_to": "agent_844407678eb12a7e",
+      "released_at": "2026-02-07T05:35:42.386Z"
+    }
+  },
+  "transactions": [
+    {
+      "type": "mint",
+      "to": "0x1234567890123456789012345678901234567890",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Initial seed balance"
+      },
+      "id": "tx_000000",
+      "timestamp": "2026-02-06T12:07:40.951Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x0987654321098765432109876543210987654321",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Initial seed balance"
+      },
+      "id": "tx_000001",
+      "timestamp": "2026-02-06T12:07:40.951Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd",
+      "amount": 2500,
+      "metadata": {
+        "reason": "Initial seed balance"
+      },
+      "id": "tx_000002",
+      "timestamp": "2026-02-06T12:07:40.951Z"
+    },
+    {
+      "type": "mint",
+      "to": "human_requester",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000003",
+      "timestamp": "2026-02-06T12:07:40.953Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "human_requester",
+      "amount": 50,
+      "missionId": "mission_1770379660954_vadxh1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000004",
+      "timestamp": "2026-02-06T12:07:40.954Z"
+    },
+    {
+      "type": "mint",
+      "to": "human_requester",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000005",
+      "timestamp": "2026-02-06T12:08:14.581Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "human_requester",
+      "amount": 50,
+      "missionId": "mission_1770379694583_vpg61n",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000006",
+      "timestamp": "2026-02-06T12:08:14.584Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "human_requester",
+      "amount": 50,
+      "missionId": "mission_1770379732522_7uq9nl",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000007",
+      "timestamp": "2026-02-06T12:08:52.523Z"
+    },
+    {
+      "type": "transfer",
+      "from": "human_requester",
+      "to": "agent_d6dc53fc217f59c9",
+      "amount": 50,
+      "id": "tx_000008",
+      "timestamp": "2026-02-06T12:08:52.526Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "human_requester",
+      "to": "agent_d6dc53fc217f59c9",
+      "amount": 50,
+      "missionId": "mission_1770379732522_7uq9nl",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000009",
+      "timestamp": "2026-02-06T12:08:52.526Z"
+    },
+    {
+      "type": "mint",
+      "to": "test_requester",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000010",
+      "timestamp": "2026-02-06T12:52:16.970Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336976_zyhm19",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000011",
+      "timestamp": "2026-02-06T12:52:16.977Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336979_a2l33a",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000012",
+      "timestamp": "2026-02-06T12:52:16.979Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336981_3z3ygd",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000013",
+      "timestamp": "2026-02-06T12:52:16.981Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336982_y9bbjh",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000014",
+      "timestamp": "2026-02-06T12:52:16.982Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336983_orsjym",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000015",
+      "timestamp": "2026-02-06T12:52:16.983Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336984_m9kx3z",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000016",
+      "timestamp": "2026-02-06T12:52:16.984Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336985_gnd3dl",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000017",
+      "timestamp": "2026-02-06T12:52:16.985Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336986_c9oflo",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000018",
+      "timestamp": "2026-02-06T12:52:16.987Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336988_0yi8je",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000019",
+      "timestamp": "2026-02-06T12:52:16.988Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336990_dmjv84",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000020",
+      "timestamp": "2026-02-06T12:52:16.990Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336991_9pcbpf",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000021",
+      "timestamp": "2026-02-06T12:52:16.992Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336993_vvh4my",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000022",
+      "timestamp": "2026-02-06T12:52:16.993Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336995_8aqfgw",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000023",
+      "timestamp": "2026-02-06T12:52:16.995Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336996_wcseid",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000024",
+      "timestamp": "2026-02-06T12:52:16.996Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336997_p6my9u",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000025",
+      "timestamp": "2026-02-06T12:52:16.997Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382336998_tw4cj1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000026",
+      "timestamp": "2026-02-06T12:52:16.999Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382337000_tajqnv",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000027",
+      "timestamp": "2026-02-06T12:52:17.000Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382337001_jk79tt",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000028",
+      "timestamp": "2026-02-06T12:52:17.001Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382337002_74rxxh",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000029",
+      "timestamp": "2026-02-06T12:52:17.003Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382337005_h4eyry",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000030",
+      "timestamp": "2026-02-06T12:52:17.006Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382337007_x1d7no",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000031",
+      "timestamp": "2026-02-06T12:52:17.007Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "test_requester",
+      "amount": 40,
+      "missionId": "mission_1770382337008_6i4wux",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000032",
+      "timestamp": "2026-02-06T12:52:17.009Z"
+    },
+    {
+      "type": "mint",
+      "to": "requester_alice",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000033",
+      "timestamp": "2026-02-06T13:05:11.631Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_e78343b59f02252c",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000034",
+      "timestamp": "2026-02-06T13:05:11.632Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_02b02f6d0498df4c",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000035",
+      "timestamp": "2026-02-06T13:05:11.632Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_63436e36959c1553",
+      "amount": 100,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000036",
+      "timestamp": "2026-02-06T13:05:11.632Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "requester_alice",
+      "amount": 100,
+      "missionId": "mission_success_001",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000037",
+      "timestamp": "2026-02-06T13:05:11.634Z"
+    },
+    {
+      "type": "transfer",
+      "from": "requester_alice",
+      "to": "agent_e78343b59f02252c",
+      "amount": 100,
+      "id": "tx_000038",
+      "timestamp": "2026-02-06T13:05:11.635Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "requester_alice",
+      "to": "agent_e78343b59f02252c",
+      "amount": 100,
+      "missionId": "mission_success_001",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000039",
+      "timestamp": "2026-02-06T13:05:11.636Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "requester_alice",
+      "amount": 80,
+      "missionId": "mission_fail_002",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000040",
+      "timestamp": "2026-02-06T13:05:11.637Z"
+    },
+    {
+      "type": "transfer",
+      "from": "requester_alice",
+      "to": "requester_alice",
+      "amount": 80,
+      "id": "tx_000041",
+      "timestamp": "2026-02-06T13:05:11.638Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "requester_alice",
+      "to": "requester_alice",
+      "amount": 80,
+      "missionId": "mission_fail_002",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000042",
+      "timestamp": "2026-02-06T13:05:11.638Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_63436e36959c1553",
+      "amount": 4,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000043",
+      "timestamp": "2026-02-06T13:05:11.639Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "requester_alice",
+      "amount": 60,
+      "missionId": "mission_timeout_003",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000044",
+      "timestamp": "2026-02-06T13:05:11.639Z"
+    },
+    {
+      "type": "transfer",
+      "from": "requester_alice",
+      "to": "requester_alice",
+      "amount": 60,
+      "id": "tx_000045",
+      "timestamp": "2026-02-06T13:05:11.640Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "requester_alice",
+      "to": "requester_alice",
+      "amount": 60,
+      "missionId": "mission_timeout_003",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000046",
+      "timestamp": "2026-02-06T13:05:11.641Z"
+    },
+    {
+      "type": "mint",
+      "to": "requester_alice",
+      "amount": 3,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000047",
+      "timestamp": "2026-02-06T13:05:11.641Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xrequester123",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000048",
+      "timestamp": "2026-02-06T13:44:43.822Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xworker456",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000049",
+      "timestamp": "2026-02-06T13:44:43.823Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xverifier789",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000050",
+      "timestamp": "2026-02-06T13:44:43.823Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_2784a8a38ffbb2b9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000051",
+      "timestamp": "2026-02-06T13:45:28.538Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_945abe26d6970313",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000052",
+      "timestamp": "2026-02-06T13:45:28.539Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_151be186d00fa583",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000053",
+      "timestamp": "2026-02-06T13:45:28.539Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "missionId": "mission_1770385528540_6nzm98",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000054",
+      "timestamp": "2026-02-06T13:45:28.540Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_2784a8a38ffbb2b9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000055",
+      "timestamp": "2026-02-06T13:46:47.979Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_945abe26d6970313",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000056",
+      "timestamp": "2026-02-06T13:46:47.981Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_151be186d00fa583",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000057",
+      "timestamp": "2026-02-06T13:46:47.981Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "missionId": "mission_1770385607982_e7eiz9",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000058",
+      "timestamp": "2026-02-06T13:46:47.982Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_2784a8a38ffbb2b9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000059",
+      "timestamp": "2026-02-06T13:48:09.821Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_945abe26d6970313",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000060",
+      "timestamp": "2026-02-06T13:48:09.822Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_151be186d00fa583",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000061",
+      "timestamp": "2026-02-06T13:48:09.823Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "missionId": "mission_1770385689823_m5o8ph",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000062",
+      "timestamp": "2026-02-06T13:48:09.824Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_2784a8a38ffbb2b9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000063",
+      "timestamp": "2026-02-06T13:50:31.895Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_945abe26d6970313",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000064",
+      "timestamp": "2026-02-06T13:50:31.896Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_151be186d00fa583",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000065",
+      "timestamp": "2026-02-06T13:50:31.897Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "missionId": "mission_1770385831897_test",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000066",
+      "timestamp": "2026-02-06T13:50:31.897Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_2784a8a38ffbb2b9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000067",
+      "timestamp": "2026-02-06T13:52:55.187Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_945abe26d6970313",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000068",
+      "timestamp": "2026-02-06T13:52:55.188Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_151be186d00fa583",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000069",
+      "timestamp": "2026-02-06T13:52:55.189Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_2784a8a38ffbb2b9",
+      "amount": 100,
+      "missionId": "mission_1770385975189_rj75js",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000070",
+      "timestamp": "2026-02-06T13:52:55.189Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_2784a8a38ffbb2b9",
+      "to": "agent_945abe26d6970313",
+      "amount": 100,
+      "id": "tx_000071",
+      "timestamp": "2026-02-06T13:52:55.191Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_2784a8a38ffbb2b9",
+      "to": "agent_945abe26d6970313",
+      "amount": 100,
+      "missionId": "mission_1770385975189_rj75js",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000072",
+      "timestamp": "2026-02-06T13:52:55.191Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_e700a6d751667177",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000073",
+      "timestamp": "2026-02-06T14:58:17.857Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_d6c6eaacdd5ff3e7",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000074",
+      "timestamp": "2026-02-06T14:58:17.858Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_b24f993d824d7815",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000075",
+      "timestamp": "2026-02-06T14:58:17.858Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_5cc8e38eeaedb241",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000076",
+      "timestamp": "2026-02-06T14:58:17.859Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_a65cd74cc6a59bf9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000077",
+      "timestamp": "2026-02-06T14:58:17.859Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_254ab080a7d5e8e1",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000078",
+      "timestamp": "2026-02-06T14:58:17.859Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_e700a6d751667177",
+      "amount": 500,
+      "missionId": "mission_1770389897860_8ormza",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000079",
+      "timestamp": "2026-02-06T14:58:17.860Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_e700a6d751667177",
+      "amount": 300,
+      "missionId": "mission_1770389897861_qj9iv5",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000080",
+      "timestamp": "2026-02-06T14:58:17.861Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_e700a6d751667177",
+      "amount": 1000,
+      "missionId": "mission_1770389897861_5i55ym",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000081",
+      "timestamp": "2026-02-06T14:58:17.861Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_e700a6d751667177",
+      "to": "agent_a65cd74cc6a59bf9",
+      "amount": 1000,
+      "id": "tx_000082",
+      "timestamp": "2026-02-06T14:58:17.862Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_e700a6d751667177",
+      "to": "agent_a65cd74cc6a59bf9",
+      "amount": 1000,
+      "missionId": "mission_1770389897861_5i55ym",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000083",
+      "timestamp": "2026-02-06T14:58:17.862Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_a65cd74cc6a59bf9",
+      "to": "agent_5cc8e38eeaedb241",
+      "amount": 150,
+      "id": "tx_000084",
+      "timestamp": "2026-02-06T14:58:17.862Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_a65cd74cc6a59bf9",
+      "to": "protocol_treasury",
+      "amount": 50,
+      "id": "tx_000085",
+      "timestamp": "2026-02-06T14:58:17.862Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_e700a6d751667177",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000086",
+      "timestamp": "2026-02-06T15:11:03.699Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_d6c6eaacdd5ff3e7",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000087",
+      "timestamp": "2026-02-06T15:11:03.700Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_b24f993d824d7815",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000088",
+      "timestamp": "2026-02-06T15:11:03.700Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_5cc8e38eeaedb241",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000089",
+      "timestamp": "2026-02-06T15:11:03.700Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_a65cd74cc6a59bf9",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000090",
+      "timestamp": "2026-02-06T15:11:03.700Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_254ab080a7d5e8e1",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000091",
+      "timestamp": "2026-02-06T15:11:03.701Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_e700a6d751667177",
+      "amount": 500,
+      "missionId": "mission_1770390663701_ae8hl7",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000092",
+      "timestamp": "2026-02-06T15:11:03.701Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_e700a6d751667177",
+      "amount": 300,
+      "missionId": "mission_1770390663702_0zizfs",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000093",
+      "timestamp": "2026-02-06T15:11:03.702Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_e700a6d751667177",
+      "amount": 1000,
+      "missionId": "mission_1770390663702_a509ch",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000094",
+      "timestamp": "2026-02-06T15:11:03.703Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_e700a6d751667177",
+      "to": "agent_a65cd74cc6a59bf9",
+      "amount": 1000,
+      "id": "tx_000095",
+      "timestamp": "2026-02-06T15:11:03.703Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_e700a6d751667177",
+      "to": "agent_a65cd74cc6a59bf9",
+      "amount": 1000,
+      "missionId": "mission_1770390663702_a509ch",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000096",
+      "timestamp": "2026-02-06T15:11:03.703Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_a65cd74cc6a59bf9",
+      "to": "agent_5cc8e38eeaedb241",
+      "amount": 150,
+      "id": "tx_000097",
+      "timestamp": "2026-02-06T15:11:03.703Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_a65cd74cc6a59bf9",
+      "to": "protocol_treasury",
+      "amount": 50,
+      "id": "tx_000098",
+      "timestamp": "2026-02-06T15:11:03.704Z"
+    },
+    {
+      "type": "mint",
+      "to": "econ_requester",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000099",
+      "timestamp": "2026-02-06T15:27:52.236Z"
+    },
+    {
+      "type": "mint",
+      "to": "bond_agent",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000100",
+      "timestamp": "2026-02-06T15:27:52.237Z"
+    },
+    {
+      "type": "mint",
+      "to": "malicious_agent",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000101",
+      "timestamp": "2026-02-06T15:27:52.237Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "econ_requester",
+      "amount": 500,
+      "missionId": "mission_1770391672238_2geu6z",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000102",
+      "timestamp": "2026-02-06T15:27:52.238Z"
+    },
+    {
+      "type": "mint",
+      "to": "econ_requester",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000103",
+      "timestamp": "2026-02-06T15:28:35.392Z"
+    },
+    {
+      "type": "mint",
+      "to": "bond_agent",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000104",
+      "timestamp": "2026-02-06T15:28:35.393Z"
+    },
+    {
+      "type": "mint",
+      "to": "malicious_agent",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000105",
+      "timestamp": "2026-02-06T15:28:35.393Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "econ_requester",
+      "amount": 90,
+      "missionId": "mission_1770391715394_trky7j",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000106",
+      "timestamp": "2026-02-06T15:28:35.394Z"
+    },
+    {
+      "type": "escrow_slash",
+      "from": "econ_requester",
+      "amount": 0,
+      "missionId": "mission_1770391715394_trky7j",
+      "metadata": {
+        "action": "slash",
+        "remainder": 90
+      },
+      "id": "tx_000107",
+      "timestamp": "2026-02-06T15:28:35.395Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xrequester",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000108",
+      "timestamp": "2026-02-06T15:37:47.768Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_worker_1",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000109",
+      "timestamp": "2026-02-06T15:37:47.769Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_1",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000110",
+      "timestamp": "2026-02-06T15:37:47.769Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_2",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000111",
+      "timestamp": "2026-02-06T15:37:47.770Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_3",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000112",
+      "timestamp": "2026-02-06T15:37:47.770Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0xrequester",
+      "amount": 100,
+      "missionId": "mission_1770392267771_t7b5s1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000113",
+      "timestamp": "2026-02-06T15:37:47.771Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xrequester",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000114",
+      "timestamp": "2026-02-06T15:38:19.816Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_worker_1",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000115",
+      "timestamp": "2026-02-06T15:38:19.817Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_1",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000116",
+      "timestamp": "2026-02-06T15:38:19.818Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_2",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000117",
+      "timestamp": "2026-02-06T15:38:19.818Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_3",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000118",
+      "timestamp": "2026-02-06T15:38:19.818Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0xrequester",
+      "amount": 50,
+      "missionId": "mission_1770392299819_xm2v7e",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000119",
+      "timestamp": "2026-02-06T15:38:19.819Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_worker_1",
+      "amount": 5,
+      "missionId": "bond_mission_1770392299819_xm2v7e",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000120",
+      "timestamp": "2026-02-06T15:38:19.821Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000121",
+      "timestamp": "2026-02-06T15:38:19.821Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_2",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000122",
+      "timestamp": "2026-02-06T15:38:19.821Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_3",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000123",
+      "timestamp": "2026-02-06T15:38:19.822Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_worker_1",
+      "to": "agent_worker_1",
+      "amount": 5,
+      "id": "tx_000124",
+      "timestamp": "2026-02-06T15:38:19.822Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_worker_1",
+      "to": "agent_worker_1",
+      "amount": 5,
+      "missionId": "bond_mission_1770392299819_xm2v7e",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000125",
+      "timestamp": "2026-02-06T15:38:19.822Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_worker_1",
+      "amount": 50,
+      "id": "tx_000126",
+      "timestamp": "2026-02-06T15:38:19.823Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "0xrequester",
+      "to": "agent_worker_1",
+      "amount": 50,
+      "missionId": "mission_1770392299819_xm2v7e",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000127",
+      "timestamp": "2026-02-06T15:38:19.823Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_verifier_1",
+      "amount": 5,
+      "id": "tx_000128",
+      "timestamp": "2026-02-06T15:38:19.823Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_verifier_2",
+      "amount": 5,
+      "id": "tx_000129",
+      "timestamp": "2026-02-06T15:38:19.823Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_verifier_3",
+      "amount": 5,
+      "id": "tx_000130",
+      "timestamp": "2026-02-06T15:38:19.823Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_1",
+      "to": "agent_verifier_1",
+      "amount": 2.5,
+      "id": "tx_000131",
+      "timestamp": "2026-02-06T15:38:19.824Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_1",
+      "to": "agent_verifier_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_1",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000132",
+      "timestamp": "2026-02-06T15:38:19.824Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_2",
+      "to": "agent_verifier_2",
+      "amount": 2.5,
+      "id": "tx_000133",
+      "timestamp": "2026-02-06T15:38:19.824Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_2",
+      "to": "agent_verifier_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_2",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000134",
+      "timestamp": "2026-02-06T15:38:19.824Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_3",
+      "to": "agent_verifier_3",
+      "amount": 2.5,
+      "id": "tx_000135",
+      "timestamp": "2026-02-06T15:38:19.824Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_3",
+      "to": "agent_verifier_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299819_xm2v7e_agent_verifier_3",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000136",
+      "timestamp": "2026-02-06T15:38:19.825Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_bad_worker",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000137",
+      "timestamp": "2026-02-06T15:38:19.825Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0xrequester",
+      "amount": 50,
+      "missionId": "mission_1770392299826_c7l7cr",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000138",
+      "timestamp": "2026-02-06T15:38:19.826Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000139",
+      "timestamp": "2026-02-06T15:38:19.826Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_2",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000140",
+      "timestamp": "2026-02-06T15:38:19.827Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_3",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000141",
+      "timestamp": "2026-02-06T15:38:19.827Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "0xrequester",
+      "amount": 50,
+      "id": "tx_000142",
+      "timestamp": "2026-02-06T15:38:19.827Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "0xrequester",
+      "to": "0xrequester",
+      "amount": 50,
+      "missionId": "mission_1770392299826_c7l7cr",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000143",
+      "timestamp": "2026-02-06T15:38:19.828Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_verifier_1",
+      "amount": 0,
+      "id": "tx_000144",
+      "timestamp": "2026-02-06T15:38:19.828Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_verifier_2",
+      "amount": 0,
+      "id": "tx_000145",
+      "timestamp": "2026-02-06T15:38:19.828Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester",
+      "to": "agent_verifier_3",
+      "amount": 0,
+      "id": "tx_000146",
+      "timestamp": "2026-02-06T15:38:19.828Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_1",
+      "to": "agent_verifier_1",
+      "amount": 2.5,
+      "id": "tx_000147",
+      "timestamp": "2026-02-06T15:38:19.828Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_1",
+      "to": "agent_verifier_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_1",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000148",
+      "timestamp": "2026-02-06T15:38:19.829Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_2",
+      "to": "agent_verifier_2",
+      "amount": 2.5,
+      "id": "tx_000149",
+      "timestamp": "2026-02-06T15:38:19.829Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_2",
+      "to": "agent_verifier_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_2",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000150",
+      "timestamp": "2026-02-06T15:38:19.829Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_3",
+      "to": "agent_verifier_3",
+      "amount": 2.5,
+      "id": "tx_000151",
+      "timestamp": "2026-02-06T15:38:19.829Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_3",
+      "to": "agent_verifier_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392299826_c7l7cr_agent_verifier_3",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000152",
+      "timestamp": "2026-02-06T15:38:19.829Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xrequester_pipeline",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000153",
+      "timestamp": "2026-02-06T15:48:33.549Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_worker_pipeline",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000154",
+      "timestamp": "2026-02-06T15:48:33.552Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000155",
+      "timestamp": "2026-02-06T15:48:33.553Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000156",
+      "timestamp": "2026-02-06T15:48:33.554Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000157",
+      "timestamp": "2026-02-06T15:48:33.555Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0xrequester_pipeline",
+      "amount": 50,
+      "missionId": "mission_1770392913557_wygm36",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000158",
+      "timestamp": "2026-02-06T15:48:33.558Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xrequester_pipeline",
+      "amount": 10000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000159",
+      "timestamp": "2026-02-06T15:49:57.312Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000160",
+      "timestamp": "2026-02-06T15:49:57.313Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000161",
+      "timestamp": "2026-02-06T15:49:57.314Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 200,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000162",
+      "timestamp": "2026-02-06T15:49:57.315Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0xrequester_pipeline",
+      "amount": 50,
+      "missionId": "mission_1770392997316_3qpis2",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000163",
+      "timestamp": "2026-02-06T15:49:57.316Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_844407678eb12a7e",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000164",
+      "timestamp": "2026-02-06T15:49:57.319Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_844407678eb12a7e",
+      "amount": 5,
+      "missionId": "bond_mission_1770392997316_3qpis2",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000165",
+      "timestamp": "2026-02-06T15:49:57.320Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000166",
+      "timestamp": "2026-02-06T15:49:57.321Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_2",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000167",
+      "timestamp": "2026-02-06T15:49:57.322Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_3",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000168",
+      "timestamp": "2026-02-06T15:49:57.322Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_844407678eb12a7e",
+      "to": "agent_844407678eb12a7e",
+      "amount": 5,
+      "id": "tx_000169",
+      "timestamp": "2026-02-06T15:49:57.324Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_844407678eb12a7e",
+      "to": "agent_844407678eb12a7e",
+      "amount": 5,
+      "missionId": "bond_mission_1770392997316_3qpis2",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000170",
+      "timestamp": "2026-02-06T15:49:57.325Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_844407678eb12a7e",
+      "amount": 50,
+      "id": "tx_000171",
+      "timestamp": "2026-02-06T15:49:57.325Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "0xrequester_pipeline",
+      "to": "agent_844407678eb12a7e",
+      "amount": 50,
+      "missionId": "mission_1770392997316_3qpis2",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000172",
+      "timestamp": "2026-02-06T15:49:57.326Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 5,
+      "id": "tx_000173",
+      "timestamp": "2026-02-06T15:49:57.326Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 5,
+      "id": "tx_000174",
+      "timestamp": "2026-02-06T15:49:57.327Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 5,
+      "id": "tx_000175",
+      "timestamp": "2026-02-06T15:49:57.327Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_pipeline_1",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "id": "tx_000176",
+      "timestamp": "2026-02-06T15:49:57.328Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_pipeline_1",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_1",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000177",
+      "timestamp": "2026-02-06T15:49:57.328Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_pipeline_2",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "id": "tx_000178",
+      "timestamp": "2026-02-06T15:49:57.329Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_pipeline_2",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_2",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000179",
+      "timestamp": "2026-02-06T15:49:57.329Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_pipeline_3",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "id": "tx_000180",
+      "timestamp": "2026-02-06T15:49:57.330Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_pipeline_3",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997316_3qpis2_agent_verifier_pipeline_3",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000181",
+      "timestamp": "2026-02-06T15:49:57.330Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0xrequester_pipeline",
+      "amount": 50,
+      "missionId": "mission_1770392997331_e9ius5",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000182",
+      "timestamp": "2026-02-06T15:49:57.332Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000183",
+      "timestamp": "2026-02-06T15:49:57.334Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_2",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000184",
+      "timestamp": "2026-02-06T15:49:57.334Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_3",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000185",
+      "timestamp": "2026-02-06T15:49:57.335Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "0xrequester_pipeline",
+      "amount": 50,
+      "id": "tx_000186",
+      "timestamp": "2026-02-06T15:49:57.336Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "0xrequester_pipeline",
+      "to": "0xrequester_pipeline",
+      "amount": 50,
+      "missionId": "mission_1770392997331_e9ius5",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000187",
+      "timestamp": "2026-02-06T15:49:57.337Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 0,
+      "id": "tx_000188",
+      "timestamp": "2026-02-06T15:49:57.337Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 0,
+      "id": "tx_000189",
+      "timestamp": "2026-02-06T15:49:57.338Z"
+    },
+    {
+      "type": "transfer",
+      "from": "0xrequester_pipeline",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 0,
+      "id": "tx_000190",
+      "timestamp": "2026-02-06T15:49:57.338Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_pipeline_1",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "id": "tx_000191",
+      "timestamp": "2026-02-06T15:49:57.339Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_pipeline_1",
+      "to": "agent_verifier_pipeline_1",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_1",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000192",
+      "timestamp": "2026-02-06T15:49:57.339Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_pipeline_2",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "id": "tx_000193",
+      "timestamp": "2026-02-06T15:49:57.340Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_pipeline_2",
+      "to": "agent_verifier_pipeline_2",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_2",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000194",
+      "timestamp": "2026-02-06T15:49:57.340Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_verifier_pipeline_3",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "id": "tx_000195",
+      "timestamp": "2026-02-06T15:49:57.341Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_verifier_pipeline_3",
+      "to": "agent_verifier_pipeline_3",
+      "amount": 2.5,
+      "missionId": "verifier_bond_mission_1770392997331_e9ius5_agent_verifier_pipeline_3",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000196",
+      "timestamp": "2026-02-06T15:49:57.341Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "human_requester",
+      "amount": 50,
+      "missionId": "mission_1770442542382_gff9cf",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000197",
+      "timestamp": "2026-02-07T05:35:42.382Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "agent_844407678eb12a7e",
+      "amount": 5,
+      "missionId": "bond_mission_1770442542382_gff9cf",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000198",
+      "timestamp": "2026-02-07T05:35:42.384Z"
+    },
+    {
+      "type": "transfer",
+      "from": "agent_844407678eb12a7e",
+      "to": "agent_844407678eb12a7e",
+      "amount": 5,
+      "id": "tx_000199",
+      "timestamp": "2026-02-07T05:35:42.386Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "agent_844407678eb12a7e",
+      "to": "agent_844407678eb12a7e",
+      "amount": 5,
+      "missionId": "bond_mission_1770442542382_gff9cf",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000200",
+      "timestamp": "2026-02-07T05:35:42.386Z"
+    },
+    {
+      "type": "transfer",
+      "from": "human_requester",
+      "to": "agent_844407678eb12a7e",
+      "amount": 50,
+      "id": "tx_000201",
+      "timestamp": "2026-02-07T05:35:42.387Z"
+    },
+    {
+      "type": "escrow_release",
+      "from": "human_requester",
+      "to": "agent_844407678eb12a7e",
+      "amount": 50,
+      "missionId": "mission_1770442542382_gff9cf",
+      "metadata": {
+        "action": "release"
+      },
+      "id": "tx_000202",
+      "timestamp": "2026-02-07T05:35:42.387Z"
+    },
+    {
+      "type": "transfer",
+      "from": "human_requester",
+      "to": "human_requester",
+      "amount": 5,
+      "id": "tx_000203",
+      "timestamp": "2026-02-07T05:35:42.387Z"
+    }
+  ]
+}

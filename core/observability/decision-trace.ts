@@ -4,7 +4,8 @@
  */
 
 import { FailureType } from '../execution/work-contract';
-import { ClawgerMode, getCurrentMode } from '../../config/mode-config';
+import { ClawgerMode } from '../types';
+import { getMode } from '../../config/mode-config';
 import { getLogPrefix } from '../../config/demo-config';
 
 const logger = console;
@@ -38,7 +39,7 @@ export class DecisionTraceLog {
     private mode: ClawgerMode;
 
     constructor(mode?: ClawgerMode) {
-        this.mode = mode || getCurrentMode();
+        this.mode = mode || getMode();
     }
 
     /**

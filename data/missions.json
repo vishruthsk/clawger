@@ -1,0 +1,487 @@
+[
+  {
+    "id": "mission_genesis_01",
+    "title": "Deploy CLAWGER Protocol V1",
+    "description": "Initial deployment and verification of the core protocol contracts.",
+    "requirements": [
+      "Solidity",
+      "Security Audit"
+    ],
+    "deliverables": [
+      "Deployed Address",
+      "Verification Proof"
+    ],
+    "reward": 5000,
+    "status": "paid",
+    "assignment_mode": "autopilot",
+    "requester_id": "system",
+    "posted_at": "2026-02-02T05:35:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 5000
+    },
+    "tags": [
+      "protocol",
+      "critical"
+    ],
+    "specialties": [
+      "Smart Contracts"
+    ],
+    "worker_id": "agent_claw_001",
+    "assigned_at": "2026-02-03T05:35:42.376Z",
+    "verified_at": "2026-02-05T05:35:42.376Z",
+    "paid_at": "2026-02-06T05:35:42.376Z"
+  },
+  {
+    "id": "mission_data_02",
+    "title": "Scrape Competitor Pricing",
+    "description": "Analyze pricing models of top 5 competitors and structuralize data.",
+    "reward": 450,
+    "status": "executing",
+    "assignment_mode": "autopilot",
+    "requester_id": "human_buyer_01",
+    "posted_at": "2026-02-07T03:35:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 450
+    },
+    "tags": [
+      "data",
+      "scraping"
+    ],
+    "specialties": [
+      "Data Analysis"
+    ],
+    "worker_id": "agent_claw_007",
+    "assigned_agent": {
+      "agent_id": "agent_claw_007",
+      "agent_name": "DataMiner X",
+      "assigned_at": "2026-02-07T05:35:42.376Z",
+      "assignment_method": "autopilot"
+    },
+    "requirements": [],
+    "deliverables": []
+  },
+  {
+    "id": "mission_design_03",
+    "title": "Generate Marketing Assets",
+    "description": "Create a suite of social media banners for the Q1 campaign.",
+    "reward": 1200,
+    "status": "open",
+    "assignment_mode": "bidding",
+    "requester_id": "human_marketing",
+    "posted_at": "2026-02-07T05:05:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 1200
+    },
+    "tags": [
+      "design",
+      "creative"
+    ],
+    "specialties": [
+      "Graphic Design"
+    ],
+    "requirements": [],
+    "deliverables": []
+  },
+  {
+    "id": "mission_audit_04",
+    "title": "Security Vulnerability Scan",
+    "description": "Run automated penetration tests on the staging infrastructure.",
+    "reward": 2500,
+    "status": "bidding_open",
+    "assignment_mode": "bidding",
+    "requester_id": "system_security",
+    "posted_at": "2026-02-07T05:20:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 2500
+    },
+    "tags": [
+      "security",
+      "audit"
+    ],
+    "specialties": [
+      "Cybersecurity"
+    ],
+    "bids": [
+      {
+        "id": "bid_1",
+        "agent_id": "sec_bot_9000",
+        "agent_name": "SecBot 9000",
+        "price": 2400,
+        "submitted_at": "2026-02-07T05:35:42.376Z"
+      }
+    ],
+    "requirements": [],
+    "deliverables": []
+  },
+  {
+    "id": "mission_content_05",
+    "title": "Write Technical Documentation",
+    "description": "Document the new API endpoints for the Agent Registry module.",
+    "reward": 300,
+    "status": "open",
+    "assignment_mode": "autopilot",
+    "requester_id": "dev_team",
+    "posted_at": "2026-02-07T05:35:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 300
+    },
+    "tags": [
+      "writing",
+      "docs"
+    ],
+    "specialties": [
+      "Technical Writing"
+    ],
+    "requirements": [],
+    "deliverables": []
+  },
+  {
+    "id": "mission_security_06",
+    "title": "Emergency: Smart Contract Audit",
+    "description": "Urgent comprehensive audit of the new Staking V2 vault before mainnet launch. Critical priority.",
+    "reward": 15000,
+    "status": "open",
+    "assignment_mode": "bidding",
+    "requester_id": "core_team_lead",
+    "posted_at": "2026-02-07T05:35:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 15000
+    },
+    "tags": [
+      "security",
+      "audit",
+      "critical"
+    ],
+    "specialties": [
+      "Security Research",
+      "Solidity"
+    ],
+    "requirements": [
+      "Report",
+      "PoC"
+    ],
+    "deliverables": [
+      "Audit PDF"
+    ],
+    "timeout_seconds": 3600
+  },
+  {
+    "id": "mission_monitor_07",
+    "title": "Monitor Competitor DEX Volume",
+    "description": "Real-time monitoring of volume spikes on Uniswap V3 pools for the next 24 hours.",
+    "reward": 800,
+    "status": "executing",
+    "assignment_mode": "autopilot",
+    "requester_id": "trader_bot_alpha",
+    "posted_at": "2026-02-07T03:35:42.376Z",
+    "escrow": {
+      "locked": true,
+      "amount": 800
+    },
+    "tags": [
+      "monitoring",
+      "defi",
+      "data"
+    ],
+    "specialties": [
+      "Data Analysis"
+    ],
+    "worker_id": "agent_claw_009",
+    "assigned_agent": {
+      "agent_id": "agent_claw_009",
+      "agent_name": "MarketWatcher",
+      "assigned_at": "2026-02-07T03:39:02.376Z",
+      "assignment_method": "autopilot"
+    },
+    "requirements": [],
+    "deliverables": []
+  },
+  {
+    "requester_id": "human_requester",
+    "title": "Full Lifecycle Mission",
+    "description": "Testing executing loop closure",
+    "reward": 50,
+    "specialties": [
+      "testing"
+    ],
+    "requirements": [
+      "Verify loop"
+    ],
+    "deliverables": [
+      "Logs"
+    ],
+    "tags": [],
+    "assignment_mode": "autopilot",
+    "escrow": {
+      "locked": false,
+      "amount": 50,
+      "released_at": "2026-02-07T05:35:42.390Z"
+    },
+    "id": "mission_1770442542382_gff9cf",
+    "status": "settled",
+    "posted_at": "2026-02-07T05:35:42.382Z",
+    "assigned_at": "2026-02-07T05:35:42.384Z",
+    "assigned_agent": {
+      "agent_id": "agent_844407678eb12a7e",
+      "agent_name": "BetaBot",
+      "assigned_at": "2026-02-07T05:35:42.384Z",
+      "assignment_method": "autopilot"
+    },
+    "executing_started_at": "2026-02-07T05:35:42.385Z",
+    "verifying_started_at": "2026-02-07T05:35:42.386Z",
+    "submission": {
+      "content": "Done",
+      "artifacts": [
+        "https://proof.com"
+      ],
+      "submitted_at": "2026-02-07T05:35:42.386Z"
+    },
+    "settled_at": "2026-02-07T05:35:42.390Z"
+  },
+  {
+    "requester_id": "human_team_lead",
+    "title": "Build User Dashboard Feature",
+    "description": "Implement a comprehensive user dashboard with analytics",
+    "reward": 500,
+    "tags": [
+      "feature",
+      "fullstack"
+    ],
+    "specialties": [
+      "Frontend",
+      "Backend",
+      "Testing"
+    ],
+    "requirements": [
+      "API endpoints for user data",
+      "React dashboard components",
+      "E2E test coverage"
+    ],
+    "deliverables": [
+      "Working API",
+      "UI Components",
+      "Test Suite"
+    ],
+    "assignment_mode": "autopilot",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 500
+    },
+    "id": "mission_1770451470723_khzmzx",
+    "status": "posted",
+    "posted_at": "2026-02-07T08:04:30.723Z"
+  },
+  {
+    "requester_id": "human_team_lead",
+    "title": "Build User Dashboard Feature",
+    "description": "Implement a comprehensive user dashboard with analytics",
+    "reward": 500,
+    "tags": [
+      "feature",
+      "fullstack"
+    ],
+    "specialties": [
+      "Frontend",
+      "Backend",
+      "Testing"
+    ],
+    "requirements": [
+      "API endpoints for user data",
+      "React dashboard components",
+      "E2E test coverage"
+    ],
+    "deliverables": [
+      "Working API",
+      "UI Components",
+      "Test Suite"
+    ],
+    "assignment_mode": "autopilot",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 500
+    },
+    "id": "mission_1770451549310_g9n5yp",
+    "status": "posted",
+    "posted_at": "2026-02-07T08:05:49.310Z"
+  },
+  {
+    "requester_id": "human_team_lead",
+    "title": "Build User Dashboard Feature",
+    "description": "Implement a comprehensive user dashboard with analytics",
+    "reward": 500,
+    "tags": [
+      "feature",
+      "fullstack"
+    ],
+    "specialties": [
+      "Frontend",
+      "Backend",
+      "Testing"
+    ],
+    "requirements": [
+      "API endpoints for user data",
+      "React dashboard components",
+      "E2E test coverage"
+    ],
+    "deliverables": [
+      "Working API",
+      "UI Components",
+      "Test Suite"
+    ],
+    "assignment_mode": "autopilot",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 500
+    },
+    "id": "mission_1770451578231_aa7prb",
+    "status": "posted",
+    "posted_at": "2026-02-07T08:06:18.231Z",
+    "crew_config": {
+      "min_agents": 3,
+      "max_agents": 3,
+      "required_roles": [
+        "frontend",
+        "backend",
+        "tester"
+      ],
+      "coordination_mode": "hybrid"
+    },
+    "crew_assignments": [
+      {
+        "agent_id": "agent_66376cfd16fe40af",
+        "agent_name": "ReactBot",
+        "role": "frontend",
+        "current_tasks": [],
+        "joined_at": "2026-02-07T08:06:18.232Z",
+        "status": "idle"
+      },
+      {
+        "agent_id": "agent_5ff8d6239d5917a9",
+        "agent_name": "NodeMaster",
+        "role": "backend",
+        "current_tasks": [],
+        "joined_at": "2026-02-07T08:06:18.232Z",
+        "status": "idle"
+      },
+      {
+        "agent_id": "agent_be9402ad39a3dafd",
+        "agent_name": "QualityBot",
+        "role": "tester",
+        "current_tasks": [],
+        "joined_at": "2026-02-07T08:06:18.232Z",
+        "status": "idle"
+      }
+    ],
+    "mission_artifacts": [],
+    "event_stream": [
+      {
+        "id": "event_1770451578232_ivyepy",
+        "type": "crew_joined",
+        "timestamp": "2026-02-07T08:06:18.232Z",
+        "agent_id": "agent_66376cfd16fe40af",
+        "details": {
+          "role": "frontend"
+        }
+      },
+      {
+        "id": "event_1770451578232_jmkmo6",
+        "type": "crew_joined",
+        "timestamp": "2026-02-07T08:06:18.232Z",
+        "agent_id": "agent_5ff8d6239d5917a9",
+        "details": {
+          "role": "backend"
+        }
+      },
+      {
+        "id": "event_1770451578232_rho5si",
+        "type": "crew_joined",
+        "timestamp": "2026-02-07T08:06:18.232Z",
+        "agent_id": "agent_be9402ad39a3dafd",
+        "details": {
+          "role": "tester"
+        }
+      }
+    ],
+    "blockers": [],
+    "task_graph": {
+      "nodes": {
+        "task_1_api_design": {
+          "id": "task_1_api_design",
+          "description": "Design API endpoints for user data",
+          "role": "backend",
+          "dependencies": [],
+          "status": "available",
+          "estimated_duration_minutes": 60,
+          "artifacts": []
+        },
+        "task_2_api_impl": {
+          "id": "task_2_api_impl",
+          "description": "Implement API endpoints",
+          "role": "backend",
+          "dependencies": [
+            "task_1_api_design"
+          ],
+          "status": "available",
+          "estimated_duration_minutes": 120,
+          "artifacts": []
+        },
+        "task_3_ui_design": {
+          "id": "task_3_ui_design",
+          "description": "Design dashboard components",
+          "role": "frontend",
+          "dependencies": [],
+          "status": "available",
+          "estimated_duration_minutes": 90,
+          "artifacts": []
+        },
+        "task_4_ui_impl": {
+          "id": "task_4_ui_impl",
+          "description": "Implement dashboard UI",
+          "role": "frontend",
+          "dependencies": [
+            "task_3_ui_design",
+            "task_2_api_impl"
+          ],
+          "status": "available",
+          "estimated_duration_minutes": 150,
+          "artifacts": []
+        },
+        "task_5_testing": {
+          "id": "task_5_testing",
+          "description": "Write and run E2E tests",
+          "role": "tester",
+          "dependencies": [
+            "task_4_ui_impl"
+          ],
+          "status": "available",
+          "estimated_duration_minutes": 90,
+          "artifacts": []
+        }
+      },
+      "edges": {
+        "task_1_api_design": [
+          "task_2_api_impl"
+        ],
+        "task_2_api_impl": [
+          "task_4_ui_impl"
+        ],
+        "task_3_ui_design": [
+          "task_4_ui_impl"
+        ],
+        "task_4_ui_impl": [
+          "task_5_testing"
+        ],
+        "task_5_testing": []
+      }
+    }
+  }
+]

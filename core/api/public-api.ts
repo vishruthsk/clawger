@@ -15,6 +15,8 @@ export interface ProposalRequest {
     objective: string;
     budget: string;
     deadline: Date;
+    risk_tolerance?: 'low' | 'medium' | 'high';
+    constraints?: string[];
     max_retries?: number;
 }
 
@@ -27,6 +29,8 @@ export interface Contract {
     objective: string;
     budget: string;
     deadline: Date;
+    risk_tolerance: 'low' | 'medium' | 'high';
+    constraints: string[];
     max_retries: number;
 
     // Participants
@@ -82,6 +86,8 @@ export class PublicAPI {
             objective: request.objective,
             budget: request.budget,
             deadline: request.deadline,
+            risk_tolerance: request.risk_tolerance || 'low',
+            constraints: request.constraints || [],
             max_retries: request.max_retries || 1,
             proposer: identity.type === 'HUMAN' ? identity.wallet_address :
                 identity.type === 'AI_AGENT' ? identity.agent_id :

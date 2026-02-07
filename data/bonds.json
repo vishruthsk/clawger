@@ -1,0 +1,154 @@
+{
+  "bonds": {
+    "bond_000000": {
+      "bondId": "bond_000000",
+      "agentId": "agent_worker_1",
+      "missionId": "mission_1770392299819_xm2v7e",
+      "amount": 5,
+      "type": "worker",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.821Z",
+      "released_at": "2026-02-06T15:38:19.822Z"
+    },
+    "bond_000001": {
+      "bondId": "bond_000001",
+      "agentId": "agent_verifier_1",
+      "missionId": "mission_1770392299819_xm2v7e",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.821Z",
+      "released_at": "2026-02-06T15:38:19.824Z"
+    },
+    "bond_000002": {
+      "bondId": "bond_000002",
+      "agentId": "agent_verifier_2",
+      "missionId": "mission_1770392299819_xm2v7e",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.821Z",
+      "released_at": "2026-02-06T15:38:19.824Z"
+    },
+    "bond_000003": {
+      "bondId": "bond_000003",
+      "agentId": "agent_verifier_3",
+      "missionId": "mission_1770392299819_xm2v7e",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.822Z",
+      "released_at": "2026-02-06T15:38:19.825Z"
+    },
+    "bond_000004": {
+      "bondId": "bond_000004",
+      "agentId": "agent_verifier_1",
+      "missionId": "mission_1770392299826_c7l7cr",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.827Z",
+      "released_at": "2026-02-06T15:38:19.829Z"
+    },
+    "bond_000005": {
+      "bondId": "bond_000005",
+      "agentId": "agent_verifier_2",
+      "missionId": "mission_1770392299826_c7l7cr",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.827Z",
+      "released_at": "2026-02-06T15:38:19.829Z"
+    },
+    "bond_000006": {
+      "bondId": "bond_000006",
+      "agentId": "agent_verifier_3",
+      "missionId": "mission_1770392299826_c7l7cr",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:38:19.827Z",
+      "released_at": "2026-02-06T15:38:19.830Z"
+    },
+    "bond_000007": {
+      "bondId": "bond_000007",
+      "agentId": "agent_844407678eb12a7e",
+      "missionId": "mission_1770392997316_3qpis2",
+      "amount": 5,
+      "type": "worker",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.320Z",
+      "released_at": "2026-02-06T15:49:57.325Z"
+    },
+    "bond_000008": {
+      "bondId": "bond_000008",
+      "agentId": "agent_verifier_pipeline_1",
+      "missionId": "mission_1770392997316_3qpis2",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.321Z",
+      "released_at": "2026-02-06T15:49:57.329Z"
+    },
+    "bond_000009": {
+      "bondId": "bond_000009",
+      "agentId": "agent_verifier_pipeline_2",
+      "missionId": "mission_1770392997316_3qpis2",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.322Z",
+      "released_at": "2026-02-06T15:49:57.330Z"
+    },
+    "bond_000010": {
+      "bondId": "bond_000010",
+      "agentId": "agent_verifier_pipeline_3",
+      "missionId": "mission_1770392997316_3qpis2",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.323Z",
+      "released_at": "2026-02-06T15:49:57.331Z"
+    },
+    "bond_000011": {
+      "bondId": "bond_000011",
+      "agentId": "agent_verifier_pipeline_1",
+      "missionId": "mission_1770392997331_e9ius5",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.334Z",
+      "released_at": "2026-02-06T15:49:57.340Z"
+    },
+    "bond_000012": {
+      "bondId": "bond_000012",
+      "agentId": "agent_verifier_pipeline_2",
+      "missionId": "mission_1770392997331_e9ius5",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.335Z",
+      "released_at": "2026-02-06T15:49:57.341Z"
+    },
+    "bond_000013": {
+      "bondId": "bond_000013",
+      "agentId": "agent_verifier_pipeline_3",
+      "missionId": "mission_1770392997331_e9ius5",
+      "amount": 2.5,
+      "type": "verifier",
+      "status": "released",
+      "staked_at": "2026-02-06T15:49:57.335Z",
+      "released_at": "2026-02-06T15:49:57.342Z"
+    },
+    "bond_000014": {
+      "bondId": "bond_000014",
+      "agentId": "agent_844407678eb12a7e",
+      "missionId": "mission_1770442542382_gff9cf",
+      "amount": 5,
+      "type": "worker",
+      "status": "released",
+      "staked_at": "2026-02-07T05:35:42.385Z",
+      "released_at": "2026-02-07T05:35:42.387Z"
+    }
+  }
+}

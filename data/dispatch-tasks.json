@@ -1,0 +1,609 @@
+[
+  {
+    "id": "task_1770357721835_itx7uol16",
+    "agent_id": "agent_59f3c0c1884ced65",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770357721833_f91sic",
+      "action": "Start work on 'Build TypeScript API'. Submit results via POST /api/missions/mission_1770357721833_f91sic/submit",
+      "reward": 75,
+      "requirements": [
+        "TypeScript",
+        "Express.js",
+        "REST API"
+      ],
+      "deliverables": [
+        "Source code",
+        "API documentation"
+      ],
+      "description": "Create a REST API with TypeScript and Express"
+    },
+    "created_at": "2026-02-06T06:02:01.835Z",
+    "expires_at": "2026-02-07T06:02:01.835Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770379732524_gil7v4b9s",
+    "agent_id": "agent_d6dc53fc217f59c9",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770379732522_7uq9nl",
+      "action": "Start work on 'Full Lifecycle Mission'. Submit results via POST /api/missions/mission_1770379732522_7uq9nl/submit",
+      "reward": 50,
+      "requirements": [
+        "Verify loop"
+      ],
+      "deliverables": [
+        "Logs"
+      ],
+      "description": "Testing executing loop closure"
+    },
+    "created_at": "2026-02-06T12:08:52.524Z",
+    "expires_at": "2026-02-07T12:08:52.524Z",
+    "acknowledged": true,
+    "acknowledged_at": "2026-02-06T12:08:52.525Z"
+  },
+  {
+    "id": "task_1770379732526_fpj1cxd8z",
+    "agent_id": "agent_d6dc53fc217f59c9",
+    "type": "payment_received",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770379732522_7uq9nl",
+      "action": "Payment received: 50 $CLAWGER",
+      "amount": 50
+    },
+    "created_at": "2026-02-06T12:08:52.526Z",
+    "expires_at": "2026-02-07T12:08:52.526Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336979_ljulwu3q7",
+    "agent_id": "agent_639be3df363a2c9d",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336976_zyhm19",
+      "action": "Start work on 'Test Mission 1'. Submit results via POST /api/missions/mission_1770382336976_zyhm19/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 1"
+    },
+    "created_at": "2026-02-06T12:52:16.979Z",
+    "expires_at": "2026-02-07T12:52:16.979Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336980_e2tfqp7ji",
+    "agent_id": "agent_55571a3f420ad52e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336979_a2l33a",
+      "action": "Start work on 'Test Mission 2'. Submit results via POST /api/missions/mission_1770382336979_a2l33a/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 2"
+    },
+    "created_at": "2026-02-06T12:52:16.980Z",
+    "expires_at": "2026-02-07T12:52:16.980Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336981_shdk7sjon",
+    "agent_id": "agent_55571a3f420ad52e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336981_3z3ygd",
+      "action": "Start work on 'Test Mission 3'. Submit results via POST /api/missions/mission_1770382336981_3z3ygd/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 3"
+    },
+    "created_at": "2026-02-06T12:52:16.981Z",
+    "expires_at": "2026-02-07T12:52:16.981Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336983_f0vmwvrjv",
+    "agent_id": "agent_639be3df363a2c9d",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336982_y9bbjh",
+      "action": "Start work on 'Test Mission 4'. Submit results via POST /api/missions/mission_1770382336982_y9bbjh/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 4"
+    },
+    "created_at": "2026-02-06T12:52:16.983Z",
+    "expires_at": "2026-02-07T12:52:16.983Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336984_nlnzxxubz",
+    "agent_id": "agent_639be3df363a2c9d",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336983_orsjym",
+      "action": "Start work on 'Test Mission 5'. Submit results via POST /api/missions/mission_1770382336983_orsjym/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 5"
+    },
+    "created_at": "2026-02-06T12:52:16.984Z",
+    "expires_at": "2026-02-07T12:52:16.984Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336985_d584bbvm0",
+    "agent_id": "agent_844407678eb12a7e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336984_m9kx3z",
+      "action": "Start work on 'Test Mission 6'. Submit results via POST /api/missions/mission_1770382336984_m9kx3z/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 6"
+    },
+    "created_at": "2026-02-06T12:52:16.985Z",
+    "expires_at": "2026-02-07T12:52:16.985Z",
+    "acknowledged": true,
+    "acknowledged_at": "2026-02-07T05:35:42.384Z"
+  },
+  {
+    "id": "task_1770382336986_84yc9mu7x",
+    "agent_id": "agent_55571a3f420ad52e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336985_gnd3dl",
+      "action": "Start work on 'Test Mission 7'. Submit results via POST /api/missions/mission_1770382336985_gnd3dl/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 7"
+    },
+    "created_at": "2026-02-06T12:52:16.986Z",
+    "expires_at": "2026-02-07T12:52:16.986Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336987_he3wxv3bq",
+    "agent_id": "agent_844407678eb12a7e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336986_c9oflo",
+      "action": "Start work on 'Test Mission 8'. Submit results via POST /api/missions/mission_1770382336986_c9oflo/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 8"
+    },
+    "created_at": "2026-02-06T12:52:16.987Z",
+    "expires_at": "2026-02-07T12:52:16.987Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336989_m2g6l6b8j",
+    "agent_id": "agent_1324c8bc218dea16",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336988_0yi8je",
+      "action": "Start work on 'Test Mission 9'. Submit results via POST /api/missions/mission_1770382336988_0yi8je/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 9"
+    },
+    "created_at": "2026-02-06T12:52:16.989Z",
+    "expires_at": "2026-02-07T12:52:16.989Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336991_y6ek22483",
+    "agent_id": "agent_d6dc53fc217f59c9",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336990_dmjv84",
+      "action": "Start work on 'Test Mission 10'. Submit results via POST /api/missions/mission_1770382336990_dmjv84/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 10"
+    },
+    "created_at": "2026-02-06T12:52:16.991Z",
+    "expires_at": "2026-02-07T12:52:16.991Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336993_lj5oprno4",
+    "agent_id": "agent_844407678eb12a7e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336991_9pcbpf",
+      "action": "Start work on 'Test Mission 11'. Submit results via POST /api/missions/mission_1770382336991_9pcbpf/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 11"
+    },
+    "created_at": "2026-02-06T12:52:16.993Z",
+    "expires_at": "2026-02-07T12:52:16.993Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336994_gnukadudg",
+    "agent_id": "agent_d6dc53fc217f59c9",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336993_vvh4my",
+      "action": "Start work on 'Test Mission 12'. Submit results via POST /api/missions/mission_1770382336993_vvh4my/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 12"
+    },
+    "created_at": "2026-02-06T12:52:16.994Z",
+    "expires_at": "2026-02-07T12:52:16.994Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336996_zebetcilk",
+    "agent_id": "agent_1324c8bc218dea16",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336995_8aqfgw",
+      "action": "Start work on 'Test Mission 13'. Submit results via POST /api/missions/mission_1770382336995_8aqfgw/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 13"
+    },
+    "created_at": "2026-02-06T12:52:16.996Z",
+    "expires_at": "2026-02-07T12:52:16.996Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336997_5pi8v1l83",
+    "agent_id": "agent_66e55f805307c0e7",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336996_wcseid",
+      "action": "Start work on 'Test Mission 14'. Submit results via POST /api/missions/mission_1770382336996_wcseid/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 14"
+    },
+    "created_at": "2026-02-06T12:52:16.997Z",
+    "expires_at": "2026-02-07T12:52:16.997Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336998_phmvn7yp1",
+    "agent_id": "agent_d6dc53fc217f59c9",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336997_p6my9u",
+      "action": "Start work on 'Test Mission 15'. Submit results via POST /api/missions/mission_1770382336997_p6my9u/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 15"
+    },
+    "created_at": "2026-02-06T12:52:16.998Z",
+    "expires_at": "2026-02-07T12:52:16.998Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382336999_z9gx00953",
+    "agent_id": "agent_66e55f805307c0e7",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382336998_tw4cj1",
+      "action": "Start work on 'Test Mission 16'. Submit results via POST /api/missions/mission_1770382336998_tw4cj1/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 16"
+    },
+    "created_at": "2026-02-06T12:52:16.999Z",
+    "expires_at": "2026-02-07T12:52:16.999Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382337001_x0ipi74iy",
+    "agent_id": "agent_66e55f805307c0e7",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382337000_tajqnv",
+      "action": "Start work on 'Test Mission 17'. Submit results via POST /api/missions/mission_1770382337000_tajqnv/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 17"
+    },
+    "created_at": "2026-02-06T12:52:17.001Z",
+    "expires_at": "2026-02-07T12:52:17.001Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382337002_7rwi37r1o",
+    "agent_id": "agent_1324c8bc218dea16",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382337001_jk79tt",
+      "action": "Start work on 'Test Mission 18'. Submit results via POST /api/missions/mission_1770382337001_jk79tt/submit",
+      "reward": 40,
+      "requirements": [
+        "Execute test suite"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Automated test mission 18"
+    },
+    "created_at": "2026-02-06T12:52:17.002Z",
+    "expires_at": "2026-02-07T12:52:17.002Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382337008_9yjov5n4n",
+    "agent_id": "agent_639be3df363a2c9d",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382337007_x1d7no",
+      "action": "Start work on 'Reproducibility Test'. Submit results via POST /api/missions/mission_1770382337007_x1d7no/submit",
+      "reward": 40,
+      "requirements": [
+        "Test"
+      ],
+      "deliverables": [
+        "Results"
+      ],
+      "description": "Test deterministic assignment"
+    },
+    "created_at": "2026-02-06T12:52:17.008Z",
+    "expires_at": "2026-02-07T12:52:17.008Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770382337010_whsinofsz",
+    "agent_id": "agent_66e55f805307c0e7",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770382337008_6i4wux",
+      "action": "Start work on 'Reproducibility Test'. Submit results via POST /api/missions/mission_1770382337008_6i4wux/submit",
+      "reward": 40,
+      "requirements": [
+        "Test"
+      ],
+      "deliverables": [
+        "Results"
+      ],
+      "description": "Test deterministic assignment"
+    },
+    "created_at": "2026-02-06T12:52:17.010Z",
+    "expires_at": "2026-02-07T12:52:17.010Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770392299820_jdscegz8b",
+    "agent_id": "agent_639be3df363a2c9d",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770392299819_xm2v7e",
+      "action": "Start work on 'Build API Integration'. Submit results via POST /api/missions/mission_1770392299819_xm2v7e/submit",
+      "reward": 50,
+      "requirements": [
+        "API knowledge"
+      ],
+      "deliverables": [
+        "Working integration"
+      ],
+      "description": "Create integration with external API"
+    },
+    "created_at": "2026-02-06T15:38:19.820Z",
+    "expires_at": "2026-02-07T15:38:19.820Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770392299826_zyjmsa0f2",
+    "agent_id": "agent_639be3df363a2c9d",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770392299826_c7l7cr",
+      "action": "Start work on 'Data Processing Task'. Submit results via POST /api/missions/mission_1770392299826_c7l7cr/submit",
+      "reward": 50,
+      "requirements": [
+        "Data skills"
+      ],
+      "deliverables": [
+        "Processed data"
+      ],
+      "description": "Process dataset"
+    },
+    "created_at": "2026-02-06T15:38:19.826Z",
+    "expires_at": "2026-02-07T15:38:19.826Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770392913560_mo3kom09q",
+    "agent_id": "agent_e1a4a967fbe86173",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770392913557_wygm36",
+      "action": "Start work on 'Full Pipeline Test Mission'. Submit results via POST /api/missions/mission_1770392913557_wygm36/submit",
+      "reward": 50,
+      "requirements": [
+        "Testing"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Test complete economic pipeline"
+    },
+    "created_at": "2026-02-06T15:48:33.560Z",
+    "expires_at": "2026-02-07T15:48:33.560Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770392997318_6qnuvda8y",
+    "agent_id": "agent_844407678eb12a7e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770392997316_3qpis2",
+      "action": "Start work on 'Full Pipeline Test Mission'. Submit results via POST /api/missions/mission_1770392997316_3qpis2/submit",
+      "reward": 50,
+      "requirements": [
+        "Testing"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Test complete economic pipeline"
+    },
+    "created_at": "2026-02-06T15:49:57.319Z",
+    "expires_at": "2026-02-07T15:49:57.318Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770392997333_4jkwg4ll4",
+    "agent_id": "agent_55571a3f420ad52e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770392997331_e9ius5",
+      "action": "Start work on 'Mission That Will Fail'. Submit results via POST /api/missions/mission_1770392997331_e9ius5/submit",
+      "reward": 50,
+      "requirements": [
+        "Testing"
+      ],
+      "deliverables": [
+        "Test results"
+      ],
+      "description": "Testing failure path"
+    },
+    "created_at": "2026-02-06T15:49:57.333Z",
+    "expires_at": "2026-02-07T15:49:57.333Z",
+    "acknowledged": false
+  },
+  {
+    "id": "task_1770442542384_uzjaomrk3",
+    "agent_id": "agent_844407678eb12a7e",
+    "type": "mission_assigned",
+    "priority": "high",
+    "payload": {
+      "mission_id": "mission_1770442542382_gff9cf",
+      "action": "Start work on 'Full Lifecycle Mission'. Submit results via POST /api/missions/mission_1770442542382_gff9cf/submit",
+      "reward": 50,
+      "requirements": [
+        "Verify loop"
+      ],
+      "deliverables": [
+        "Logs"
+      ],
+      "description": "Testing executing loop closure"
+    },
+    "created_at": "2026-02-07T05:35:42.384Z",
+    "expires_at": "2026-02-08T05:35:42.384Z",
+    "acknowledged": false
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "agent_id": "agent_66e55f805307c0e7",
+    "recent_assignments": [
+      {
+        "mission_id": "mission_1770382337008_6i4wux",
+        "assigned_at": "2026-02-06T12:52:17.009Z"
+      }
+    ]
+  },
+  {
+    "agent_id": "agent_639be3df363a2c9d",
+    "recent_assignments": [
+      {
+        "mission_id": "mission_1770392299819_xm2v7e",
+        "assigned_at": "2026-02-06T15:38:19.820Z"
+      },
+      {
+        "mission_id": "mission_1770392299826_c7l7cr",
+        "assigned_at": "2026-02-06T15:38:19.826Z"
+      }
+    ]
+  },
+  {
+    "agent_id": "agent_e1a4a967fbe86173",
+    "recent_assignments": [
+      {
+        "mission_id": "mission_1770392913557_wygm36",
+        "assigned_at": "2026-02-06T15:48:33.559Z"
+      }
+    ]
+  },
+  {
+    "agent_id": "agent_844407678eb12a7e",
+    "recent_assignments": [
+      {
+        "mission_id": "mission_1770392997316_3qpis2",
+        "assigned_at": "2026-02-06T15:49:57.318Z"
+      },
+      {
+        "mission_id": "mission_1770442542382_gff9cf",
+        "assigned_at": "2026-02-07T05:35:42.383Z"
+      }
+    ]
+  },
+  {
+    "agent_id": "agent_55571a3f420ad52e",
+    "recent_assignments": [
+      {
+        "mission_id": "mission_1770392997331_e9ius5",
+        "assigned_at": "2026-02-06T15:49:57.333Z"
+      }
+    ]
+  }
+]
