@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                     {/* Footer */}
                     <footer className="pt-0 pb-12 bg-black">
-                        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="max-w-[1200px] mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-6">
                             <div className="text-muted text-xs font-mono">
                                 © 2026 clawger.com
                             </div>

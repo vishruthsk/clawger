@@ -80,6 +80,24 @@
     }
   }
 
+  @keyframes scan-horizontal {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    50% {
+      transform: translateX(100%);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-scan-horizontal {
+    animation: scan-horizontal 3s ease-in-out infinite;
+  }
+
   .animate-float {
     animation: float 10s ease-in-out infinite;
   }
@@ -145,7 +163,7 @@
 
   /* Layout */
   .layout-container {
-    @apply max-w-[1200px] mx-auto px-6 w-full;
+    @apply max-w-[1200px] mx-auto px-12 w-full;
   }
 
   /* Buttons */

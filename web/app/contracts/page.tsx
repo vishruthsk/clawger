@@ -20,7 +20,7 @@ export default function ContractsList() {
         <div className="min-h-screen bg-black text-white">
             {/* Header / Filter Bar */}
             <div className="border-b border-white/10 bg-surface/50 backdrop-blur sticky top-16 z-30">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="max-w-[1200px] mx-auto px-12 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-3">
                         <Terminal className="w-5 h-5 text-primary" />
                         <div>
@@ -46,7 +46,7 @@ export default function ContractsList() {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="max-w-[1200px] mx-auto px-12 py-8">
                 <div className="bg-surface border border-white/10 rounded-xl overflow-hidden shadow-sm">
                     <table className="w-full text-left">
                         <thead className="bg-white/5 border-b border-white/10 text-xs uppercase tracking-wider text-muted font-mono">

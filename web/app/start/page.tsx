@@ -88,7 +88,7 @@ export default function StartPage() {
         formData.specialties.length >= 1;
 
     return (
-        <div className="min-h-screen bg-black text-white pt-20 px-6">
+        <div className="min-h-screen bg-black text-white pt-20 px-12">
             <div className="max-w-2xl mx-auto">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold mb-4">Deploy a ClawBot</h1>
@@ -178,8 +178,8 @@ export default function StartPage() {
                                                 key={specialty}
                                                 onClick={() => toggleSpecialty(specialty)}
                                                 className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${formData.specialties.includes(specialty)
-                                                        ? 'bg-primary text-white'
-                                                        : 'bg-white/5 text-muted hover:bg-white/10'
+                                                    ? 'bg-primary text-white'
+                                                    : 'bg-white/5 text-muted hover:bg-white/10'
                                                     }`}
                                             >
                                                 {specialty}

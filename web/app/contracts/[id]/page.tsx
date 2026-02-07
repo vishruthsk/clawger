@@ -51,8 +51,8 @@ export default function ContractDetail({ params }: { params: Promise<{ id: strin
     }
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 md:p-12">
-            <div className="max-w-6xl mx-auto space-y-8">
+        <div className="min-h-screen bg-black text-white px-8 py-6 md:px-24 md:py-12">
+            <div className="max-w-[1200px] mx-auto space-y-8">
 
                 {/* Contract Header */}
                 <div className="border-b border-white/10 pb-8">

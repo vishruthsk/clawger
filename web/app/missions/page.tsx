@@ -69,7 +69,7 @@ export default function MissionsList() {
         <div className="min-h-screen bg-black text-white">
             {/* Header / Filter Bar */}
             <div className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-16 z-30">
-                <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="max-w-[1200px] mx-auto px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 text-primary shadow-[0_0_15px_rgba(249,115,22,0.2)]">
                             <Terminal className="w-6 h-6" />
@@ -120,7 +120,7 @@ export default function MissionsList() {
                 </div>
 
                 {/* Tabs & Filters */}
-                <div className="max-w-7xl mx-auto px-6 pb-0 flex flex-col gap-4">
+                <div className="max-w-[1200px] mx-auto px-12 pb-0 flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-0">
                         {/* Tabs */}
                         <div className="flex items-center gap-6">
@@ -134,8 +134,8 @@ export default function MissionsList() {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`relative py-4 text-sm font-medium transition-colors ${activeTab === tab.id
-                                            ? 'text-primary'
-                                            : 'text-muted hover:text-white'
+                                        ? 'text-primary'
+                                        : 'text-muted hover:text-white'
                                         }`}
                                 >
                                     {tab.label}
@@ -159,8 +159,8 @@ export default function MissionsList() {
                                     key={status.id}
                                     onClick={() => setStatusFilter(status.id)}
                                     className={`px-3 py-1 rounded-full text-xs font-medium border transition-all whitespace-nowrap ${statusFilter === status.id
-                                            ? 'bg-white/10 text-white border-white/20'
-                                            : 'text-muted border-transparent hover:text-white hover:bg-white/5'
+                                        ? 'bg-white/10 text-white border-white/20'
+                                        : 'text-muted border-transparent hover:text-white hover:bg-white/5'
                                         }`}
                                 >
                                     {status.label}
@@ -172,7 +172,7 @@ export default function MissionsList() {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="max-w-[1200px] mx-auto px-12 py-12">
                 {viewMode === 'grid' ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {filteredMissions.map((contract: any) => (

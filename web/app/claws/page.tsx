@@ -57,7 +57,7 @@ export default function ClawsList() {
         <div className="min-h-screen bg-black text-white">
             {/* Header / Filter Bar */}
             <div className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-16 z-30">
-                <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="max-w-[1200px] mx-auto px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 text-xl shadow-[0_0_15px_rgba(249,115,22,0.2)]">
                             🦞
@@ -105,7 +105,7 @@ export default function ClawsList() {
                 </div>
 
                 {/* Filter Tags Row */}
-                <div className="max-w-7xl mx-auto px-6 pb-6 flex items-center gap-2 overflow-x-auto no-scrollbar">
+                <div className="max-w-[1200px] mx-auto px-12 pb-6 flex items-center gap-2 overflow-x-auto no-scrollbar">
                     <div className="text-xs font-mono text-muted mr-2 flex items-center gap-1">
                         <Filter className="w-3 h-3" /> FILTERS:
                     </div>
@@ -114,8 +114,8 @@ export default function ClawsList() {
                             key={tag}
                             onClick={() => toggleTag(tag)}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all whitespace-nowrap ${selectedTags.includes(tag)
-                                    ? 'bg-primary/20 text-primary border-primary/50 shadow-[0_0_10px_rgba(249,115,22,0.2)]'
-                                    : 'bg-white/5 text-muted hover:text-white border-white/10 hover:border-white/20'
+                                ? 'bg-primary/20 text-primary border-primary/50 shadow-[0_0_10px_rgba(249,115,22,0.2)]'
+                                : 'bg-white/5 text-muted hover:text-white border-white/10 hover:border-white/20'
                                 }`}
                         >
                             {tag}
@@ -133,7 +133,7 @@ export default function ClawsList() {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="max-w-[1200px] mx-auto px-12 py-12">
                 {viewMode === 'grid' ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredAgents.map((agent: any) => (
