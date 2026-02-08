@@ -86,36 +86,39 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
         // ============================================
-        // STEP 1: Authenticate wallet session
+        // STEP 1: Authenticate (DUAL: Wallet OR Agent)
         // ============================================
         const authHeader = request.headers.get('Authorization');
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return NextResponse.json(
-                {
-                    error: 'Wallet authentication required',
-                    code: 'UNAUTHORIZED',
-                    hint: 'Connect your wallet and sign in to submit missions'
-                },
+                { error: 'Authentication required', code: 'UNAUTHORIZED' },
                 { status: 401 }
             );
         }
 
         const token = authHeader.substring(7);
+        let requesterId: string;
+        let requesterType: 'human' | 'agent';
+
+        // Try wallet session first
         const session = walletAuth.validateSession(token);
-
-        if (!session) {
-            return NextResponse.json(
-                {
-                    error: 'Invalid or expired session',
-                    code: 'UNAUTHORIZED',
-                    hint: 'Please log in again'
-                },
-                { status: 401 }
-            );
+        if (session) {
+            requesterId = session.address;
+            requesterType = 'human';
+        } else {
+            // Try agent API key
+            const agent = agentAuth.validate(token);
+            if (!agent) {
+                return NextResponse.json(
+                    { error: 'Invalid token', code: 'UNAUTHORIZED' },
+                    { status: 401 }
+                );
+            }
+            // CRITICAL: Use wallet_address for balance lookups
+            requesterId = agent.wallet_address || agent.id;
+            requesterType = 'agent';
         }
-
-        const walletAddress = session.address;
 
         // ============================================
         // STEP 2: Validate request body
@@ -160,7 +163,9 @@ export async function POST(request: NextRequest) {
         // STEP 3: Pre-validate balance (reward + protocol fee)
         // ============================================
         const missionCost = calculateMissionCost(reward);
-        const available = tokenLedger.getAvailableBalance(walletAddress);
+        console.log('[API] Calculated mission cost:', missionCost);
+        const available = tokenLedger.getAvailableBalance(requesterId);
+        console.log('[API] Available balance for', requesterId, ':', available);
 
         if (available < missionCost.totalCost) {
             return NextResponse.json(
@@ -182,8 +187,9 @@ export async function POST(request: NextRequest) {
         // ============================================
         // STEP 4: Create mission
         // ============================================
+        console.log('[API] About to create mission:', { requesterId, requesterType, reward, title: body.title });
         const result = await missionRegistry.createMission({
-            requester_id: walletAddress, // Use wallet address as requester
+            requester_id: requesterId, // Use wallet address as requester
             title: body.title,
             description: body.description || '',
             reward,
@@ -199,49 +205,26 @@ export async function POST(request: NextRequest) {
         const missionId = result.mission.id;
 
         // ============================================
-        // STEP 5: Lock escrow for the created mission
-        // ============================================
-        const escrowResult = escrowEngine.validateAndLock(walletAddress, reward, missionId);
-
-        if (!escrowResult.success) {
-            // Escrow lock failed - this is a critical error
-            // TODO: In production, rollback mission creation or mark as "escrow_pending"
-            console.error(`[API] Escrow lock failed for mission ${missionId}:`, escrowResult.error);
-
-            return NextResponse.json(
-                {
-                    error: 'Escrow lock failed',
-                    code: escrowResult.code,
-                    hint: 'Mission created but escrow could not be locked. Please contact support.',
-                    details: {
-                        ...escrowResult.details,
-                        mission_id: missionId
-                    }
-                },
-                { status: 500 }
-            );
-        }
-
-        // ============================================
-        // STEP 6: Return success with escrow details
+        // STEP 5: Return success (escrow already locked by MissionRegistry)
         // ============================================
         return NextResponse.json({
             ...result,
             escrow: {
                 locked: true,
                 amount: reward,
-                wallet: walletAddress,
-                locked_at: escrowResult.details?.locked_at
+                wallet: requesterId
             }
         }, { status: 201 });
 
     } catch (error: any) {
-        console.error('Mission creation error:', error);
+        console.error('[POST /api/missions] Full error:', error);
+        console.error('[POST /api/missions] Stack:', error.stack);
         return NextResponse.json(
             {
                 error: error.message,
                 code: 'CREATE_ERROR',
-                hint: 'Check your request parameters'
+                hint: 'Check your request parameters',
+                stack: error.stack?.split('\n').slice(0, 5).join('\n')
             },
             { status: 400 }
         );

@@ -253,8 +253,8 @@ export class BiddingEngine {
         reason?: string;
     } {
         // Check 1: Specialty match
-        const hasMatchingSpecialty = mission.specialties.some(specialty =>
-            agent.specialties.some(agentSpec =>
+        const hasMatchingSpecialty = mission.specialties?.some(specialty =>
+            agent.specialties?.some(agentSpec =>
                 agentSpec.toLowerCase().includes(specialty.toLowerCase()) ||
                 specialty.toLowerCase().includes(agentSpec.toLowerCase())
             )

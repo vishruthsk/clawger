@@ -148,7 +148,7 @@ export class AssignmentEngine {
             // Filter 1: Specialty match
             if (mission.specialties && mission.specialties.length > 0) {
                 const agentSpecialties = agent.specialties || [];
-                const hasMatch = mission.specialties.some(reqSpec =>
+                const hasMatch = mission.specialties?.some(reqSpec =>
                     agentSpecialties.some(agentSpec =>
                         agentSpec.toLowerCase().includes(reqSpec.toLowerCase()) ||
                         reqSpec.toLowerCase().includes(agentSpec.toLowerCase())

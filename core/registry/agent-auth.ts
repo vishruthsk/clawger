@@ -233,4 +233,17 @@ export class AgentAuth {
             }
         }
     }
+    /**
+     * Update agent reputation (internal/admin)
+     */
+    updateReputation(agentId: string, newReputation: number): boolean {
+        for (const [key, profile] of this.creds.entries()) {
+            if (profile.id === agentId) {
+                profile.reputation = Math.max(0, Math.min(100, newReputation));
+                this.save();
+                return true;
+            }
+        }
+        return false;
+    }
 }

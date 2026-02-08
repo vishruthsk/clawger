@@ -37,7 +37,78 @@
     "agent_verifier_pipeline_1": 405,
     "agent_verifier_pipeline_2": 405,
     "agent_verifier_pipeline_3": 405,
-    "agent_844407678eb12a7e": 600
+    "agent_844407678eb12a7e": 600,
+    "agent_e5a0cae83d523152": 5000,
+    "agent_371d0ece4abf7e31": 3000,
+    "agent_87ca7a3b75cfaa94": 3500,
+    "agent_d03bba4d7e4ba05e": 2500,
+    "agent_9b17a2de8a44d618": 4000,
+    "agent_05a0013f6c244bf3": 2000,
+    "agent_39eb64193cb9f595": 1000,
+    "agent_26f928077700bb14": 500,
+    "agent_546e5cb32df62e15": 500,
+    "agent_bb4aadd1cb324484": 500,
+    "0x742d35cc6634c0532925a3b844bc9e7595f0beb4": 5000,
+    "agent_6a215c3ec0c77757": 3000,
+    "agent_4b0c54eae8310fbb": 1500,
+    "agent_9e9aa459648e594b": 800,
+    "agent_541a7dbef42efd82": 800,
+    "agent_bc03e927b1518818": 800,
+    "agent_624d5456887216b0": 3000,
+    "agent_b04b520261a113ce": 1500,
+    "agent_572af41eb91d8512": 800,
+    "agent_1d6724e3d48877ef": 800,
+    "agent_9e5f4b92a61b34e9": 800,
+    "agent_9ac065a4cc76b4db": 3000,
+    "agent_8712320f84c50a29": 1500,
+    "agent_0acec8cad8489ab7": 800,
+    "agent_e37369a3fef6b6ec": 800,
+    "agent_2e483f92f0b7eb38": 800,
+    "agent_65864d4448718aa9": 3000,
+    "agent_9e877fd7ae2ff8ed": 1500,
+    "agent_f0b40c3081dd3c22": 800,
+    "agent_d0a6ccb617c88ce5": 800,
+    "agent_4c7408d045498852": 800,
+    "0xbd9112cfcaac93bd5743107c9036e54f3b129ebe": 3000,
+    "0x937c6cd7562b117cee4d787fade17487d6253b9d": 1500,
+    "0x697ee07cf1bdafd7ad3dd81f19b485ff8c3a0131": 800,
+    "0x91c2ab715d7da380ff5057069e50132fc3fba354": 800,
+    "0xe21e3fe565a7ab2d3fc3ba6a7dda1d95f29b6108": 800,
+    "0x9071aa67144f9ef4bb1a3cff8474cb0428952acf": 3000,
+    "0x005a2dea570f9f2acaf192b7b2df84ccccbbd0a3": 1500,
+    "0xf604fd2e7525c1bef7eb778bf8588367426e5cc5": 800,
+    "0x879f65c4ca6f6922834300c518437f28bb7d030d": 800,
+    "0xad87e26f9e79aea99415c3b70b2d303b489cf3f6": 800,
+    "0xd2eb34f814c6d8bf13281891b4be72bec0f7dbcf": 3000,
+    "0xef435ca3ff5b7107944819b61f8b5fa9fda6ea16": 1500,
+    "0xed941f2770990894f0beaeb24a334c07e4e64b52": 800,
+    "0xd49706f97cb3c12ba586b0687d318cc20272b8f0": 800,
+    "0x7e61f375aa542efc1a6e629e5fa4e394b5236171": 800,
+    "0xb13d41e58df6bd1f72e62d3e53ce6d06ee5e1be4": 3000,
+    "0xd8ac3fb8c69245eec72459367da3d34ca78f08f9": 1500,
+    "0xc9860c7421ee16f9fcca78304404d1d18c955948": 800,
+    "0x83f6f6e42e98f0eb6d442d998071a5cb1a7640ea": 800,
+    "0x2d43aaa6753f9655812d25ca610419785b39995e": 800,
+    "0x5384d079e40abeb5002457dcaaad2e012f11a147": 3000,
+    "0x8086e47d09635e17f75476cdf2df3b77aeada72c": 1500,
+    "0xf3d2a4e33e428cc9a277bb44dac0a960ecabb609": 800,
+    "0xd3d54a36b754ca16cf54e4e83c28112592b0e0b3": 800,
+    "0xbfdec1a8ea532659535078d7ff0d8179e3424592": 800,
+    "0xe033276de2488af0f14f388d45439e5015b9c1d8": 3000,
+    "0xaa758da3bc95ddbd83e0453bd94d16f7c7923aaf": 1500,
+    "0x892503bd64fe0e3b396c5803134b4fed585f2500": 800,
+    "0x4b17b5f11ea9673d712359bbc0d8d8f4f4e97dc9": 800,
+    "0x5a0a89dbbab59cd8566ee44ea66126a465f96d54": 800,
+    "0x0ec3473501607008e3442f2ec1bb80e284dda034": 3000,
+    "0x1f5cc13280f7822f41a10bfa559f7f84d9bf4487": 1500,
+    "0x967c329f2638604e587dfed160d285af522d6f78": 800,
+    "0x59a23013d97eaec737f76ca68c128763e45c6a66": 800,
+    "0xa246481906e0862a514fc5c9d2e6a212d5ba8a0d": 800,
+    "0x1111111111111111111111111111111111111111": 10000,
+    "0x2222222222222222222222222222222222222222": 4000,
+    "0x3333333333333333333333333333333333333333": 2000,
+    "0x4444444444444444444444444444444444444444": 2000,
+    "0x5555555555555555555555555555555555555555": 2000
   },
   "escrows": {
     "mission_1770379660954_vadxh1": {
@@ -536,6 +607,69 @@
       "status": "released",
       "released_to": "agent_844407678eb12a7e",
       "released_at": "2026-02-07T05:35:42.386Z"
+    },
+    "mission_1770524643828_wzkcmi": {
+      "missionId": "mission_1770524643828_wzkcmi",
+      "owner": "0x9071aa67144f9ef4bb1a3cff8474cb0428952acf",
+      "amount": 1000,
+      "locked_at": "2026-02-08T04:24:03.828Z",
+      "status": "locked"
+    },
+    "mission_1770534006648_ya9l3m": {
+      "missionId": "mission_1770534006648_ya9l3m",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:00:06.649Z",
+      "status": "locked"
+    },
+    "mission_1770534035137_u0ioqi": {
+      "missionId": "mission_1770534035137_u0ioqi",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:00:35.137Z",
+      "status": "locked"
+    },
+    "mission_1770534095843_bd7tz1": {
+      "missionId": "mission_1770534095843_bd7tz1",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:01:35.844Z",
+      "status": "locked"
+    },
+    "mission_1770534174356_jztgsx": {
+      "missionId": "mission_1770534174356_jztgsx",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:02:54.357Z",
+      "status": "locked"
+    },
+    "mission_1770534243729_3bp184": {
+      "missionId": "mission_1770534243729_3bp184",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:04:03.730Z",
+      "status": "locked"
+    },
+    "mission_1770534323938_gv5vh9": {
+      "missionId": "mission_1770534323938_gv5vh9",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:05:23.938Z",
+      "status": "locked"
+    },
+    "mission_1770534376342_qvfmlv": {
+      "missionId": "mission_1770534376342_qvfmlv",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "locked_at": "2026-02-08T07:06:16.343Z",
+      "status": "locked"
+    },
+    "mission_1770534376858_azd81k": {
+      "missionId": "mission_1770534376858_azd81k",
+      "owner": "0x1111111111111111111111111111111111111111",
+      "amount": 400,
+      "locked_at": "2026-02-08T07:06:16.859Z",
+      "status": "locked"
     }
   },
   "transactions": [
@@ -2609,6 +2743,865 @@
       "amount": 5,
       "id": "tx_000203",
       "timestamp": "2026-02-07T05:35:42.387Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_e5a0cae83d523152",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000204",
+      "timestamp": "2026-02-08T04:00:59.660Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_371d0ece4abf7e31",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000205",
+      "timestamp": "2026-02-08T04:00:59.661Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_87ca7a3b75cfaa94",
+      "amount": 3500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000206",
+      "timestamp": "2026-02-08T04:00:59.662Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_d03bba4d7e4ba05e",
+      "amount": 2500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000207",
+      "timestamp": "2026-02-08T04:00:59.662Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_9b17a2de8a44d618",
+      "amount": 4000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000208",
+      "timestamp": "2026-02-08T04:00:59.663Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_05a0013f6c244bf3",
+      "amount": 2000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000209",
+      "timestamp": "2026-02-08T04:12:16.863Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_39eb64193cb9f595",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000210",
+      "timestamp": "2026-02-08T04:12:16.864Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_26f928077700bb14",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000211",
+      "timestamp": "2026-02-08T04:12:16.864Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_546e5cb32df62e15",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000212",
+      "timestamp": "2026-02-08T04:12:16.865Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_bb4aadd1cb324484",
+      "amount": 500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000213",
+      "timestamp": "2026-02-08T04:12:16.865Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x742d35cc6634c0532925a3b844bc9e7595f0beb4",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000214",
+      "timestamp": "2026-02-08T04:12:16.865Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_6a215c3ec0c77757",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000215",
+      "timestamp": "2026-02-08T04:15:50.555Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_4b0c54eae8310fbb",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000216",
+      "timestamp": "2026-02-08T04:15:50.556Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_9e9aa459648e594b",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000217",
+      "timestamp": "2026-02-08T04:15:50.556Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_541a7dbef42efd82",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000218",
+      "timestamp": "2026-02-08T04:15:50.557Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_bc03e927b1518818",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000219",
+      "timestamp": "2026-02-08T04:15:50.558Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_624d5456887216b0",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000220",
+      "timestamp": "2026-02-08T04:17:06.534Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_b04b520261a113ce",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000221",
+      "timestamp": "2026-02-08T04:17:06.535Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_572af41eb91d8512",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000222",
+      "timestamp": "2026-02-08T04:17:06.535Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_1d6724e3d48877ef",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000223",
+      "timestamp": "2026-02-08T04:17:06.536Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_9e5f4b92a61b34e9",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000224",
+      "timestamp": "2026-02-08T04:17:06.536Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_9ac065a4cc76b4db",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000225",
+      "timestamp": "2026-02-08T04:18:02.395Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_8712320f84c50a29",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000226",
+      "timestamp": "2026-02-08T04:18:02.396Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_0acec8cad8489ab7",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000227",
+      "timestamp": "2026-02-08T04:18:02.396Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_e37369a3fef6b6ec",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000228",
+      "timestamp": "2026-02-08T04:18:02.396Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_2e483f92f0b7eb38",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000229",
+      "timestamp": "2026-02-08T04:18:02.397Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_65864d4448718aa9",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000230",
+      "timestamp": "2026-02-08T04:18:46.503Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_9e877fd7ae2ff8ed",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000231",
+      "timestamp": "2026-02-08T04:18:46.504Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_f0b40c3081dd3c22",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000232",
+      "timestamp": "2026-02-08T04:18:46.504Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_d0a6ccb617c88ce5",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000233",
+      "timestamp": "2026-02-08T04:18:46.505Z"
+    },
+    {
+      "type": "mint",
+      "to": "agent_4c7408d045498852",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000234",
+      "timestamp": "2026-02-08T04:18:46.506Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xbd9112cfcaac93bd5743107c9036e54f3b129ebe",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000235",
+      "timestamp": "2026-02-08T04:20:35.083Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x937c6cd7562b117cee4d787fade17487d6253b9d",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000236",
+      "timestamp": "2026-02-08T04:20:35.084Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x697ee07cf1bdafd7ad3dd81f19b485ff8c3a0131",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000237",
+      "timestamp": "2026-02-08T04:20:35.084Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x91c2ab715d7da380ff5057069e50132fc3fba354",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000238",
+      "timestamp": "2026-02-08T04:20:35.084Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xe21e3fe565a7ab2d3fc3ba6a7dda1d95f29b6108",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000239",
+      "timestamp": "2026-02-08T04:20:35.084Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x9071aa67144f9ef4bb1a3cff8474cb0428952acf",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000240",
+      "timestamp": "2026-02-08T04:24:03.780Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x005a2dea570f9f2acaf192b7b2df84ccccbbd0a3",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000241",
+      "timestamp": "2026-02-08T04:24:03.781Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xf604fd2e7525c1bef7eb778bf8588367426e5cc5",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000242",
+      "timestamp": "2026-02-08T04:24:03.781Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x879f65c4ca6f6922834300c518437f28bb7d030d",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000243",
+      "timestamp": "2026-02-08T04:24:03.782Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xad87e26f9e79aea99415c3b70b2d303b489cf3f6",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000244",
+      "timestamp": "2026-02-08T04:24:03.782Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x9071aa67144f9ef4bb1a3cff8474cb0428952acf",
+      "amount": 1000,
+      "missionId": "mission_1770524643828_wzkcmi",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000245",
+      "timestamp": "2026-02-08T04:24:03.829Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xd2eb34f814c6d8bf13281891b4be72bec0f7dbcf",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000246",
+      "timestamp": "2026-02-08T04:27:32.782Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xef435ca3ff5b7107944819b61f8b5fa9fda6ea16",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000247",
+      "timestamp": "2026-02-08T04:27:32.783Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xed941f2770990894f0beaeb24a334c07e4e64b52",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000248",
+      "timestamp": "2026-02-08T04:27:32.783Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xd49706f97cb3c12ba586b0687d318cc20272b8f0",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000249",
+      "timestamp": "2026-02-08T04:27:32.784Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x7e61f375aa542efc1a6e629e5fa4e394b5236171",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000250",
+      "timestamp": "2026-02-08T04:27:32.784Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xb13d41e58df6bd1f72e62d3e53ce6d06ee5e1be4",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000251",
+      "timestamp": "2026-02-08T04:28:51.300Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xd8ac3fb8c69245eec72459367da3d34ca78f08f9",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000252",
+      "timestamp": "2026-02-08T04:28:51.312Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xc9860c7421ee16f9fcca78304404d1d18c955948",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000253",
+      "timestamp": "2026-02-08T04:28:51.322Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x83f6f6e42e98f0eb6d442d998071a5cb1a7640ea",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000254",
+      "timestamp": "2026-02-08T04:28:51.330Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x2d43aaa6753f9655812d25ca610419785b39995e",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000255",
+      "timestamp": "2026-02-08T04:28:51.342Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x5384d079e40abeb5002457dcaaad2e012f11a147",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000256",
+      "timestamp": "2026-02-08T05:31:02.516Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x8086e47d09635e17f75476cdf2df3b77aeada72c",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000257",
+      "timestamp": "2026-02-08T05:31:02.525Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xf3d2a4e33e428cc9a277bb44dac0a960ecabb609",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000258",
+      "timestamp": "2026-02-08T05:31:02.544Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xd3d54a36b754ca16cf54e4e83c28112592b0e0b3",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000259",
+      "timestamp": "2026-02-08T05:31:02.551Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xbfdec1a8ea532659535078d7ff0d8179e3424592",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000260",
+      "timestamp": "2026-02-08T05:31:02.559Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xe033276de2488af0f14f388d45439e5015b9c1d8",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000261",
+      "timestamp": "2026-02-08T05:31:39.085Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xaa758da3bc95ddbd83e0453bd94d16f7c7923aaf",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000262",
+      "timestamp": "2026-02-08T05:31:39.094Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x892503bd64fe0e3b396c5803134b4fed585f2500",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000263",
+      "timestamp": "2026-02-08T05:31:39.097Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x4b17b5f11ea9673d712359bbc0d8d8f4f4e97dc9",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000264",
+      "timestamp": "2026-02-08T05:31:39.100Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x5a0a89dbbab59cd8566ee44ea66126a465f96d54",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000265",
+      "timestamp": "2026-02-08T05:31:39.111Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x0ec3473501607008e3442f2ec1bb80e284dda034",
+      "amount": 3000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000266",
+      "timestamp": "2026-02-08T05:32:34.094Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x1f5cc13280f7822f41a10bfa559f7f84d9bf4487",
+      "amount": 1500,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000267",
+      "timestamp": "2026-02-08T05:32:34.110Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x967c329f2638604e587dfed160d285af522d6f78",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000268",
+      "timestamp": "2026-02-08T05:32:34.125Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x59a23013d97eaec737f76ca68c128763e45c6a66",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000269",
+      "timestamp": "2026-02-08T05:32:34.141Z"
+    },
+    {
+      "type": "mint",
+      "to": "0xa246481906e0862a514fc5c9d2e6a212d5ba8a0d",
+      "amount": 800,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000270",
+      "timestamp": "2026-02-08T05:32:34.157Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x1111111111111111111111111111111111111111",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000271",
+      "timestamp": "2026-02-08T05:37:58.909Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x2222222222222222222222222222222222222222",
+      "amount": 2000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000272",
+      "timestamp": "2026-02-08T05:37:58.910Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x3333333333333333333333333333333333333333",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000273",
+      "timestamp": "2026-02-08T05:37:58.911Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x4444444444444444444444444444444444444444",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000274",
+      "timestamp": "2026-02-08T05:37:58.914Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x5555555555555555555555555555555555555555",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000275",
+      "timestamp": "2026-02-08T05:37:58.919Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x1111111111111111111111111111111111111111",
+      "amount": 5000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000276",
+      "timestamp": "2026-02-08T06:52:21.964Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x2222222222222222222222222222222222222222",
+      "amount": 2000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000277",
+      "timestamp": "2026-02-08T06:52:21.965Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x3333333333333333333333333333333333333333",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000278",
+      "timestamp": "2026-02-08T06:52:21.966Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x4444444444444444444444444444444444444444",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000279",
+      "timestamp": "2026-02-08T06:52:21.967Z"
+    },
+    {
+      "type": "mint",
+      "to": "0x5555555555555555555555555555555555555555",
+      "amount": 1000,
+      "metadata": {
+        "reason": "Manual mint"
+      },
+      "id": "tx_000280",
+      "timestamp": "2026-02-08T06:52:21.967Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534006648_ya9l3m",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000281",
+      "timestamp": "2026-02-08T07:00:06.649Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534035137_u0ioqi",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000282",
+      "timestamp": "2026-02-08T07:00:35.137Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534095843_bd7tz1",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000283",
+      "timestamp": "2026-02-08T07:01:35.844Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534174356_jztgsx",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000284",
+      "timestamp": "2026-02-08T07:02:54.357Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534243729_3bp184",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000285",
+      "timestamp": "2026-02-08T07:04:03.730Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534323938_gv5vh9",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000286",
+      "timestamp": "2026-02-08T07:05:23.938Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 1000,
+      "missionId": "mission_1770534376342_qvfmlv",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000287",
+      "timestamp": "2026-02-08T07:06:16.343Z"
+    },
+    {
+      "type": "escrow_lock",
+      "from": "0x1111111111111111111111111111111111111111",
+      "amount": 400,
+      "missionId": "mission_1770534376858_azd81k",
+      "metadata": {
+        "action": "lock"
+      },
+      "id": "tx_000288",
+      "timestamp": "2026-02-08T07:06:16.859Z"
     }
   ]
 }

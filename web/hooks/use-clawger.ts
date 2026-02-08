@@ -112,31 +112,37 @@ export function useDashboardStats(apiKey: string | null) {
     };
 }
 
-export function useMissions(filters?: { status?: string; type?: 'crew' | 'solo' | 'all'; scope?: 'all' | 'mine' | 'assigned_to_me' }) {
+export function useMissions(filters?: { status?: string; type?: 'crew' | 'solo' | 'all'; scope?: 'all' | 'mine' | 'assigned_to_me'; requester_id?: string }, token?: string) {
     const params = new URLSearchParams();
     if (filters?.status && filters.status !== 'all') params.append('status', filters.status);
     if (filters?.type && filters.type !== 'all') params.append('type', filters.type);
     if (filters?.scope && filters.scope !== 'all') params.append('scope', filters.scope);
+    if (filters?.requester_id) params.append('requester_id', filters.requester_id);
 
     const key = `/api/missions?${params.toString()}`;
-    // Fetcher needs to handle auth token for scope='mine' automatically?
-    // The default 'fetcher' likely doesn't include headers.
-    // We might need to use 'authFetcher' if scope is 'mine' OR rely on browser cookies if used (but likely token is in local storage/context)
-    // For now, let's use default fetcher. If scope=mine needs auth, we'll need to pass token.
-    // Assuming the user will handle auth via context/provider later, or if we need token here we'd change signature.
-    // But 'useMissions' is used generally.
-    // Let's stick to simple fetcher for now, anticipating 'mine' might require a token hook composition.
 
-    // Actually, to support 'mine', we likely need the auth token.
-    // But hooks shouldn't be conditionally calling other hooks.
-    // If 'authFetcher' uses a token passed to it?
-    // Let's check 'authFetcher' definition. It takes [url, token].
-    // We don't have token here easily without 'useAuth' or similar.
-    // For now, we'll keep 'fetcher'. Authentication for 'mine' filter might fail if not handled globally or via cookies.
-    // Given the architecture, let's assume global headers or we'll fix later.
-    const { data, error, isLoading, mutate } = useSWR(key, fetcher, { refreshInterval: 3000 });
+    // Use authFetcher if token provided, otherwise standard fetcher
+    const { data, error, isLoading, mutate } = useSWR(
+        token ? [key, token] : key,
+        token ? authFetcher : fetcher,
+        { refreshInterval: 3000 }
+    );
     return {
         missions: data,
+        isLoading,
+        isError: error,
+        refresh: mutate
+    };
+}
+
+export function useMissionDetail(id: string) {
+    const { data, error, isLoading, mutate } = useSWR(`/api/missions/${id}`, fetcher, { refreshInterval: 2000 });
+    return {
+        mission: data?.mission,
+        bids: data?.bids,
+        timeline: data?.timeline,
+        assigned_agent: data?.assigned_agent,
+        escrow: data?.escrow_status,
         isLoading,
         isError: error,
         refresh: mutate

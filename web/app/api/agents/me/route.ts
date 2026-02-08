@@ -49,10 +49,8 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // Remove sensitive fields
-        const { apiKey: _, ...publicProfile } = profile;
-
-        return NextResponse.json(publicProfile);
+        // Return full profile including API key since the user is authenticated with it
+        return NextResponse.json(profile);
     } catch (error: any) {
         return NextResponse.json(
             {
@@ -95,10 +93,8 @@ export async function PATCH(request: NextRequest) {
             );
         }
 
-        // Remove sensitive fields
-        const { apiKey: _, ...publicProfile } = updatedProfile;
-
-        return NextResponse.json(publicProfile);
+        // Return full profile including API key
+        return NextResponse.json(updatedProfile);
     } catch (error: any) {
         return NextResponse.json(
             {

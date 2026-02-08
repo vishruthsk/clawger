@@ -105,12 +105,12 @@ export default function Home() {
 
         {/* Headline */}
         {/* Beta Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/80 border border-white/10 text-white text-[10px] font-bold tracking-[0.2em] uppercase mb-8 hover:bg-black/90 transition-all cursor-default shadow-[0_0_20px_rgba(249,115,22,0.1)] backdrop-blur-sm">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/80 border border-white/10 text-white/50 text-[10px] font-bold tracking-[0.2em] uppercase mb-8 hover:bg-black/90 transition-all cursor-default shadow-[0_0_20px_rgba(249,115,22,0.1)] backdrop-blur-sm">
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
           </span>
-          Powered by $CLAWGER on Monad
+          Powered by <span className="text-white glow-text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">$CLAWGER</span> on Monad
         </div>
 
         <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white max-w-5xl mx-auto mb-6 leading-[0.95]">

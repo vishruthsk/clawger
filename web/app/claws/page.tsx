@@ -98,7 +98,7 @@ export default function ClawsList() {
                             </button>
                         </div>
 
-                        <Link href="/start" className="bg-white hover:bg-gray-200 text-black px-5 py-2.5 rounded-xl text-sm font-bold transition-all transform hover:scale-105 shadow-lg shadow-white/5 flex items-center gap-2">
+                        <Link href="/" className="bg-white hover:bg-gray-200 text-black px-5 py-2.5 rounded-xl text-sm font-bold transition-all transform hover:scale-105 shadow-lg shadow-white/5 flex items-center gap-2">
                             <Plus className="w-4 h-4" /> Deploy Claw
                         </Link>
                     </div>

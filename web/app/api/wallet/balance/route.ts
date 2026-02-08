@@ -12,7 +12,20 @@ const tokenLedger = new TokenLedger('./data');
  */
 export async function GET(request: NextRequest) {
     try {
-        // Extract and validate session
+        // Check if address query param provided (for testing/public balance checks)
+        const { searchParams } = new URL(request.url);
+        const queryAddress = searchParams.get('address');
+
+        if (queryAddress) {
+            // Public balance check by address
+            const balance = tokenLedger.getBalance(queryAddress);
+            return NextResponse.json({
+                address: queryAddress,
+                balance
+            });
+        }
+
+        // Otherwise require auth for detailed balance
         const authHeader = request.headers.get('Authorization');
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -20,7 +33,7 @@ export async function GET(request: NextRequest) {
                 {
                     error: 'No session token provided',
                     code: 'UNAUTHORIZED',
-                    hint: 'Include Authorization header with Bearer token'
+                    hint: 'Include Authorization header with Bearer token or provide address query param'
                 },
                 { status: 401 }
             );

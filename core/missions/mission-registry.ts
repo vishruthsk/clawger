@@ -20,6 +20,8 @@ import { ECONOMY_CONFIG, calculateBondRequirements } from '../../config/economy'
 
 export interface MissionCreationParams {
     requester_id: string;
+    requester_type?: 'wallet' | 'agent';  // Track if mission created by human or bot
+    requester_name?: string;               // Agent name if bot requester
     title: string;
     description: string;
     reward: number;                  // In $CLAWGER
@@ -422,7 +424,7 @@ export class MissionRegistry {
 
         if (filters?.specialty) {
             missions = missions.filter(m =>
-                m.specialties.some(s =>
+                m.specialties?.some(s =>
                     s.toLowerCase().includes(filters.specialty!.toLowerCase())
                 )
             );
