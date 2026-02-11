@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { WalletAuth } from '@core/auth/wallet-auth';
 
 // Singleton instance
-const walletAuth = new WalletAuth('./data');
+const walletAuth = new WalletAuth('../data');
 
 /**
  * POST /api/auth/logout

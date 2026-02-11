@@ -14,7 +14,10 @@ export type DispatchTaskType =
     | 'verification_required'
     | 'payment_received'
     | 'bond_slashed'
-    | 'mission_failed';
+    | 'mission_failed'
+    | 'crew_task_available'      // Broadcast to agents with matching specialty
+    | 'crew_task_assigned'       // Specific agent claimed a crew subtask
+    | 'revision_required';       // Worker needs to revise submission
 
 export type DispatchTaskPriority = 'urgent' | 'high' | 'normal' | 'low';
 
@@ -53,14 +56,15 @@ const DEFAULT_CONFIG: TaskQueueConfig = {
 export class TaskQueue {
     private tasks: Map<string, DispatchTask> = new Map();
     private config: TaskQueueConfig;
-    private dataDir: string;
-    private tasksFile: string;
+    private dataPath: string;
+    private instanceId: string;
 
     constructor(dataDir: string = './data', config?: Partial<TaskQueueConfig>) {
-        this.dataDir = dataDir;
-        this.tasksFile = path.join(dataDir, 'dispatch-tasks.json');
+        this.instanceId = `TQ_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+        this.dataPath = path.join(dataDir, 'dispatch-tasks.json');
         this.config = { ...DEFAULT_CONFIG, ...config };
 
+        console.log(`[TaskQueue:${this.instanceId}] 🆕 NEW INSTANCE created, dataPath: ${this.dataPath}`);
         if (this.config.persist_to_disk) {
             this.load();
         }
@@ -81,7 +85,7 @@ export class TaskQueue {
         const existingTask = this.findTaskByDedupeKey(dedupeKey);
 
         if (existingTask && !existingTask.acknowledged) {
-            console.log(`[TaskQueue] Duplicate task detected, skipping: ${dedupeKey}`);
+            console.log(`[TaskQueue:${this.instanceId}] Duplicate task detected, skipping: ${dedupeKey}`);
             return existingTask;
         }
 
@@ -104,7 +108,8 @@ export class TaskQueue {
         this.tasks.set(taskId, task);
         this.save();
 
-        console.log(`[TaskQueue] Enqueued ${params.type} for agent ${params.agent_id} (priority: ${params.priority})`);
+        console.log(`[TaskQueue:${this.instanceId}] ✅ ENQUEUED ${params.type} for agent ${params.agent_id} (task: ${taskId}, priority: ${params.priority})`);
+        console.log(`[TaskQueue:${this.instanceId}] Total tasks in memory: ${this.tasks.size}`);
 
         return task;
     }
@@ -116,6 +121,11 @@ export class TaskQueue {
         tasks: DispatchTask[];
         has_more: boolean;
     } {
+        // CRITICAL: Reload from disk to get fresh data from other instances
+        if (this.config.persist_to_disk) {
+            this.load();
+        }
+
         // Get all pending tasks for agent
         const pendingTasks = Array.from(this.tasks.values())
             .filter(t =>
@@ -136,7 +146,8 @@ export class TaskQueue {
         const tasks = pendingTasks.slice(0, limit);
         const has_more = pendingTasks.length > limit;
 
-        console.log(`[TaskQueue] Agent ${agentId} polled: ${tasks.length} tasks (${has_more ? 'more available' : 'all'})`);
+        console.log(`[TaskQueue:${this.instanceId}] 🔍 POLL by agent ${agentId}: ${tasks.length} tasks returned (${has_more ? 'more available' : 'all'})`);
+        console.log(`[TaskQueue:${this.instanceId}] Total tasks in memory: ${this.tasks.size}, Pending for this agent: ${pendingTasks.length}`);
 
         return { tasks, has_more };
     }
@@ -211,38 +222,56 @@ export class TaskQueue {
         total_tasks: number;
         pending_tasks: number;
         acknowledged_tasks: number;
-        tasks_by_priority: Record<DispatchTaskPriority, number>;
-        tasks_by_type: Record<DispatchTaskType, number>;
+        expired_tasks: number;
+        by_type: Record<DispatchTaskType, number>;
+        by_priority: Record<DispatchTaskPriority, number>;
     } {
         const tasks = Array.from(this.tasks.values());
+        const now = new Date();
 
-        const tasks_by_priority: Record<DispatchTaskPriority, number> = {
+        const by_priority: Record<DispatchTaskPriority, number> = {
             urgent: 0,
             high: 0,
             normal: 0,
             low: 0
         };
 
-        const tasks_by_type: Record<DispatchTaskType, number> = {
+        const by_type: Record<DispatchTaskType, number> = {
             mission_assigned: 0,
             mission_reminder: 0,
             verification_required: 0,
             payment_received: 0,
             bond_slashed: 0,
-            mission_failed: 0
+            mission_failed: 0,
+            crew_task_available: 0,
+            crew_task_assigned: 0,
+            revision_required: 0
         };
 
+        let expired_tasks = 0;
+        let pending_tasks = 0;
+        let acknowledged_tasks = 0;
+
         for (const task of tasks) {
-            tasks_by_priority[task.priority]++;
-            tasks_by_type[task.type]++;
+            by_priority[task.priority]++;
+            by_type[task.type]++;
+
+            if (now > task.expires_at) {
+                expired_tasks++;
+            } else if (!task.acknowledged) {
+                pending_tasks++;
+            } else {
+                acknowledged_tasks++;
+            }
         }
 
         return {
             total_tasks: tasks.length,
-            pending_tasks: tasks.filter(t => !t.acknowledged).length,
-            acknowledged_tasks: tasks.filter(t => t.acknowledged).length,
-            tasks_by_priority,
-            tasks_by_type
+            pending_tasks,
+            acknowledged_tasks,
+            expired_tasks,
+            by_type,
+            by_priority
         };
     }
 
@@ -277,14 +306,15 @@ export class TaskQueue {
         if (!this.config.persist_to_disk) return;
 
         try {
-            if (!fs.existsSync(this.dataDir)) {
-                fs.mkdirSync(this.dataDir, { recursive: true });
+            const dataDir = path.dirname(this.dataPath);
+            if (!fs.existsSync(dataDir)) {
+                fs.mkdirSync(dataDir, { recursive: true });
             }
 
             const data = Array.from(this.tasks.values());
-            fs.writeFileSync(this.tasksFile, JSON.stringify(data, null, 2));
+            fs.writeFileSync(this.dataPath, JSON.stringify(data, null, 2));
         } catch (error) {
-            console.error('[TaskQueue] Failed to save tasks:', error);
+            console.error(`[TaskQueue:${this.instanceId}] Failed to save tasks:`, error);
         }
     }
 
@@ -293,25 +323,30 @@ export class TaskQueue {
      */
     private load(): void {
         try {
-            if (fs.existsSync(this.tasksFile)) {
-                const data = JSON.parse(fs.readFileSync(this.tasksFile, 'utf-8'));
-
-                for (const task of data) {
-                    // Restore Date objects
-                    task.created_at = new Date(task.created_at);
-                    task.expires_at = new Date(task.expires_at);
-                    if (task.acknowledged_at) {
-                        task.acknowledged_at = new Date(task.acknowledged_at);
-                    }
-                    if (task.payload.deadline) {
-                        task.payload.deadline = new Date(task.payload.deadline);
-                    }
-
-                    this.tasks.set(task.id, task);
-                }
-
-                console.log(`[TaskQueue] Loaded ${this.tasks.size} tasks from disk`);
+            const dataDir = path.dirname(this.dataPath);
+            if (!fs.existsSync(dataDir)) {
+                fs.mkdirSync(dataDir, { recursive: true });
             }
+
+            if (!fs.existsSync(this.dataPath)) {
+                console.log(`[TaskQueue:${this.instanceId}] No existing tasks file, starting fresh`);
+                return;
+            }
+
+            const data = JSON.parse(fs.readFileSync(this.dataPath, 'utf-8'));
+            this.tasks = new Map(
+                data.map((t: any) => [
+                    t.id,
+                    {
+                        ...t,
+                        created_at: new Date(t.created_at),
+                        expires_at: new Date(t.expires_at),
+                        acknowledged_at: t.acknowledged_at ? new Date(t.acknowledged_at) : undefined
+                    }
+                ])
+            );
+
+            console.log(`[TaskQueue:${this.instanceId}] Loaded ${this.tasks.size} tasks from disk`);
         } catch (error) {
             console.error('[TaskQueue] Failed to load tasks:', error);
         }

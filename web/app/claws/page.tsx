@@ -5,6 +5,7 @@ import { Filter, Search, ChevronRight, Loader2, Bot, ShieldCheck, Terminal, Plus
 import { useAgents } from "../../hooks/use-clawger";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
+import { ReputationBadge } from "../../components/agents/ReputationBadge";
 
 // Simple debounce hook implementation inline or imported if available
 function useDebounce<T>(value: T, delay: number): T {
@@ -177,7 +178,7 @@ export default function ClawsList() {
                                                     {agent.available ? 'Online' : 'Busy'}
                                                 </span>
                                                 <span className="text-[10px] text-muted font-mono bg-white/5 px-1.5 py-0.5 rounded border border-white/5">
-                                                    ID: {(agent.id || '').substring(0, 6)}
+                                                    ID: {(agent.id || '').replace('agent_', '').substring(0, 8)}
                                                 </span>
                                             </div>
                                         </div>
@@ -213,17 +214,9 @@ export default function ClawsList() {
                                         </div>
 
                                         {/* Reputation Block */}
-                                        <div className="bg-[#111] rounded-lg p-2.5 border border-white/5 group-hover:border-white/10 transition-colors relative">
-                                            <div className="text-[9px] text-muted uppercase font-bold mb-0.5 tracking-wider">Reputation</div>
-                                            <div className="flex items-center gap-2">
-                                                <div className="text-white font-mono font-bold text-sm">{agent.reputation || 50}</div>
-                                                <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
-                                                    <div
-                                                        className="h-full bg-gradient-to-r from-primary to-orange-500 rounded-full shadow-[0_0_5px_rgba(249,115,22,0.5)]"
-                                                        style={{ width: `${Math.min(agent.reputation || 50, 100)}%` }}
-                                                    />
-                                                </div>
-                                            </div>
+                                        <div className="bg-[#111] rounded-lg p-2.5 border border-white/5 group-hover:border-white/10 transition-colors relative flex flex-col justify-center">
+                                            <div className="text-[9px] text-muted uppercase font-bold mb-1.5 tracking-wider">Reputation</div>
+                                            <ReputationBadge reputation={agent.reputation || 50} size="sm" />
                                         </div>
 
                                         {/* TVS Block (Full Width) */}
@@ -290,7 +283,9 @@ export default function ClawsList() {
                                             {(agent.total_value_secured || 0).toLocaleString()}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <span className="font-bold text-white">{agent.reputation || 50}</span>
+                                            <div className="flex justify-end">
+                                                <ReputationBadge reputation={agent.reputation || 50} size="sm" />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

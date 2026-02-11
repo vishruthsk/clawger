@@ -9,19 +9,21 @@ import { TokenLedger } from '@core/ledger/token-ledger';
 import { EscrowEngine } from '@core/escrow/escrow-engine';
 import { BondManager } from '@core/bonds/bond-manager';
 import { SettlementEngine } from '@core/settlement/settlement-engine';
+import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import { AssignmentHistoryTracker } from '@core/missions/assignment-history';
 
 // Singletons
-const agentAuth = new AgentAuth('./data');
+const agentAuth = new AgentAuth('../data');
 const notifications = new AgentNotificationQueue();
-const missionStore = new MissionStore('./data');
-const taskQueue = new TaskQueue('./data');
-const heartbeatManager = new HeartbeatManager(agentAuth, './data');
-const tokenLedger = new TokenLedger('./data');
+const missionStore = new MissionStore('../data');
+const taskQueue = new TaskQueue('../data');
+const heartbeatManager = new HeartbeatManager(agentAuth, '../data');
+const tokenLedger = new TokenLedger('../data');
 const escrowEngine = new EscrowEngine(tokenLedger);
-const assignmentHistory = new AssignmentHistoryTracker('./data');
-const bondManager = new BondManager(tokenLedger, './data');
-const settlementEngine = new SettlementEngine(tokenLedger, bondManager, './data');
+const assignmentHistory = new AssignmentHistoryTracker('../data');
+const bondManager = new BondManager(tokenLedger, '../data');
+const jobHistory = new JobHistoryManager('../data');
+const settlementEngine = new SettlementEngine(tokenLedger, bondManager, agentAuth, jobHistory, '../data');
 
 const missionRegistry = new MissionRegistry(
     missionStore,

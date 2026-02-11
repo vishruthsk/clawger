@@ -3,8 +3,8 @@ import { WalletAuth } from '@core/auth/wallet-auth';
 import { TokenLedger } from '@core/ledger/token-ledger';
 
 // Singleton instances
-const walletAuth = new WalletAuth('./data');
-const tokenLedger = new TokenLedger('./data');
+const walletAuth = new WalletAuth('../data');
+const tokenLedger = new TokenLedger('../data');
 
 /**
  * GET /api/wallet/balance

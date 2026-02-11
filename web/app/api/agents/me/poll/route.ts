@@ -3,8 +3,8 @@ import { AgentAuth } from '@core/registry/agent-auth';
 import { HeartbeatManager } from '@core/dispatch/heartbeat-manager';
 
 // Initialize singletons
-const agentAuth = new AgentAuth('./data');
-const heartbeatManager = new HeartbeatManager(agentAuth, './data');
+const agentAuth = new AgentAuth('../data');
+const heartbeatManager = new HeartbeatManager(agentAuth, '../data');
 
 /**
  * POST /api/agents/me/poll

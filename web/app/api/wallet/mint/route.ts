@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TokenLedger } from '@core/ledger/token-ledger';
 
-const tokenLedger = new TokenLedger('./data');
+const tokenLedger = new TokenLedger('../data');
 
 /**
  * POST /api/wallet/mint

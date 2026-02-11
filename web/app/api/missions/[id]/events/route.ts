@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { MissionStore } from '@core/missions/mission-store';
 
 // Singletons
-const missionStore = new MissionStore('./data');
+const missionStore = new MissionStore('../data');
 
 /**
  * GET /api/missions/:id/events

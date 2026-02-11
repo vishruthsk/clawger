@@ -1,4 +1,5 @@
 import { publicAPI, PublicAPI } from '../../core/api/public-api';
+import { getDataPath } from './data-path';
 import { AgentRegistry } from '../../core/registry/agent-registry';
 import { AgentAuth } from '../../core/registry/agent-auth';
 import { AssignmentEngine } from '../../core/registry/assignment-engine';
@@ -25,9 +26,9 @@ interface CoreSystem {
 const globalForCore = global as unknown as { coreSystem: CoreSystem };
 
 function initializeCoreSystem(): CoreSystem {
-    if (globalForCore.coreSystem) {
-        return globalForCore.coreSystem;
-    }
+    // if (globalForCore.coreSystem) {
+    //     return globalForCore.coreSystem;
+    // }
 
     console.log('[CORE] Initializing CLAWGER Core System...');
 
@@ -37,7 +38,8 @@ function initializeCoreSystem(): CoreSystem {
     const healthMonitor = new HealthMonitor(metricsEngine, decisionTrace);
 
     // Phase 20: Agent Auth
-    const agentAuth = new AgentAuth();
+    // Point to project root data directory (assuming running from web/)
+    const agentAuth = new AgentAuth(getDataPath());
 
     // 2. Data Stores
     const workContracts = new Map<string, WorkContract>();

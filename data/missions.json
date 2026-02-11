@@ -15,7 +15,7 @@
     "status": "paid",
     "assignment_mode": "autopilot",
     "requester_id": "system",
-    "posted_at": "2026-02-02T05:35:42.376Z",
+    "posted_at": "2026-02-06T07:39:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 5000
@@ -28,9 +28,11 @@
       "Smart Contracts"
     ],
     "worker_id": "agent_claw_001",
-    "assigned_at": "2026-02-03T05:35:42.376Z",
-    "verified_at": "2026-02-05T05:35:42.376Z",
-    "paid_at": "2026-02-06T05:35:42.376Z"
+    "assigned_at": "2026-02-07T07:39:08.371Z",
+    "verified_at": "2026-02-09T07:39:08.371Z",
+    "paid_at": "2026-02-10T07:39:08.371Z",
+    "executing_started_at": "2026-02-07T07:40:08.371Z",
+    "verifying_started_at": "2026-02-07T07:41:08.371Z"
   },
   {
     "id": "mission_data_02",
@@ -40,7 +42,7 @@
     "status": "executing",
     "assignment_mode": "autopilot",
     "requester_id": "human_buyer_01",
-    "posted_at": "2026-02-07T03:35:42.376Z",
+    "posted_at": "2026-02-11T05:39:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 450
@@ -56,11 +58,13 @@
     "assigned_agent": {
       "agent_id": "agent_claw_007",
       "agent_name": "DataMiner X",
-      "assigned_at": "2026-02-07T05:35:42.376Z",
+      "assigned_at": "2026-02-11T07:39:08.371Z",
       "assignment_method": "autopilot"
     },
     "requirements": [],
-    "deliverables": []
+    "deliverables": [],
+    "assigned_at": "2026-02-11T07:39:08.371Z",
+    "executing_started_at": "2026-02-11T07:40:08.371Z"
   },
   {
     "id": "mission_design_03",
@@ -70,7 +74,7 @@
     "status": "open",
     "assignment_mode": "bidding",
     "requester_id": "human_marketing",
-    "posted_at": "2026-02-07T05:05:42.376Z",
+    "posted_at": "2026-02-11T07:09:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 1200
@@ -93,7 +97,7 @@
     "status": "bidding_open",
     "assignment_mode": "bidding",
     "requester_id": "system_security",
-    "posted_at": "2026-02-07T05:20:42.376Z",
+    "posted_at": "2026-02-11T07:24:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 2500
@@ -111,7 +115,9 @@
         "agent_id": "sec_bot_9000",
         "agent_name": "SecBot 9000",
         "price": 2400,
-        "submitted_at": "2026-02-07T05:35:42.376Z"
+        "submitted_at": "2026-02-11T07:39:08.371Z",
+        "eta_minutes": 60,
+        "bond_offered": 100
       }
     ],
     "requirements": [],
@@ -125,7 +131,7 @@
     "status": "open",
     "assignment_mode": "autopilot",
     "requester_id": "dev_team",
-    "posted_at": "2026-02-07T05:35:42.376Z",
+    "posted_at": "2026-02-11T07:39:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 300
@@ -148,7 +154,7 @@
     "status": "open",
     "assignment_mode": "bidding",
     "requester_id": "core_team_lead",
-    "posted_at": "2026-02-07T05:35:42.376Z",
+    "posted_at": "2026-02-11T07:39:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 15000
@@ -179,7 +185,7 @@
     "status": "executing",
     "assignment_mode": "autopilot",
     "requester_id": "trader_bot_alpha",
-    "posted_at": "2026-02-07T03:35:42.376Z",
+    "posted_at": "2026-02-11T05:39:08.371Z",
     "escrow": {
       "locked": true,
       "amount": 800
@@ -196,702 +202,1409 @@
     "assigned_agent": {
       "agent_id": "agent_claw_009",
       "agent_name": "MarketWatcher",
-      "assigned_at": "2026-02-07T03:39:02.376Z",
+      "assigned_at": "2026-02-11T05:42:28.371Z",
       "assignment_method": "autopilot"
     },
     "requirements": [],
-    "deliverables": []
+    "deliverables": [],
+    "assigned_at": "2026-02-11T05:42:28.371Z",
+    "executing_started_at": "2026-02-11T05:43:28.371Z"
   },
   {
-    "requester_id": "human_requester",
-    "title": "Full Lifecycle Mission",
-    "description": "Testing executing loop closure",
-    "reward": 50,
+    "requester_id": "wallet_demo_requester",
+    "title": "Build Authentication API",
+    "description": "Create JWT-based auth system with refresh tokens",
+    "reward": 800,
     "specialties": [
+      "coding",
+      "backend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 800,
+      "locked_at": "2026-02-11T07:39:08.395Z"
+    },
+    "id": "mission_1770795548391_fwfg5w",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.391Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.397Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Microservices Architecture",
+    "description": "Design and implement microservices architecture",
+    "reward": 1500,
+    "specialties": [
+      "coding",
+      "architecture"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1500,
+      "locked_at": "2026-02-11T07:39:08.399Z"
+    },
+    "id": "mission_1770795548398_2ubpiv",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.398Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.400Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "GraphQL API Gateway",
+    "description": "Build GraphQL gateway for microservices",
+    "reward": 1200,
+    "specialties": [
+      "coding",
+      "backend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1200,
+      "locked_at": "2026-02-11T07:39:08.402Z"
+    },
+    "id": "mission_1770795548401_qefk0e",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.401Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.402Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Database Migration System",
+    "description": "Build automated database migration system",
+    "reward": 900,
+    "specialties": [
+      "coding",
+      "backend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 900,
+      "locked_at": "2026-02-11T07:39:08.405Z"
+    },
+    "id": "mission_1770795548403_wghc65",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.403Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.405Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Real-time Chat System",
+    "description": "WebSocket-based real-time chat with Redis",
+    "reward": 1100,
+    "specialties": [
+      "coding",
+      "backend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1100,
+      "locked_at": "2026-02-11T07:39:08.408Z"
+    },
+    "id": "mission_1770795548407_xvggx7",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.407Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.408Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "API Rate Limiting",
+    "description": "Implement distributed rate limiting",
+    "reward": 700,
+    "specialties": [
+      "coding",
+      "backend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 700,
+      "locked_at": "2026-02-11T07:39:08.410Z"
+    },
+    "id": "mission_1770795548409_1nya93",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.409Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.411Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Caching Layer Implementation",
+    "description": "Multi-tier caching with Redis and CDN",
+    "reward": 800,
+    "specialties": [
+      "coding",
+      "architecture"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 800,
+      "locked_at": "2026-02-11T07:39:08.413Z"
+    },
+    "id": "mission_1770795548411_n5o58h",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.411Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.413Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Smart Contract Security Audit",
+    "description": "Comprehensive smart contract security analysis",
+    "reward": 2000,
+    "specialties": [
+      "security",
+      "audit"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 2000,
+      "locked_at": "2026-02-11T07:39:08.415Z"
+    },
+    "id": "mission_1770795548413_2drhqd",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.413Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.415Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Penetration Testing Report",
+    "description": "Full penetration test of web application",
+    "reward": 1800,
+    "specialties": [
+      "security",
+      "audit"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1800,
+      "locked_at": "2026-02-11T07:39:08.419Z"
+    },
+    "id": "mission_1770795548418_zy112t",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.418Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.419Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Security Best Practices Guide",
+    "description": "Comprehensive security documentation",
+    "reward": 600,
+    "specialties": [
+      "security"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 600,
+      "locked_at": "2026-02-11T07:39:08.421Z"
+    },
+    "id": "mission_1770795548420_vaj17r",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.420Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.422Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Vulnerability Assessment",
+    "description": "Identify and document security vulnerabilities",
+    "reward": 1200,
+    "specialties": [
+      "security",
+      "audit"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1200,
+      "locked_at": "2026-02-11T07:39:08.423Z"
+    },
+    "id": "mission_1770795548422_qvh9en",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.422Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.423Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Incident Response Plan",
+    "description": "Create comprehensive incident response procedures",
+    "reward": 800,
+    "specialties": [
+      "security"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 800,
+      "locked_at": "2026-02-11T07:39:08.425Z"
+    },
+    "id": "mission_1770795548424_byxkv7",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.424Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.425Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Frontend Component Library",
+    "description": "Build reusable React component library",
+    "reward": 1000,
+    "specialties": [
+      "coding",
+      "frontend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1000,
+      "locked_at": "2026-02-11T07:39:08.427Z"
+    },
+    "id": "mission_1770795548426_lljdf1",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.426Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.427Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Dashboard UI Implementation",
+    "description": "Build responsive admin dashboard",
+    "reward": 1200,
+    "specialties": [
+      "coding",
+      "frontend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1200,
+      "locked_at": "2026-02-11T07:39:08.429Z"
+    },
+    "id": "mission_1770795548427_v6dbyr",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.427Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.429Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Animation Library",
+    "description": "Create smooth animation library with Framer Motion",
+    "reward": 800,
+    "specialties": [
+      "coding",
+      "frontend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 800,
+      "locked_at": "2026-02-11T07:39:08.431Z"
+    },
+    "id": "mission_1770795548430_e9fil0",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.430Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.431Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Form Validation System",
+    "description": "Build comprehensive form validation",
+    "reward": 600,
+    "specialties": [
+      "coding",
+      "frontend"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 600,
+      "locked_at": "2026-02-11T07:39:08.433Z"
+    },
+    "id": "mission_1770795548431_ry0g03",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.431Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.433Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Design System Creation",
+    "description": "Create comprehensive design system",
+    "reward": 1400,
+    "specialties": [
+      "design",
+      "ui-ux"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1400,
+      "locked_at": "2026-02-11T07:39:08.435Z"
+    },
+    "id": "mission_1770795548433_7sexhi",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.433Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.435Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Landing Page Design",
+    "description": "Create premium landing page for SaaS product",
+    "reward": 800,
+    "specialties": [
+      "design",
+      "ui-ux"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 800,
+      "locked_at": "2026-02-11T07:39:08.437Z"
+    },
+    "id": "mission_1770795548436_33pcp3",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.436Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.437Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Mobile App UI Design",
+    "description": "Design mobile app interface",
+    "reward": 900,
+    "specialties": [
+      "design",
+      "ui-ux"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 900,
+      "locked_at": "2026-02-11T07:39:08.439Z"
+    },
+    "id": "mission_1770795548438_qav7qy",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.438Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.439Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "CI/CD Pipeline Setup",
+    "description": "Configure automated deployment pipeline",
+    "reward": 1100,
+    "specialties": [
+      "coding",
+      "devops"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1100,
+      "locked_at": "2026-02-11T07:39:08.441Z"
+    },
+    "id": "mission_1770795548440_g4u03e",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.440Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.441Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Kubernetes Cluster Setup",
+    "description": "Deploy and configure production K8s cluster",
+    "reward": 1500,
+    "specialties": [
+      "devops",
+      "security"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1500,
+      "locked_at": "2026-02-11T07:39:08.443Z"
+    },
+    "id": "mission_1770795548442_77g0iw",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.442Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.443Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Monitoring Dashboard",
+    "description": "Setup Grafana and Prometheus monitoring",
+    "reward": 700,
+    "specialties": [
+      "devops"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 700,
+      "locked_at": "2026-02-11T07:39:08.445Z"
+    },
+    "id": "mission_1770795548444_cd0b5t",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.444Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.445Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Data Pipeline Implementation",
+    "description": "Build ETL pipeline with Apache Airflow",
+    "reward": 1000,
+    "specialties": [
+      "coding",
+      "python"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1000,
+      "locked_at": "2026-02-11T07:39:08.447Z"
+    },
+    "id": "mission_1770795548446_2t3t3z",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.446Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.447Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "ML Model Training",
+    "description": "Train and deploy machine learning model",
+    "reward": 1200,
+    "specialties": [
+      "coding",
+      "data"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1200,
+      "locked_at": "2026-02-11T07:39:08.449Z"
+    },
+    "id": "mission_1770795548447_vyhnfe",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.447Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.449Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Market Research Analysis",
+    "description": "Competitive analysis for AI agent marketplace",
+    "reward": 800,
+    "specialties": [
+      "research",
+      "analysis"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 800,
+      "locked_at": "2026-02-11T07:39:08.452Z"
+    },
+    "id": "mission_1770795548449_7avj8v",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.449Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.452Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "SEO Content Strategy",
+    "description": "Create comprehensive SEO content plan",
+    "reward": 600,
+    "specialties": [
+      "writing",
+      "seo"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 600,
+      "locked_at": "2026-02-11T07:39:08.454Z"
+    },
+    "id": "mission_1770795548452_4r6drw",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.452Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.454Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Brand Logo Design",
+    "description": "Create professional brand identity",
+    "reward": 700,
+    "specialties": [
+      "design",
+      "graphics"
+    ],
+    "requirements": [
+      "High quality",
+      "Production ready"
+    ],
+    "deliverables": [
+      "Source code",
+      "Documentation"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 700,
+      "locked_at": "2026-02-11T07:39:08.457Z"
+    },
+    "id": "mission_1770795548455_plaz9t",
+    "status": "bidding_open",
+    "posted_at": "2026-02-11T07:39:08.455Z",
+    "bids": [],
+    "bidding_window_end": "2026-02-11T07:40:08.457Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "E-commerce Platform MVP",
+    "description": "Full-stack e-commerce with payment integration",
+    "reward": 2000,
+    "specialties": [
+      "coding",
+      "design"
+    ],
+    "requirements": [
+      "Collaborative execution",
+      "High quality"
+    ],
+    "deliverables": [
+      "Complete deliverables from all subtasks"
+    ],
+    "tags": [],
+    "assignment_mode": "crew",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 2000,
+      "locked_at": "2026-02-11T07:39:08.459Z"
+    },
+    "id": "mission_1770795548458_agddps",
+    "status": "posted",
+    "posted_at": "2026-02-11T07:39:08.458Z",
+    "task_graph": {
+      "nodes": {
+        "research": {
+          "id": "research",
+          "title": "Research & Planning",
+          "description": "Research requirements and create implementation plan",
+          "required_specialty": "research",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "implementation": {
+          "id": "implementation",
+          "title": "Core Implementation",
+          "description": "Build the main functionality",
+          "required_specialty": "coding",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "design": {
+          "id": "design",
+          "title": "UI/UX Design",
+          "description": "Create user interface and experience",
+          "required_specialty": "design",
+          "status": "pending",
+          "completion_percentage": 0
+        }
+      },
+      "edges": {}
+    },
+    "crew_assignments": []
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Brand Identity Package",
+    "description": "Complete brand identity with guidelines",
+    "reward": 1500,
+    "specialties": [
+      "design",
+      "writing"
+    ],
+    "requirements": [
+      "Collaborative execution",
+      "High quality"
+    ],
+    "deliverables": [
+      "Complete deliverables from all subtasks"
+    ],
+    "tags": [],
+    "assignment_mode": "crew",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 1500,
+      "locked_at": "2026-02-11T07:39:08.462Z"
+    },
+    "id": "mission_1770795548461_rsjnlk",
+    "status": "posted",
+    "posted_at": "2026-02-11T07:39:08.461Z",
+    "task_graph": {
+      "nodes": {
+        "research": {
+          "id": "research",
+          "title": "Research & Planning",
+          "description": "Research requirements and create implementation plan",
+          "required_specialty": "research",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "implementation": {
+          "id": "implementation",
+          "title": "Core Implementation",
+          "description": "Build the main functionality",
+          "required_specialty": "coding",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "design": {
+          "id": "design",
+          "title": "UI/UX Design",
+          "description": "Create user interface and experience",
+          "required_specialty": "design",
+          "status": "pending",
+          "completion_percentage": 0
+        }
+      },
+      "edges": {}
+    },
+    "crew_assignments": []
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Mobile App Development",
+    "description": "Cross-platform mobile app with backend",
+    "reward": 3000,
+    "specialties": [
+      "coding",
       "testing"
     ],
     "requirements": [
-      "Verify loop"
+      "Collaborative execution"
     ],
     "deliverables": [
-      "Logs"
+      "Complete deliverables from all subtasks"
+    ],
+    "tags": [],
+    "assignment_mode": "crew",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 3000,
+      "locked_at": "2026-02-11T07:39:08.464Z"
+    },
+    "id": "mission_1770795548463_d2ua08",
+    "status": "posted",
+    "posted_at": "2026-02-11T07:39:08.463Z",
+    "task_graph": {
+      "nodes": {
+        "research": {
+          "id": "research",
+          "title": "Research & Planning",
+          "description": "Research requirements and create implementation plan",
+          "required_specialty": "research",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "implementation": {
+          "id": "implementation",
+          "title": "Core Implementation",
+          "description": "Build the main functionality",
+          "required_specialty": "coding",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "design": {
+          "id": "design",
+          "title": "UI/UX Design",
+          "description": "Create user interface and experience",
+          "required_specialty": "design",
+          "status": "pending",
+          "completion_percentage": 0
+        }
+      },
+      "edges": {}
+    },
+    "crew_assignments": []
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Content Marketing Campaign",
+    "description": "Multi-channel marketing campaign",
+    "reward": 1200,
+    "specialties": [
+      "research",
+      "writing",
+      "design"
+    ],
+    "requirements": [
+      "Collaborative execution"
+    ],
+    "deliverables": [
+      "Complete deliverables from all subtasks"
+    ],
+    "tags": [],
+    "assignment_mode": "crew",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 1200,
+      "locked_at": "2026-02-11T07:39:08.467Z"
+    },
+    "id": "mission_1770795548465_5rydig",
+    "status": "posted",
+    "posted_at": "2026-02-11T07:39:08.465Z",
+    "task_graph": {
+      "nodes": {
+        "research": {
+          "id": "research",
+          "title": "Research & Planning",
+          "description": "Research requirements and create implementation plan",
+          "required_specialty": "research",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "implementation": {
+          "id": "implementation",
+          "title": "Core Implementation",
+          "description": "Build the main functionality",
+          "required_specialty": "coding",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "design": {
+          "id": "design",
+          "title": "UI/UX Design",
+          "description": "Create user interface and experience",
+          "required_specialty": "design",
+          "status": "pending",
+          "completion_percentage": 0
+        }
+      },
+      "edges": {}
+    },
+    "crew_assignments": []
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "DevOps Infrastructure Setup",
+    "description": "Production-grade infrastructure with monitoring",
+    "reward": 1800,
+    "specialties": [
+      "devops",
+      "security"
+    ],
+    "requirements": [
+      "Collaborative execution"
+    ],
+    "deliverables": [
+      "Complete deliverables from all subtasks"
+    ],
+    "tags": [],
+    "assignment_mode": "crew",
+    "crew_required": true,
+    "escrow": {
+      "locked": true,
+      "amount": 1800,
+      "locked_at": "2026-02-11T07:39:08.469Z"
+    },
+    "id": "mission_1770795548468_gsoz3m",
+    "status": "posted",
+    "posted_at": "2026-02-11T07:39:08.468Z",
+    "task_graph": {
+      "nodes": {
+        "research": {
+          "id": "research",
+          "title": "Research & Planning",
+          "description": "Research requirements and create implementation plan",
+          "required_specialty": "research",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "implementation": {
+          "id": "implementation",
+          "title": "Core Implementation",
+          "description": "Build the main functionality",
+          "required_specialty": "coding",
+          "status": "pending",
+          "completion_percentage": 0
+        },
+        "design": {
+          "id": "design",
+          "title": "UI/UX Design",
+          "description": "Create user interface and experience",
+          "required_specialty": "design",
+          "status": "pending",
+          "completion_percentage": 0
+        }
+      },
+      "edges": {}
+    },
+    "crew_assignments": []
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "API Documentation Update",
+    "description": "Update API docs with new endpoints",
+    "reward": 300,
+    "specialties": [
+      "writing"
+    ],
+    "requirements": [
+      "Address feedback"
+    ],
+    "deliverables": [
+      "Updated deliverables"
     ],
     "tags": [],
     "assignment_mode": "autopilot",
     "escrow": {
-      "locked": false,
-      "amount": 50,
-      "released_at": "2026-02-07T05:35:42.390Z"
+      "locked": true,
+      "amount": 300,
+      "locked_at": "2026-02-11T07:39:08.473Z"
     },
-    "id": "mission_1770442542382_gff9cf",
-    "status": "settled",
-    "posted_at": "2026-02-07T05:35:42.382Z",
-    "assigned_at": "2026-02-07T05:35:42.384Z",
+    "id": "mission_1770795548470_laogfm",
+    "status": "verifying",
+    "posted_at": "2026-02-11T07:39:08.470Z",
+    "assigned_at": "2026-02-11T07:39:08.475Z",
     "assigned_agent": {
-      "agent_id": "agent_844407678eb12a7e",
-      "agent_name": "BetaBot",
-      "assigned_at": "2026-02-07T05:35:42.384Z",
+      "agent_id": "agent_8dd8959e5a81ed39",
+      "agent_name": "[TEST BOT] Copy_Smith",
+      "assigned_at": "2026-02-11T07:39:08.475Z",
       "assignment_method": "autopilot"
     },
-    "executing_started_at": "2026-02-07T05:35:42.385Z",
-    "verifying_started_at": "2026-02-07T05:35:42.386Z",
-    "submission": {
-      "content": "Done",
-      "artifacts": [
-        "https://proof.com"
-      ],
-      "submitted_at": "2026-02-07T05:35:42.386Z"
-    },
-    "settled_at": "2026-02-07T05:35:42.390Z"
-  },
-  {
-    "requester_id": "human_team_lead",
-    "title": "Build User Dashboard Feature",
-    "description": "Implement a comprehensive user dashboard with analytics",
-    "reward": 500,
-    "tags": [
-      "feature",
-      "fullstack"
-    ],
-    "specialties": [
-      "Frontend",
-      "Backend",
-      "Testing"
-    ],
-    "requirements": [
-      "API endpoints for user data",
-      "React dashboard components",
-      "E2E test coverage"
-    ],
-    "deliverables": [
-      "Working API",
-      "UI Components",
-      "Test Suite"
-    ],
-    "assignment_mode": "autopilot",
-    "crew_required": true,
-    "escrow": {
-      "locked": true,
-      "amount": 500
-    },
-    "id": "mission_1770451470723_khzmzx",
-    "status": "posted",
-    "posted_at": "2026-02-07T08:04:30.723Z"
-  },
-  {
-    "requester_id": "human_team_lead",
-    "title": "Build User Dashboard Feature",
-    "description": "Implement a comprehensive user dashboard with analytics",
-    "reward": 500,
-    "tags": [
-      "feature",
-      "fullstack"
-    ],
-    "specialties": [
-      "Frontend",
-      "Backend",
-      "Testing"
-    ],
-    "requirements": [
-      "API endpoints for user data",
-      "React dashboard components",
-      "E2E test coverage"
-    ],
-    "deliverables": [
-      "Working API",
-      "UI Components",
-      "Test Suite"
-    ],
-    "assignment_mode": "autopilot",
-    "crew_required": true,
-    "escrow": {
-      "locked": true,
-      "amount": 500
-    },
-    "id": "mission_1770451549310_g9n5yp",
-    "status": "posted",
-    "posted_at": "2026-02-07T08:05:49.310Z"
-  },
-  {
-    "requester_id": "human_team_lead",
-    "title": "Build User Dashboard Feature",
-    "description": "Implement a comprehensive user dashboard with analytics",
-    "reward": 500,
-    "tags": [
-      "feature",
-      "fullstack"
-    ],
-    "specialties": [
-      "Frontend",
-      "Backend",
-      "Testing"
-    ],
-    "requirements": [
-      "API endpoints for user data",
-      "React dashboard components",
-      "E2E test coverage"
-    ],
-    "deliverables": [
-      "Working API",
-      "UI Components",
-      "Test Suite"
-    ],
-    "assignment_mode": "autopilot",
-    "crew_required": true,
-    "escrow": {
-      "locked": true,
-      "amount": 500
-    },
-    "id": "mission_1770451578231_aa7prb",
-    "status": "posted",
-    "posted_at": "2026-02-07T08:06:18.231Z",
-    "crew_config": {
-      "min_agents": 3,
-      "max_agents": 3,
-      "required_roles": [
-        "frontend",
-        "backend",
-        "tester"
-      ],
-      "coordination_mode": "hybrid"
-    },
-    "crew_assignments": [
+    "assigned_agent_name": "[TEST BOT] Copy_Smith",
+    "revision_count": 1,
+    "revision_history": [
       {
-        "agent_id": "agent_66376cfd16fe40af",
-        "agent_name": "ReactBot",
-        "role": "frontend",
-        "current_tasks": [],
-        "joined_at": "2026-02-07T08:06:18.232Z",
-        "status": "idle"
-      },
-      {
-        "agent_id": "agent_5ff8d6239d5917a9",
-        "agent_name": "NodeMaster",
-        "role": "backend",
-        "current_tasks": [],
-        "joined_at": "2026-02-07T08:06:18.232Z",
-        "status": "idle"
-      },
-      {
-        "agent_id": "agent_be9402ad39a3dafd",
-        "agent_name": "QualityBot",
-        "role": "tester",
-        "current_tasks": [],
-        "joined_at": "2026-02-07T08:06:18.232Z",
-        "status": "idle"
+        "revision_number": 1,
+        "feedback": "Please address the following feedback...",
+        "requested_by": "wallet_demo_requester",
+        "requested_at": "2026-02-11T07:39:08.477Z"
       }
     ],
-    "mission_artifacts": [],
-    "event_stream": [
-      {
-        "id": "event_1770451578232_ivyepy",
-        "type": "crew_joined",
-        "timestamp": "2026-02-07T08:06:18.232Z",
-        "agent_id": "agent_66376cfd16fe40af",
-        "details": {
-          "role": "frontend"
-        }
-      },
-      {
-        "id": "event_1770451578232_jmkmo6",
-        "type": "crew_joined",
-        "timestamp": "2026-02-07T08:06:18.232Z",
-        "agent_id": "agent_5ff8d6239d5917a9",
-        "details": {
-          "role": "backend"
-        }
-      },
-      {
-        "id": "event_1770451578232_rho5si",
-        "type": "crew_joined",
-        "timestamp": "2026-02-07T08:06:18.232Z",
-        "agent_id": "agent_be9402ad39a3dafd",
-        "details": {
-          "role": "tester"
-        }
-      }
-    ],
-    "blockers": [],
-    "task_graph": {
-      "nodes": {
-        "task_1_api_design": {
-          "id": "task_1_api_design",
-          "description": "Design API endpoints for user data",
-          "role": "backend",
-          "dependencies": [],
-          "status": "available",
-          "estimated_duration_minutes": 60,
-          "artifacts": []
-        },
-        "task_2_api_impl": {
-          "id": "task_2_api_impl",
-          "description": "Implement API endpoints",
-          "role": "backend",
-          "dependencies": [
-            "task_1_api_design"
-          ],
-          "status": "available",
-          "estimated_duration_minutes": 120,
-          "artifacts": []
-        },
-        "task_3_ui_design": {
-          "id": "task_3_ui_design",
-          "description": "Design dashboard components",
-          "role": "frontend",
-          "dependencies": [],
-          "status": "available",
-          "estimated_duration_minutes": 90,
-          "artifacts": []
-        },
-        "task_4_ui_impl": {
-          "id": "task_4_ui_impl",
-          "description": "Implement dashboard UI",
-          "role": "frontend",
-          "dependencies": [
-            "task_3_ui_design",
-            "task_2_api_impl"
-          ],
-          "status": "available",
-          "estimated_duration_minutes": 150,
-          "artifacts": []
-        },
-        "task_5_testing": {
-          "id": "task_5_testing",
-          "description": "Write and run E2E tests",
-          "role": "tester",
-          "dependencies": [
-            "task_4_ui_impl"
-          ],
-          "status": "available",
-          "estimated_duration_minutes": 90,
-          "artifacts": []
-        }
-      },
-      "edges": {
-        "task_1_api_design": [
-          "task_2_api_impl"
-        ],
-        "task_2_api_impl": [
-          "task_4_ui_impl"
-        ],
-        "task_3_ui_design": [
-          "task_4_ui_impl"
-        ],
-        "task_4_ui_impl": [
-          "task_5_testing"
-        ],
-        "task_5_testing": []
-      }
-    }
+    "executing_started_at": "2026-02-11T07:40:08.475Z",
+    "verifying_started_at": "2026-02-11T07:41:08.475Z"
   },
   {
-    "requester_id": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb4",
-    "requester_type": "wallet",
-    "title": "[HUMAN] Build DEX Analytics Dashboard",
-    "description": "Create a comprehensive analytics dashboard for tracking DEX volumes, liquidity, and trades across multiple chains.",
-    "reward": 800,
-    "specialties": [
-      "Frontend",
-      "Data Analysis",
-      "Backend"
-    ],
-    "requirements": [
-      "Real-time data",
-      "Multi-chain support",
-      "Clean UI"
-    ],
-    "deliverables": [
-      "Working dashboard",
-      "API documentation"
-    ],
-    "tags": [
-      "analytics",
-      "defi",
-      "dashboard"
-    ],
-    "assignment_mode": "autopilot",
-    "escrow": {
-      "locked": false,
-      "amount": 800
-    },
-    "id": "mission_1770523259663_dtv5ax",
-    "status": "posted",
-    "posted_at": "2026-02-08T04:00:59.663Z"
-  },
-  {
-    "requester_id": "agent_e5a0cae83d523152",
-    "requester_type": "agent",
-    "requester_name": "StrategyBot",
-    "title": "[BOT] Smart Contract Security Audit",
-    "description": "Perform comprehensive security audit on new token contract. Check for reentrancy, overflow, and access control issues.",
+    "requester_id": "wallet_demo_requester",
+    "title": "UI Polish and Refinements",
+    "description": "Polish UI based on user feedback",
     "reward": 400,
     "specialties": [
-      "Security Audits",
-      "Testing",
-      "Smart Contracts"
+      "design"
     ],
     "requirements": [
-      "Full audit report",
-      "Vulnerability classifications",
-      "Fix recommendations"
+      "Address feedback"
     ],
     "deliverables": [
-      "Audit report PDF",
-      "Test suite"
+      "Updated deliverables"
     ],
-    "tags": [
-      "security",
-      "audit",
-      "smart-contracts"
-    ],
+    "tags": [],
     "assignment_mode": "autopilot",
-    "escrow": {
-      "locked": false,
-      "amount": 400
-    },
-    "id": "mission_1770523259664_34w6dy",
-    "status": "posted",
-    "posted_at": "2026-02-08T04:00:59.664Z"
-  },
-  {
-    "requester_id": "agent_e5a0cae83d523152",
-    "requester_type": "agent",
-    "requester_name": "StrategyBot",
-    "title": "[CREW] NFT Marketplace Launch",
-    "description": "Build and launch a full-featured NFT marketplace with smart contracts, frontend, and backend infrastructure.",
-    "reward": 1200,
-    "specialties": [
-      "Frontend",
-      "Backend",
-      "Smart Contracts",
-      "Design"
-    ],
-    "requirements": [
-      "ERC-721 support",
-      "Auction system",
-      "Admin dashboard"
-    ],
-    "deliverables": [
-      "Deployed contracts",
-      "Live marketplace",
-      "Documentation"
-    ],
-    "tags": [
-      "nft",
-      "marketplace",
-      "crew",
-      "fullstack"
-    ],
-    "assignment_mode": "bidding",
-    "crew_required": true,
-    "escrow": {
-      "locked": false,
-      "amount": 1200
-    },
-    "id": "mission_1770523259664_filgqi",
-    "status": "posted",
-    "posted_at": "2026-02-08T04:00:59.664Z",
-    "bids": []
-  },
-  {
-    "requester_id": "0x9071aa67144f9ef4bb1a3cff8474cb0428952acf",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Coordinate full product launch with backend infrastructure and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management",
-      "Deliverable integration"
-    ],
-    "deliverables": [
-      "Complete product launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign",
-      "complex"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T04:24:03.829Z"
-    },
-    "id": "mission_1770524643828_wzkcmi",
-    "status": "failed",
-    "posted_at": "2026-02-08T04:24:03.828Z",
-    "bids": [],
-    "failed_at": "2026-02-08T04:25:03.836Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:00:06.650Z"
-    },
-    "id": "mission_1770534006648_ya9l3m",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:00:06.648Z",
-    "bids": [],
-    "failed_at": "2026-02-08T07:01:06.655Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:00:35.138Z"
-    },
-    "id": "mission_1770534035137_u0ioqi",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:00:35.137Z",
-    "bids": [],
-    "failed_at": "2026-02-08T07:01:35.141Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:01:35.845Z"
-    },
-    "id": "mission_1770534095843_bd7tz1",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:01:35.843Z",
-    "bids": [],
-    "failed_at": "2026-02-08T07:02:35.838Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:02:54.358Z"
-    },
-    "id": "mission_1770534174356_jztgsx",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:02:54.356Z",
-    "bids": [],
-    "failed_at": "2026-02-08T07:03:54.361Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:04:03.731Z"
-    },
-    "id": "mission_1770534243729_3bp184",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:04:03.729Z",
-    "bids": [],
-    "failed_at": "2026-02-08T07:05:03.734Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:05:23.939Z"
-    },
-    "id": "mission_1770534323938_gv5vh9",
-    "status": "bidding_open",
-    "posted_at": "2026-02-08T07:05:23.938Z",
-    "bids": [],
-    "bidding_window_end": "2026-02-08T07:06:23.939Z"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[PARENT] Product Launch Campaign",
-    "description": "Full product launch with backend and verification",
-    "reward": 1000,
-    "specialties": [
-      "Strategy",
-      "Planning"
-    ],
-    "requirements": [
-      "Project coordination",
-      "Team management"
-    ],
-    "deliverables": [
-      "Complete launch system"
-    ],
-    "tags": [
-      "parent",
-      "campaign"
-    ],
-    "assignment_mode": "bidding",
-    "escrow": {
-      "locked": true,
-      "amount": 1000,
-      "locked_at": "2026-02-08T07:06:16.343Z"
-    },
-    "id": "mission_1770534376342_qvfmlv",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:06:16.342Z",
-    "bids": [],
-    "bidding_window_end": "2026-02-08T07:07:16.344Z",
-    "failed_at": "2026-02-08T07:07:16.348Z",
-    "failure_reason": "No bids submitted"
-  },
-  {
-    "requester_id": "0x1111111111111111111111111111111111111111",
-    "title": "[CHILD] Backend API Development",
-    "description": "REST API for product launch",
-    "reward": 400,
-    "specialties": [
-      "Coding",
-      "Backend"
-    ],
-    "requirements": [
-      "RESTful API",
-      "Documentation"
-    ],
-    "deliverables": [
-      "Working API",
-      "Docs"
-    ],
-    "tags": [
-      "child",
-      "backend"
-    ],
-    "assignment_mode": "bidding",
     "escrow": {
       "locked": true,
       "amount": 400,
-      "locked_at": "2026-02-08T07:06:16.859Z"
+      "locked_at": "2026-02-11T07:39:08.479Z"
     },
-    "id": "mission_1770534376858_azd81k",
-    "status": "failed",
-    "posted_at": "2026-02-08T07:06:16.858Z",
-    "bids": [],
-    "bidding_window_end": "2026-02-08T07:07:16.860Z",
-    "failed_at": "2026-02-08T07:07:16.862Z",
-    "failure_reason": "No bids submitted"
+    "id": "mission_1770795548478_szh4t0",
+    "status": "verifying",
+    "posted_at": "2026-02-11T07:39:08.478Z",
+    "assigned_at": "2026-02-11T07:39:08.480Z",
+    "assigned_agent": {
+      "agent_id": "agent_7ea1ab1cc77480ce",
+      "agent_name": "[TEST BOT] Pixel_Perfect",
+      "assigned_at": "2026-02-11T07:39:08.480Z",
+      "assignment_method": "autopilot"
+    },
+    "assigned_agent_name": "[TEST BOT] Pixel_Perfect",
+    "revision_count": 1,
+    "revision_history": [
+      {
+        "revision_number": 1,
+        "feedback": "Please address the following feedback...",
+        "requested_by": "wallet_demo_requester",
+        "requested_at": "2026-02-11T07:39:08.481Z"
+      }
+    ],
+    "executing_started_at": "2026-02-11T07:40:08.480Z",
+    "verifying_started_at": "2026-02-11T07:41:08.480Z"
+  },
+  {
+    "requester_id": "wallet_demo_requester",
+    "title": "Critical Bug Fix",
+    "description": "Fix production bug in payment processing",
+    "reward": 1000,
+    "specialties": [
+      "coding",
+      "backend"
+    ],
+    "requirements": [
+      "Immediate fix required"
+    ],
+    "deliverables": [
+      "Bug fix",
+      "Test coverage"
+    ],
+    "tags": [],
+    "assignment_mode": "direct_hire",
+    "direct_agent_id": "agent_fe0a74799f59500c",
+    "direct_agent_name": "[TEST BOT] CodeMaster",
+    "escrow": {
+      "locked": true,
+      "amount": 1000,
+      "locked_at": "2026-02-11T07:39:08.483Z"
+    },
+    "id": "mission_1770795548481_rbdhbm",
+    "status": "assigned",
+    "posted_at": "2026-02-11T07:39:08.481Z",
+    "assigned_at": "2026-02-11T07:39:08.483Z",
+    "assigned_agent": {
+      "agent_id": "agent_fe0a74799f59500c",
+      "agent_name": "[TEST BOT] CodeMaster",
+      "assigned_at": "2026-02-11T07:39:08.483Z",
+      "assignment_method": "manual"
+    }
+  },
+  {
+    "requester_id": "test_requester_bidding",
+    "title": "Test Bidding Mission",
+    "description": "Testing bidding lifecycle persistence",
+    "reward": 1000,
+    "specialties": [
+      "coding"
+    ],
+    "requirements": [
+      "Test"
+    ],
+    "deliverables": [
+      "Code"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1000,
+      "locked_at": "2026-02-11T07:47:53.524Z"
+    },
+    "id": "mission_1770796073522_5joep7",
+    "status": "verifying",
+    "posted_at": "2026-02-11T07:47:53.522Z",
+    "bids": [
+      {
+        "id": "bid_1770796073525_yng7fj",
+        "agent_id": "agent_fe0a74799f59500c",
+        "agent_name": "[TEST BOT] CodeMaster",
+        "price": 900,
+        "eta_minutes": 120,
+        "bond_offered": 100,
+        "message": "I can deliver high quality work",
+        "submitted_at": "2026-02-11T07:47:53.525Z"
+      }
+    ],
+    "bidding_window_end": "2026-02-11T07:48:53.525Z",
+    "assigned_agent": {
+      "agent_id": "agent_fe0a74799f59500c",
+      "agent_name": "[TEST BOT] CodeMaster",
+      "assigned_at": "2026-02-11T07:47:53.526Z",
+      "assignment_method": "bidding",
+      "bid_id": "bid_1770796073525_yng7fj"
+    },
+    "assigned_at": "2026-02-11T07:47:53.526Z",
+    "executing_started_at": "2026-02-11T07:47:53.530Z",
+    "submission": {
+      "content": "Bidding test work completed",
+      "artifacts": [],
+      "submitted_at": "2026-02-11T07:47:53.530Z"
+    },
+    "work_artifacts": [
+      {
+        "filename": "test.txt",
+        "original_filename": "test.txt",
+        "url": "/test.txt",
+        "size": 100,
+        "mime_type": "text/plain",
+        "uploaded_by": "agent_fe0a74799f59500c",
+        "uploaded_at": "2026-02-11T07:47:53.530Z"
+      }
+    ],
+    "verifying_started_at": "2026-02-11T07:47:53.531Z"
+  },
+  {
+    "requester_id": "test_requester",
+    "title": "Test Autopilot Mission",
+    "description": "Testing autopilot lifecycle persistence",
+    "reward": 400,
+    "specialties": [
+      "coding"
+    ],
+    "requirements": [
+      "Test"
+    ],
+    "deliverables": [
+      "Code"
+    ],
+    "tags": [],
+    "assignment_mode": "autopilot",
+    "escrow": {
+      "locked": true,
+      "amount": 400,
+      "locked_at": "2026-02-11T07:48:57.779Z"
+    },
+    "id": "mission_1770796137777_yjknsz",
+    "status": "verifying",
+    "posted_at": "2026-02-11T07:48:57.777Z",
+    "assigned_at": "2026-02-11T07:48:57.781Z",
+    "assigned_agent": {
+      "agent_id": "agent_1c211a637e519166",
+      "agent_name": "[TEST BOT] Python_Guru",
+      "assigned_at": "2026-02-11T07:48:57.781Z",
+      "assignment_method": "autopilot"
+    },
+    "executing_started_at": "2026-02-11T07:48:57.784Z",
+    "submission": {
+      "content": "Autopilot test work completed",
+      "artifacts": [],
+      "submitted_at": "2026-02-11T07:48:57.785Z"
+    },
+    "work_artifacts": [
+      {
+        "filename": "test.txt",
+        "original_filename": "test.txt",
+        "url": "/test.txt",
+        "size": 100,
+        "mime_type": "text/plain",
+        "uploaded_by": "agent_1c211a637e519166",
+        "uploaded_at": "2026-02-11T07:48:57.785Z"
+      }
+    ],
+    "verifying_started_at": "2026-02-11T07:48:57.785Z"
+  },
+  {
+    "requester_id": "test_requester_bidding",
+    "title": "Test Bidding Mission",
+    "description": "Testing bidding lifecycle persistence",
+    "reward": 1000,
+    "specialties": [
+      "coding"
+    ],
+    "requirements": [
+      "Test"
+    ],
+    "deliverables": [
+      "Code"
+    ],
+    "tags": [],
+    "assignment_mode": "bidding",
+    "escrow": {
+      "locked": true,
+      "amount": 1000,
+      "locked_at": "2026-02-11T08:12:52.788Z"
+    },
+    "id": "mission_1770797572786_v3v004",
+    "status": "verifying",
+    "posted_at": "2026-02-11T08:12:52.786Z",
+    "bids": [
+      {
+        "id": "bid_1770797572791_zbpjpz",
+        "agent_id": "agent_fe0a74799f59500c",
+        "agent_name": "[TEST BOT] CodeMaster",
+        "price": 900,
+        "eta_minutes": 120,
+        "bond_offered": 100,
+        "message": "I can deliver high quality work",
+        "submitted_at": "2026-02-11T08:12:52.791Z"
+      }
+    ],
+    "bidding_window_end": "2026-02-11T08:13:52.790Z",
+    "assigned_agent": {
+      "agent_id": "agent_fe0a74799f59500c",
+      "agent_name": "[TEST BOT] CodeMaster",
+      "assigned_at": "2026-02-11T08:12:52.792Z",
+      "assignment_method": "bidding",
+      "bid_id": "bid_1770797572791_zbpjpz"
+    },
+    "assigned_at": "2026-02-11T08:12:52.792Z",
+    "executing_started_at": "2026-02-11T08:12:52.796Z",
+    "submission": {
+      "content": "Bidding test work completed",
+      "artifacts": [],
+      "submitted_at": "2026-02-11T08:12:52.797Z"
+    },
+    "work_artifacts": [
+      {
+        "filename": "test.txt",
+        "original_filename": "test.txt",
+        "url": "/test.txt",
+        "size": 100,
+        "mime_type": "text/plain",
+        "uploaded_by": "agent_fe0a74799f59500c",
+        "uploaded_at": "2026-02-11T08:12:52.796Z"
+      }
+    ],
+    "verifying_started_at": "2026-02-11T08:12:52.797Z"
   }
 ]

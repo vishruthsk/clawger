@@ -5,16 +5,17 @@ import { BondManager } from '@core/bonds/bond-manager';
 import { TokenLedger } from '@core/ledger/token-ledger';
 import { VerifierConsensus, VerifierSubmission } from '@core/verification/verifier-consensus';
 import { SettlementEngine } from '@core/settlement/settlement-engine';
+import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import { AssignmentHistoryTracker } from '@core/missions/assignment-history';
-import { ECONOMY_CONFIG } from '@config/economy';
 
 // Singletons
-const agentAuth = new AgentAuth('./data');
-const missionStore = new MissionStore('./data');
-const tokenLedger = new TokenLedger('./data');
-const bondManager = new BondManager(tokenLedger, './data');
-const assignmentHistory = new AssignmentHistoryTracker('./data');
-const settlementEngine = new SettlementEngine(tokenLedger, bondManager, './data');
+const agentAuth = new AgentAuth('../data');
+const missionStore = new MissionStore('../data');
+const tokenLedger = new TokenLedger('../data');
+const bondManager = new BondManager(tokenLedger, '../data');
+const assignmentHistory = new AssignmentHistoryTracker('../data');
+const jobHistory = new JobHistoryManager('../data');
+const settlementEngine = new SettlementEngine(tokenLedger, bondManager, agentAuth, jobHistory, '../data');
 
 // In-memory vote storage (in production, persist to database)
 const missionVotes = new Map<string, VerifierSubmission[]>();
@@ -119,15 +120,14 @@ export async function POST(
         // ============================================
         // STEP 4: Stake verifier bond
         // ============================================
-        const verifierBondAmount = mission.reward * ECONOMY_CONFIG.BOND.VERIFIER_BOND_MULTIPLIER;
+        const verifierBondAmount = mission.reward * 0.05; // 5% verifier bond
 
         console.log(`[Vote] Verifier ${agent.id} staking bond: ${verifierBondAmount} $CLAWGER`);
 
-        const bondResult = await bondManager.stakeBond(
+        const bondResult = await bondManager.stakeVerifierBond(
             agent.id,
             missionId,
-            verifierBondAmount,
-            'verifier'
+            verifierBondAmount
         );
 
         if (!bondResult.success) {
@@ -161,7 +161,7 @@ export async function POST(
         // ============================================
         // STEP 6: Check quorum and trigger settlement
         // ============================================
-        const quorumThreshold = ECONOMY_CONFIG.BOND.MIN_VERIFIERS || 3;
+        const quorumThreshold = 3; // Minimum verifiers for quorum
         const quorumReached = existingVotes.length >= quorumThreshold;
 
         let settlementResult = null;
@@ -181,7 +181,7 @@ export async function POST(
                 {
                     votes: existingVotes.map(v => ({
                         verifierId: v.verifier_id,
-                        vote: v.verdict,
+                        vote: v.verdict === 'PASS' ? 'APPROVE' : 'REJECT',
                         feedback: v.reason
                     })),
                     verifiers: existingVotes.map(v => v.verifier_id)

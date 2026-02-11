@@ -1,0 +1,141 @@
+
+> clawger@1.0.0 test:e2e-real
+> tsx scripts/test-e2e-real.ts
+
+
+========================================
+🚀 TRUE E2E MISSION LIFECYCLE TEST
+========================================
+
+📋 STEP 1: Getting agent details...
+   Worker: CodeNewbie (agent_a11086caca147238)
+   Verifiers: VerifierAlpha, VerifierBeta, VerifierGamma
+   Worker initial balance: 200 CLAWGER
+
+📋 STEP 2: Creating mission via API...
+   ✅ Mission created: mission_1770633547022_zgdze2
+   Status: assigned
+
+   Assigned to: CodeNewbie (agent_a11086caca147238)
+
+📋 STEP 3: Launching autonomous bots...
+🤖 Launching CodeNewbie...
+🤖 Launching VerifierAlpha_V1...
+🤖 Launching VerifierBeta_V2...
+🤖 Launching VerifierGamma_V3...
+[CodeNewbie] 🤖 Worker bot started, polling every 2000ms
+[VerifierGamma_V3] 🤖 Verifier bot started, polling every 2000ms
+[VerifierAlpha_V1] 🤖 Verifier bot started, polling every 2000ms
+[VerifierBeta_V2] 🤖 Verifier bot started, polling every 2000ms
+[CodeNewbie] Poll result: {
+  "success": true,
+  "agent_id": "agent_a11086caca147238",
+  "tasks": [
+    {
+      "id": "task_1770631539268_ap83ynu3x",
+      "agent_id": "agent_a11086caca147238",
+      "type": "mission_assigned",
+      "priority": "high",
+      "payload": {
+        "mission_id": "mission_1770631539256_9qtgk9",
+        "action": "Start work on 'TRUE E2E TEST: Real HTTP Execution'. Submit results via POST /api/missions/mission_1770631539256_9qtgk9/submit",
+        "reward": 99,
+        "requirements": [
+          "Complete via HTTP only"
+        ],
+        "deliverables": [
+          "Proof of HTTP execution"
+        ],
+        "description": "This mission tests the complete lifecycle using ONLY HTTP API calls. No core bypasses."
+      },
+      "created_at": "2026-02-09T10:05:39.268Z",
+      "expires_at": "2026-02-10T10:05:39.268Z",
+      "acknowledged": true,
+      "acknowledged_at": "2026-02-09T10:39:07.893Z"
+    },
+    {
+      "id": "task_1770632379680_hi2g5qjbk",
+      "agent_id": "agent_a11086caca147238",
+      "type": "mission_assigned",
+      "priority": "high",
+      "payload": {
+        "mission_id": "mission_1770632379669_63tc99",
+        "action": "Start work on 'Task Enqueue Test'. Submit results via POST /api/missions/mission_1770632379669_63tc99/submit",
+        "reward": 50,
+        "requirements": [
+          "Test"
+        ],
+        "deliverables": [
+          "Test"
+        ],
+        "description": "Testing if task gets enqueued"
+      },
+      "created_at": "2026-02-09T10:19:39.680Z",
+      "expires_at": "2026-02-10T10:19:39.680Z",
+      "acknowledged": true,
+      "acknowledged_at": "2026-02-09T10:39:07.893Z"
+    }
+  ],
+  "has_more": false,
+  "count": 2,
+  "timestamp": "2026-02-09T10:39:07.893Z"
+}
+[CodeNewbie] Found 2 tasks
+[CodeNewbie] Evaluating task: mission_assigned mission_1770631539256_9qtgk9
+[CodeNewbie] 🔄 Task already acknowledged, checking mission state...
+[CodeNewbie] ✅ Mission mission_1770631539256_9qtgk9 validated: status='assigned', assigned to us
+[CodeNewbie] 🚀 Starting mission mission_1770631539256_9qtgk9
+[CodeNewbie] ✅ Mission started, working...
+   ✅ All bots launched
+
+📋 STEP 4: Waiting for worker to submit work...
+[CodeNewbie] ✅ Work submitted successfully
+[CodeNewbie] Evaluating task: mission_assigned mission_1770632379669_63tc99
+[CodeNewbie] 🔄 Task already acknowledged, checking mission state...
+[CodeNewbie] ✅ Mission mission_1770632379669_63tc99 validated: status='assigned', assigned to us
+[CodeNewbie] 🚀 Starting mission mission_1770632379669_63tc99
+[CodeNewbie] ✅ Mission started, working...
+[CodeNewbie ERROR] [CodeNewbie] ❌ Submit failed: Submission failed. Check if mission is executing and assigned to you.
+[CodeNewbie] Poll result: {
+  "success": true,
+  "agent_id": "agent_a11086caca147238",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:39:16.256Z"
+}
+[CodeNewbie] No tasks found
+[CodeNewbie] Poll result: {
+  "success": true,
+  "agent_id": "agent_a11086caca147238",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:39:18.270Z"
+}
+[CodeNewbie] No tasks found
+[CodeNewbie] Poll result: {
+  "success": true,
+  "agent_id": "agent_a11086caca147238",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:39:20.285Z"
+}
+[CodeNewbie] No tasks found
+[CodeNewbie] Poll result: {
+  "success": true,
+  "agent_id": "agent_a11086caca147238",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:39:22.297Z"
+}
+[CodeNewbie] No tasks found
+❌ Timeout waiting for status: verifying
+
+❌ E2E TEST FAILED: Worker did not submit work in time
+
+🛑 Stopping all bots...
+Fatal error: Error: Worker did not submit work in time
+    at E2ETestOrchestrator.run (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:166:23)

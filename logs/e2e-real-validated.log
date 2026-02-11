@@ -1,0 +1,185 @@
+
+> clawger@1.0.0 test:e2e-real
+> tsx scripts/test-e2e-real.ts
+
+
+========================================
+🚀 TRUE E2E MISSION LIFECYCLE TEST
+========================================
+
+📋 STEP 1: Getting agent details...
+   Worker: CodeNewbie (agent_a11086caca147238)
+   Verifiers: VerifierAlpha, VerifierBeta, VerifierGamma
+   Worker initial balance: 200 CLAWGER
+
+📋 STEP 2: Creating mission via API...
+   ✅ Mission created: mission_1770632168592_eoh6t5
+   Status: assigned
+
+   Assigned to: CodeMaster (agent_078d10e414ffab21)
+
+📋 STEP 3: Launching autonomous bots...
+🤖 Launching CodeMaster...
+🤖 Launching VerifierAlpha_V1...
+🤖 Launching VerifierBeta_V2...
+🤖 Launching VerifierGamma_V3...
+[VerifierGamma_V3] 🤖 Verifier bot started, polling every 2000ms
+[CodeMaster] 🤖 Worker bot started, polling every 2000ms
+[VerifierBeta_V2] 🤖 Verifier bot started, polling every 2000ms
+[VerifierAlpha_V1] 🤖 Verifier bot started, polling every 2000ms
+[CodeMaster] Poll result: {
+  "success": true,
+  "agent_id": "agent_078d10e414ffab21",
+  "tasks": [
+    {
+      "id": "task_1770563213290_2uhw5wpqb",
+      "agent_id": "agent_078d10e414ffab21",
+      "type": "mission_assigned",
+      "priority": "high",
+      "payload": {
+        "mission_id": "mission_1770563213289_z4lzl1",
+        "action": "Start work on 'Fairness Test Mission 2'. Submit results via POST /api/missions/mission_1770563213289_z4lzl1/submit",
+        "reward": 50,
+        "requirements": [
+          "Test"
+        ],
+        "deliverables": [
+          "Test"
+        ],
+        "description": "Testing assignment fairness"
+      },
+      "created_at": "2026-02-08T15:06:53.290Z",
+      "expires_at": "2026-02-09T15:06:53.290Z",
+      "acknowledged": true,
+      "acknowledged_at": "2026-02-09T10:16:09.904Z"
+    },
+    {
+      "id": "task_1770563213293_vjj3354mp",
+      "agent_id": "agent_078d10e414ffab21",
+      "type": "mission_assigned",
+      "priority": "high",
+      "payload": {
+        "mission_id": "mission_1770563213293_u7hoil",
+        "action": "Start work on 'Fairness Test Mission 7'. Submit results via POST /api/missions/mission_1770563213293_u7hoil/submit",
+        "reward": 50,
+        "requirements": [
+          "Test"
+        ],
+        "deliverables": [
+          "Test"
+        ],
+        "description": "Testing assignment fairness"
+      },
+      "created_at": "2026-02-08T15:06:53.293Z",
+      "expires_at": "2026-02-09T15:06:53.293Z",
+      "acknowledged": true,
+      "acknowledged_at": "2026-02-09T10:16:09.904Z"
+    },
+    {
+      "id": "task_1770563213297_qljigv8c1",
+      "agent_id": "agent_078d10e414ffab21",
+      "type": "mission_assigned",
+      "priority": "high",
+      "payload": {
+        "mission_id": "mission_1770563213297_7ijoy4",
+        "action": "Start work on 'Fairness Test Mission 11'. Submit results via POST /api/missions/mission_1770563213297_7ijoy4/submit",
+        "reward": 50,
+        "requirements": [
+          "Test"
+        ],
+        "deliverables": [
+          "Test"
+        ],
+        "description": "Testing assignment fairness"
+      },
+      "created_at": "2026-02-08T15:06:53.297Z",
+      "expires_at": "2026-02-09T15:06:53.297Z",
+      "acknowledged": true,
+      "acknowledged_at": "2026-02-09T10:16:09.904Z"
+    },
+    {
+      "id": "task_1770631071983_hyy1kv2q7",
+      "agent_id": "agent_078d10e414ffab21",
+      "type": "mission_assigned",
+      "priority": "high",
+      "payload": {
+        "mission_id": "mission_1770631071974_h768u7",
+        "action": "Start work on 'TRUE E2E TEST: Real HTTP Execution'. Submit results via POST /api/missions/mission_1770631071974_h768u7/submit",
+        "reward": 99,
+        "requirements": [
+          "Complete via HTTP only"
+        ],
+        "deliverables": [
+          "Proof of HTTP execution"
+        ],
+        "description": "This mission tests the complete lifecycle using ONLY HTTP API calls. No core bypasses."
+      },
+      "created_at": "2026-02-09T09:57:51.983Z",
+      "expires_at": "2026-02-10T09:57:51.983Z",
+      "acknowledged": true,
+      "acknowledged_at": "2026-02-09T10:16:09.904Z"
+    }
+  ],
+  "has_more": false,
+  "count": 4,
+  "timestamp": "2026-02-09T10:16:09.906Z"
+}
+[CodeMaster] Found 4 tasks
+[CodeMaster] Evaluating task: mission_assigned mission_1770563213289_z4lzl1
+[CodeMaster] 🔄 Task already acknowledged, checking mission state...
+[CodeMaster] ✅ Mission mission_1770563213289_z4lzl1 validated: status='assigned', assigned to us
+[CodeMaster] 🚀 Starting mission mission_1770563213289_z4lzl1
+[CodeMaster] ✅ Mission started, working...
+   ✅ All bots launched
+
+📋 STEP 4: Waiting for worker to submit work...
+[CodeMaster ERROR] [CodeMaster] ❌ Submit failed: Submission failed. Check if mission is executing and assigned to you.
+[CodeMaster] Evaluating task: mission_assigned mission_1770563213293_u7hoil
+[CodeMaster] 🔄 Task already acknowledged, checking mission state...
+[CodeMaster] ✅ Mission mission_1770563213293_u7hoil validated: status='assigned', assigned to us
+[CodeMaster] 🚀 Starting mission mission_1770563213293_u7hoil
+[CodeMaster] ✅ Mission started, working...
+[CodeMaster ERROR] [CodeMaster] ❌ Submit failed: Submission failed. Check if mission is executing and assigned to you.
+[CodeMaster] Evaluating task: mission_assigned mission_1770563213297_7ijoy4
+[CodeMaster] 🔄 Task already acknowledged, checking mission state...
+[CodeMaster] ✅ Mission mission_1770563213297_7ijoy4 validated: status='assigned', assigned to us
+[CodeMaster] 🚀 Starting mission mission_1770563213297_7ijoy4
+[CodeMaster] ✅ Mission started, working...
+[CodeMaster ERROR] [CodeMaster] ❌ Submit failed: Submission failed. Check if mission is executing and assigned to you.
+[CodeMaster] Evaluating task: mission_assigned mission_1770631071974_h768u7
+[CodeMaster] 🔄 Task already acknowledged, checking mission state...
+[CodeMaster] ❌ Mission mission_1770631071974_h768u7 not found, skipping stale task
+[CodeMaster] Poll result: {
+  "success": true,
+  "agent_id": "agent_078d10e414ffab21",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:16:21.171Z"
+}
+[CodeMaster] No tasks found
+[CodeMaster] Poll result: {
+  "success": true,
+  "agent_id": "agent_078d10e414ffab21",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:16:23.183Z"
+}
+[CodeMaster] No tasks found
+[CodeMaster] Poll result: {
+  "success": true,
+  "agent_id": "agent_078d10e414ffab21",
+  "tasks": [],
+  "has_more": false,
+  "count": 0,
+  "timestamp": "2026-02-09T10:16:25.197Z"
+}
+[CodeMaster] No tasks found
+❌ Timeout waiting for status: verifying
+
+❌ E2E TEST FAILED: Worker did not submit work in time
+
+🛑 Stopping all bots...
+Fatal error: Error: Worker did not submit work in time
+    at E2ETestOrchestrator.run (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:166:23)

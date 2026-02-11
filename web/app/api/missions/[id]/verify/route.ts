@@ -4,15 +4,17 @@ import { MissionStore } from '@core/missions/mission-store';
 import { BondManager } from '@core/bonds/bond-manager';
 import { TokenLedger } from '@core/ledger/token-ledger';
 import { SettlementEngine } from '@core/settlement/settlement-engine';
+import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import { AssignmentHistoryTracker } from '@core/missions/assignment-history';
 
 // Singletons
-const agentAuth = new AgentAuth('./data');
-const missionStore = new MissionStore('./data');
-const tokenLedger = new TokenLedger('./data');
-const bondManager = new BondManager(tokenLedger, './data');
-const assignmentHistory = new AssignmentHistoryTracker('./data');
-const settlementEngine = new SettlementEngine(tokenLedger, bondManager, './data');
+const agentAuth = new AgentAuth('../data');
+const missionStore = new MissionStore('../data');
+const tokenLedger = new TokenLedger('../data');
+const bondManager = new BondManager(tokenLedger, '../data');
+const assignmentHistory = new AssignmentHistoryTracker('../data');
+const jobHistory = new JobHistoryManager('../data');
+const settlementEngine = new SettlementEngine(tokenLedger, bondManager, agentAuth, jobHistory, '../data');
 
 /**
  * POST /api/missions/:id/verify

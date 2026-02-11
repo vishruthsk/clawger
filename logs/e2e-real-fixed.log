@@ -1,0 +1,39 @@
+
+> clawger@1.0.0 test:e2e-real
+> tsx scripts/test-e2e-real.ts
+
+
+========================================
+🚀 TRUE E2E MISSION LIFECYCLE TEST
+========================================
+
+📋 STEP 1: Getting agent details...
+   Worker: CodeNewbie (agent_a11086caca147238)
+   Verifiers: VerifierAlpha, VerifierBeta, VerifierGamma
+   Worker initial balance: 200 CLAWGER
+
+📋 STEP 2: Creating mission via API...
+   ✅ Mission created: mission_1770631539256_9qtgk9
+   Status: assigned
+
+   Assigned to: CodeNewbie (agent_a11086caca147238)
+
+📋 STEP 3: Launching autonomous bots...
+🤖 Launching CodeNewbie...
+🤖 Launching VerifierAlpha_V1...
+🤖 Launching VerifierBeta_V2...
+🤖 Launching VerifierGamma_V3...
+[VerifierBeta_V2] 🤖 Verifier bot started, polling every 2000ms
+[CodeNewbie] 🤖 Worker bot started, polling every 2000ms
+[VerifierGamma_V3] 🤖 Verifier bot started, polling every 2000ms
+[VerifierAlpha_V1] 🤖 Verifier bot started, polling every 2000ms
+   ✅ All bots launched
+
+📋 STEP 4: Waiting for worker to submit work...
+❌ Timeout waiting for status: verifying
+
+❌ E2E TEST FAILED: Worker did not submit work in time
+
+🛑 Stopping all bots...
+Fatal error: Error: Worker did not submit work in time
+    at E2ETestOrchestrator.run (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:166:23)

@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AgentAuth } from '@core/registry/agent-auth';
+import { AgentAuth, validateNeuralSpec } from '@core/registry/agent-auth';
 import { TokenLedger } from '@core/ledger/token-ledger';
 
 // Singletons
-const agentAuth = new AgentAuth('./data');
-const tokenLedger = new TokenLedger('./data');
+const agentAuth = new AgentAuth('../data');
+const tokenLedger = new TokenLedger('../data');
 
 /**
  * POST /api/agents/register
- * Register a new agent (WALLET REQUIRED)
+ * Register a new agent (WALLET REQUIRED + NEURAL SPEC REQUIRED)
  */
 export async function POST(request: NextRequest) {
     try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
                 {
                     error: 'Missing required fields',
                     code: 'INVALID_REQUEST',
-                    hint: 'Required: name, wallet_address'
+                    hint: 'Required: name, wallet_address, neural_spec'
                 },
                 { status: 400 }
             );
@@ -40,8 +40,45 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Validate hourly_rate
+        if (!body.hourly_rate || body.hourly_rate <= 0) {
+            return NextResponse.json(
+                {
+                    error: 'Invalid hourly rate',
+                    code: 'INVALID_HOURLY_RATE',
+                    hint: 'hourly_rate is required and must be greater than 0'
+                },
+                { status: 400 }
+            );
+        }
+
         // ============================================
-        // STEP 2: Register agent
+        // STEP 2: Validate Neural Spec (REQUIRED)
+        // ============================================
+        if (!body.neural_spec) {
+            return NextResponse.json(
+                {
+                    error: 'Neural specification required',
+                    code: 'MISSING_NEURAL_SPEC',
+                    hint: 'All agents must submit a neural_spec defining their capabilities, tool access, and operational limits'
+                },
+                { status: 400 }
+            );
+        }
+
+        if (!validateNeuralSpec(body.neural_spec)) {
+            return NextResponse.json(
+                {
+                    error: 'Invalid neural specification',
+                    code: 'INVALID_NEURAL_SPEC',
+                    hint: 'Neural spec must include: model, provider, capabilities[], tool_access[], sla{avg_latency_ms, uptime_target}, mission_limits{max_reward, max_concurrent}, version, created_at'
+                },
+                { status: 400 }
+            );
+        }
+
+        // ============================================
+        // STEP 3: Register agent
         // ============================================
         const profile = agentAuth.register({
             address: body.wallet_address.toLowerCase(),
@@ -51,16 +88,17 @@ export async function POST(request: NextRequest) {
             description: body.description || body.bio,
             platform: body.platform || 'clawger',
             hourly_rate: body.hourly_rate,
-            wallet_address: body.wallet_address.toLowerCase()
+            wallet_address: body.wallet_address.toLowerCase(),
+            neural_spec: body.neural_spec
         });
 
         // ============================================
-        // STEP 3: Get balance for the wallet
+        // STEP 4: Get balance for the wallet
         // ============================================
         const balance = tokenLedger.getBalance(body.wallet_address.toLowerCase());
 
         // ============================================
-        // STEP 4: Return agent profile with balance
+        // STEP 5: Return agent profile with balance
         // ============================================
         return NextResponse.json({
             agent: {

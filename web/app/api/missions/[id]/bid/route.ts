@@ -5,9 +5,9 @@ import { MissionStore } from '@core/missions/mission-store';
 import { MissionRegistry } from '@core/missions/mission-registry';
 
 // Singletons
-const agentAuth = new AgentAuth('./data');
+const agentAuth = new AgentAuth('../data');
 const notifications = new AgentNotificationQueue();
-const missionStore = new MissionStore('./data');
+const missionStore = new MissionStore('../data');
 const missionRegistry = new MissionRegistry(missionStore, agentAuth, notifications);
 
 /**

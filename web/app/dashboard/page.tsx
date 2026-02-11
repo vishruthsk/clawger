@@ -37,10 +37,8 @@ export default function DashboardPage() {
     const [agentProfile, setAgentProfile] = useState<any>(null);
     const [apiKey, setApiKey] = useState<string>('');
     const [isAgentLogin, setIsAgentLogin] = useState(false);
-
-    // Import dynamically to avoid SSR issues with RainbowKit if needed, but standard import is fine usually.
-    // We need ConnectButton from rainbowkit
-    // const { ConnectButton } = require('@rainbow-me/rainbowkit');
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Initial Auth Check
     useEffect(() => {
@@ -59,9 +57,12 @@ export default function DashboardPage() {
 
     // Validate Agent Key
     const validateAgentKey = async (key: string) => {
+        setIsLoading(true);
+        setError(null);
         try {
+            const cleanKey = key.trim();
             const res = await fetch('/api/agents/me', {
-                headers: { 'Authorization': `Bearer ${key}` }
+                headers: { 'Authorization': `Bearer ${cleanKey}` }
             });
 
             if (res.ok) {
@@ -69,18 +70,23 @@ export default function DashboardPage() {
                 setAgentProfile(profile);
                 setUserIdentity('agent');
                 setIsAgentLogin(false); // Close login modal if open
-                localStorage.setItem('claw_agent_key', key);
+                localStorage.setItem('claw_agent_key', cleanKey);
             } else {
+                const data = await res.json().catch(() => ({}));
+                setError(data.error || 'Invalid API key');
                 localStorage.removeItem('claw_agent_key');
-                setApiKey('');
+                if (!isAgentLogin) setApiKey(''); // Only clear if auto-login failed
                 if (isConnected) setUserIdentity('wallet');
                 else setUserIdentity('guest');
             }
         } catch (error) {
             console.error("Agent validation failed", error);
+            setError('Connection failed. Please check your network.');
             localStorage.removeItem('claw_agent_key');
             if (isConnected) setUserIdentity('wallet');
             else setUserIdentity('guest');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -96,6 +102,7 @@ export default function DashboardPage() {
             localStorage.removeItem('claw_agent_key');
             setAgentProfile(null);
             setApiKey('');
+            setIsAgentLogin(false);
         }
         setUserIdentity('guest');
     };
@@ -190,24 +197,44 @@ export default function DashboardPage() {
                                             type="password"
                                             placeholder="claw_sk_..."
                                             value={apiKey}
-                                            onChange={(e) => setApiKey(e.target.value)}
+                                            onChange={(e) => {
+                                                setApiKey(e.target.value);
+                                                setError(null);
+                                            }}
                                             className="relative w-full bg-black border border-white/10 rounded-xl px-4 py-4 text-white focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none font-mono text-sm placeholder:text-muted/30"
                                             autoFocus
                                         />
                                     </div>
+                                    {error && (
+                                        <div className="text-red-500 text-xs font-mono bg-red-500/10 p-2 rounded-lg border border-red-500/20">
+                                            Error: {error}
+                                        </div>
+                                    )}
                                     <div className="flex gap-3">
                                         <button
                                             type="button"
-                                            onClick={() => setIsAgentLogin(false)}
+                                            onClick={() => {
+                                                setIsAgentLogin(false);
+                                                setError(null);
+                                            }}
                                             className="flex-1 bg-white/5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-colors"
+                                            disabled={isLoading}
                                         >
                                             Cancel
                                         </button>
                                         <button
                                             type="submit"
-                                            className="flex-1 bg-primary text-black py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-orange-600 transition-colors shadow-lg shadow-primary/20 hover:shadow-primary/40"
+                                            disabled={isLoading}
+                                            className="flex-1 bg-primary text-black py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-orange-600 transition-colors shadow-lg shadow-primary/20 hover:shadow-primary/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                         >
-                                            Authenticate
+                                            {isLoading ? (
+                                                <>
+                                                    <div className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                                                    <span>Verifying...</span>
+                                                </>
+                                            ) : (
+                                                <span>Authenticate</span>
+                                            )}
                                         </button>
                                     </div>
                                 </form>
@@ -239,7 +266,16 @@ export default function DashboardPage() {
                         <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 text-primary group-hover:bg-primary group-hover:text-black transition-all duration-300 shadow-[0_0_15px_-3px_rgba(249,115,22,0.3)]">
                             <Terminal className="w-6 h-6" />
                         </div>
-                        <span className="hidden lg:block font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">CLAWGER</span>
+                        <div className="hidden lg:flex items-center gap-3">
+                            <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">CLAWGER</span>
+                            <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold tracking-widest uppercase backdrop-blur-sm transition-colors group-hover:border-primary/30">
+                                <span className="relative flex h-1.5 w-1.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                                </span>
+                                <span className="text-muted group-hover:text-primary transition-colors">BETA</span>
+                            </div>
+                        </div>
                     </Link>
                 </div>
 

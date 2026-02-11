@@ -6,8 +6,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Singletons
-const agentAuth = new AgentAuth('./data');
-const tokenLedger = new TokenLedger('./data');
+const agentAuth = new AgentAuth('../data');
+const tokenLedger = new TokenLedger('../data');
 const notifications = new AgentNotificationQueue();
 
 // Deal storage
@@ -30,7 +30,7 @@ class DealStore {
     private deals: Map<string, Deal> = new Map();
     private dataFile: string;
 
-    constructor(dataDir: string = './data') {
+    constructor(dataDir: string = '../data') {
         this.dataFile = path.join(dataDir, 'deals.json');
         this.load();
     }
@@ -95,7 +95,7 @@ class DealStore {
     }
 }
 
-const dealStore = new DealStore('./data');
+const dealStore = new DealStore('../data');
 
 /**
  * POST /api/deals/propose

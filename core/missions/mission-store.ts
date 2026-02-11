@@ -12,7 +12,31 @@ export type MissionStatus =
     // Legacy states for backward compatibility
     | 'open' | 'claimed' | 'submitted' | 'verified' | 'rejected' | 'paid';
 
-export type AssignmentMode = 'autopilot' | 'bidding';
+export type AssignmentMode = 'autopilot' | 'bidding' | 'crew' | 'direct_hire';
+
+export interface ArtifactMetadata {
+    filename: string;              // Sanitized filename with timestamp prefix
+    original_filename: string;     // Original uploaded filename
+    url: string;                   // Download URL
+    size: number;                  // File size in bytes
+    mime_type: string;             // MIME type
+    uploaded_by: string;           // Agent ID or wallet address
+    uploaded_at: Date;             // Upload timestamp
+}
+
+
+export interface Subtask {
+    id: string;
+    title: string;
+    description: string;
+    required_specialty: string;
+    claimed_by?: string;
+    claimed_by_name?: string;
+    claimed_at?: Date;
+    status: 'pending' | 'claimed' | 'in_progress' | 'completed' | 'failed';
+    artifacts?: ArtifactMetadata[];
+    completion_percentage?: number;
+}
 
 export interface Bid {
     id: string;
@@ -32,6 +56,7 @@ export interface AssignmentDetails {
     assigned_at: Date;
     assignment_method: 'autopilot' | 'bidding' | 'manual';
     bid_id?: string;         // If assigned via bidding
+    reasoning?: any;         // Assignment reasoning/breakdown
 }
 
 export interface EscrowStatus {
@@ -54,16 +79,38 @@ export interface Mission {
     // Assignment
     assignment_mode: AssignmentMode;
     assigned_agent?: AssignmentDetails;
+    assignment_analysis?: {
+        base_score: number;
+        recent_wins: number;
+        diminishing_multiplier: number;
+        adjusted_score: number;
+        rank_in_pool: number;
+        pool_size: number;
+        reputation_multiplier: number;
+        explanation_text?: string;
+    };
 
     // Bidding (if assignment_mode === 'bidding')
     bidding_window_seconds?: number;     // Default 60
     bidding_window_end?: Date;
     bids?: Bid[];
 
+    // Direct Hire (if assignment_mode === 'direct_hire')
+    direct_agent_id?: string;
+    direct_agent_name?: string;
+
+    // Legacy fields for backward compatibility
+    worker_id?: string;                      // Legacy: agent ID (replaced by assigned_agent)
+    claimed_at?: Date;                       // Legacy: when agent claimed (replaced by executing_started_at)
+    submitted_at?: Date;                     // Legacy: when work submitted (replaced by verifying_started_at)
+    verified_at?: Date;                      // Legacy: when verified (replaced by settled_at)
+    paid_at?: Date;                          // Legacy: when paid
+
     // Escrow
     escrow: EscrowStatus;
 
     // Lifecycle timestamps
+    requester_id: string;
     posted_at: Date;
     assigned_at?: Date;
     executing_started_at?: Date;
@@ -144,9 +191,23 @@ export interface Mission {
     // Work submission
     submission?: {
         content: string;
-        artifacts: string[];             // Links to proof
+        artifacts: string[];             // Legacy: Links to proof
         submitted_at: Date;
     };
+
+    // Work Artifacts (real file uploads)
+    work_artifacts?: ArtifactMetadata[];
+
+    // Revision tracking
+    revision_count?: number;
+    revision_history?: {
+        revision_number: number;
+        feedback: string;
+        requested_by: string;
+        requested_at: Date;
+        revised_content?: string;
+        revised_at?: Date;
+    }[];
 
     // Verification
     verification?: {
@@ -182,13 +243,77 @@ export class MissionStore {
                 const rawData = fs.readFileSync(this.dataFile, 'utf-8');
                 const data = JSON.parse(rawData);
 
-                // Hydrate dates
+                // Clear existing missions to prevent stale data
+                this.missions.clear();
+
+                // ✅ CRITICAL: Hydrate ALL date fields (top-level and nested)
                 for (const item of data) {
-                    item.posted_at = new Date(item.posted_at);
+                    // Top-level dates
+                    if (item.posted_at) item.posted_at = new Date(item.posted_at);
+                    if (item.bidding_window_end) item.bidding_window_end = new Date(item.bidding_window_end);
+                    if (item.assigned_at) item.assigned_at = new Date(item.assigned_at);
+                    if (item.executing_started_at) item.executing_started_at = new Date(item.executing_started_at);
+                    if (item.verifying_started_at) item.verifying_started_at = new Date(item.verifying_started_at);
+                    if (item.settled_at) item.settled_at = new Date(item.settled_at);
+                    if (item.failed_at) item.failed_at = new Date(item.failed_at);
+
+                    // Legacy dates (backward compatibility)
                     if (item.claimed_at) item.claimed_at = new Date(item.claimed_at);
                     if (item.submitted_at) item.submitted_at = new Date(item.submitted_at);
                     if (item.verified_at) item.verified_at = new Date(item.verified_at);
                     if (item.paid_at) item.paid_at = new Date(item.paid_at);
+
+                    // Nested dates in escrow
+                    if (item.escrow?.locked_at) item.escrow.locked_at = new Date(item.escrow.locked_at);
+                    if (item.escrow?.released_at) item.escrow.released_at = new Date(item.escrow.released_at);
+
+                    // Nested dates in assigned_agent
+                    if (item.assigned_agent?.assigned_at) {
+                        item.assigned_agent.assigned_at = new Date(item.assigned_agent.assigned_at);
+                    }
+
+                    // Nested dates in submission
+                    if (item.submission?.submitted_at) {
+                        item.submission.submitted_at = new Date(item.submission.submitted_at);
+                    }
+
+                    // Nested dates in work_artifacts
+                    if (item.work_artifacts) {
+                        item.work_artifacts = item.work_artifacts.map((artifact: any) => ({
+                            ...artifact,
+                            uploaded_at: artifact.uploaded_at ? new Date(artifact.uploaded_at) : artifact.uploaded_at
+                        }));
+                    }
+
+                    // Nested dates in bids
+                    if (item.bids) {
+                        item.bids = item.bids.map((bid: any) => ({
+                            ...bid,
+                            submitted_at: bid.submitted_at ? new Date(bid.submitted_at) : bid.submitted_at
+                        }));
+                    }
+
+                    // Nested dates in subtasks
+                    if (item.subtasks) {
+                        item.subtasks = item.subtasks.map((subtask: any) => ({
+                            ...subtask,
+                            claimed_at: subtask.claimed_at ? new Date(subtask.claimed_at) : subtask.claimed_at
+                        }));
+                    }
+
+                    // Nested dates in revision_history
+                    if (item.revision_history) {
+                        item.revision_history = item.revision_history.map((revision: any) => ({
+                            ...revision,
+                            requested_at: revision.requested_at ? new Date(revision.requested_at) : revision.requested_at,
+                            revised_at: revision.revised_at ? new Date(revision.revised_at) : revision.revised_at
+                        }));
+                    }
+
+                    // Nested dates in verification
+                    if (item.verification?.verified_at) {
+                        item.verification.verified_at = new Date(item.verification.verified_at);
+                    }
 
                     this.missions.set(item.id, item);
                 }
@@ -201,6 +326,13 @@ export class MissionStore {
         if (this.missions.size === 0) {
             this.seedMocks();
         }
+    }
+
+    /**
+     * Reload missions from disk to ensure fresh data across API route instances
+     */
+    private ensureFresh() {
+        this.load();
     }
 
     private seedMocks() {
@@ -277,7 +409,9 @@ export class MissionStore {
                         agent_id: 'sec_bot_9000',
                         agent_name: 'SecBot 9000',
                         price: 2400,
-                        submitted_at: new Date()
+                        submitted_at: new Date(),
+                        eta_minutes: 60,
+                        bond_offered: 100
                     }
                 ],
                 requirements: [], deliverables: []
@@ -343,8 +477,10 @@ export class MissionStore {
         try {
             const data = Array.from(this.missions.values());
             fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
+            console.log(`[PERSIST] missions.json flushed (${data.length} missions)`);
         } catch (error) {
-            console.error('Failed to save missions:', error);
+            console.error('[MissionStore] CRITICAL: Failed to save missions:', error);
+            throw new Error(`[MissionStore] CRITICAL: Persistence failure - ${error}`);
         }
     }
 
@@ -371,22 +507,146 @@ export class MissionStore {
     }
 
     get(id: string): Mission | null {
-        if (!this.missions.has(id)) {
-            this.load(); // Try reloading in case created by another instance
-        }
+        this.ensureFresh();
         return this.missions.get(id) || null;
     }
 
     update(id: string, updates: Partial<Mission>): Mission | null {
-        const mission = this.missions.get(id);
-        if (!mission) return null;
+        // ✅ CRITICAL: Reload from disk to ensure fresh data
+        this.ensureFresh();
 
+        const mission = this.missions.get(id);
+        if (!mission) {
+            console.error(`[MissionStore] CRITICAL: Mission ${id} not found for update`);
+            return null;
+        }
+
+        // ✅ CRITICAL: Auto-attach lifecycle timestamps when status changes
+        // This is the BULLETPROOF fix - no matter WHERE status is changed,
+        // the corresponding timestamp will always be set.
+        if (updates.status && updates.status !== mission.status) {
+            const now = new Date();
+            switch (updates.status) {
+                case 'assigned':
+                    if (!updates.assigned_at && !mission.assigned_at) {
+                        updates.assigned_at = now;
+                        console.log(`[MissionStore] Auto-attached assigned_at for ${id}`);
+                    }
+                    break;
+                case 'executing':
+                    if (!updates.executing_started_at && !mission.executing_started_at) {
+                        updates.executing_started_at = now;
+                        console.log(`[MissionStore] Auto-attached executing_started_at for ${id}`);
+                    }
+                    // Also backfill assigned_at if missing
+                    if (!updates.assigned_at && !mission.assigned_at) {
+                        updates.assigned_at = now;
+                        console.log(`[MissionStore] Auto-backfilled assigned_at for ${id}`);
+                    }
+                    break;
+                case 'verifying':
+                    if (!updates.verifying_started_at && !mission.verifying_started_at) {
+                        updates.verifying_started_at = now;
+                        console.log(`[MissionStore] Auto-attached verifying_started_at for ${id}`);
+                    }
+                    // Also backfill executing_started_at if missing
+                    if (!updates.executing_started_at && !mission.executing_started_at) {
+                        updates.executing_started_at = now;
+                        console.log(`[MissionStore] Auto-backfilled executing_started_at for ${id}`);
+                    }
+                    // Also backfill assigned_at if missing
+                    if (!updates.assigned_at && !mission.assigned_at) {
+                        updates.assigned_at = now;
+                        console.log(`[MissionStore] Auto-backfilled assigned_at for ${id}`);
+                    }
+                    break;
+                case 'settled':
+                    if (!updates.settled_at && !mission.settled_at) {
+                        updates.settled_at = now;
+                        console.log(`[MissionStore] Auto-attached settled_at for ${id}`);
+                    }
+                    // Also backfill verifying_started_at if missing
+                    if (!updates.verifying_started_at && !mission.verifying_started_at) {
+                        updates.verifying_started_at = now;
+                        console.log(`[MissionStore] Auto-backfilled verifying_started_at for ${id}`);
+                    }
+                    // Also backfill executing_started_at if missing
+                    if (!updates.executing_started_at && !mission.executing_started_at) {
+                        updates.executing_started_at = now;
+                        console.log(`[MissionStore] Auto-backfilled executing_started_at for ${id}`);
+                    }
+                    // Also backfill assigned_at if missing
+                    if (!updates.assigned_at && !mission.assigned_at) {
+                        updates.assigned_at = now;
+                        console.log(`[MissionStore] Auto-backfilled assigned_at for ${id}`);
+                    }
+                    break;
+                case 'paid':
+                    if (!updates.paid_at && !mission.paid_at) {
+                        updates.paid_at = now;
+                        console.log(`[MissionStore] Auto-attached paid_at for ${id}`);
+                    }
+                    if (!updates.settled_at && !mission.settled_at) {
+                        updates.settled_at = now;
+                        console.log(`[MissionStore] Auto-backfilled settled_at for ${id}`);
+                    }
+                    if (!updates.verifying_started_at && !mission.verifying_started_at) {
+                        updates.verifying_started_at = now;
+                        console.log(`[MissionStore] Auto-backfilled verifying_started_at for ${id}`);
+                    }
+                    if (!updates.executing_started_at && !mission.executing_started_at) {
+                        updates.executing_started_at = now;
+                        console.log(`[MissionStore] Auto-backfilled executing_started_at for ${id}`);
+                    }
+                    if (!updates.assigned_at && !mission.assigned_at) {
+                        updates.assigned_at = now;
+                        console.log(`[MissionStore] Auto-backfilled assigned_at for ${id}`);
+                    }
+                    break;
+                case 'failed':
+                    if (!updates.failed_at && !mission.failed_at) {
+                        updates.failed_at = now;
+                        console.log(`[MissionStore] Auto-attached failed_at for ${id}`);
+                    }
+                    break;
+            }
+        }
+
+        // Apply updates
         Object.assign(mission, updates);
+
+        // ✅ CRITICAL: Explicit set to ensure map is updated
+        this.missions.set(id, mission);
+
+        // ✅ CRITICAL: Persist immediately
         this.save();
-        return mission;
+
+        // ✅ Log persistence
+        console.log(`[MissionStore] Persisted update: ${id}`, Object.keys(updates));
+
+        // ✅ CRITICAL: Verify persistence by reloading
+        this.ensureFresh();
+        const verified = this.missions.get(id);
+
+        if (!verified) {
+            throw new Error(`[MissionStore] CRITICAL: Update failed to persist for mission ${id}`);
+        }
+
+        // Verify critical fields persisted
+        for (const key of Object.keys(updates)) {
+            if (updates[key as keyof Mission] !== undefined && verified[key as keyof Mission] === undefined) {
+                throw new Error(
+                    `[MissionStore] CRITICAL: Field ${key} failed to persist for mission ${id}`
+                );
+            }
+        }
+
+        console.log(`[PERSIST] Mission ${id} verified successfully`);
+        return verified;
     }
 
     list(filters?: { status?: string; tag?: string; claimed_by?: string }): Mission[] {
+        this.ensureFresh();
         let results = Array.from(this.missions.values());
 
         if (filters?.status) {
@@ -422,7 +682,7 @@ export class MissionStore {
         });
     }
 
-    submit(id: string, agentId: string, content: string, artifacts: string[]): Mission | null {
+    submit(id: string, agentId: string, content: string, artifacts: ArtifactMetadata[]): Mission | null {
         const mission = this.get(id);
         if (!mission) throw new Error('Mission not found');
         if (mission.claimed_by !== agentId) throw new Error('Not authorized to submit');
@@ -433,9 +693,10 @@ export class MissionStore {
             submitted_at: new Date(),
             submission: {
                 content,
-                artifacts,
+                artifacts: [],  // Legacy field
                 submitted_at: new Date()
-            }
+            },
+            work_artifacts: artifacts  // Real artifacts
         });
     }
 

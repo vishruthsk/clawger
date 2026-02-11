@@ -5,8 +5,8 @@ import { AgentAPI } from '@core/api/agent-api';
 
 // Initialize singletons (Must match initialization in other routes to share state if in-memory)
 // Note: In a real app, these would be injected or imported from a shared instance file.
-// Since these classes seem to use file-system persistence (e.g. './data'), instantiating new ones *should* be safe if they just read/write files.
-const agentAuth = new AgentAuth('./data');
+// Since these classes seem to use file-system persistence (e.g. '../data'), instantiating new ones *should* be safe if they just read/write files.
+const agentAuth = new AgentAuth('../data');
 const notificationQueue = new AgentNotificationQueue();
 const agentAPI = new AgentAPI(agentAuth, notificationQueue);
 

@@ -10,16 +10,14 @@ import { getLogPrefix } from '../../config/demo-config';
 
 const logger = console;
 
-// ABI for AgentRegistry contract (simplified)
+// ABI for AgentRegistry contract (matches deployed AgentRegistryV3)
 const AGENT_REGISTRY_ABI = [
-    'function registerAgent(uint8 agentType, string[] capabilities, uint256 minFee, uint256 minBond, address operator)',
-    'function getAgent(address agent) view returns (tuple(address wallet, uint8 agentType, string[] capabilities, uint256 minFee, uint256 minBond, address operator, uint256 reputation, bool active, uint256 registeredAt))',
-    'function queryWorkers(uint256 minReputation) view returns (address[])',
-    'function queryVerifiers(uint256 minReputation) view returns (address[])',
-    'function isActive(address agent) view returns (bool)',
-    'function updateReputation(address agent, uint256 newReputation)',
-    'function getCapabilities(address agent) view returns (string[])',
-    'function hasCapability(address agent, string capability) view returns (bool)',
+    'function registerAgent(uint8 agentType, bytes32[] capabilities, uint256 minFee, uint256 minBond, address operator)',
+    'function getAgent(address agent) view returns (tuple(address wallet, uint8 agentType, bytes32[] capabilities, uint256 minFee, uint256 minBond, address operator, uint256 reputation, bool active, bool exists, uint256 registeredAt, uint256 updatedAt))',
+    'function getReputation(address agent) view returns (uint256)',
+    'function updateReputation(address agent, uint256 newReputation, string reason)',
+    'event AgentRegistered(address indexed agent, uint8 indexed agentType, uint256 minFee, uint256 minBond, bytes32[] capabilities)',
+    'event AgentUpdated(address indexed agent, uint256 minFee, uint256 minBond, bytes32[] capabilities, address operator)',
 ];
 
 export class AgentRegistry {
@@ -158,6 +156,8 @@ export class AgentRegistry {
 
     /**
      * Query workers by minimum reputation
+     * Note: The contract doesn't have queryWorkers function, so we use mock data in production
+     * In a real implementation, you would index AgentRegistered events off-chain
      */
     async queryWorkers(minReputation: number = 0): Promise<RegisteredAgent[]> {
         if (this.useMock) {
@@ -168,16 +168,16 @@ export class AgentRegistry {
             );
         }
 
-        if (!this.contract) {
-            throw new Error('Contract not available');
-        }
-
-        const addresses = await (this.contract as any).queryWorkers(minReputation);
-        return Promise.all(addresses.map((addr: string) => this.getAgent(addr)));
+        // For real contract, we need to index events off-chain
+        // This is a limitation of the current contract design
+        console.warn('queryWorkers: Contract does not support on-chain queries. Use event indexing.');
+        return [];
     }
 
     /**
      * Query verifiers by minimum reputation
+     * Note: The contract doesn't have queryVerifiers function, so we use mock data in production
+     * In a real implementation, you would index AgentRegistered events off-chain
      */
     async queryVerifiers(minReputation: number = 0): Promise<RegisteredAgent[]> {
         if (this.useMock) {
@@ -188,12 +188,9 @@ export class AgentRegistry {
             );
         }
 
-        if (!this.contract) {
-            throw new Error('Contract not available');
-        }
-
-        const addresses = await (this.contract as any).queryVerifiers(minReputation);
-        return Promise.all(addresses.map((addr: string) => this.getAgent(addr)));
+        // For real contract, we need to index events off-chain
+        console.warn('queryVerifiers: Contract does not support on-chain queries. Use event indexing.');
+        return [];
     }
 
     /**
@@ -214,10 +211,11 @@ export class AgentRegistry {
 
         const agentData = await (this.contract as any).getAgent(address);
 
+        // Contract returns: (wallet, agentType, capabilities, minFee, minBond, operator, reputation, active, exists, registeredAt, updatedAt)
         return {
             address: agentData.wallet,
             type: agentData.agentType === 0 ? 'worker' : 'verifier',
-            capabilities: agentData.capabilities,
+            capabilities: agentData.capabilities.map((cap: string) => ethers.decodeBytes32String(cap)),
             minFee: ethers.formatEther(agentData.minFee),
             minBond: ethers.formatEther(agentData.minBond),
             operator: agentData.operator !== ethers.ZeroAddress ? agentData.operator : undefined,
@@ -233,7 +231,8 @@ export class AgentRegistry {
     async updateReputation(
         address: string,
         newReputation: number,
-        signer?: ethers.Signer
+        signer?: ethers.Signer,
+        reason: string = 'Manual update'
     ): Promise<void> {
         const prefix = getLogPrefix();
 
@@ -254,12 +253,13 @@ export class AgentRegistry {
             throw new Error('Contract or signer not available');
         }
 
-        const tx = await (this.contract.connect(signer) as any).updateReputation(address, newReputation);
+        const tx = await (this.contract.connect(signer) as any).updateReputation(address, newReputation, reason);
         await tx.wait();
     }
 
     /**
      * Check if agent has specific capability
+     * Note: Contract doesn't have hasCapability function, so we call getAgent and check locally
      */
     async hasCapability(address: string, capability: string): Promise<boolean> {
         if (this.useMock) {
@@ -271,7 +271,13 @@ export class AgentRegistry {
             throw new Error('Contract not available');
         }
 
-        return await (this.contract as any).hasCapability(address, capability);
+        // Get agent and check capabilities locally
+        try {
+            const agent = await this.getAgent(address);
+            return agent.capabilities.includes(capability);
+        } catch {
+            return false;
+        }
     }
 
     /**

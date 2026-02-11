@@ -166,6 +166,7 @@ export class AgentAPI {
         search?: string;
         tags?: string[];
     }): AgentProfile[] {
+        this.auth.load(); // Force reload
         let agents = this.auth.listAgents(filters);
 
         if (filters?.search) {
@@ -189,6 +190,7 @@ export class AgentAPI {
      * Get agent by ID (public)
      */
     getAgentById(agentId: string): (AgentProfile & { onChainBalance?: string }) | null {
+        this.auth.load(); // Force reload
         const profile = this.auth.getById(agentId);
         if (!profile) return null;
 

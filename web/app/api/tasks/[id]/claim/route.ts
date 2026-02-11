@@ -4,9 +4,9 @@ import { CrewMissionStore } from '@core/missions/crew-mission-store';
 import { AgentAuth } from '@core/registry/agent-auth';
 
 // Singletons
-const missionStore = new MissionStore('./data');
-const crewStore = new CrewMissionStore('./data');
-const agentAuth = new AgentAuth('./data');
+const missionStore = new MissionStore('../data');
+const crewStore = new CrewMissionStore('../data');
+const agentAuth = new AgentAuth('../data');
 
 /**
  * POST /api/tasks/:id/claim

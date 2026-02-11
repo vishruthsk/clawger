@@ -1,40 +1,112 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+interface IAgentRegistry {
+    function updateReputation(address agent, uint256 newScore, string calldata reason) external;
+    function getReputation(address agent) external view returns (uint256);
+}
+
 /**
- * @title ClawgerManager
- * @notice Core contract for CLAWGER autonomous agent system
- * @dev Manages proposals, tasks, escrow, bonding, and reputation on Monad
+ * @title ClawgerManagerV4
+ * @notice Gasless CLGR escrow + bond + slashing economy for CLAWGER
+ *
+ * CRITICAL ARCHITECTURE:
+ * - CLAWGER NEVER PAYS GAS
+ * - Uses EIP-712 signatures for accept/reject
+ * - Anyone can submit transactions with valid signature
+ * - Proposer/relayer pays gas, CLAWGER signs off-chain
+ *
+ * ECONOMY:
+ * - Proposal bond in CLGR
+ * - Escrow in CLGR
+ * - Worker bond in CLGR
+ * - Slashing in CLGR
+ *
+ * SAFETY:
+ * - No stuck escrow (expiry + refund)
+ * - NonReentrant payouts
+ * - One-time settlement
+ * - Signature replay protection
+ * - Task expiry mechanism
+ * - Address validation
+ * - Pausable operations
  */
-contract ClawgerManager {
-    
-    // ============ State Variables ============
-    
-    address public immutable clawger; // CLAWGER's wallet address
-    uint256 public proposalCounter;
-    uint256 public taskCounter;
-    
-    uint256 public constant PROPOSAL_BOND = 0.1 ether; // Required bond to submit proposal
-    uint256 public constant BOND_BURN_PERCENT = 50; // 50% burned on reject, 50% to CLAWGER
-    
-    // ============ Structs ============
-    
-    enum ProposalStatus { Pending, Accepted, Countered, Rejected, Expired, Closed }
-    enum TaskStatus { Created, Assigned, InProgress, Completed, Failed, Verified }
-    
+contract ClawgerManagerV4 is ReentrancyGuard, Pausable, EIP712 {
+    using SafeERC20 for IERC20;
+    using ECDSA for bytes32;
+
+    // =============================================================
+    //                        IMMUTABLES
+    // =============================================================
+
+    IERC20 public immutable CLGR;
+    address public immutable clawger;
+    IAgentRegistry public immutable registry;
+
+    address public constant BURN_ADDRESS =
+        0x000000000000000000000000000000000000dEaD;
+
+    // =============================================================
+    //                        CONSTANTS
+    // =============================================================
+
+    uint256 public constant PROPOSAL_BOND = 100 ether; // 100 CLGR
+    uint256 public constant BOND_BURN_PERCENT = 50;
+    uint256 public constant TASK_EXPIRY_DURATION = 7 days;
+    uint256 public constant MAX_ESCROW = 1_000_000 ether; // 1M CLGR
+    uint256 public constant MAX_OBJECTIVE_LENGTH = 1000;
+    uint256 public constant MIN_WORKER_BOND = 1 ether; // 1 CLGR
+
+    // EIP-712 type hashes
+    bytes32 public constant ACCEPT_PROPOSAL_TYPEHASH = keccak256(
+        "AcceptProposal(uint256 proposalId,address worker,address verifier,uint256 workerBond,uint256 deadline)"
+    );
+
+    bytes32 public constant REJECT_PROPOSAL_TYPEHASH = keccak256(
+        "RejectProposal(uint256 proposalId,string reason,uint256 deadline)"
+    );
+
+    // =============================================================
+    //                        ENUMS
+    // =============================================================
+
+    enum ProposalStatus {
+        Pending,
+        Accepted,
+        Rejected,
+        Expired
+    }
+
+    enum TaskStatus {
+        Created,
+        Bonded,
+        InProgress,
+        Completed,
+        Verified,
+        Failed
+    }
+
+    // =============================================================
+    //                        STRUCTS
+    // =============================================================
+
     struct Proposal {
         uint256 id;
         address proposer;
         string objective;
-        uint256 budget;
-        uint256 deadline; // Unix timestamp
-        string riskTolerance; // "low", "medium", "high"
+        uint256 escrow;
+        uint256 deadline;
         ProposalStatus status;
-        uint256 bondAmount;
-        uint256 submissionTime;
-        uint256 counterExpiration; // For time-bound counter-offers
+        uint256 createdAt;
     }
-    
+
     struct Task {
         uint256 id;
         uint256 proposalId;
@@ -42,485 +114,472 @@ contract ClawgerManager {
         address verifier;
         uint256 escrow;
         uint256 workerBond;
-        uint256 clawgerFee;
         TaskStatus status;
+        bool settled;
         uint256 createdAt;
         uint256 completedAt;
     }
-    
-    struct AgentReputation {
-        uint256 tasksCompleted;
-        uint256 tasksAssigned;
-        uint256 totalEarned;
-        uint256 totalSlashed;
-        uint256 reputationScore; // 0-100
-    }
-    
-    // ============ Storage ============
-    
+
+    // =============================================================
+    //                        STORAGE
+    // =============================================================
+
+    uint256 public proposalCounter;
+    uint256 public taskCounter;
+
     mapping(uint256 => Proposal) public proposals;
     mapping(uint256 => Task) public tasks;
-    mapping(address => AgentReputation) public agentReputations;
-    mapping(address => uint256) public agentBonds; // Active bonds per agent
-    
-    // ============ Events ============
-    
+    mapping(uint256 => uint256) public lockedWorkerBond;
+
+    // Replay protection
+    mapping(uint256 => bool) public proposalProcessed;
+
+    // =============================================================
+    //                        EVENTS
+    // =============================================================
+
     event ProposalSubmitted(
         uint256 indexed proposalId,
         address indexed proposer,
-        string objective,
-        uint256 budget,
-        uint256 deadline,
-        uint256 bondAmount
+        uint256 escrow,
+        uint256 deadline
     );
-    
+
     event ProposalAccepted(
         uint256 indexed proposalId,
         uint256 indexed taskId,
-        uint256 escrow,
-        uint256 clawgerFee
-    );
-    
-    event ProposalCountered(
-        uint256 indexed proposalId,
-        uint256 newBudget,
-        uint256 newDeadline,
-        uint256 expiresAt
-    );
-    
-    event ProposalRejected(
-        uint256 indexed proposalId,
-        string reason,
-        uint256 bondBurned,
-        uint256 bondToClawger
-    );
-    
-    event CounterOfferExpired(
-        uint256 indexed proposalId,
-        uint256 bondRefunded
-    );
-    
-    event TaskCreated(
-        uint256 indexed taskId,
-        uint256 indexed proposalId,
-        uint256 escrow,
-        address worker,
+        address indexed worker,
         address verifier
     );
-    
-    event TaskCompleted(
+
+    event ProposalRejected(
+        uint256 indexed proposalId,
+        string reason
+    );
+
+    event WorkerBondPosted(
+        uint256 indexed taskId,
+        address indexed worker,
+        uint256 amount
+    );
+
+    event TaskStarted(uint256 indexed taskId);
+
+    event TaskCompleted(uint256 indexed taskId);
+
+    event TaskSettled(
         uint256 indexed taskId,
         bool success,
-        uint256 payout,
-        address worker
+        uint256 payout
     );
-    
-    event AgentSlashed(
-        address indexed agent,
-        uint256 amount,
-        string reason,
-        uint256 indexed taskId
-    );
-    
-    event ReputationUpdated(
-        address indexed agent,
-        uint256 newScore,
-        uint256 tasksCompleted,
-        uint256 tasksAssigned
-    );
-    
-    event BondPosted(
-        address indexed agent,
-        uint256 amount,
-        uint256 indexed taskId
-    );
-    
-    event BondReleased(
-        address indexed agent,
-        uint256 amount,
-        uint256 indexed taskId
-    );
-    
-    // ============ Modifiers ============
-    
-    modifier onlyClawger() {
-        require(msg.sender == clawger, "Only CLAWGER can call this");
+
+    event TaskExpired(uint256 indexed taskId);
+
+    // =============================================================
+    //                        STATE
+    // =============================================================
+
+    address public owner;
+
+    // =============================================================
+    //                        MODIFIERS
+    // =============================================================
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
         _;
     }
-    
-    // ============ Constructor ============
-    
-    constructor(address _clawger) {
-        require(_clawger != address(0), "Invalid CLAWGER address");
-        clawger = _clawger;
+
+    modifier onlyWorker(uint256 taskId) {
+        require(msg.sender == tasks[taskId].worker, "Not worker");
+        _;
     }
-    
-    // ============ Proposal Functions ============
-    
+
+    modifier onlyVerifierOrClawger(uint256 taskId) {
+        require(
+            msg.sender == tasks[taskId].verifier || msg.sender == clawger,
+            "Not verifier or CLAWGER"
+        );
+        _;
+    }
+
+    // =============================================================
+    //                        CONSTRUCTOR
+    // =============================================================
+
+    constructor(
+        address _clgr,
+        address _registry,
+        address _clawger
+    ) EIP712("ClawgerManagerV4", "1") {
+        require(_clgr != address(0), "Invalid CLGR");
+        require(_registry != address(0), "Invalid registry");
+        require(_clawger != address(0), "Invalid clawger");
+
+        CLGR = IERC20(_clgr);
+        registry = IAgentRegistry(_registry);
+        clawger = _clawger;
+        owner = msg.sender;
+    }
+
+    // =============================================================
+    //                     REGISTRY WIRING
+    // =============================================================
+
     /**
-     * @notice Submit a proposal to CLAWGER
-     * @dev Requires PROPOSAL_BOND to be sent with transaction
+     * @notice Accept manager role from AgentRegistry
+     * @dev This allows the Manager contract to become the authorized manager of the Registry
+     *      Must be called after Registry.proposeManager(thisContract) by Registry owner
      */
+    function acceptRegistryManagerRole() external onlyOwner {
+        // Call acceptManagerRole on the Registry
+        // This requires the Registry to have proposed this contract as the pending manager
+        (bool success, ) = address(registry).call(
+            abi.encodeWithSignature("acceptManagerRole()")
+        );
+        require(success, "Failed to accept manager role");
+    }
+
+    // =============================================================
+    //                     PROPOSAL LIFECYCLE
+    // =============================================================
+
     function submitProposal(
         string calldata objective,
-        uint256 budget,
-        uint256 deadline,
-        string calldata riskTolerance
-    ) external payable returns (uint256) {
-        require(msg.value == PROPOSAL_BOND, "Incorrect proposal bond");
-        require(bytes(objective).length > 0, "Objective cannot be empty");
-        require(budget > 0, "Budget must be greater than 0");
-        require(deadline > block.timestamp, "Deadline must be in the future");
-        
+        uint256 escrowAmount,
+        uint256 deadline
+    ) external whenNotPaused returns (uint256) {
+        require(bytes(objective).length > 0, "Empty objective");
+        require(bytes(objective).length <= MAX_OBJECTIVE_LENGTH, "Objective too long");
+        require(deadline > block.timestamp, "Bad deadline");
+        require(escrowAmount > 0, "Escrow required");
+        require(escrowAmount <= MAX_ESCROW, "Escrow too large");
+
+        // Lock escrow + bond upfront
+        CLGR.safeTransferFrom(
+            msg.sender,
+            address(this),
+            escrowAmount + PROPOSAL_BOND
+        );
+
         uint256 proposalId = ++proposalCounter;
-        
+
         proposals[proposalId] = Proposal({
             id: proposalId,
             proposer: msg.sender,
             objective: objective,
-            budget: budget,
+            escrow: escrowAmount,
             deadline: deadline,
-            riskTolerance: riskTolerance,
             status: ProposalStatus.Pending,
-            bondAmount: PROPOSAL_BOND,
-            submissionTime: block.timestamp,
-            counterExpiration: 0
+            createdAt: block.timestamp
         });
-        
-        emit ProposalSubmitted(
-            proposalId,
-            msg.sender,
-            objective,
-            budget,
-            deadline,
-            PROPOSAL_BOND
-        );
-        
+
+        emit ProposalSubmitted(proposalId, msg.sender, escrowAmount, deadline);
+
         return proposalId;
     }
-    
+
     /**
-     * @notice CLAWGER accepts a proposal and creates a task
-     * @dev Refunds proposal bond and locks escrow
+     * @notice Accept proposal with CLAWGER's signature (CLAWGER PAYS NO GAS)
+     * @dev Anyone can submit this transaction if they have a valid signature from CLAWGER
      */
-    function acceptProposal(
+    function acceptProposalWithSignature(
         uint256 proposalId,
-        uint256 escrow,
-        uint256 clawgerFee,
+        address worker,
+        address verifier,
+        uint256 workerBond,
+        uint256 deadline,
+        bytes calldata signature
+    ) external whenNotPaused returns (uint256) {
+        require(block.timestamp <= deadline, "Signature expired");
+        require(!proposalProcessed[proposalId], "Already processed");
+
+        // Verify EIP-712 signature
+        bytes32 structHash = keccak256(abi.encode(
+            ACCEPT_PROPOSAL_TYPEHASH,
+            proposalId,
+            worker,
+            verifier,
+            workerBond,
+            deadline
+        ));
+
+        bytes32 hash = _hashTypedDataV4(structHash);
+        address signer = hash.recover(signature);
+
+        require(signer == clawger, "Invalid signature");
+
+        // Mark as processed
+        proposalProcessed[proposalId] = true;
+
+        // Execute acceptance
+        return _acceptProposal(proposalId, worker, verifier, workerBond);
+    }
+
+    /**
+     * @notice Reject proposal with CLAWGER's signature (CLAWGER PAYS NO GAS)
+     * @dev Anyone can submit this transaction if they have a valid signature from CLAWGER
+     */
+    function rejectProposalWithSignature(
+        uint256 proposalId,
+        string calldata reason,
+        uint256 deadline,
+        bytes calldata signature
+    ) external whenNotPaused {
+        require(block.timestamp <= deadline, "Signature expired");
+        require(!proposalProcessed[proposalId], "Already processed");
+
+        // Verify EIP-712 signature
+        bytes32 structHash = keccak256(abi.encode(
+            REJECT_PROPOSAL_TYPEHASH,
+            proposalId,
+            keccak256(bytes(reason)),
+            deadline
+        ));
+
+        bytes32 hash = _hashTypedDataV4(structHash);
+        address signer = hash.recover(signature);
+
+        require(signer == clawger, "Invalid signature");
+
+        // Mark as processed
+        proposalProcessed[proposalId] = true;
+
+        // Execute rejection
+        _rejectProposal(proposalId, reason);
+    }
+
+    /**
+     * @notice Internal function to accept proposal
+     */
+    function _acceptProposal(
+        uint256 proposalId,
         address worker,
         address verifier,
         uint256 workerBond
-    ) external onlyClawger returns (uint256) {
-        Proposal storage proposal = proposals[proposalId];
-        require(proposal.status == ProposalStatus.Pending, "Proposal not pending");
-        
-        proposal.status = ProposalStatus.Accepted;
-        
-        // Refund proposal bond
-        payable(proposal.proposer).transfer(proposal.bondAmount);
-        
-        // Create task
+    ) internal returns (uint256) {
+        Proposal storage p = proposals[proposalId];
+
+        require(p.status == ProposalStatus.Pending, "Not pending");
+        require(block.timestamp < p.deadline, "Expired");
+        require(worker != address(0), "Invalid worker");
+        require(verifier != address(0), "Invalid verifier");
+        require(workerBond >= MIN_WORKER_BOND, "Bond too small");
+
+        p.status = ProposalStatus.Accepted;
+
+        // Refund bond immediately
+        CLGR.safeTransfer(p.proposer, PROPOSAL_BOND);
+
         uint256 taskId = ++taskCounter;
-        
+
         tasks[taskId] = Task({
             id: taskId,
             proposalId: proposalId,
             worker: worker,
             verifier: verifier,
-            escrow: escrow,
+            escrow: p.escrow,
             workerBond: workerBond,
-            clawgerFee: clawgerFee,
             status: TaskStatus.Created,
+            settled: false,
             createdAt: block.timestamp,
             completedAt: 0
         });
-        
-        emit ProposalAccepted(proposalId, taskId, escrow, clawgerFee);
-        emit TaskCreated(taskId, proposalId, escrow, worker, verifier);
-        
+
+        emit ProposalAccepted(proposalId, taskId, worker, verifier);
+
         return taskId;
     }
-    
+
     /**
-     * @notice CLAWGER counters a proposal with new terms
-     * @dev Sets 10-minute expiration timer
+     * @notice Internal function to reject proposal
      */
-    function counterProposal(
-        uint256 proposalId,
-        uint256 newBudget,
-        uint256 newDeadline
-    ) external onlyClawger {
-        Proposal storage proposal = proposals[proposalId];
-        require(proposal.status == ProposalStatus.Pending, "Proposal not pending");
-        
-        proposal.status = ProposalStatus.Countered;
-        proposal.budget = newBudget;
-        proposal.deadline = newDeadline;
-        proposal.counterExpiration = block.timestamp + 10 minutes;
-        
-        emit ProposalCountered(
-            proposalId,
-            newBudget,
-            newDeadline,
-            proposal.counterExpiration
-        );
-    }
-    
-    /**
-     * @notice Human accepts CLAWGER's counter-offer
-     */
-    function acceptCounterOffer(uint256 proposalId) external {
-        Proposal storage proposal = proposals[proposalId];
-        require(proposal.status == ProposalStatus.Countered, "No active counter-offer");
-        require(msg.sender == proposal.proposer, "Only proposer can accept");
-        require(block.timestamp < proposal.counterExpiration, "Counter-offer expired");
-        
-        // Reset to pending for CLAWGER to accept with new terms
-        proposal.status = ProposalStatus.Pending;
-        proposal.counterExpiration = 0;
-    }
-    
-    /**
-     * @notice CLAWGER rejects a proposal
-     * @dev Burns 50% of bond, sends 50% to CLAWGER
-     */
-    function rejectProposal(
+    function _rejectProposal(
         uint256 proposalId,
         string calldata reason
-    ) external onlyClawger {
-        Proposal storage proposal = proposals[proposalId];
-        require(
-            proposal.status == ProposalStatus.Pending || 
-            proposal.status == ProposalStatus.Countered,
-            "Proposal not in rejectable state"
-        );
-        
-        proposal.status = ProposalStatus.Rejected;
-        
-        uint256 bondAmount = proposal.bondAmount;
-        uint256 burnAmount = (bondAmount * BOND_BURN_PERCENT) / 100;
-        uint256 toClawger = bondAmount - burnAmount;
-        
-        // Burn portion (send to address(0))
-        payable(address(0)).transfer(burnAmount);
-        
-        // Send remainder to CLAWGER
-        payable(clawger).transfer(toClawger);
-        
-        emit ProposalRejected(proposalId, reason, burnAmount, toClawger);
-    }
-    
-    /**
-     * @notice Expire counter-offer if not accepted within 10 minutes
-     * @dev Can be called by anyone, refunds bond
-     */
-    function expireCounterOffer(uint256 proposalId) external {
-        Proposal storage proposal = proposals[proposalId];
-        require(proposal.status == ProposalStatus.Countered, "No active counter-offer");
-        require(block.timestamp >= proposal.counterExpiration, "Counter-offer not expired yet");
-        
-        proposal.status = ProposalStatus.Expired;
-        
-        // Refund bond on expiration
-        uint256 bondAmount = proposal.bondAmount;
-        payable(proposal.proposer).transfer(bondAmount);
-        
-        emit CounterOfferExpired(proposalId, bondAmount);
-    }
-    
-    // ============ Task Execution Functions ============
-    
-    /**
-     * @notice Worker posts bond to accept task
-     */
-    function postWorkerBond(uint256 taskId) external payable {
-        Task storage task = tasks[taskId];
-        require(task.status == TaskStatus.Created, "Task not available");
-        require(msg.sender == task.worker, "Not assigned worker");
-        require(msg.value == task.workerBond, "Incorrect bond amount");
-        
-        agentBonds[msg.sender] += msg.value;
-        task.status = TaskStatus.Assigned;
-        
-        emit BondPosted(msg.sender, msg.value, taskId);
-    }
-    
-    /**
-     * @notice Worker marks task as in progress
-     */
-    function startTask(uint256 taskId) external {
-        Task storage task = tasks[taskId];
-        require(task.status == TaskStatus.Assigned, "Task not assigned");
-        require(msg.sender == task.worker, "Not assigned worker");
-        
-        task.status = TaskStatus.InProgress;
-    }
-    
-    /**
-     * @notice Worker submits completed work
-     */
-    function submitWork(uint256 taskId) external {
-        Task storage task = tasks[taskId];
-        require(task.status == TaskStatus.InProgress, "Task not in progress");
-        require(msg.sender == task.worker, "Not assigned worker");
-        
-        task.status = TaskStatus.Completed;
-        task.completedAt = block.timestamp;
-    }
-    
-    /**
-     * @notice Verifier validates work and triggers payout or slashing
-     */
-    function verifyTask(uint256 taskId, bool success) external {
-        Task storage task = tasks[taskId];
-        require(task.status == TaskStatus.Completed, "Task not completed");
-        require(msg.sender == task.verifier, "Not assigned verifier");
-        
-        task.status = success ? TaskStatus.Verified : TaskStatus.Failed;
-        
-        if (success) {
-            // Release worker bond
-            agentBonds[task.worker] -= task.workerBond;
-            
-            // Pay worker (escrow + bond back)
-            uint256 payout = task.escrow + task.workerBond;
-            payable(task.worker).transfer(payout);
-            
-            // Update reputation positively
-            _updateReputation(task.worker, true, task.escrow);
-            
-            emit BondReleased(task.worker, task.workerBond, taskId);
-            emit TaskCompleted(taskId, true, payout, task.worker);
-            
-        } else {
-            // Slash worker bond
-            uint256 slashAmount = task.workerBond;
-            agentBonds[task.worker] -= slashAmount;
-            
-            // Send slashed amount to CLAWGER
-            payable(clawger).transfer(slashAmount);
-            
-            // Update reputation negatively
-            _updateReputation(task.worker, false, slashAmount);
-            
-            emit AgentSlashed(task.worker, slashAmount, "Verification failed", taskId);
-            emit TaskCompleted(taskId, false, 0, task.worker);
-        }
-    }
-    
-    // ============ Reputation Functions ============
-    
-    function _updateReputation(
-        address agent,
-        bool success,
-        uint256 amount
     ) internal {
-        AgentReputation storage rep = agentReputations[agent];
-        
-        rep.tasksAssigned++;
-        
+        Proposal storage p = proposals[proposalId];
+
+        require(p.status == ProposalStatus.Pending, "Not pending");
+
+        p.status = ProposalStatus.Rejected;
+
+        // Burn 50% of bond
+        uint256 burnAmount = (PROPOSAL_BOND * BOND_BURN_PERCENT) / 100;
+        uint256 toClawger = PROPOSAL_BOND - burnAmount;
+
+        CLGR.safeTransfer(BURN_ADDRESS, burnAmount);
+        CLGR.safeTransfer(clawger, toClawger);
+
+        // Refund escrow
+        CLGR.safeTransfer(p.proposer, p.escrow);
+
+        emit ProposalRejected(proposalId, reason);
+    }
+
+    // =============================================================
+    //                     TASK LIFECYCLE
+    // =============================================================
+
+    function postWorkerBond(uint256 taskId) external nonReentrant onlyWorker(taskId) {
+        Task storage t = tasks[taskId];
+
+        require(t.status == TaskStatus.Created, "Not created");
+
+        CLGR.safeTransferFrom(msg.sender, address(this), t.workerBond);
+
+        lockedWorkerBond[taskId] = t.workerBond;
+        t.status = TaskStatus.Bonded;
+
+        emit WorkerBondPosted(taskId, msg.sender, t.workerBond);
+    }
+
+    function startTask(uint256 taskId) external onlyWorker(taskId) {
+        Task storage t = tasks[taskId];
+
+        require(t.status == TaskStatus.Bonded, "Not bonded");
+
+        t.status = TaskStatus.InProgress;
+
+        emit TaskStarted(taskId);
+    }
+
+    function submitWork(uint256 taskId) external onlyWorker(taskId) {
+        Task storage t = tasks[taskId];
+
+        require(t.status == TaskStatus.InProgress, "Not in progress");
+
+        t.status = TaskStatus.Completed;
+        t.completedAt = block.timestamp;
+
+        emit TaskCompleted(taskId);
+    }
+
+    function verifyTask(
+        uint256 taskId,
+        bool success
+    ) external nonReentrant onlyVerifierOrClawger(taskId) {
+        Task storage t = tasks[taskId];
+
+        require(t.status == TaskStatus.Completed, "Not completed");
+        require(!t.settled, "Already settled");
+
+        t.settled = true;
+
+        uint256 bond = lockedWorkerBond[taskId];
+
         if (success) {
-            rep.tasksCompleted++;
-            rep.totalEarned += amount;
-            
-            // Increase reputation (max 100)
-            if (rep.reputationScore < 100) {
-                rep.reputationScore = rep.reputationScore + 2 > 100 
-                    ? 100 
-                    : rep.reputationScore + 2;
-            }
+            t.status = TaskStatus.Verified;
+
+            uint256 payout = t.escrow + bond;
+            CLGR.safeTransfer(t.worker, payout);
+
+            // Update reputation: +5
+            uint256 currentRep = registry.getReputation(t.worker);
+            uint256 newRep = currentRep + 5;
+            if (newRep > 100) newRep = 100;
+            registry.updateReputation(t.worker, newRep, "Task completed");
+
+            emit TaskSettled(taskId, true, payout);
+
         } else {
-            rep.totalSlashed += amount;
-            
-            // Decrease reputation (min 0)
-            if (rep.reputationScore >= 15) {
-                rep.reputationScore -= 15;
-            } else {
-                rep.reputationScore = 0;
-            }
+            t.status = TaskStatus.Failed;
+
+            // Slash bond → CLAWGER
+            CLGR.safeTransfer(clawger, bond);
+
+            // Refund escrow → proposer
+            Proposal storage p = proposals[t.proposalId];
+            CLGR.safeTransfer(p.proposer, t.escrow);
+
+            // Update reputation: -15
+            uint256 currentRep = registry.getReputation(t.worker);
+            uint256 newRep = currentRep >= 15 ? currentRep - 15 : 0;
+            registry.updateReputation(t.worker, newRep, "Task failed");
+
+            emit TaskSettled(taskId, false, 0);
         }
-        
-        emit ReputationUpdated(
-            agent,
-            rep.reputationScore,
-            rep.tasksCompleted,
-            rep.tasksAssigned
-        );
+
+        lockedWorkerBond[taskId] = 0;
+        t.escrow = 0;
     }
-    
-    /**
-     * @notice Get agent reputation
-     */
-    function getAgentReputation(address agent) 
-        external 
-        view 
-        returns (
-            uint256 tasksCompleted,
-            uint256 tasksAssigned,
-            uint256 totalEarned,
-            uint256 totalSlashed,
-            uint256 reputationScore
-        ) 
-    {
-        AgentReputation memory rep = agentReputations[agent];
-        return (
-            rep.tasksCompleted,
-            rep.tasksAssigned,
-            rep.totalEarned,
-            rep.totalSlashed,
-            rep.reputationScore
-        );
+
+    // =============================================================
+    //                     TASK EXPIRY
+    // =============================================================
+
+    function expireTask(uint256 taskId) external nonReentrant {
+        Task storage t = tasks[taskId];
+        require(t.status == TaskStatus.Completed, "Not completed");
+        require(!t.settled, "Already settled");
+        require(block.timestamp >= t.completedAt + TASK_EXPIRY_DURATION, "Not expired");
+
+        t.settled = true;
+        t.status = TaskStatus.Failed;
+
+        // Refund bond to worker (they did submit work)
+        uint256 bond = lockedWorkerBond[taskId];
+        CLGR.safeTransfer(t.worker, bond);
+
+        // Refund escrow to proposer
+        Proposal storage p = proposals[t.proposalId];
+        CLGR.safeTransfer(p.proposer, t.escrow);
+
+        lockedWorkerBond[taskId] = 0;
+        t.escrow = 0;
+
+        emit TaskExpired(taskId);
     }
-    
-    /**
-     * @notice Get proposal details
-     */
-    function getProposal(uint256 proposalId) 
-        external 
-        view 
-        returns (Proposal memory) 
-    {
-        return proposals[proposalId];
+
+    // =============================================================
+    //                     EMERGENCY
+    // =============================================================
+
+    function pause() external onlyOwner {
+        _pause();
     }
-    
-    /**
-     * @notice Get task details
-     */
-    function getTask(uint256 taskId) 
-        external 
-        view 
-        returns (Task memory) 
-    {
-        return tasks[taskId];
+
+    function unpause() external onlyOwner {
+        _unpause();
     }
-    
-    // ============ Treasury Functions ============
-    
-    /**
-     * @notice CLAWGER can fund the contract treasury
-     */
-    function fundTreasury() external payable onlyClawger {
-        // Funds added to contract balance
+
+    // =============================================================
+    //                     VIEW FUNCTIONS
+    // =============================================================
+
+    function getDomainSeparator() external view returns (bytes32) {
+        return _domainSeparatorV4();
     }
-    
-    /**
-     * @notice Get contract balance (CLAWGER's treasury)
-     */
-    function getTreasuryBalance() external view returns (uint256) {
-        return address(this).balance;
+
+    function getAcceptProposalHash(
+        uint256 proposalId,
+        address worker,
+        address verifier,
+        uint256 workerBond,
+        uint256 deadline
+    ) external view returns (bytes32) {
+        bytes32 structHash = keccak256(abi.encode(
+            ACCEPT_PROPOSAL_TYPEHASH,
+            proposalId,
+            worker,
+            verifier,
+            workerBond,
+            deadline
+        ));
+        return _hashTypedDataV4(structHash);
     }
-    
-    /**
-     * @notice Emergency withdraw (CLAWGER only)
-     */
-    function emergencyWithdraw(uint256 amount) external onlyClawger {
-        require(amount <= address(this).balance, "Insufficient balance");
-        payable(clawger).transfer(amount);
-    }
-    
-    // ============ Fallback ============
-    
-    receive() external payable {
-        // Accept direct deposits to treasury
+
+    function getRejectProposalHash(
+        uint256 proposalId,
+        string calldata reason,
+        uint256 deadline
+    ) external view returns (bytes32) {
+        bytes32 structHash = keccak256(abi.encode(
+            REJECT_PROPOSAL_TYPEHASH,
+            proposalId,
+            keccak256(bytes(reason)),
+            deadline
+        ));
+        return _hashTypedDataV4(structHash);
     }
 }

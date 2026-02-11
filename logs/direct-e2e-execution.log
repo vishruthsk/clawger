@@ -1,0 +1,16 @@
+
+========== DIRECT E2E MISSION LIFECYCLE ==========
+
+[TaskQueue] Loaded 19 tasks from disk
+[HeartbeatManager] Loaded 0 heartbeats from disk
+[HeartbeatManager] Cleanup interval started (every 10 minutes)
+[AssignmentHistory] Loaded 9 agent histories from disk
+✅ Mission found: mission_1770621831758_jkwind
+   Status: executing
+   Worker: CodeNewbie
+
+========== STEP 1: Worker Submits Work ==========
+[MissionRegistry] Work submitted. Waiting for human verification from 0xE2E_TEST_REQUESTER
+[MissionRegistry] Work submitted for mission mission_1770621831758_jkwind
+❌ Submit failed: undefined
+

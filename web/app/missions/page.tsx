@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Loader2, Terminal, Plus, Grid, LayoutList, Clock, DollarSign, Calendar, ArrowUpRight, Zap, Shield, FileText, ShieldCheck } from "lucide-react";
+import { Search, Loader2, Terminal, Plus, Grid, LayoutList, Clock, DollarSign, Calendar, ArrowUpRight, Zap, Shield, FileText, ShieldCheck, Users } from "lucide-react";
 import { useMissions } from "../../hooks/use-clawger";
 import { format, formatDistanceToNow } from "date-fns";
 import { useState, useEffect } from "react";
@@ -75,7 +75,7 @@ export default function MissionsList() {
                             <Terminal className="w-6 h-6" />
                         </div>
                         <div>
-                            <h1 className="font-bold tracking-tight text-2xl text-white">Mission Protocol</h1>
+                            <h1 className="font-bold tracking-tight text-2xl text-white">Missions</h1>
                             <p className="text-xs text-muted font-mono flex items-center gap-2 mt-1">
                                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.8)]"></span>
                                 {filteredMissions.length} Active Contracts
@@ -125,7 +125,7 @@ export default function MissionsList() {
                         {/* Tabs */}
                         <div className="flex items-center gap-6">
                             {[
-                                { id: 'all', label: 'All Protocols' },
+                                { id: 'all', label: 'All Missions' },
                                 { id: 'crew', label: 'Crew Missions' },
                                 { id: 'solo', label: 'Solo Tasks' },
                                 { id: 'mine', label: 'My Missions' }
@@ -200,18 +200,26 @@ export default function MissionsList() {
                                 </div>
 
                                 <div className="p-6 relative z-10 flex flex-col h-full">
-                                    {/* Top Row: Status & ID */}
+                                    {/* Top Row: Status & Crew Badge */}
                                     <div className="flex justify-between items-start mb-4 pr-16">
-                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider border ${getStatusColor(contract.status || contract.state)}`}>
-                                            {getStatusIcon(contract.status || contract.state)}
-                                            {contract.status || contract.state || 'OPEN'}
-                                        </span>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider border ${getStatusColor(contract.status || contract.state)}`}>
+                                                {getStatusIcon(contract.status || contract.state)}
+                                                {contract.status || contract.state || 'OPEN'}
+                                            </span>
+                                            {contract.assignment_mode === 'crew' && (
+                                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider border border-blue-500/20 bg-blue-500/10 text-blue-400">
+                                                    <Users className="w-3 h-3" />
+                                                    Crew
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* ID & Date Row */}
                                     <div className="flex items-center gap-3 mb-3 text-[10px] text-muted font-mono">
                                         <span className="bg-white/5 px-1.5 py-0.5 rounded border border-white/5 truncate max-w-[100px]">
-                                            {(contract.id || contract.contract_id || '').substring(0, 12)}
+                                            {(contract.id || contract.contract_id || '').replace('mission_', '').substring(0, 8)}
                                         </span>
                                         <span className="flex items-center gap-1">
                                             <Clock className="w-3 h-3" />
@@ -228,6 +236,19 @@ export default function MissionsList() {
                                             {contract.description || 'No detailed parameters provided for this protocol execution.'}
                                         </p>
                                     </div>
+
+                                    {/* Crew Subtask Progress */}
+                                    {contract.assignment_mode === 'crew' && contract.task_graph && (
+                                        <div className="mb-4 bg-[#111] rounded-lg p-2.5 border border-white/5">
+                                            <div className="text-[9px] text-muted uppercase font-bold mb-1.5 tracking-wider">Subtask Progress</div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="text-sm text-white font-mono font-bold">
+                                                    {Object.values(contract.task_graph.nodes || {}).filter((n: any) => n.claimed_by).length}/{Object.keys(contract.task_graph.nodes || {}).length}
+                                                </div>
+                                                <div className="text-[10px] text-muted">claimed</div>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Footer Stats - Compact */}
                                     <div className="grid grid-cols-2 gap-2 pt-4 border-t border-white/5">
@@ -288,7 +309,7 @@ export default function MissionsList() {
                                     <tr key={contract.id || contract.contract_id} className="hover:bg-white/5 transition-colors group">
                                         <td className="px-6 py-4 font-mono text-primary/70 text-xs">
                                             <Link href={`/missions/${contract.id || contract.contract_id}`} className="hover:underline hover:text-primary">
-                                                {(contract.id || contract.contract_id || '').substring(0, 12)}...
+                                                {(contract.id || contract.contract_id || '').replace('mission_', '').substring(0, 8)}
                                             </Link>
                                         </td>
                                         <td className="px-6 py-4 text-white max-w-md truncate font-medium group-hover:text-primary/90 transition-colors">

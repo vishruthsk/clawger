@@ -6,8 +6,9 @@
  */
 
 import { AgentAuth, AgentProfile } from '../registry/agent-auth';
-import { Mission } from './mission-store';
+import { Mission, MissionStore } from './mission-store';
 import { AssignmentHistoryTracker } from './assignment-history';
+import { ReputationEngine } from '../agents/reputation-engine';
 
 export interface AssignmentScore {
     agent_id: string;
@@ -15,6 +16,7 @@ export interface AssignmentScore {
     base_score: number;
     recent_wins: number;
     anti_monopoly_multiplier: number;
+    reputation_multiplier: number;
     final_score: number;
     rank_in_pool?: number;
     breakdown: {
@@ -38,6 +40,9 @@ export interface AssignmentResult {
         adjusted_score: number;
         rank_in_pool: number;
         pool_size: number;
+        reputation_multiplier: number;
+        explanation_text: string;
+        top_candidates?: { agent_name: string; final_score: number }[];
     };
     reason?: string;
     scores?: AssignmentScore[];
@@ -56,7 +61,7 @@ export interface AssignmentConfig {
 }
 
 const DEFAULT_CONFIG: AssignmentConfig = {
-    max_active_missions_per_agent: 3,
+    max_active_missions_per_agent: 10,  // Increased from 3 to allow more concurrent missions
     diminishing_factor: 0.9,
     top_k_pool_size: 5,
     weights: {
@@ -71,14 +76,20 @@ export class AssignmentEngine {
     private agentAuth: AgentAuth;
     private config: AssignmentConfig;
     private historyTracker: AssignmentHistoryTracker;
+    private missionStore: MissionStore;
+    private reputationEngine: ReputationEngine;
 
     constructor(
         agentAuth: AgentAuth,
         historyTracker: AssignmentHistoryTracker,
+        missionStore: MissionStore,
+        reputationEngine: ReputationEngine,
         config?: Partial<AssignmentConfig>
     ) {
         this.agentAuth = agentAuth;
         this.historyTracker = historyTracker;
+        this.missionStore = missionStore;
+        this.reputationEngine = reputationEngine;
         this.config = { ...DEFAULT_CONFIG, ...config };
     }
 
@@ -106,8 +117,20 @@ export class AssignmentEngine {
         // Step 3: Calculate scores
         const scores = this.calculateScores(candidates, mission);
 
-        // Step 4: Select winner deterministically
-        const winner = this.selectWinner(scores, mission.id);
+        // Step 4: Select winner (Exploration vs Exploitation)
+        // 85% chance to pick best score (Exploitation)
+        // 15% chance to pick random from top K (Exploration)
+        const isExploration = Math.random() < 0.15;
+        let winner: AssignmentScore | null = null;
+        let selectionMethod = 'best_score';
+
+        if (isExploration && scores.length > 1) {
+            console.log(`[AssignmentEngine] 🎲 Exploration mode triggered (15%)`);
+            winner = this.selectExplorationWinner(scores);
+            selectionMethod = 'exploration_random';
+        } else {
+            winner = this.selectWinner(scores, mission.id);
+        }
 
         if (!winner) {
             return {
@@ -120,7 +143,7 @@ export class AssignmentEngine {
         // Step 5: Record assignment
         this.recordAssignment(winner.agent_id, mission.id);
 
-        console.log(`[AssignmentEngine] Assigned to ${winner.agent_name} (score: ${winner.final_score.toFixed(3)}, rank: ${winner.rank_in_pool})`);
+        console.log(`[AssignmentEngine] Assigned to ${winner.agent_name} (score: ${winner.final_score.toFixed(3)}, method: ${selectionMethod})`);
 
         return {
             success: true,
@@ -134,7 +157,13 @@ export class AssignmentEngine {
                 diminishing_multiplier: winner.anti_monopoly_multiplier,
                 adjusted_score: winner.final_score,
                 rank_in_pool: winner.rank_in_pool || 1,
-                pool_size: Math.min(this.config.top_k_pool_size, scores.length)
+                pool_size: Math.min(this.config.top_k_pool_size, scores.length),
+                reputation_multiplier: winner.reputation_multiplier,
+                explanation_text: this.generateExplanation(winner, selectionMethod === 'exploration_random'),
+                top_candidates: scores.slice(0, 5).map(s => ({
+                    agent_name: s.agent_name,
+                    final_score: s.final_score
+                }))
             },
             scores
         };
@@ -144,7 +173,11 @@ export class AssignmentEngine {
      * Apply hard filters to candidate pool
      */
     private applyHardFilters(agents: AgentProfile[], mission: Mission): AgentProfile[] {
-        return agents.filter(agent => {
+        console.log(`[AssignmentEngine] Filtering ${agents.length} agents for mission ${mission.id}`);
+        console.log(`  Specialty required: ${mission.specialties?.join(', ') || 'none'}`);
+        console.log(`  Reward: ${mission.reward} CLAWGER`);
+
+        const filtered = agents.filter(agent => {
             // Filter 1: Specialty match
             if (mission.specialties && mission.specialties.length > 0) {
                 const agentSpecialties = agent.specialties || [];
@@ -154,25 +187,62 @@ export class AssignmentEngine {
                         reqSpec.toLowerCase().includes(agentSpec.toLowerCase())
                     )
                 );
-                if (!hasMatch) return false;
+                if (!hasMatch) {
+                    console.log(`  ❌ ${agent.name}: Missing specialty (has: ${agentSpecialties.join(', ')})`);
+                    return false;
+                }
             }
 
-            // Filter 2: Availability
-            if (!agent.available) return false;
+            // Filter 2: Neural Spec Capability Match (if neural_spec exists)
+            if (agent.neural_spec && mission.specialties && mission.specialties.length > 0) {
+                const neuralCapabilities = agent.neural_spec.capabilities || [];
+                const hasCapability = mission.specialties.some(reqSpec =>
+                    neuralCapabilities.some(cap =>
+                        cap.toLowerCase().includes(reqSpec.toLowerCase()) ||
+                        reqSpec.toLowerCase().includes(cap.toLowerCase())
+                    )
+                );
+                if (!hasCapability) {
+                    console.log(`  ❌ ${agent.name}: Neural spec lacks required capability (has: ${neuralCapabilities.join(', ')})`);
+                    return false;
+                }
+            }
 
-            // Filter 3: Agent must not be suspended
+            // Filter 3: Neural Spec Max Reward Limit (if neural_spec exists)
+            if (agent.neural_spec && agent.neural_spec.mission_limits) {
+                const maxReward = agent.neural_spec.mission_limits.max_reward;
+                if (mission.reward > maxReward) {
+                    console.log(`  ❌ ${agent.name}: Mission reward (${mission.reward}) exceeds max_reward limit (${maxReward})`);
+                    return false;
+                }
+            }
+
+            // Filter 4: Availability
+            if (!agent.available) {
+                console.log(`  ❌ ${agent.name}: Not available`);
+                return false;
+            }
+
+            // Filter 5: Agent must not be suspended
             if (agent.status === 'suspended') {
+                console.log(`  ❌ ${agent.name}: Suspended`);
                 return false;
             }
 
-            // Filter 4: Agent must have capacity (max active missions)
+            // Filter 6: Agent must have capacity (respect neural_spec max_concurrent if exists)
             const activeMissions = this.getActiveMissionCount(agent.id);
-            if (activeMissions >= this.config.max_active_missions_per_agent) {
+            const maxConcurrent = agent.neural_spec?.mission_limits?.max_concurrent || this.config.max_active_missions_per_agent;
+            if (activeMissions >= maxConcurrent) {
+                console.log(`  ❌ ${agent.name}: At capacity (${activeMissions}/${maxConcurrent})`);
                 return false;
             }
 
+            console.log(`  ✅ ${agent.name}: Passed all filters (active: ${activeMissions}/${maxConcurrent})`);
             return true;
         });
+
+        console.log(`[AssignmentEngine] ${filtered.length} candidates after filtering`);
+        return filtered;
     }
 
     /**
@@ -207,11 +277,23 @@ export class AssignmentEngine {
                 rate_score * this.config.weights.rate +
                 latency_score * this.config.weights.latency;
 
-            // Apply anti-monopoly multiplier using persistent history
+            // --- Multipliers ---
+
+            // 1. Reputation Multiplier: clamp(0.9, 1.6, 0.9 + reputation/200)
+            // This ensures even 0 reputation gets 0.9x, and max rep gets 1.4x (capped at 1.6x)
+            let reputation_multiplier = 0.9 + (agent.reputation / 200);
+            reputation_multiplier = Math.max(0.9, Math.min(1.6, reputation_multiplier));
+
+            // 2. Anti-Monopoly Multiplier (Diminishing returns)
             const recent_wins = this.historyTracker.getRecentWins(agent.id);
             const anti_monopoly_multiplier = Math.pow(this.config.diminishing_factor, recent_wins);
 
-            const final_score = base_score * anti_monopoly_multiplier;
+            // 3. Cooldown Penalty (Hard -0.15 check)
+            // If won last 3 missions (consecutive wins >= 3), apply penalty
+            const consecutiveWins = this.historyTracker.getConsecutiveWins(agent.id);
+            const cooldown_penalty = consecutiveWins >= 3 ? 0.15 : 0;
+
+            const final_score = (base_score * reputation_multiplier * anti_monopoly_multiplier) - cooldown_penalty;
 
             return {
                 agent_id: agent.id,
@@ -219,6 +301,7 @@ export class AssignmentEngine {
                 base_score,
                 recent_wins,
                 anti_monopoly_multiplier,
+                reputation_multiplier,
                 final_score,
                 breakdown: {
                     reputation_score,
@@ -228,6 +311,17 @@ export class AssignmentEngine {
                 }
             };
         }).sort((a, b) => b.final_score - a.final_score); // Sort descending
+    }
+
+    /**
+     * Select random winner from top K eligible candidates (Exploration)
+     */
+    private selectExplorationWinner(scores: AssignmentScore[]): AssignmentScore {
+        const topK = scores.slice(0, Math.min(this.config.top_k_pool_size, scores.length));
+        const randomIndex = Math.floor(Math.random() * topK.length);
+        const winner = topK[randomIndex];
+        winner.rank_in_pool = randomIndex + 1; // It's their rank in result list, effectively
+        return winner;
     }
 
     /**
@@ -297,9 +391,13 @@ export class AssignmentEngine {
      * Get active mission count for agent
      */
     private getActiveMissionCount(agentId: string): number {
-        // Use assignment history as proxy for active missions
-        // In production, this would query the mission store
-        return this.historyTracker.getRecentWins(agentId, 3);
+        // Query mission store for actual active missions
+        const missions = this.missionStore.list();
+        const activeMissions = missions.filter(m =>
+            m.assigned_agent?.agent_id === agentId &&
+            ['assigned', 'executing', 'verifying'].includes(m.status)
+        );
+        return activeMissions.length;
     }
 
     /**
@@ -325,5 +423,35 @@ export class AssignmentEngine {
      */
     getHistoryTracker(): AssignmentHistoryTracker {
         return this.historyTracker;
+    }
+
+    /**
+     * Generate human-readable explanation for assignment choice
+     */
+    private generateExplanation(score: AssignmentScore, isExploration: boolean = false): string {
+        const parts = [];
+
+        if (isExploration) {
+            parts.push("Selected via Exploration Protocol (15% chance) to give opportunities to eligible candidates.");
+            return parts.join(" ");
+        }
+
+        if (score.reputation_multiplier > 1.1) {
+            parts.push("Strong reputation significantly boosted score.");
+        } else if (score.reputation_multiplier < 0.95) {
+            parts.push("Low reputation slightly penalized selection probability.");
+        }
+
+        if (score.recent_wins > 0) {
+            parts.push(`Prioritized others slightly due to ${score.recent_wins} recent wins (Anti-Monopoly).`);
+        }
+
+        if (score.base_score > 0.8) {
+            parts.push("Excellent capability and bond match.");
+        } else if (score.base_score > 0.6) {
+            parts.push("Good overall capability match.");
+        }
+
+        return parts.join(" ") || "Selected based on balanced scoring of reputation and availability.";
     }
 }

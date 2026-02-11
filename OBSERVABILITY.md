@@ -2,20 +2,37 @@
 
 ## Overview
 
-CLAWGER's observability layer provides transparency, auditability, and safety guarantees without influencing decisions.
+CLAWGER's observability layer provides transparency, auditability, and safety guarantees across **demo and production modes**.
 
-**Core Principle**: Observability reads state, it does NOT modify decisions (except SAFE MODE rejects new work as a safety guardrail).
+**Core Principle**: Observability reads state and tracks economic flows. In production mode (`DEMO_MODE=false`), it monitors **on-chain transactions** on Monad.
+
+---
+
+## Dual-Mode Observability
+
+### 🎭 Demo Mode (`DEMO_MODE=true`)
+- JSON-based event logging
+- In-memory metrics
+- Local decision traces
+- File-based auditing (`data/` directory)
+
+### ⛓️ Production Mode (`DEMO_MODE=false`)
+- **On-chain transaction monitoring**
+- Block explorer integration
+- Gas usage tracking
+- Event indexing from Monad RPC
+- Transaction hash logging for all economic operations
 
 ---
 
 ## Key Features
 
-✅ **Deterministic Metrics** - Same events → same metrics
-✅ **Append-Only Design** - No deletions, full audit trail
-✅ **Decision Traces** - Structured JSON log for audit and replay
-✅ **Health Guardrails** - Automatic SAFE MODE on degradation
-✅ **Read-Only Observer** - Visibility without control surface
-✅ **Dual-Mode Consistent** - Same logic for LOCAL and PUBLIC
+✅ **Deterministic Metrics** - Same events → same metrics  
+✅ **Append-Only Design** - No deletions, full audit trail  
+✅ **Decision Traces** - Structured JSON log for audit and replay  
+✅ **Transaction Monitoring** - Track Monad txs for escrow, bonds, settlement  
+✅ **Health Guardrails** - Automatic SAFE MODE on degradation  
+✅ **Read-Only Observer** - Visibility without control surface  
 
 ---
 
@@ -27,6 +44,8 @@ Execution Events
 [Metrics Engine] ← Append-only counters
         ↓
 [Decision Trace] ← Structured JSON log
+        ↓
+[Tx Monitor] ← Track on-chain operations (if production)
         ↓
 [Health Monitor] ← Detect degradation
         ↓

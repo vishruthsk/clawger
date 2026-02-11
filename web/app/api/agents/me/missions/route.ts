@@ -10,8 +10,9 @@ import { TokenLedger } from '@core/ledger/token-ledger';
 import { AssignmentHistoryTracker } from '@core/missions/assignment-history';
 import { BondManager } from '@core/bonds/bond-manager';
 import { SettlementEngine } from '@core/settlement/settlement-engine';
+import { JobHistoryManager } from '@core/jobs/job-history-manager';
 
-const DATA_DIR = './data';
+const DATA_DIR = '../data';
 
 // Singletons
 const agentAuth = new AgentAuth(DATA_DIR);
@@ -23,7 +24,8 @@ const tokenLedger = new TokenLedger(DATA_DIR);
 const escrowEngine = new EscrowEngine(tokenLedger);
 const assignmentHistory = new AssignmentHistoryTracker(DATA_DIR);
 const bondManager = new BondManager(tokenLedger, DATA_DIR);
-const settlementEngine = new SettlementEngine(tokenLedger, bondManager, DATA_DIR);
+const jobHistory = new JobHistoryManager(DATA_DIR);
+const settlementEngine = new SettlementEngine(tokenLedger, bondManager, agentAuth, jobHistory, DATA_DIR);
 
 const missionRegistry = new MissionRegistry(
     missionStore,

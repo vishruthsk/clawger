@@ -5,6 +5,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, ShieldCheck, Zap, Server, Activity, Briefcase, DollarSign, Trophy, Box, Bot } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import JobHistory from "../../../components/agents/JobHistory";
+import ReputationBreakdown from "../../../components/agents/ReputationBreakdown";
+import AgentStatus from "../../../components/agents/AgentStatus";
 
 export default function BotProfile() {
     const params = useParams();
@@ -85,43 +88,39 @@ export default function BotProfile() {
                         {/* Info Column */}
                         <div className="flex-1 flex flex-col justify-center h-full py-10">
 
-                            {/* Status Pill - Smaller */}
+                            {/* Status Pill - Real-time */}
                             <div className="mb-4">
-                                <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[9px] uppercase font-bold tracking-widest ${agent.available
-                                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
-                                    : 'bg-red-500/10 border-red-500/20 text-red-500'
-                                    }`}>
-                                    <span className={`w-1 h-1 rounded-full animate-pulse ${agent.available ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                                    {agent.available ? 'AVAILABLE' : 'BUSY'}
-                                </div>
+                                <AgentStatus agentId={id} />
                             </div>
 
                             {/* Name & ID */}
-                            <h1 className="text-6xl font-bold text-white/50 tracking-tight font-sans mb-1 drop-shadow-sm">
+                            <h1 className="text-3xl md:text-4xl font-bold text-white/50 tracking-tight font-sans mb-6 drop-shadow-sm truncate max-w-[600px]">
                                 {agent.name || 'bot_01'}
                             </h1>
-                            {/* ID visually hidden or subtle? Screenshot shows large Name. Keeping subtle ID if needed, or purely cosmetic. */}
+                            <div className="flex items-center gap-3">
+                                <span className="px-2 py-1 rounded-md bg-white/10 text-xs font-mono text-muted">
+                                    {agent.id ? `ID: ${agent.id.replace('agent_', '').substring(0, 8)}` : 'UNKNOWN'}
+                                </span>
+                            </div>
 
                         </div>
 
                     </div>
 
                     {/* (Re-added Tilted Robot Watermark (Right Side) as requested) */}
-                    <div className="absolute right-32 -bottom-24 text-white/[0.07] transform rotate-12 pointer-events-none select-none mix-blend-screen scale-[1.0] group-hover:scale-[1.05] group-hover:rotate-6 transition-all duration-700">
-                        <Bot className="w-[350px] h-[350px] stroke-2" />
+                    <div className="absolute right-12 -bottom-24 text-white/[0.03] transform rotate-12 pointer-events-none select-none mix-blend-screen scale-[1.0] group-hover:scale-[1.05] group-hover:rotate-6 transition-all duration-700">
+                        <Bot className="w-[360px] h-[360px] stroke-[1.5]" />
                     </div>
 
                     {/* Glass Reputation Card (Check layout position in screenshot - tends to be top right floating) */}
-                    <div className="absolute top-1/2 -translate-y-1/2 right-16 z-20">
-                        <div className="w-44 h-32 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden group/rep">
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover/rep:opacity-100 transition-opacity" />
+                    <div className="absolute top-1/2 -translate-y-1/2 right-12 z-20">
+                        <div className="w-40 h-32 bg-black/40 backdrop-blur-xl rounded-2xl border border-white/10 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden group/rep hover:border-emerald-500/30 transition-colors">
+                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover/rep:opacity-100 transition-opacity" />
 
-
-
-                            <span className="text-5xl font-mono font-bold text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)] relative z-10">
-                                {agent.reputation || 100}
+                            <span className="text-4xl font-mono font-bold text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)] relative z-10">
+                                {Number(agent.reputation || 50).toFixed(2)}
                             </span>
-                            <span className="text-[10px] uppercase font-bold text-muted tracking-[0.2em] mt-2 group-hover/rep:text-white transition-colors relative z-10">Reputation</span>
+                            <span className="text-[10px] uppercase font-bold text-muted tracking-[0.2em] mt-2 group-hover/rep:text-emerald-200 transition-colors relative z-10">Reputation</span>
                         </div>
                     </div>
                 </div>
@@ -131,8 +130,8 @@ export default function BotProfile() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <StatCard label="Jobs Completed" value={agent.jobs_completed || "0"} />
                     <StatCard label="Hourly Rate" value={agent.hourly_rate || "0"} unit="CLAWGER" />
-                    <StatCard label="Total Earnings" value={agent.total_earnings || "$0.0k"} />
-                    <StatCard label="Success Rate" value="100%" />
+                    <StatCard label="Total Earnings" value={(agent.total_earnings || 0).toFixed(1)} unit="CLAWGER" />
+                    <StatCard label="Success Rate" value={`${agent.success_rate || 100}%`} />
                 </div>
 
 
@@ -158,19 +157,86 @@ export default function BotProfile() {
                             </div>
                         </div>
 
-                        {/* Neural Specs (Darker card) */}
-                        <div className="p-8 rounded-3xl bg-[#0A0A0A] border border-white/10">
-                            <div className="flex items-center gap-2 mb-8">
-                                <Activity className="w-4 h-4 text-blue-500" />
-                                <h3 className="text-sm font-bold uppercase text-muted tracking-wider">Neural Specifications</h3>
+                        {/* Neural Specification (Real Bot Identity) */}
+                        {agent.neural_spec && (
+                            <div className="p-8 rounded-3xl bg-[#0A0A0A] border border-white/10">
+                                <div className="flex items-center gap-2 mb-8">
+                                    <Activity className="w-4 h-4 text-blue-500" />
+                                    <h3 className="text-sm font-bold uppercase text-muted tracking-wider">Neural Specification</h3>
+                                </div>
+
+                                {/* Model & Provider */}
+                                <div className="mb-8 p-6 rounded-2xl bg-[#050505] border border-white/5">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center">
+                                            <Server className="w-6 h-6 text-blue-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-lg font-bold text-white">{agent.neural_spec.model}</div>
+                                            <div className="text-xs text-muted uppercase tracking-wider">{agent.neural_spec.provider}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Capabilities */}
+                                <div className="mb-6">
+                                    <div className="text-xs font-bold uppercase text-muted tracking-wider mb-3">Capabilities</div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {agent.neural_spec.capabilities.map((cap: string) => (
+                                            <span key={cap} className="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary font-medium">
+                                                {cap}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Tool Access */}
+                                <div className="mb-6">
+                                    <div className="text-xs font-bold uppercase text-muted tracking-wider mb-3">Tool Access</div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {agent.neural_spec.tool_access.map((tool: string) => (
+                                            <span key={tool} className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-gray-300 font-mono flex items-center gap-2">
+                                                {tool === 'code' && <span className="text-green-400">{'</>'}</span>}
+                                                {tool === 'browser' && <span className="text-blue-400">🌐</span>}
+                                                {tool === 'wallet' && <span className="text-yellow-400">💰</span>}
+                                                {tool === 'none' && <span className="text-gray-500">∅</span>}
+                                                {tool}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* SLA Targets */}
+                                <div className="grid grid-cols-2 gap-4 mb-6">
+                                    <div className="p-4 rounded-xl bg-[#050505] border border-white/5">
+                                        <div className="text-xs text-muted uppercase tracking-wider mb-2">Avg Latency</div>
+                                        <div className="text-2xl font-bold text-white">{agent.neural_spec.sla.avg_latency_ms}<span className="text-sm text-muted ml-1">ms</span></div>
+                                    </div>
+                                    <div className="p-4 rounded-xl bg-[#050505] border border-white/5">
+                                        <div className="text-xs text-muted uppercase tracking-wider mb-2">Uptime Target</div>
+                                        <div className="text-2xl font-bold text-emerald-400">{(agent.neural_spec.sla.uptime_target * 100).toFixed(1)}<span className="text-sm text-muted ml-1">%</span></div>
+                                    </div>
+                                </div>
+
+                                {/* Mission Limits */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-4 rounded-xl bg-[#050505] border border-white/5">
+                                        <div className="text-xs text-muted uppercase tracking-wider mb-2">Max Reward</div>
+                                        <div className="text-2xl font-bold text-white">{agent.neural_spec.mission_limits.max_reward}<span className="text-sm text-muted ml-1">CLAWGER</span></div>
+                                    </div>
+                                    <div className="p-4 rounded-xl bg-[#050505] border border-white/5">
+                                        <div className="text-xs text-muted uppercase tracking-wider mb-2">Max Concurrent</div>
+                                        <div className="text-2xl font-bold text-white">{agent.neural_spec.mission_limits.max_concurrent}<span className="text-sm text-muted ml-1">missions</span></div>
+                                    </div>
+                                </div>
+
+                                {/* Version & Created */}
+                                <div className="mt-6 pt-6 border-t border-white/5 flex justify-between text-xs text-muted">
+                                    <span>Spec Version: {agent.neural_spec.version}</span>
+                                    <span>Created: {new Date(agent.neural_spec.created_at).toLocaleDateString()}</span>
+                                </div>
                             </div>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                <SpecItem label="Model Architecture" value="GPT-4 Turbo" />
-                                <SpecItem label="Context Window" value="128k Tokens" />
-                                <SpecItem label="Thinking Time" value="~1.2s avg" />
-                                <SpecItem label="Uptime" value="99.9%" highlight />
-                            </div>
-                        </div>
+                        )}
 
                         {/* Operational Profile */}
                         <div className="p-8 rounded-3xl bg-[#0A0A0A] border border-white/10">
@@ -189,24 +255,14 @@ export default function BotProfile() {
                         </div>
 
                         {/* Job History */}
-                        <div className="p-8 rounded-3xl bg-[#0A0A0A] border border-white/10 min-h-[300px] flex flex-col">
-                            <div className="flex items-center gap-2 mb-8 border-b border-white/5 pb-6">
-                                <Briefcase className="w-4 h-4 text-primary" />
-                                <h3 className="text-sm font-bold uppercase text-white tracking-wider">Job History</h3>
-                            </div>
-                            <div className="flex-1 flex flex-col items-center justify-center opacity-40">
-                                <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mb-4">
-                                    <Box className="w-6 h-6 text-muted" />
-                                </div>
-                                <p className="text-muted text-sm font-mono">No mission history available yet.</p>
-                            </div>
-                        </div>
+                        <JobHistory jobs={agent.job_history} />
 
                     </div>
 
                     {/* RIGHT COLUMN (1/3) - STICKY SIDEBAR */}
-                    <div className="relative">
-                        <div className="sticky top-24">
+                    <div className="relative space-y-6">
+                        <div className="sticky top-24 space-y-6">
+                            {/* Hire Agent Card */}
                             <div className="p-8 rounded-3xl bg-[#0A0A0A] border border-white/10 shadow-2xl">
                                 <div className="flex justify-between items-baseline mb-8">
                                     <div className="text-[10px] uppercase font-bold text-muted tracking-widest">Hourly Rate</div>
@@ -216,10 +272,16 @@ export default function BotProfile() {
                                     </div>
                                 </div>
 
-                                <button className="w-full py-4 bg-white hover:bg-gray-100 text-black rounded-xl font-bold text-sm transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-white/10 group">
+                                <Link
+                                    href={`/missions/create?agent_id=${id}`}
+                                    className="w-full py-4 bg-white hover:bg-gray-100 text-black rounded-xl font-bold text-sm transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-white/10 group"
+                                >
                                     Hire Agent <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </button>
+                                </Link>
                             </div>
+
+                            {/* Reputation Breakdown */}
+                            <ReputationBreakdown agent={agent} completedMissions={agent.jobs_completed || 0} />
                         </div>
                     </div>
 

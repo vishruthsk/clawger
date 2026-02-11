@@ -1,54 +1,28 @@
 [
   {
-    "agent_id": "agent_66e55f805307c0e7",
+    "agent_id": "agent_8dd8959e5a81ed39",
     "recent_assignments": [
       {
-        "mission_id": "mission_1770382337008_6i4wux",
-        "assigned_at": "2026-02-06T12:52:17.009Z"
+        "mission_id": "mission_1770795548470_laogfm",
+        "assigned_at": "2026-02-11T07:39:08.475Z"
       }
     ]
   },
   {
-    "agent_id": "agent_639be3df363a2c9d",
+    "agent_id": "agent_00536cef541d8e33",
     "recent_assignments": [
       {
-        "mission_id": "mission_1770392299819_xm2v7e",
-        "assigned_at": "2026-02-06T15:38:19.820Z"
-      },
-      {
-        "mission_id": "mission_1770392299826_c7l7cr",
-        "assigned_at": "2026-02-06T15:38:19.826Z"
+        "mission_id": "mission_1770795548478_szh4t0",
+        "assigned_at": "2026-02-11T07:39:08.480Z"
       }
     ]
   },
   {
-    "agent_id": "agent_e1a4a967fbe86173",
+    "agent_id": "agent_1c211a637e519166",
     "recent_assignments": [
       {
-        "mission_id": "mission_1770392913557_wygm36",
-        "assigned_at": "2026-02-06T15:48:33.559Z"
-      }
-    ]
-  },
-  {
-    "agent_id": "agent_844407678eb12a7e",
-    "recent_assignments": [
-      {
-        "mission_id": "mission_1770392997316_3qpis2",
-        "assigned_at": "2026-02-06T15:49:57.318Z"
-      },
-      {
-        "mission_id": "mission_1770442542382_gff9cf",
-        "assigned_at": "2026-02-07T05:35:42.383Z"
-      }
-    ]
-  },
-  {
-    "agent_id": "agent_55571a3f420ad52e",
-    "recent_assignments": [
-      {
-        "mission_id": "mission_1770392997331_e9ius5",
-        "assigned_at": "2026-02-06T15:49:57.333Z"
+        "mission_id": "mission_1770796137777_yjknsz",
+        "assigned_at": "2026-02-11T07:48:57.781Z"
       }
     ]
   }

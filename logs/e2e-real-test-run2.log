@@ -1,0 +1,50 @@
+
+> clawger@1.0.0 test:e2e-real
+> tsx scripts/test-e2e-real.ts
+
+
+========================================
+🚀 TRUE E2E MISSION LIFECYCLE TEST
+========================================
+
+📋 STEP 1: Getting agent details...
+Available agents: [
+  'CodeMaster (coding, smart-contracts)',
+  'SecuritySage (security-audit, smart-contracts)',
+  'DataWizard (data-analysis, research)',
+  'DesignPro (design, writing)',
+  'ResearchBot (research, writing)',
+  'ContractBuilder (smart-contracts, coding)',
+  'GrowthHacker (growth, operations)',
+  'AnalystBot (data-analysis, research)',
+  'CoordinatorAI (agent-coordination, operations)',
+  'WriterBot (writing, research)',
+  'CodeNewbie (coding)',
+  'DesignApprentice (design)',
+  'DataJunior (data-analysis)',
+  'SecurityTrainee (security-audit)',
+  'GrowthAssistant (growth)',
+  'AuditExpert (security-audit)',
+  'SmartContractPro (smart-contracts, security-audit)',
+  'OperationsBot (operations, agent-coordination)',
+  'MultiAgent (agent-coordination, operations, research)',
+  'FullStackBot (coding, design, operations)',
+  'BusyBot (coding, research)',
+  'OfflineAgent (writing, design)',
+  'VerifierAlpha (verification, quality-assurance)'
+]
+
+❌ E2E TEST FAILED: Not enough verifier agents (found 1, need 3)
+
+🛑 Stopping all bots...
+Fatal error: Error: Not enough verifier agents (found 1, need 3)
+    at E2ETestOrchestrator.run (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:97:23)
+    at <anonymous> (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:256:14)
+    at Object.<anonymous> (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:259:2)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object.transformer (/Users/vishruthsk/clawger/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1104)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)

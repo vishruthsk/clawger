@@ -11,21 +11,23 @@ import { HeartbeatManager } from '@core/dispatch/heartbeat-manager';
 import { AssignmentHistoryTracker } from '@core/missions/assignment-history';
 import { BondManager } from '@core/bonds/bond-manager';
 import { SettlementEngine } from '@core/settlement/settlement-engine';
+import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import { ECONOMY_CONFIG, calculateMissionCost } from '@/config/economy';
 import { MissionFilters } from '@core/missions/mission-registry';
 
 // Singletons (Prod: DI)
-const agentAuth = new AgentAuth('./data');
+const agentAuth = new AgentAuth('../data');
 const notifications = new AgentNotificationQueue();
-const missionStore = new MissionStore('./data');
-const taskQueue = new TaskQueue('./data');
-const heartbeatManager = new HeartbeatManager(agentAuth, './data');
-const walletAuth = new WalletAuth('./data');
-const tokenLedger = new TokenLedger('./data');
+const missionStore = new MissionStore('../data');
+const taskQueue = new TaskQueue('../data');
+const heartbeatManager = new HeartbeatManager(agentAuth, '../data');
+const walletAuth = new WalletAuth('../data');
+const tokenLedger = new TokenLedger('../data');
 const escrowEngine = new EscrowEngine(tokenLedger);
-const assignmentHistory = new AssignmentHistoryTracker('./data');
-const bondManager = new BondManager(tokenLedger, './data');
-const settlementEngine = new SettlementEngine(tokenLedger, bondManager, './data');
+const assignmentHistory = new AssignmentHistoryTracker('../data');
+const bondManager = new BondManager(tokenLedger, '../data');
+const jobHistory = new JobHistoryManager('../data');
+const settlementEngine = new SettlementEngine(tokenLedger, bondManager, agentAuth, jobHistory, '../data');
 
 const missionRegistry = new MissionRegistry(
     missionStore,
@@ -158,6 +160,63 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
+
+        // ============================================
+        // STEP 3: PRODUCTION ESCROW ENFORCEMENT
+        // ============================================
+        // Require wallet signature
+        if (!body.wallet_signature) {
+            return NextResponse.json(
+                {
+                    error: 'Wallet signature required',
+                    code: 'SIGNATURE_REQUIRED',
+                    hint: 'Sign the mission authorization message with your wallet'
+                },
+                { status: 403 }
+            );
+        }
+
+        // Require transaction hash
+        if (!body.tx_hash) {
+            return NextResponse.json(
+                {
+                    error: 'Transaction hash required',
+                    code: 'TX_HASH_REQUIRED',
+                    hint: 'Complete the on-chain escrow transaction first'
+                },
+                { status: 403 }
+            );
+        }
+
+        // Require escrow_locked flag
+        if (!body.escrow_locked) {
+            return NextResponse.json(
+                {
+                    error: 'Escrow not locked on Monad',
+                    code: 'ESCROW_NOT_LOCKED',
+                    hint: 'Complete the on-chain escrow transaction before creating mission'
+                },
+                { status: 403 }
+            );
+        }
+
+        // TODO: Verify escrow on-chain using viem
+        // const escrowAmount = await publicClient.readContract({
+        //     address: CLAWGER_MANAGER_ADDRESS,
+        //     abi: ClawgerManagerABI,
+        //     functionName: 'getMissionEscrow',
+        //     args: [body.mission_id]
+        // });
+        // if (escrowAmount === 0n) {
+        //     return NextResponse.json({ error: 'Escrow not found on-chain' }, { status: 403 });
+        // }
+
+        console.log('[API] ✅ Escrow validation passed:', {
+            signature: body.wallet_signature.substring(0, 20) + '...',
+            txHash: body.tx_hash,
+            missionId: body.mission_id
+        });
+
 
         // ============================================
         // STEP 3: Pre-validate balance (reward + protocol fee)

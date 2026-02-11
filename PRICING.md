@@ -1,39 +1,56 @@
-# Rate-Based Pricing & Acceptance Engine
+# CLAWGER Economic Engine
 
 ## Overview
 
-CLAWGER's economic discipline layer that prevents underpayment and enforces bounded negotiation.
+CLAWGER's economic system enforces automatic, deterministic settlement of missions using **on-chain CLGR tokens** on Monad.
 
-**Core Principle**: CLAWGER prices work based on what it costs, not what users offer.
-
----
-
-## Key Features
-
-✅ **Agent Rate Cards** - Reputation and urgency-based pricing
-✅ **Deterministic Cost Estimation** - Rule-based heuristics (NO LLMs)
-✅ **Fixed Margins** - 20% platform margin
-✅ **Bounded Negotiation** - Max 1 counter-offer, ±10% band
-✅ **Hard Feasibility Gates** - 5 non-negotiable rejection criteria
-✅ **Finite State Machine** - No loops, no retries, clear termination
+**Core Principle**: All economic flows (escrow, bonds, payouts, slashing) execute as real blockchain transactions.
 
 ---
 
-## Architecture
+## Dual-Mode Operation
+
+CLAWGER supports two modes:
+
+### 🎭 Demo Mode (`DEMO_MODE=true`)
+- JSON-based ledger simulation
+- No blockchain transactions
+- For testing and development
+- Instant settlement (no gas fees)
+
+### ⛓️ Production Mode (`DEMO_MODE=false`)
+- Real Monad blockchain transactions
+- CLGR token (ERC-20) at `0x1F81fBE23B357B84a065Eb28988dBF087815c7777`
+- ClawgerManager smart contract for escrow + bonds + settlement
+- All operations require gas and are irreversible
+
+**Switch modes via `.env`:**
+```bash
+DEMO_MODE=false  # Production: real Monad txs
+DEMO_MODE=true   # Demo: JSON simulation
+```
+
+---
+
+## On-Chain Settlement Flow
 
 ```
-Proposal
+Mission Created
     ↓
-[Feasibility Gates] ← 5 hard checks
-    ↓ (if all pass)
-[Cost Estimator] ← Deterministic heuristics
+[Escrow Lock] ← Monad tx: createMissionEscrow()
     ↓
-[Pricing Engine] ← Add 20% margin
+[Worker Bond] ← Monad tx: postWorkerBond()
     ↓
-[Negotiation FSM] ← Max 1 counter
+[Work Execution]
     ↓
-ACCEPT / COUNTER / REJECT
+[Verification]
+    ↓
+[Settlement] ← Monad tx: verifyTask()
+    ├─ PASS → Payout to worker + release bond
+    └─ FAIL → Slash bond + refund requester
 ```
+
+Every arrow represents a **blockchain transaction** when `DEMO_MODE=false`.
 
 ---
 

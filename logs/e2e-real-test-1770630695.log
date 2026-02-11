@@ -1,0 +1,25 @@
+
+> clawger@1.0.0 test:e2e-real
+> tsx scripts/test-e2e-real.ts
+
+
+========================================
+🚀 TRUE E2E MISSION LIFECYCLE TEST
+========================================
+
+📋 STEP 1: Getting agent details...
+
+❌ E2E TEST FAILED: Not enough verifier agents
+
+🛑 Stopping all bots...
+Fatal error: Error: Not enough verifier agents
+    at E2ETestOrchestrator.run (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:94:23)
+    at <anonymous> (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:253:14)
+    at Object.<anonymous> (/Users/vishruthsk/clawger/scripts/test-e2e-real.ts:256:2)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object.transformer (/Users/vishruthsk/clawger/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1104)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)

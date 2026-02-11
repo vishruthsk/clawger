@@ -2,7 +2,7 @@
 
 import { useMissions } from "@/hooks/use-clawger";
 import { formatDistanceToNow } from "date-fns";
-import { Briefcase, Clock, ShieldCheck, Terminal, Zap, Shield, FileText, ArrowUpRight, Search, LayoutList, Grid } from "lucide-react";
+import { Briefcase, Clock, ShieldCheck, Terminal, Zap, Shield, FileText, ArrowUpRight, Search, LayoutList, Grid, Download } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -130,6 +130,7 @@ export default function MissionManager({ userIdentity, profile, address, token }
                                 <th className="px-6 py-4 font-normal">Bounty</th>
                                 <th className="px-6 py-4 font-normal">Operator</th>
                                 <th className="px-6 py-4 font-normal text-right">Updated</th>
+                                <th className="px-6 py-4 font-normal text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 text-sm">
@@ -149,7 +150,7 @@ export default function MissionManager({ userIdentity, profile, address, token }
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 font-mono font-bold text-white">
-                                        {mission.reward} <span className="text-muted font-normal text-xs">CL</span>
+                                        {mission.reward} <span className="text-muted font-normal text-xs">CLGR</span>
                                     </td>
                                     <td className="px-6 py-4">
                                         {mission.assigned_agent ? (
@@ -163,6 +164,21 @@ export default function MissionManager({ userIdentity, profile, address, token }
                                     </td>
                                     <td className="px-6 py-4 text-right text-muted font-mono text-xs">
                                         {mission.updated_at ? formatDistanceToNow(new Date(mission.updated_at), { addSuffix: true }) : formatDistanceToNow(new Date(mission.created_at || new Date()), { addSuffix: true })}
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        {['verifying', 'settled', 'paid'].includes(mission.status) && mission.work_artifacts?.length > 0 && (
+                                            <a
+                                                href={mission.work_artifacts[0].url}
+                                                download
+                                                target="_blank"
+                                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all group/btn"
+                                                title="Download Result"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <Download className="w-3 h-3 group-hover/btn:scale-110 transition-transform" />
+                                                <span className="hidden sm:inline">Download</span>
+                                            </a>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -17,16 +17,61 @@ import {
     Users,
     Activity,
     Box,
-    Gavel
+    Gavel,
+    Star,
+    MessageSquare,
+    Package,
+    Download
 } from "lucide-react";
 import { useMissionDetail, useAgents } from "../../../hooks/use-clawger";
 import { format } from "date-fns";
+import RatingModal from "../../../components/missions/RatingModal";
+import RequestChangesModal from "../../../components/missions/RequestChangesModal";
+import RevisionTimeline from "../../../components/missions/RevisionTimeline";
+import CrewTasksTab from "../../../components/missions/CrewTasksTab";
+import { ReputationBadge } from "../../../components/agents/ReputationBadge";
+import AssignmentAnalysis from "../../../components/missions/AssignmentAnalysis";
 
-export default function MissionProfile({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = use(params);
-    const { mission, bids, timeline, assigned_agent, escrow, isLoading, isError } = useMissionDetail(id);
+export default function MissionProfile() {
+    const params = useParams();
+    const id = params?.id as string;
+    const { mission, bids, timeline, assigned_agent, escrow, isLoading, isError, refresh } = useMissionDetail(id);
     const { agents } = useAgents();
-    const [activeTab, setActiveTab] = useState<'overview' | 'proposals' | 'workforce' | 'financials'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'proposals' | 'workforce' | 'financials' | 'revisions' | 'crew'>('overview');
+    const [showRatingModal, setShowRatingModal] = useState(false);
+    const [showChangesModal, setShowChangesModal] = useState(false);
+
+    // Handle rating submission
+    const handleRating = async (rating: number, feedback: string) => {
+        try {
+            const response = await fetch(`/api/missions/${id}/rate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ score: rating, feedback })
+            });
+            if (!response.ok) throw new Error('Failed to submit rating');
+            refresh(); // Refresh mission data
+        } catch (error) {
+            console.error('Rating error:', error);
+            throw error;
+        }
+    };
+
+    // Handle request changes
+    const handleRequestChanges = async (feedback: string) => {
+        try {
+            const response = await fetch(`/api/missions/${id}/feedback`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ feedback })
+            });
+            if (!response.ok) throw new Error('Failed to submit feedback');
+            refresh(); // Refresh mission data
+        } catch (error) {
+            console.error('Feedback error:', error);
+            throw error;
+        }
+    };
 
     if (isLoading) {
         return (
@@ -132,7 +177,7 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
 
                             {/* Name & ID */}
                             <h1 className="text-3xl md:text-5xl font-bold text-white/90 tracking-tight font-sans mb-3 drop-shadow-sm leading-tight">
-                                {mission.title || 'Mission Protocol'}
+                                {mission.title || 'Missions'}
                             </h1>
                             <div className="text-white/40 font-mono text-xs md:text-sm tracking-wide">
                                 MISSION ID: {mission.id}
@@ -171,6 +216,12 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                         <TabButton active={activeTab === 'proposals'} onClick={() => setActiveTab('proposals')} label={`Proposals (${bids?.length || 0})`} />
                         <TabButton active={activeTab === 'workforce'} onClick={() => setActiveTab('workforce')} label="Workforce" />
                         <TabButton active={activeTab === 'financials'} onClick={() => setActiveTab('financials')} label="Economics" />
+                        {mission.assignment_mode === 'crew' && (
+                            <TabButton active={activeTab === 'crew'} onClick={() => setActiveTab('crew')} label="Crew Tasks" />
+                        )}
+                        {mission.revision_count > 0 && (
+                            <TabButton active={activeTab === 'revisions'} onClick={() => setActiveTab('revisions')} label={`Revisions (${mission.revision_count || 0})`} />
+                        )}
                     </div>
 
                     {/* TAB: OVERVIEW */}
@@ -224,6 +275,53 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                                             ))}
                                         </div>
                                     </div>
+
+                                    {/* WORK OUTPUT SECTION - Only visible when verifying/settled/paid/verifying */}
+                                    {(['verifying', 'settled', 'paid'].includes(mission.status) && (mission.work_artifacts?.length > 0 || mission.submission?.content)) && (
+                                        <div className="bg-[#0A0A0A] border border-white/10 p-8 rounded-[2.5rem] relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500 animate-fade-in-up">
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
+
+                                            <h3 className="text-xs font-bold text-muted uppercase mb-6 flex items-center gap-2 tracking-wider relative z-10">
+                                                <Package className="w-4 h-4 text-emerald-500" />
+                                                Mission Output
+                                            </h3>
+
+                                            {/* Submission Content */}
+                                            {mission.submission?.content && (
+                                                <div className="mb-6 bg-white/[0.03] p-6 rounded-2xl border border-white/5 text-sm text-gray-300 font-mono relative overflow-hidden">
+                                                    <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/20" />
+                                                    {mission.submission.content}
+                                                </div>
+                                            )}
+
+                                            {/* Artifacts List */}
+                                            <div className="space-y-3 relative z-10">
+                                                {mission.work_artifacts?.map((artifact: any, idx: number) => (
+                                                    <div key={idx} className="flex items-center justify-between p-4 bg-black/40 border border-white/5 rounded-xl hover:bg-white/[0.02] hover:border-white/10 transition-all group/artifact">
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center border border-emerald-500/20 group-hover/artifact:border-emerald-500/40 transition-colors">
+                                                                {/* Icon based on type */}
+                                                                <FileText className="w-5 h-5 text-emerald-400" />
+                                                            </div>
+                                                            <div>
+                                                                <div className="text-sm font-bold text-white tracking-tight">{artifact.filename || artifact.description || "Artifact"}</div>
+                                                                <div className="text-[10px] text-muted uppercase tracking-wider">{artifact.type || "File"} • {formatBytes(artifact.size)}</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <a
+                                                            href={artifact.url}
+                                                            download
+                                                            target="_blank"
+                                                            className="px-4 py-2 bg-white/5 hover:bg-emerald-500 hover:text-white text-muted text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 border border-white/5 hover:border-emerald-500/50"
+                                                        >
+                                                            <Download className="w-3 h-3" /> Download
+                                                        </a>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Right Sidebar */}
@@ -249,6 +347,20 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                                         <h3 className="text-xs font-bold text-muted uppercase mb-6 flex items-center gap-2 tracking-wider">
                                             <Zap className="w-4 h-4 text-primary" /> Deliverables
                                         </h3>
+
+                                        {/* ✅ CRITICAL: Show actual deliverables from mission data */}
+                                        {mission?.deliverables && mission.deliverables.length > 0 ? (
+                                            <div className="space-y-3 mb-6">
+                                                {mission.deliverables.map((deliverable: string, idx: number) => (
+                                                    <div key={idx} className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 transition-all duration-200">
+                                                        <FileText className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                                                        <span className="text-sm text-white/80 font-mono">{deliverable}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : null}
+
+                                        {/* Submission Content */}
                                         {mission.submission ? (
                                             <div className="space-y-4">
                                                 <div className="bg-black p-4 rounded-xl border border-white/10">
@@ -266,9 +378,60 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                                                     </div>
                                                 )}
                                             </div>
-                                        ) : (
+                                        ) : !mission?.deliverables || mission.deliverables.length === 0 ? (
                                             <div className="text-center py-12 text-muted text-xs font-mono border border-dashed border-white/10 rounded-xl bg-white/[0.02]">
                                                 WAITING FOR SUBMISSION
+                                            </div>
+                                        ) : null}
+
+
+                                        {/* Work Artifacts Section */}
+                                        {mission.work_artifacts && mission.work_artifacts.length > 0 && (
+                                            <div className="mt-8 pt-8 border-t border-white/5">
+                                                <h4 className="text-xs font-bold text-muted uppercase mb-4 tracking-wider flex items-center gap-2">
+                                                    <FileText className="w-4 h-4 text-primary" /> Uploaded Artifacts
+                                                </h4>
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                                    {mission.work_artifacts.map((artifact: any, i: number) => {
+                                                        const isImage = artifact.mime_type?.startsWith('image/');
+                                                        const isCode = artifact.mime_type?.includes('json') || artifact.mime_type?.includes('javascript') || artifact.filename?.endsWith('.ts');
+
+                                                        return (
+                                                            <a
+                                                                key={i}
+                                                                href={artifact.url}
+                                                                download={artifact.original_filename}
+                                                                title={`Size: ${(artifact.size / 1024).toFixed(1)} KB • Uploaded: ${new Date(artifact.uploaded_at).toLocaleDateString()}`}
+                                                                className="group relative flex flex-col items-center justify-center p-4 bg-[#0F0F0F] hover:bg-white/5 rounded-xl border border-white/5 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_0_20px_-10px_rgba(249,115,22,0.1)] aspect-square"
+                                                            >
+                                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center border transition-colors mb-2 ${isImage ? 'bg-purple-500/10 border-purple-500/20 group-hover:border-purple-500/40' :
+                                                                    isCode ? 'bg-blue-500/10 border-blue-500/20 group-hover:border-blue-500/40' :
+                                                                        'bg-primary/10 border-primary/20 group-hover:border-primary/40'
+                                                                    }`}>
+                                                                    {isImage ? (
+                                                                        <div className="relative w-5 h-5">
+                                                                            <Box className="w-5 h-5 text-purple-400 absolute inset-0 rotate-0 group-hover:rotate-12 transition-transform" />
+                                                                        </div>
+                                                                    ) : isCode ? (
+                                                                        <Terminal className="w-5 h-5 text-blue-400 group-hover:translate-x-0.5 transition-transform" />
+                                                                    ) : (
+                                                                        <FileText className="w-5 h-5 text-primary group-hover:-translate-y-0.5 transition-transform" />
+                                                                    )}
+                                                                </div>
+
+                                                                <div className="w-full text-center">
+                                                                    <div className="text-[10px] font-medium text-muted group-hover:text-white truncate transition-colors w-full">
+                                                                        {artifact.original_filename}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(249,115,22,0.8)]"></div>
+                                                                </div>
+                                                            </a>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -377,7 +540,7 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                                                     <span className="px-2 py-0.5 text-[10px] bg-primary/20 text-primary border border-primary/30 rounded uppercase tracking-wider font-bold">Assigned</span>
                                                 </div>
                                                 <div className="text-sm text-muted font-mono flex items-center gap-4 justify-center md:justify-start">
-                                                    <span>Reputation: <span className="text-white">{assigned_agent.reputation ?? 'Unknown'}</span></span>
+                                                    <span className="flex items-center gap-2">Reputation: <ReputationBadge reputation={assigned_agent.reputation ?? 50} size="sm" /></span>
                                                     <span>Type: <span className="text-white capitalize">{assigned_agent.type || 'Standard'}</span></span>
                                                 </div>
                                             </div>
@@ -430,6 +593,14 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                                         </div>
                                     )}
                                 </div>
+
+                                {/* ASSIGNMENT ANALYSIS */}
+                                {assigned_agent?.reasoning && (
+                                    <AssignmentAnalysis
+                                        reasoning={assigned_agent.reasoning}
+                                        agentName={assigned_agent.name || assigned_agent.agent_id}
+                                    />
+                                )}
                             </div>
                         )
                     }
@@ -552,7 +723,106 @@ export default function MissionProfile({ params }: { params: Promise<{ id: strin
                         )
                     }
 
+                    {/* TAB: CREW TASKS */}
+                    {
+                        activeTab === 'crew' && mission.assignment_mode === 'crew' && (
+                            <CrewTasksTab mission={mission} refresh={refresh} />
+                        )
+                    }
+
+                    {/* TAB: REVISIONS */}
+                    {
+                        activeTab === 'revisions' && (
+                            <div className="animate-fade-in">
+                                <div className="bg-[#0A0A0A] border border-white/10 p-8 rounded-3xl">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-xs font-bold text-muted uppercase flex items-center gap-2 tracking-wider">
+                                            <MessageSquare className="w-4 h-4 text-primary" /> Revision History
+                                        </h3>
+                                        <div className="text-xs text-gray-400">
+                                            {mission.revision_count || 0} / 5 revisions used
+                                        </div>
+                                    </div>
+                                    <RevisionTimeline
+                                        revisions={mission.revisions || []}
+                                    />
+                                </div>
+                            </div>
+                        )
+                    }
+
                 </div>
+
+                {/* Action Buttons */}
+                <div className="mt-8 flex gap-4 justify-end">
+                    {/* Request Changes Button */}
+                    {(mission.status === 'submitted' || mission.status === 'in_revision') &&
+                        (mission.revision_count || 0) < 5 && (
+                            <button
+                                onClick={() => setShowChangesModal(true)}
+                                className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium flex items-center gap-2"
+                            >
+                                <MessageSquare className="w-4 h-4" />
+                                Request Changes
+                            </button>
+                        )}
+
+                    {/* Rate Mission Button */}
+                    {mission.status === 'settled' && !mission.rating && (
+                        <button
+                            onClick={() => setShowRatingModal(true)}
+                            className="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors font-medium flex items-center gap-2"
+                        >
+                            <Star className="w-4 h-4" />
+                            Rate Mission
+                        </button>
+                    )}
+
+                    {/* Show Rating if Already Rated */}
+                    {mission.rating && (
+                        <div className="bg-gray-800/50 border border-gray-700 rounded-lg px-6 py-3">
+                            <div className="flex items-center gap-2">
+                                <div className="flex">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <Star
+                                            key={star}
+                                            className={`w-4 h-4 ${star <= mission.rating.score
+                                                ? 'fill-yellow-400 text-yellow-400'
+                                                : 'text-gray-600'
+                                                }`}
+                                        />
+                                    ))}
+                                </div>
+                                <span className="text-sm text-gray-400">
+                                    Rated {mission.rating.score}/5
+                                </span>
+                            </div>
+                            {mission.rating.feedback && (
+                                <p className="text-xs text-gray-500 mt-2">
+                                    "{mission.rating.feedback}"
+                                </p>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                {/* Modals */}
+                <RatingModal
+                    isOpen={showRatingModal}
+                    onClose={() => setShowRatingModal(false)}
+                    onSubmit={handleRating}
+                    agentName={assigned_agent?.name || 'Agent'}
+                    missionTitle={mission.title}
+                />
+
+                <RequestChangesModal
+                    isOpen={showChangesModal}
+                    onClose={() => setShowChangesModal(false)}
+                    onSubmit={handleRequestChanges}
+                    revisionCount={mission.revision_count || 0}
+                    maxRevisions={5}
+                />
+
             </div>
         </div>
     );
@@ -580,4 +850,13 @@ function TabButton({ active, onClick, label }: { active: boolean, onClick: () =>
             {label}
         </button>
     )
+}
+
+function formatBytes(bytes: number, decimals = 2) {
+    if (!+bytes) return '0 Bytes'
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }

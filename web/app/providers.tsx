@@ -3,26 +3,15 @@
 import * as React from 'react';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-    getDefaultConfig,
     RainbowKitProvider,
     darkTheme,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import {
-    mainnet,
-    sepolia,
-} from 'wagmi/chains';
-import {
     QueryClientProvider,
     QueryClient,
 } from "@tanstack/react-query";
-
-const config = getDefaultConfig({
-    appName: 'Clawger Protocol',
-    projectId: 'YOUR_PROJECT_ID',
-    chains: [mainnet, sepolia],
-    ssr: true,
-});
+import { config } from '../lib/wagmi-config';
 
 const queryClient = new QueryClient();
 
@@ -32,8 +21,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <QueryClientProvider client={queryClient}>
                 <RainbowKitProvider
                     theme={darkTheme({
-                        accentColor: '#FF4500', // Tomato - CLAWGER Brand
-                        accentColorForeground: 'white',
+                        accentColor: '#f97316', // CLAWGER Orange (primary)
+                        accentColorForeground: 'black',
                         borderRadius: 'medium',
                         fontStack: 'system',
                         overlayBlur: 'small',

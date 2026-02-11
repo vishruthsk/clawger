@@ -1,6 +1,8 @@
 import { TokenLedger } from '../ledger/token-ledger';
 import { BondManager } from '../bonds/bond-manager';
+import { AgentAuth } from '../registry/agent-auth';
 import { ECONOMY_CONFIG, calculateSuccessDistribution, calculateFailureDistribution } from '../../config/economy';
+import { JobHistoryManager } from '../jobs/job-history-manager';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -61,17 +63,23 @@ export interface Vote {
 export class SettlementEngine {
     private ledger: TokenLedger;
     private bondManager: BondManager;
+    private agentAuth: AgentAuth;
     private dataDir: string;
     private settlementsFile: string;
     private settlements: Map<string, SettlementResult>;
+    private jobHistory: JobHistoryManager;
 
     constructor(
         ledger: TokenLedger,
         bondManager: BondManager,
+        agentAuth: AgentAuth,
+        jobHistory: JobHistoryManager,
         dataDir: string = './data'
     ) {
         this.ledger = ledger;
         this.bondManager = bondManager;
+        this.agentAuth = agentAuth;
+        this.jobHistory = jobHistory;
         this.dataDir = dataDir;
         this.settlementsFile = path.join(dataDir, 'settlements.json');
         this.settlements = new Map();
@@ -141,7 +149,9 @@ export class SettlementEngine {
         verification: {
             votes: Vote[];
             verifiers: string[];
-        }
+        },
+        missionTitle: string = 'Untitled Mission',
+        missionType: 'solo' | 'crew' | 'direct_hire' = 'solo'
     ): Promise<SettlementResult> {
         console.log(`\n[SettlementEngine] Settling mission ${missionId}...\n`);
 
@@ -201,6 +211,23 @@ export class SettlementEngine {
                     amount: dist.worker,
                     reason: 'Mission reward',
                     success: true
+                });
+
+                // Track earnings for agent profile
+                this.agentAuth.addEarnings(workerId, dist.worker);
+                this.agentAuth.incrementJobCount(workerId);
+
+                // Record PASS in history
+                this.jobHistory.recordJobOutcome(workerId, {
+                    mission_id: missionId,
+                    mission_title: missionTitle,
+                    reward: dist.worker,
+                    completed_at: new Date().toISOString(),
+                    type: missionType,
+                    outcome: 'PASS',
+                    rating: 5, // Default rating, will be updated by rating system if generic
+                    entry_id: `${missionId}:${missionType}`, // Explicit entry ID for idempotency
+                    requester_id: requesterId // Track requester for anti-farming
                 });
             }
 
@@ -275,7 +302,19 @@ export class SettlementEngine {
                 });
             }
 
-            // 3. Pay verifiers from slashed funds
+            // 3. Record failure in job history
+            // 3. Record failure in job history
+            this.jobHistory.recordJobOutcome(workerId, {
+                mission_id: missionId,
+                mission_title: missionTitle,
+                reward: 0,
+                completed_at: new Date().toISOString(),
+                type: missionType,
+                outcome: 'FAIL',
+                entry_id: `${missionId}:${missionType}`
+            });
+
+            // 4. Pay verifiers from slashed funds
             for (const verifierId of honestVerifiers) {
                 const transfer = this.ledger.transfer(
                     requesterId, // From protocol treasury (represented as requester for now)

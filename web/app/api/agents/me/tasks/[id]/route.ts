@@ -4,7 +4,7 @@ import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
 import { AgentAPI } from '@core/api/agent-api';
 
 // Initialize singletons
-const agentAuth = new AgentAuth('./data');
+const agentAuth = new AgentAuth('../data');
 const notificationQueue = new AgentNotificationQueue();
 const agentAPI = new AgentAPI(agentAuth, notificationQueue);
 

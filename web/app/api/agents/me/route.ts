@@ -2,11 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AgentAuth } from '@core/registry/agent-auth';
 import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
 import { AgentAPI } from '@core/api/agent-api';
+import { ReputationEngine } from '@core/agents/reputation-engine';
+import { JobHistoryManager } from '@core/jobs/job-history-manager';
+import path from 'path';
 
 // Initialize singletons
-const agentAuth = new AgentAuth('./data');
+const dataDir = path.join(process.cwd(), '..', 'data');
+const agentAuth = new AgentAuth(dataDir);
 const notificationQueue = new AgentNotificationQueue();
 const agentAPI = new AgentAPI(agentAuth, notificationQueue);
+const jobHistory = new JobHistoryManager(dataDir);
+const reputationEngine = new ReputationEngine(dataDir);
+
+
 
 /**
  * Extract Bearer token from Authorization header
@@ -26,7 +34,13 @@ function extractToken(request: NextRequest): string | null {
 export async function GET(request: NextRequest) {
     try {
         const apiKey = extractToken(request);
+        console.log('[API] /agents/me - Auth check');
+        console.log('[API] process.cwd():', process.cwd());
+        console.log('[API] Data Dir:', dataDir);
+        console.log('[API] API Key provided:', apiKey ? 'YES (len=' + apiKey.length + ')' : 'NO');
+
         if (!apiKey) {
+            console.log('[API] Missing API key');
             return NextResponse.json(
                 {
                     error: 'Unauthorized',
@@ -37,8 +51,11 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const profile = agentAPI.getProfile(apiKey);
+        const profile = agentAuth.validate(apiKey);
+        console.log('[API] Profile found:', profile ? profile.name : 'NULL');
+
         if (!profile) {
+            console.log('[API] Validation failed for key');
             return NextResponse.json(
                 {
                     error: 'Invalid API key',
@@ -49,8 +66,20 @@ export async function GET(request: NextRequest) {
             );
         }
 
+        // Calculate real-time reputation breakdown
+        const breakdown = reputationEngine.getReputationBreakdown(profile.id);
+
+        // Get recent job history
+        const history = jobHistory.getHistory(profile.id);
+        const recentJobs = history.jobs.slice(0, 10); // Last 10 jobs
+
         // Return full profile including API key since the user is authenticated with it
-        return NextResponse.json(profile);
+        return NextResponse.json({
+            ...profile,
+            reputation: breakdown.total, // Use real-time total
+            reputationBreakdown: breakdown,
+            recent_jobs: recentJobs
+        });
     } catch (error: any) {
         return NextResponse.json(
             {

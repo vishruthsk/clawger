@@ -1,4 +1,12 @@
 import { TokenLedger } from '../ledger/token-ledger';
+import {
+    isDemoMode,
+    requireProductionMode,
+    getClawgerManagerContract,
+    missionIdToBytes32,
+    toWei,
+    logModeInfo
+} from '../chain/contract-utils';
 
 /**
  * Result type for escrow operations
@@ -8,6 +16,7 @@ export interface EscrowResult {
     error?: string;
     code?: string;
     details?: any;
+    txHash?: string; // On-chain transaction hash (if production mode)
 }
 
 /**
@@ -23,6 +32,7 @@ export interface EscrowDetails {
     released_at?: Date;
     slashed_amount?: number;
     slashed_at?: Date;
+    txHash?: string; // On-chain tx hash
 }
 
 /**
@@ -33,12 +43,19 @@ export interface EscrowDetails {
  * - Atomic lock on mission creation
  * - Release on verification success
  * - Slash on failure/timeout
+ * 
+ * Mode Support:
+ * - DEMO_MODE=true: JSON ledger (off-chain simulation)
+ * - DEMO_MODE=false: ClawgerManager smart contract (Monad blockchain)
  */
 export class EscrowEngine {
     private ledger: TokenLedger;
 
     constructor(ledger: TokenLedger) {
         this.ledger = ledger;
+
+        // Log mode on initialization
+        logModeInfo();
     }
 
     /**
@@ -46,16 +63,19 @@ export class EscrowEngine {
      * 
      * This is the critical pre-flight check before mission creation
      */
-    validateAndLock(
+    async validateAndLock(
         requester: string,
         amount: number,
         missionId: string
-    ): EscrowResult {
+    ): Promise<EscrowResult> {
         // Normalize address
         const normalizedRequester = requester.toLowerCase();
 
         // Check if mission already has escrow
-        const existing = this.ledger.getEscrowStatus(missionId);
+        const existing = isDemoMode()
+            ? this.ledger.getEscrowStatus(missionId)
+            : await this.getOnChainEscrow(missionId);
+
         if (existing) {
             return {
                 success: false,
@@ -73,41 +93,99 @@ export class EscrowEngine {
             };
         }
 
-        // Check available balance
-        const available = this.ledger.getAvailableBalance(normalizedRequester);
-        if (available < amount) {
+        // DEMO MODE: Use JSON ledger
+        if (isDemoMode()) {
+            // Check available balance
+            const available = this.ledger.getAvailableBalance(normalizedRequester);
+            if (available < amount) {
+                return {
+                    success: false,
+                    error: `Insufficient funds. You need at least ${amount} $CLAWGER to submit this mission.`,
+                    code: 'INSUFFICIENT_FUNDS',
+                    details: {
+                        required: amount,
+                        available,
+                        shortfall: amount - available
+                    }
+                };
+            }
+
+            // Lock escrow in JSON
+            const locked = this.ledger.lockEscrow(normalizedRequester, amount, missionId);
+
+            if (!locked) {
+                return {
+                    success: false,
+                    error: 'Failed to lock escrow',
+                    code: 'ESCROW_LOCK_FAILED'
+                };
+            }
+
             return {
-                success: false,
-                error: `Insufficient funds. You need at least ${amount} $CLAWGER to submit this mission.`,
-                code: 'INSUFFICIENT_FUNDS',
+                success: true,
                 details: {
-                    required: amount,
-                    available,
-                    shortfall: amount - available
+                    missionId,
+                    amount,
+                    owner: normalizedRequester,
+                    locked_at: new Date()
                 }
             };
         }
 
-        // Lock escrow
-        const locked = this.ledger.lockEscrow(normalizedRequester, amount, missionId);
+        // PRODUCTION MODE: Use smart contract
+        try {
+            requireProductionMode();
 
-        if (!locked) {
+            const contract = await getClawgerManagerContract();
+            const missionIdBytes32 = missionIdToBytes32(missionId);
+            const amountWei = toWei(amount);
+
+            console.log(`[EscrowEngine] Locking escrow on-chain: ${amount} CLGR for mission ${missionId}`);
+
+            // Call smart contract to create escrow
+            const tx = await contract.createMissionEscrow(missionIdBytes32, { value: amountWei });
+            const receipt = await tx.wait();
+
+            console.log(`[EscrowEngine] ✅ Escrow locked: ${receipt.transactionHash}`);
+
+            return {
+                success: true,
+                txHash: receipt.transactionHash,
+                details: {
+                    missionId,
+                    amount,
+                    owner: normalizedRequester,
+                    locked_at: new Date(),
+                    txHash: receipt.transactionHash
+                }
+            };
+        } catch (error: any) {
+            console.error('[EscrowEngine] On-chain escrow lock failed:', error.message);
             return {
                 success: false,
-                error: 'Failed to lock escrow',
-                code: 'ESCROW_LOCK_FAILED'
+                error: `On-chain escrow lock failed: ${error.message}`,
+                code: 'ONCHAIN_ERROR'
             };
         }
+    }
 
-        return {
-            success: true,
-            details: {
-                missionId,
-                amount,
-                owner: normalizedRequester,
-                locked_at: new Date()
+    /**
+     * Get on-chain escrow amount (production mode only)
+     */
+    private async getOnChainEscrow(missionId: string): Promise<any | null> {
+        try {
+            const contract = await getClawgerManagerContract();
+            const missionIdBytes32 = missionIdToBytes32(missionId);
+            const escrowAmount = await contract.getMissionEscrow(missionIdBytes32);
+
+            if (escrowAmount.isZero()) {
+                return null;
             }
-        };
+
+            return { amount: escrowAmount };
+        } catch {
+            return null;
+        }
     }
 
     /**

@@ -4,9 +4,9 @@ import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
 import { MissionStore } from '@core/missions/mission-store';
 import { MissionAPI } from '@core/api/mission-api';
 
-const agentAuth = new AgentAuth('./data');
+const agentAuth = new AgentAuth('../data');
 const notifications = new AgentNotificationQueue();
-const missionStore = new MissionStore('./data');
+const missionStore = new MissionStore('../data');
 const missionAPI = new MissionAPI(missionStore, agentAuth, notifications);
 
 function extractToken(request: NextRequest): string | null {

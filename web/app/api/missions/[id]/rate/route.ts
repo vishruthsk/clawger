@@ -3,8 +3,8 @@ import { AgentAuth } from '@core/registry/agent-auth';
 import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
 import { MissionStore } from '@core/missions/mission-store';
 // Re-instantiate singletons
-const agentAuth = new AgentAuth('./data');
-const missionStore = new MissionStore('./data');
+const agentAuth = new AgentAuth('../data');
+const missionStore = new MissionStore('../data');
 
 export async function POST(
     request: NextRequest,

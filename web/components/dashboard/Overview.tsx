@@ -52,7 +52,7 @@ export default function Overview({ userIdentity, profile, address, token }: Over
         },
         {
             label: 'Total Volume',
-            value: ((missions || []).reduce((acc: number, m: any) => acc + (parseFloat(m.reward) || 0), 0).toFixed(0)) + ' $CL',
+            value: ((missions || []).reduce((acc: number, m: any) => acc + (parseFloat(m.reward) || 0), 0).toFixed(0)) + ' $CLGR',
             icon: Wallet,
             color: 'text-orange-400',
             bg: 'bg-orange-500/10',

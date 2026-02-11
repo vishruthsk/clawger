@@ -9,6 +9,59 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
+/**
+ * Neural Specification
+ * Defines an agent's AI model, capabilities, tool access, and operational limits.
+ * This is the canonical identity of a bot worker.
+ */
+export interface NeuralSpec {
+    model: string;                  // e.g., "gpt-4o", "claude-3.5-sonnet", "custom"
+    provider: string;               // e.g., "OpenAI", "Anthropic", "Local"
+    capabilities: string[];         // e.g., ["coding", "research", "design", "security-audit"]
+    tool_access: string[];          // e.g., ["code", "browser", "wallet"], or ["none"]
+    max_context_tokens?: number;    // Optional context window size
+    response_style?: string;        // e.g., "concise", "deep", "fast"
+    sla: {
+        avg_latency_ms: number;     // Average response latency target
+        uptime_target: number;      // Uptime target (0-1, e.g., 0.99 = 99%)
+    };
+    mission_limits: {
+        max_reward: number;         // Maximum reward this agent can accept
+        max_concurrent: number;     // Maximum concurrent missions
+    };
+    version: string;                // Spec version (e.g., "1.0")
+    created_at: string;             // ISO timestamp
+}
+
+/**
+ * Validates a NeuralSpec object
+ */
+export function validateNeuralSpec(spec: any): boolean {
+    if (!spec || typeof spec !== 'object') return false;
+
+    // Required string fields
+    if (typeof spec.model !== 'string' || spec.model.length === 0) return false;
+    if (typeof spec.provider !== 'string' || spec.provider.length === 0) return false;
+    if (typeof spec.version !== 'string' || spec.version.length === 0) return false;
+    if (typeof spec.created_at !== 'string' || spec.created_at.length === 0) return false;
+
+    // Required arrays
+    if (!Array.isArray(spec.capabilities) || spec.capabilities.length === 0) return false;
+    if (!Array.isArray(spec.tool_access) || spec.tool_access.length === 0) return false;
+
+    // Validate SLA
+    if (!spec.sla || typeof spec.sla !== 'object') return false;
+    if (typeof spec.sla.avg_latency_ms !== 'number' || spec.sla.avg_latency_ms <= 0) return false;
+    if (typeof spec.sla.uptime_target !== 'number' || spec.sla.uptime_target < 0 || spec.sla.uptime_target > 1) return false;
+
+    // Validate mission limits
+    if (!spec.mission_limits || typeof spec.mission_limits !== 'object') return false;
+    if (typeof spec.mission_limits.max_reward !== 'number' || spec.mission_limits.max_reward <= 0) return false;
+    if (typeof spec.mission_limits.max_concurrent !== 'number' || spec.mission_limits.max_concurrent <= 0) return false;
+
+    return true;
+}
+
 
 export interface AgentProfile {
     // Identity
@@ -22,6 +75,9 @@ export interface AgentProfile {
     profile: string; // Detailed capabilities (min 100 chars)
     specialties: string[]; // e.g., ["coding", "research", "writing"]
     platform?: string; // e.g., "clawdbot", "custom"
+
+    // Neural Specification (Bot Identity)
+    neural_spec?: NeuralSpec;
 
     // Pricing & Availability
     hourly_rate?: number;
@@ -42,6 +98,7 @@ export interface AgentProfile {
     // Stats
     jobs_posted: number;
     jobs_completed: number;
+    total_earnings?: number; // Cumulative earnings in CLAWGER
 
     // Timestamps
     createdAt: Date;
@@ -59,6 +116,7 @@ export class AgentAuth {
 
     constructor(persistenceDir: string = './data') {
         this.persistencePath = path.join(persistenceDir, 'agent-auth.json');
+        console.log(`[AgentAuth] Persistence Path: ${path.resolve(this.persistencePath)}`); // DEBUG
         this.load();
     }
 
@@ -74,7 +132,13 @@ export class AgentAuth {
         platform?: string;
         hourly_rate?: number;
         wallet_address?: string;
+        neural_spec?: NeuralSpec;
     }): AgentProfile {
+        // Validate hourly_rate
+        if (!params.hourly_rate || params.hourly_rate <= 0) {
+            throw new Error('hourly_rate is required and must be greater than 0');
+        }
+
         // Check if already registered
         if (this.addressToKey.has(params.address)) {
             const existingKey = this.addressToKey.get(params.address)!;
@@ -93,6 +157,7 @@ export class AgentAuth {
             profile: params.profile,
             specialties: params.specialties,
             platform: params.platform || 'clawdbot',
+            neural_spec: params.neural_spec,
             hourly_rate: params.hourly_rate,
             available: true,
             oversight_enabled: false,
@@ -166,6 +231,7 @@ export class AgentAuth {
      * Get agent by ID
      */
     getById(agentId: string): AgentProfile | null {
+        this.load(); // Ensure fresh data
         for (const profile of this.creds.values()) {
             if (profile.id === agentId) {
                 return profile;
@@ -182,6 +248,7 @@ export class AgentAuth {
         available?: boolean;
         min_reputation?: number;
     }): AgentProfile[] {
+        this.load(); // Ensure fresh data
         let agents = Array.from(this.creds.values());
 
         if (filters?.specialty) {
@@ -213,7 +280,7 @@ export class AgentAuth {
         fs.writeFileSync(this.persistencePath, JSON.stringify(data, null, 2));
     }
 
-    private load() {
+    public load() {
         if (fs.existsSync(this.persistencePath)) {
             try {
                 const raw = fs.readFileSync(this.persistencePath, 'utf8');
@@ -239,11 +306,55 @@ export class AgentAuth {
     updateReputation(agentId: string, newReputation: number): boolean {
         for (const [key, profile] of this.creds.entries()) {
             if (profile.id === agentId) {
-                profile.reputation = Math.max(0, Math.min(100, newReputation));
+                profile.reputation = Math.max(0, Math.min(200, newReputation));
                 this.save();
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Add earnings to agent's total (after settlement)
+     */
+    addEarnings(agentId: string, amount: number): boolean {
+        for (const [key, profile] of this.creds.entries()) {
+            if (profile.id === agentId) {
+                profile.total_earnings = (profile.total_earnings || 0) + amount;
+                this.save();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Increment job completion count
+     */
+    incrementJobCount(agentId: string): boolean {
+        const agent = this.getById(agentId);
+        if (!agent) return false;
+
+        const cred = this.creds.get(agent.apiKey);
+        if (!cred) return false;
+
+        cred.jobs_completed = (cred.jobs_completed || 0) + 1;
+        this.save();
+        return true;
+    }
+
+    /**
+     * Update last active timestamp (for heartbeat)
+     */
+    updateLastActive(agentId: string): boolean {
+        const agent = this.getById(agentId);
+        if (!agent) return false;
+
+        const cred = this.creds.get(agent.apiKey);
+        if (!cred) return false;
+
+        cred.lastActive = new Date();
+        this.save();
+        return true;
     }
 }

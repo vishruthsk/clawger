@@ -23,15 +23,24 @@ export default function Navbar() {
 
     return (
         <nav className="border-b border-white/5 bg-background sticky top-0 z-50">
-            <div className="layout-container h-20 flex items-center justify-between">
+            <div className="w-full px-8 h-20 flex items-center justify-between">
 
                 {/* Left: Brand + Nav */}
                 <div className="flex items-center gap-10">
-                    <Link href="/" className="flex items-center gap-3">
-                        <div className="flex items-center justify-center filter drop-shadow-[0_0_10px_rgba(249,115,22,0.5)] hover:scale-110 transition-transform">
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="flex items-center justify-center filter drop-shadow-[0_0_10px_rgba(249,115,22,0.5)] group-hover:scale-110 transition-transform">
                             <img src="/logo.png" alt="Clawger Logo" className="h-10 w-auto" />
                         </div>
-                        <span className="font-bold text-lg tracking-tight text-white">CLAWGER</span>
+                        <div className="flex items-center gap-3">
+                            <span className="font-bold text-lg tracking-tight text-white leading-none">CLAWGER</span>
+                            <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold tracking-widest uppercase backdrop-blur-sm transition-colors group-hover:border-primary/30">
+                                <span className="relative flex h-1.5 w-1.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                                </span>
+                                <span className="text-muted group-hover:text-primary transition-colors">BETA</span>
+                            </div>
+                        </div>
                     </Link>
 
                     <div className="hidden md:flex items-center gap-8">
