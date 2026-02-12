@@ -83,7 +83,7 @@ export interface DemoMission {
 export const DEMO_AGENTS: DemoAgent[] = [
     // Worker Agents - VARIED REPUTATION TIERS
     {
-        id: 'ag7x2m',
+        id: 'DEMO-AG7X2M',
         name: '[Test Bot] CodeCraft AI',
         type: 'worker',
         specialties: ['Smart Contracts', 'Solidity', 'Security'],
@@ -115,7 +115,7 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'bk4p9n',
+        id: 'DEMO-BK4P9N',
         name: '[Test Bot] DataMiner X',
         type: 'worker',
         specialties: ['Data Analysis', 'Web Scraping', 'ETL'],
@@ -146,12 +146,12 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'cx8t5w',
+        id: 'DEMO-CX8T5W',
         name: '[Test Bot] DesignBot Pro',
         type: 'worker',
         specialties: ['Graphic Design', 'UI/UX', 'Branding'],
         tags: ['Design'],
-        reputation: 58, // BRONZE
+        reputation: 35, // BRONZE (adjusted for tier diversity)
         available: true,
         hourly_rate: 45,
         min_fee: 90,
@@ -164,10 +164,10 @@ export const DEMO_AGENTS: DemoAgent[] = [
         total_value_secured: 3500,
         reputation_breakdown: {
             base: 50,
-            settlements: 6,
-            ratings: 2,
+            settlements: -18, // Negative to bring total to 35
+            ratings: 3,
             failures: 0,
-            total: 58
+            total: 35
         },
         job_history: [
             { id: 'js9t0', title: 'Brand Identity Design', completed_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), reward: 550, rating: 5 },
@@ -178,7 +178,7 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'dq2h7k',
+        id: 'DEMO-DQ2H7K',
         name: '[Test Bot] SecBot 9000',
         type: 'worker',
         specialties: ['Cybersecurity', 'Penetration Testing', 'Security Audit'],
@@ -210,12 +210,12 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'em9r3v',
+        id: 'DEMO-EM9R3V',
         name: '[Test Bot] ContentWriter AI',
         type: 'worker',
         specialties: ['Technical Writing', 'Documentation', 'Copywriting'],
         tags: ['Research'],
-        reputation: 62, // BRONZE
+        reputation: 28, // BRONZE (adjusted for tier diversity)
         available: true,
         hourly_rate: 30,
         min_fee: 60,
@@ -228,10 +228,10 @@ export const DEMO_AGENTS: DemoAgent[] = [
         total_value_secured: 1800,
         reputation_breakdown: {
             base: 50,
-            settlements: 10,
+            settlements: -24, // Negative to bring total to 28
             ratings: 2,
             failures: 0,
-            total: 62
+            total: 28
         },
         job_history: [
             { id: 'jm9n0', title: 'Technical Documentation', completed_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), reward: 250, rating: 5 },
@@ -241,12 +241,12 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'fn6w4y',
+        id: 'DEMO-FN6W4Y',
         name: '[Test Bot] Frontend Wizard',
         type: 'worker',
         specialties: ['Frontend Development', 'React', 'TypeScript'],
         tags: ['Coding', 'Design'],
-        reputation: 78, // SILVER
+        reputation: 65, // SILVER (adjusted for tier diversity)
         available: true,
         hourly_rate: 40,
         min_fee: 80,
@@ -259,10 +259,10 @@ export const DEMO_AGENTS: DemoAgent[] = [
         total_value_secured: 3200,
         reputation_breakdown: {
             base: 50,
-            settlements: 22,
+            settlements: 9, // Adjusted to bring total to 65
             ratings: 6,
             failures: 0,
-            total: 78
+            total: 65
         },
         job_history: [
             { id: 'ju7v8', title: 'React Dashboard', completed_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), reward: 450, rating: 5 },
@@ -272,7 +272,7 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'gp5z8a',
+        id: 'DEMO-GP5Z8A',
         name: '[Test Bot] Backend Master',
         type: 'worker',
         specialties: ['Backend Development', 'Node.js', 'PostgreSQL'],
@@ -306,7 +306,7 @@ export const DEMO_AGENTS: DemoAgent[] = [
 
     // Verifier Agents
     {
-        id: 'hq8b1c',
+        id: 'DEMO-HQ8B1C',
         name: '[Test Bot] AuditMaster',
         type: 'verifier',
         specialties: ['Code Review', 'Security Audit', 'Quality Assurance'],
@@ -338,12 +338,12 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'ir7d2e',
+        id: 'DEMO-IR7D2E',
         name: '[Test Bot] QA Guardian',
         type: 'verifier',
         specialties: ['Testing', 'Quality Assurance', 'Bug Detection'],
         tags: ['Coding', 'Automation'],
-        reputation: 69, // SILVER
+        reputation: 58, // SILVER (adjusted for tier diversity)
         available: true,
         hourly_rate: 40,
         min_fee: 80,
@@ -356,10 +356,10 @@ export const DEMO_AGENTS: DemoAgent[] = [
         total_value_secured: 2800,
         reputation_breakdown: {
             base: 50,
-            settlements: 15,
+            settlements: 4, // Adjusted to bring total to 58
             ratings: 4,
             failures: 0,
-            total: 69
+            total: 58
         },
         job_history: [
             { id: 'jw5x6', title: 'QA Testing', completed_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), reward: 400, rating: 5 },
@@ -369,12 +369,12 @@ export const DEMO_AGENTS: DemoAgent[] = [
         ],
     },
     {
-        id: 'js4f3g',
+        id: 'DEMO-JS4F3G',
         name: '[Test Bot] TestBot Alpha',
         type: 'verifier',
         specialties: ['Automated Testing', 'CI/CD', 'Test Coverage'],
         tags: ['Automation', 'Coding'],
-        reputation: 55, // BRONZE
+        reputation: 38, // BRONZE (adjusted for tier diversity)
         available: true,
         hourly_rate: 35,
         min_fee: 70,
@@ -387,10 +387,10 @@ export const DEMO_AGENTS: DemoAgent[] = [
         total_value_secured: 2400,
         reputation_breakdown: {
             base: 50,
-            settlements: 4,
+            settlements: -13, // Negative to bring total to 38
             ratings: 1,
             failures: 0,
-            total: 55
+            total: 38
         },
         job_history: [
             { id: 'je3f4', title: 'Unit Test Suite', completed_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), reward: 350, rating: 5 },
@@ -411,7 +411,7 @@ const baseTime = Date.now();
 export const DEMO_MISSIONS: DemoMission[] = [
     // Completed missions (showing success)
     {
-        id: 'mx7k2p',
+        id: 'DEMO-MX7K2P',
         title: 'Deploy CLAWGER Protocol V1',
         description: 'Initial deployment and verification of the core protocol contracts.',
         reward: 5000,
@@ -425,8 +425,8 @@ export const DEMO_MISSIONS: DemoMission[] = [
         tags: ['Coding', 'Security', 'DeFi'],
         escrow: { locked: true, amount: 5000 },
         crew: [
-            { agent_id: 'ag7x2m', agent_name: '[Test Bot] CodeCraft AI', role: 'worker', assigned_at: new Date(baseTime - 9 * 24 * 60 * 60 * 1000).toISOString() },
-            { agent_id: 'cx8t5w', agent_name: '[Test Bot] AuditMaster', role: 'verifier', assigned_at: new Date(baseTime - 9 * 24 * 60 * 60 * 1000).toISOString() }
+            { agent_id: 'DEMO-AG7X2M', agent_name: '[Test Bot] CodeCraft AI', role: 'worker', assigned_at: new Date(baseTime - 9 * 24 * 60 * 60 * 1000).toISOString() },
+            { agent_id: 'DEMO-CX8T5W', agent_name: '[Test Bot] AuditMaster', role: 'verifier', assigned_at: new Date(baseTime - 9 * 24 * 60 * 60 * 1000).toISOString() }
         ],
         timeline: [
             { event: 'Mission Posted', timestamp: new Date(baseTime - 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'completed' },
@@ -439,7 +439,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
         demo: true,
     },
     {
-        id: 'z3q9v4',
+        id: 'DEMO-Z3Q9V4',
         title: 'Build Authentication API',
         description: 'Create JWT-based auth system with refresh tokens',
         reward: 800,
@@ -453,7 +453,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
         tags: ['Coding', 'Security'],
         escrow: { locked: true, amount: 800 },
         crew: [
-            { agent_id: 'bk4p9n', agent_name: '[Test Bot] Backend Master', role: 'worker', assigned_at: new Date(baseTime - 7 * 24 * 60 * 60 * 1000).toISOString() }
+            { agent_id: 'DEMO-BK4P9N', agent_name: '[Test Bot] Backend Master', role: 'worker', assigned_at: new Date(baseTime - 7 * 24 * 60 * 60 * 1000).toISOString() }
         ],
         timeline: [
             { event: 'Mission Posted', timestamp: new Date(baseTime - 8 * 24 * 60 * 60 * 1000).toISOString(), status: 'completed' },
@@ -468,7 +468,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
 
     // Executing missions (showing active work)
     {
-        id: 'p8w2n5',
+        id: 'DEMO-P8W2N5',
         title: 'Scrape Competitor Pricing',
         description: 'Analyze pricing models of top 5 competitors and structuralize data.',
         reward: 450,
@@ -494,7 +494,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
         demo: true,
     },
     {
-        id: 'v4m7q1',
+        id: 'DEMO-V4M7Q1',
         title: 'Monitor DEX Volume',
         description: 'Real-time monitoring of volume spikes on Uniswap V3 pools for the next 24 hours.',
         reward: 800,
@@ -522,7 +522,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
 
     // Bidding missions (showing marketplace activity)
     {
-        id: 'k9r3x6',
+        id: 'DEMO-K9R3X6',
         title: 'Security Vulnerability Scan',
         description: 'Run automated penetration tests on the staging infrastructure.',
         reward: 2500,
@@ -543,7 +543,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
         demo: true,
     },
     {
-        id: 'h2t8v9',
+        id: 'DEMO-H2T8V9',
         title: 'Emergency: Smart Contract Audit',
         description: 'Urgent comprehensive audit of the new Staking V2 vault before mainnet launch.',
         reward: 15000,
@@ -566,7 +566,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
 
     // Open missions (showing available work)
     {
-        id: 'n6y4z2',
+        id: 'DEMO-N6Y4Z2',
         title: 'Generate Marketing Assets',
         description: 'Create a suite of social media banners for the Q1 campaign.',
         reward: 1200,
@@ -586,7 +586,7 @@ export const DEMO_MISSIONS: DemoMission[] = [
         demo: true,
     },
     {
-        id: 'q1w5e8',
+        id: 'DEMO-Q1W5E8',
         title: 'Write Technical Documentation',
         description: 'Document the new API endpoints for the Agent Registry module.',
         reward: 300,

@@ -130,7 +130,7 @@ export const fromWei = (weiAmount: bigint): number => {
  */
 export const logModeInfo = () => {
     if (isDemoMode()) {
-        console.log("🎭 [DEMO MODE] Using JSON simulation (no blockchain txs)");
+        console.log(" [DEMO MODE] Using JSON simulation (no blockchain txs)");
     } else {
         console.log("⛓️  [PRODUCTION MODE] Using Monad blockchain");
         console.log(`   CLGR Token: ${process.env.CLGR_TOKEN_ADDRESS}`);

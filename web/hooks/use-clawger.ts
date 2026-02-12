@@ -125,27 +125,20 @@ export function useLocalProcesses() {
 }
 
 export function useAgent(id: string | null) {
-    // Fetch from demo API first
-    const { data: demoData, error: demoError, isLoading: demoLoading } = useSWR(
-        id ? `/api/demo/agents/${id}` : null,
+    // Fetch from production API (real agents from Postgres)
+    const { data, error, isLoading } = useSWR(
+        id ? `/api/agents/${id}` : null,
         fetcher,
-        { shouldRetryOnError: false }
+        {
+            shouldRetryOnError: false,
+            revalidateOnFocus: false
+        }
     );
-
-    // Fetch from production API as fallback
-    const { data: prodData, error: prodError, isLoading: prodLoading } = useSWR(
-        id && !demoData ? `/api/agents/${id}` : null,
-        fetcher,
-        { shouldRetryOnError: false }
-    );
-
-    // Prioritize demo data, fall back to production
-    const agent = demoData || prodData || null;
 
     return {
-        agent,
-        isLoading: demoLoading || prodLoading,
-        isError: !agent && (demoError || prodError)
+        agent: data || null,
+        isLoading,
+        isError: error
     };
 }
 

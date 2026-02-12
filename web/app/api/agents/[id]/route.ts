@@ -35,6 +35,8 @@ const missionRegistry = new MissionRegistry(
 /**
  * GET /api/agents/[id]
  * Get agent profile by ID (public)
+ * 
+ * PRODUCTION ONLY - Returns only real agents from Postgres
  */
 export async function GET(
     request: NextRequest,
@@ -42,8 +44,15 @@ export async function GET(
 ) {
     try {
         const params = await props.params;
-        const agentId = params.id;
-        const agent = agentAPI.getAgentById(agentId);
+        const agentAddress = params.id.toLowerCase();
+
+        // Query database for agent
+        const { AgentQueries } = await import('@/lib/queries/agent-queries');
+        const agentQueries = new AgentQueries();
+
+        // Get agent by address
+        const agents = await agentQueries.listAgents({ search: agentAddress });
+        const agent = agents.find(a => a.address.toLowerCase() === agentAddress);
 
         if (!agent) {
             return NextResponse.json(
@@ -55,47 +64,31 @@ export async function GET(
             );
         }
 
-        // Remove sensitive fields
-        const { apiKey, address, ...publicProfile } = agent;
+        // Get stats
+        const stats = await agentQueries.getAgentStats(agent.address);
+        const totalValueSecured = await agentQueries.getTotalValueSecured(agent.address);
 
-        // Get real-time stats
-        const realEarnings = jobHistory.getTotalEarnings(agentId);
-        const realJobCount = jobHistory.getJobCount(agentId);
-
-        // Get TVS and bond data
-        const tvsCalculator = new TVSCalculator(missionStore);
-        const bondTracker = new BondTracker(dataPath);
-        const totalValueSecured = tvsCalculator.getTotalValueSecured(agentId);
-        const activeBond = bondTracker.getActiveBond(agentId);
-
-
-        // Calculate success rate
-        const jobOutcomes = jobHistory.getJobOutcomes(agentId);
-        const passedJobs = jobOutcomes.filter(j => j.outcome === 'PASS').length;
-        const totalJobs = jobOutcomes.length;
-        const successRate = totalJobs > 0 ? (passedJobs / totalJobs) * 100 : 100;
-
-        // Get reputation breakdown (source of truth for reputation)
-        const reputationBreakdown = reputationEngine.getReputationBreakdown(agentId);
-
-        // Get job history for profile
-        const jobHistoryData = jobHistory.getHistory(agentId);
-
-        // Inject computed fields for UI
-        const enhancedProfile = {
-            ...publicProfile,
-            total_earnings: realEarnings || 0,
-            jobs_completed: Math.max(realJobCount, publicProfile.jobs_completed || 0),
-            total_value_secured: totalValueSecured,
-            active_bond: activeBond > 0 ? activeBond : null,
-            success_rate: Math.round(successRate),
-            hourly_rate: publicProfile.hourly_rate || 0,
-            reputation: reputationBreakdown.total, // Use calculated reputation, not stored value
-            reputation_breakdown: reputationBreakdown,
-            job_history: jobHistoryData.jobs
+        // Transform to frontend format (same as list endpoint)
+        const publicAgent = {
+            id: agent.address,
+            address: agent.address,
+            name: `Agent ${agent.address.slice(0, 8)}`,
+            type: agent.agent_type === 'worker' ? 'worker' : 'verifier',
+            specialties: agent.capabilities,
+            reputation: agent.reputation,
+            available: agent.active,
+            hourly_rate: parseFloat(agent.min_fee) / 1e18,
+            min_fee: parseFloat(agent.min_fee) / 1e18,
+            min_bond: parseFloat(agent.min_bond) / 1e18,
+            registered_at: agent.registered_at,
+            jobs_completed: stats.jobs_completed,
+            total_earnings: stats.total_earnings / 1e18,
+            success_rate: Math.round(stats.success_rate),
+            total_value_secured: totalValueSecured / 1e18,
+            status: agent.active ? 'active' : 'inactive'
         };
 
-        return NextResponse.json(enhancedProfile);
+        return NextResponse.json(publicAgent);
     } catch (error: any) {
         console.error('[API /agents/[id]] Error:', error);
         return NextResponse.json(

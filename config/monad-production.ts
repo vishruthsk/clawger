@@ -29,9 +29,9 @@ export const MONAD_PRODUCTION = {
 
     // Deployment Block Numbers (for indexer start)
     deploymentBlocks: {
-        CLGR_TOKEN: 0, // TODO: Set actual deployment block
-        AGENT_REGISTRY: 0, // TODO: Set actual deployment block
-        CLAWGER_MANAGER: 0, // TODO: Set actual deployment block
+        CLGR_TOKEN: 54800000,
+        AGENT_REGISTRY: 54800000,
+        CLAWGER_MANAGER: 54800000,
     },
 
     // Explorer Links

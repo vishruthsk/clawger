@@ -6,6 +6,7 @@ import { useAgents } from "../../hooks/use-clawger";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { ReputationBadge } from "../../components/agents/ReputationBadge";
+import { decodeCapabilities } from "@/lib/decode-capabilities";
 
 // Simple debounce hook implementation inline or imported if available
 function useDebounce<T>(value: T, delay: number): T {
@@ -147,7 +148,7 @@ export default function ClawsList() {
                                 <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/20 rounded-3xl transition-all duration-500 pointer-events-none" />
 
                                 {/* Background Tech Pattern */}
-                                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
+                                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.02] pointer-events-none" />
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-bl-full blur-3xl group-hover:bg-primary/10 transition-all duration-500 pointer-events-none opacity-0 group-hover:opacity-100" />
 
                                 {/* Top Right Gradient Square */}
@@ -163,15 +164,15 @@ export default function ClawsList() {
                                     </div>
                                 </div>
 
-                                <div className="p-6 relative z-10 flex flex-col h-full">
+                                <div className="p-6 relative z-10 flex flex-col h-full bg-transparent">
                                     {/* Header Row: Avatar & Name */}
-                                    <div className="flex items-start gap-4 mb-6 pr-28">
-                                        <div className="w-14 h-14 rounded-xl bg-[#111] border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform shadow-inner relative overflow-hidden group-hover:border-primary/30 shrink-0">
+                                    <div className="flex items-center gap-4 mb-6 pr-20">
+                                        <div className="w-14 h-14 rounded-2xl bg-[#111] border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform shadow-inner relative overflow-hidden group-hover:border-primary/30 shrink-0">
                                             <div className="relative z-10">{agent.type === 'verifier' ? '🛡️' : '🤖'}</div>
                                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-bold text-white text-lg group-hover:text-primary transition-colors leading-tight line-clamp-2 pr-2">{agent.name || 'Unknown Agent'}</h3>
+                                        <div className="min-w-0">
+                                            <h3 className="font-bold text-white text-lg group-hover:text-primary transition-colors leading-tight line-clamp-2">{agent.name || 'Unknown Agent'}</h3>
                                             <div className="flex items-center gap-2 mt-1.5">
                                                 <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] uppercase font-bold border ${agent.available ? 'bg-success/10 text-success border-success/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
                                                     <span className={`w-1 h-1 rounded-full ${agent.available ? 'bg-success' : 'bg-red-500'}`} />
@@ -184,18 +185,28 @@ export default function ClawsList() {
                                         </div>
                                     </div>
 
-                                    {/* Tags */}
+                                    {/* Specialties */}
                                     <div className="mb-6 flex-1">
                                         <div className="text-[9px] uppercase font-bold text-muted mb-2 tracking-wider">Capabilities</div>
                                         <div className="flex flex-wrap gap-1.5">
-                                            {(agent.tags || agent.specialties || ['General']).slice(0, 3).map((s: string) => (
-                                                <span key={s} className="px-2 py-1 rounded-md text-[10px] bg-white/5 text-gray-400 border border-white/5 group-hover:border-white/10 transition-colors font-medium">
-                                                    {s}
-                                                </span>
-                                            ))}
-                                            {((agent.tags || agent.specialties)?.length > 3) && (
-                                                <span className="px-2 py-1 rounded-md text-[10px] text-muted bg-white/5 border border-white/5">+{(agent.tags || agent.specialties).length - 3}</span>
-                                            )}
+                                            {(() => {
+                                                const capabilities = agent.specialties
+                                                    ? decodeCapabilities(agent.specialties)
+                                                    : (agent.tags || ['General']);
+                                                return capabilities.slice(0, 3).map((s: string, idx: number) => (
+                                                    <span key={idx} className="px-2 py-1 rounded-md text-[10px] bg-white/5 text-gray-400 border border-white/5 group-hover:border-white/10 transition-colors font-medium">
+                                                        {s}
+                                                    </span>
+                                                ));
+                                            })()}
+                                            {(() => {
+                                                const capabilities = agent.specialties
+                                                    ? decodeCapabilities(agent.specialties)
+                                                    : (agent.tags || []);
+                                                return capabilities.length > 3 && (
+                                                    <span className="px-2 py-1 rounded-md text-[10px] text-muted bg-white/5 border border-white/5">+{capabilities.length - 3}</span>
+                                                );
+                                            })()}
                                         </div>
                                     </div>
 
@@ -214,9 +225,17 @@ export default function ClawsList() {
                                         </div>
 
                                         {/* Reputation Block */}
-                                        <div className="bg-[#111] rounded-lg p-2.5 border border-white/5 group-hover:border-white/10 transition-colors relative flex flex-col justify-center">
-                                            <div className="text-[9px] text-muted uppercase font-bold mb-1.5 tracking-wider">Reputation</div>
-                                            <ReputationBadge reputation={agent.reputation || 50} size="sm" />
+                                        <div className="bg-[#111] rounded-lg p-2.5 border border-white/5 group-hover:border-white/10 transition-colors relative">
+                                            <div className="text-[9px] text-muted uppercase font-bold mb-0.5 tracking-wider">Reputation</div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="text-white font-mono font-bold text-sm">{agent.reputation || 50}</div>
+                                                <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-gradient-to-r from-primary to-orange-500 rounded-full shadow-[0_0_5px_rgba(249,115,22,0.5)]"
+                                                        style={{ width: `${Math.min(agent.reputation || 50, 100)}%` }}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         {/* TVS Block (Full Width) */}

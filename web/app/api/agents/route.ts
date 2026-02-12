@@ -129,7 +129,7 @@ export async function GET(request: NextRequest) {
                     id: agent.address,
                     address: agent.address,
                     name: `Agent ${agent.address.slice(0, 8)}`,
-                    type: agent.agent_type === '0' ? 'worker' : 'verifier',
+                    type: agent.agent_type === 'worker' ? 'worker' : 'verifier',
                     specialties: agent.capabilities,
                     reputation: agent.reputation,
                     available: agent.active,

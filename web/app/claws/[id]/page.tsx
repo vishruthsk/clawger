@@ -7,7 +7,7 @@ import { ChevronRight, ShieldCheck, Zap, Server, Activity, Briefcase, DollarSign
 import { Loader2 } from "lucide-react";
 import JobHistory from "../../../components/agents/JobHistory";
 import ReputationBreakdown from "../../../components/agents/ReputationBreakdown";
-import { ReputationBadge } from "../../../components/agents/ReputationBadge";
+import { decodeCapabilities } from "@/lib/decode-capabilities";
 
 export default function BotProfile() {
     const params = useParams();
@@ -33,8 +33,9 @@ export default function BotProfile() {
         );
     }
 
-    const capabilities = agent.specialties || ["General Intelligence", "Data Analysis", "Web Scraping"];
+    const capabilities = agent.specialties ? decodeCapabilities(agent.specialties) : [];
     const isVerifier = agent.type === 'verifier';
+    const agentType = agent.type === 'worker' ? 'WORKER' : agent.type === 'verifier' ? 'VERIFIER' : 'UNKNOWN';
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-primary/20">
@@ -88,18 +89,13 @@ export default function BotProfile() {
                         {/* Info Column */}
                         <div className="flex-1 flex flex-col justify-center h-full py-10">
 
-                            {/* Reputation Badge */}
-                            <div className="mb-4">
-                                <ReputationBadge reputation={agent.reputation || 50} size="md" />
-                            </div>
-
                             {/* Name & ID */}
                             <h1 className="text-3xl md:text-4xl font-bold text-white/50 tracking-tight font-sans mb-6 drop-shadow-sm truncate max-w-[500px]">
-                                {agent.name || 'bot_01'}
+                                {agent.name}
                             </h1>
                             <div className="flex items-center gap-3">
                                 <span className="px-2 py-1 rounded-md bg-white/10 text-xs font-mono text-muted">
-                                    {agent.id ? `ID: ${agent.id.replace('agent_', '').substring(0, 8)}` : 'UNKNOWN'}
+                                    {agentType}
                                 </span>
                             </div>
 
@@ -148,12 +144,19 @@ export default function BotProfile() {
                                 <h3 className="text-sm font-bold uppercase text-muted tracking-wider">Core Capabilities</h3>
                             </div>
                             <div className="flex flex-wrap gap-3">
-                                {capabilities.map((cap: string) => (
-                                    <span key={cap} className="px-5 py-2.5 rounded-xl bg-[#131313] border border-white/5 text-sm text-gray-400 font-mono tracking-tight shadow-sm hover:border-white/10 hover:text-white transition-colors cursor-default flex items-center">
-                                        <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(249,115,22,0.8)] mr-3"></span>
-                                        {cap}
-                                    </span>
-                                ))}
+                                {capabilities.map((cap: string, idx: number) => {
+                                    // If capability is a hex hash, show a human-readable label
+                                    const displayCap = cap.startsWith('0x') && cap.length > 20
+                                        ? 'Specialized Capabilities'
+                                        : cap;
+
+                                    return (
+                                        <span key={idx} className="px-5 py-2.5 rounded-xl bg-[#131313] border border-white/5 text-sm text-gray-400 font-mono tracking-tight shadow-sm hover:border-white/10 hover:text-white transition-colors cursor-default flex items-center">
+                                            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(249,115,22,0.8)] mr-3"></span>
+                                            {displayCap}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -272,12 +275,22 @@ export default function BotProfile() {
                                     </div>
                                 </div>
 
-                                <Link
-                                    href={`/missions/create?agent_id=${id}`}
-                                    className="w-full py-4 bg-white hover:bg-gray-100 text-black rounded-xl font-bold text-sm transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-white/10 group"
-                                >
-                                    Hire Agent <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </Link>
+                                {agent.demo ? (
+                                    <button
+                                        disabled
+                                        className="w-full py-4 bg-gray-800 text-gray-500 rounded-xl font-bold text-sm cursor-not-allowed flex items-center justify-center gap-2 opacity-50"
+                                        title="Demo agents cannot be hired for real missions"
+                                    >
+                                        Demo Agent - Not Available
+                                    </button>
+                                ) : (
+                                    <Link
+                                        href={`/missions/create?agent_id=${id}`}
+                                        className="w-full py-4 bg-white hover:bg-gray-100 text-black rounded-xl font-bold text-sm transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-white/10 group"
+                                    >
+                                        Hire Agent <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </Link>
+                                )}
                             </div>
 
                             {/* Reputation Breakdown */}
