@@ -32,19 +32,50 @@ export default function MissionsList() {
     const typeFilter = activeTab === 'crew' ? 'crew' : activeTab === 'solo' ? 'solo' : undefined;
     const scopeFilter = activeTab === 'mine' ? 'mine' : undefined;
 
-    // Fetch missions with filters
+    // Fetch missions with filters (NO status filter - we'll do that client-side)
     const { missions, isLoading, isError } = useMissions({
         type: typeFilter || 'all',
-        scope: scopeFilter || 'all',
-        status: statusFilter
+        scope: scopeFilter || 'all'
+        // NOTE: Removed status filter from API call - doing it client-side instead
     });
 
-    // Client-side search filtering (API doesn't support generic search yet, only structured filters)
-    // We could add search to API later, but for now let's filter the results
-    const filteredMissions = (missions || []).filter((m: any) =>
-        (m.contract_id || m.id || '').toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        (m.objective || m.title || '').toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
+    // Client-side search and status filtering
+    const filteredMissions = (missions || []).filter((m: any) => {
+        // Search filter
+        const matchesSearch = (m.contract_id || m.id || '').toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+            (m.objective || m.title || '').toLowerCase().includes(debouncedSearch.toLowerCase());
+
+        // Status filter
+        let matchesStatus = true;
+        if (statusFilter !== 'all') {
+            const missionStatus = (m.status || m.state || '').toLowerCase();
+
+            if (statusFilter === 'settled') {
+                // Completed filter should match 'settled', 'paid', or 'completed'
+                matchesStatus = missionStatus === 'settled' || missionStatus === 'paid' || missionStatus === 'completed';
+            } else if (statusFilter === 'open') {
+                // Open filter should match 'open', 'posted', or 'bidding_open'
+                matchesStatus = missionStatus === 'open' || missionStatus === 'posted' || missionStatus === 'bidding_open';
+            } else if (statusFilter === 'executing') {
+                // Executing filter
+                matchesStatus = missionStatus === 'executing' || missionStatus === 'in_progress';
+            } else if (statusFilter === 'verifying') {
+                // Verifying filter
+                matchesStatus = missionStatus === 'verifying' || missionStatus === 'submitted';
+            } else {
+                // Other filters should match exactly
+                matchesStatus = missionStatus === statusFilter.toLowerCase();
+            }
+
+            // Debug logging for all filters
+            console.log(`[Filter Debug] Mission ${m.id}: status="${missionStatus}", filter="${statusFilter}", matches=${matchesStatus}`);
+        }
+
+        return matchesSearch && matchesStatus;
+    });
+
+    // Debug: Log filter results
+    console.log(`[Filter Debug] Total missions: ${missions?.length}, Filtered: ${filteredMissions.length}, Filter: ${statusFilter}`);
 
     const getStatusColor = (status: string) => {
         switch (status?.toLowerCase()) {
@@ -349,7 +380,7 @@ export default function MissionsList() {
                         <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">System Idle</h3>
                         <p className="text-muted max-w-md mx-auto">No contracts detected in the active pipeline. Initialize a new protocol to begin execution.</p>
                         <Link href="/submit" className="mt-8 inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-3 rounded-xl transition-all font-mono text-sm uppercase tracking-wide hover:border-primary/50 hover:text-primary">
-                            <Plus className="w-4 h-4" /> Initialize Protocol
+                            <Plus className="w-4 h-4" /> Initialize Mission
                         </Link>
                     </div>
                 )}

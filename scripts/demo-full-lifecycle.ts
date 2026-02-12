@@ -20,7 +20,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 const MONAD_ADDRESSES = {
     CLGR_TOKEN: '0x1F81fBE23B357B84a065Eb2898dBF087815c7777',
     AGENT_REGISTRY: '0x089D0b590321560c8Ec2Ece672Ef22462F79BC36',
-    CLAWGER_MANAGER: '0x13ec4679b38F67cA627Ba03Fa82ce46E9b383691',
+    CLAWGER_MANAGER: '0xA001b7BAb7E46181b5034d1D7B0dAe7B88e47B6D',
 };
 
 // CLAWGER operator address (signs accept/reject)
@@ -40,8 +40,8 @@ const CLGR_ABI = [
 ];
 
 const REGISTRY_ABI = [
-    'function registerAgent(uint8 agentType, bytes32[] capabilities, uint256 minFee)',
-    'function getAgent(address agent) view returns (tuple(address addr, uint8 agentType, bytes32[] capabilities, uint256 minFee, uint256 reputation, bool active, bool exists))',
+    'function registerAgent(uint8 agentType, bytes32[] capabilities, uint256 minFee, uint256 minBond, address operator)',
+    'function getAgent(address agent) view returns (tuple(address wallet, uint8 agentType, bytes32[] capabilities, uint256 minFee, uint256 minBond, address operator, uint256 reputation, bool active, bool exists, uint256 registeredAt, uint256 updatedAt))',
     'function getReputation(address agent) view returns (uint256)',
 ];
 
@@ -99,44 +99,46 @@ async function main() {
     // ============================================================
     console.log('📝 STEP 1: Registering Agents\n');
 
+    // Try to register worker (will skip if already registered)
     try {
-        // Check if worker already registered
-        const workerAgent = await registry.getAgent(worker.address);
-        if (!workerAgent.exists) {
-            console.log('Registering worker...');
-            const workerCapabilities = [ethers.id('coding')]; // keccak256("coding")
-            const tx1 = await registry.connect(worker).registerAgent(
-                0, // AgentType.Worker
-                workerCapabilities,
-                ethers.parseEther('5') // minFee: 5 CLGR
-            );
-            await tx1.wait();
-            console.log(`✅ Worker registered: ${worker.address}`);
-        } else {
-            console.log(`✅ Worker already registered: ${worker.address}`);
-        }
+        console.log('Registering worker...');
+        const workerCapabilities = [ethers.id('coding')];
+        const tx1 = await registry.connect(worker).registerAgent(
+            0, // AgentType.Worker
+            workerCapabilities,
+            ethers.parseEther('5'), // minFee: 5 CLGR
+            ethers.parseEther('10'), // minBond: 10 CLGR
+            worker.address // operator: self
+        );
+        await tx1.wait();
+        console.log(`✅ Worker registered: ${worker.address}`);
     } catch (error: any) {
-        console.log(`⚠️  Worker registration skipped: ${error.message}`);
+        if (error.message.includes('Already active')) {
+            console.log(`✅ Worker already registered: ${worker.address}`);
+        } else {
+            console.log(`⚠️  Worker registration skipped: ${error.message}`);
+        }
     }
 
+    // Try to register verifier (will skip if already registered)
     try {
-        // Check if verifier already registered
-        const verifierAgent = await registry.getAgent(verifier.address);
-        if (!verifierAgent.exists) {
-            console.log('Registering verifier...');
-            const verifierCapabilities = [ethers.id('verification')];
-            const tx2 = await registry.connect(verifier).registerAgent(
-                1, // AgentType.Verifier
-                verifierCapabilities,
-                ethers.parseEther('2') // minFee: 2 CLGR
-            );
-            await tx2.wait();
-            console.log(`✅ Verifier registered: ${verifier.address}\n`);
-        } else {
-            console.log(`✅ Verifier already registered: ${verifier.address}\n`);
-        }
+        console.log('Registering verifier...');
+        const verifierCapabilities = [ethers.id('verification')];
+        const tx2 = await registry.connect(verifier).registerAgent(
+            1, // AgentType.Verifier
+            verifierCapabilities,
+            ethers.parseEther('2'), // minFee: 2 CLGR
+            ethers.parseEther('5'), // minBond: 5 CLGR
+            verifier.address // operator: self
+        );
+        await tx2.wait();
+        console.log(`✅ Verifier registered: ${verifier.address}\n`);
     } catch (error: any) {
-        console.log(`⚠️  Verifier registration skipped: ${error.message}\n`);
+        if (error.message.includes('Already active')) {
+            console.log(`✅ Verifier already registered: ${verifier.address}\n`);
+        } else {
+            console.log(`⚠️  Verifier registration skipped: ${error.message}\n`);
+        }
     }
 
     // ============================================================
@@ -160,24 +162,23 @@ async function main() {
     }
 
     // Approve Manager to spend CLGR
+    // Since we're using the same wallet for all roles, approve the total amount needed
+    const totalApprovalNeeded = requiredProposerBalance + WORKER_BOND; // 150 + 10 = 160 CLGR
+
     console.log('Approving CLGR for Manager...');
-    const approveTx1 = await clgr.connect(proposer).approve(MONAD_ADDRESSES.CLAWGER_MANAGER, requiredProposerBalance);
-    await approveTx1.wait();
-    console.log(`✅ Proposer approved ${ethers.formatEther(requiredProposerBalance)} CLGR`);
+    console.log(`Total approval needed: ${ethers.formatEther(totalApprovalNeeded)} CLGR`);
 
-    const approveTx2 = await clgr.connect(worker).approve(MONAD_ADDRESSES.CLAWGER_MANAGER, WORKER_BOND);
-    await approveTx2.wait();
-    console.log(`✅ Worker approved ${ethers.formatEther(WORKER_BOND)} CLGR`);
+    const approveTx = await clgr.connect(deployer).approve(MONAD_ADDRESSES.CLAWGER_MANAGER, totalApprovalNeeded);
+    await approveTx.wait();
+    console.log(`✅ Approved ${ethers.formatEther(totalApprovalNeeded)} CLGR for Manager`);
 
-    // Wait a bit for approvals to be fully processed
-    console.log('Waiting for approvals to be mined...');
+    // Wait a bit for approval to be fully processed
+    console.log('Waiting for approval to be mined...');
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Verify allowances
-    const proposerAllowance = await clgr.allowance(proposer.address, MONAD_ADDRESSES.CLAWGER_MANAGER);
-    const workerAllowance = await clgr.allowance(worker.address, MONAD_ADDRESSES.CLAWGER_MANAGER);
-    console.log(`Proposer allowance: ${ethers.formatEther(proposerAllowance)} CLGR`);
-    console.log(`Worker allowance:   ${ethers.formatEther(workerAllowance)} CLGR\n`);
+    // Verify allowance
+    const allowance = await clgr.allowance(deployer.address, MONAD_ADDRESSES.CLAWGER_MANAGER);
+    console.log(`Verified allowance: ${ethers.formatEther(allowance)} CLGR\n`);
 
     // ============================================================
     // STEP 3: Submit Proposal

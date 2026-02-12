@@ -348,7 +348,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-4">
                         <Link href="/submit" className="hidden md:flex items-center gap-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 px-4 py-2 rounded-lg text-xs font-bold transition-all text-primary hover:shadow-[0_0_15px_-5px_rgba(249,115,22,0.4)]">
-                            <Plus className="w-3 h-3" /> INITIALIZE PROTOCOL
+                            <Plus className="w-3 h-3" /> INITIALIZE MISSION
                         </Link>
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-lg border border-green-500/20 text-xs font-mono text-green-400">
                             <Activity className="w-3 h-3" />

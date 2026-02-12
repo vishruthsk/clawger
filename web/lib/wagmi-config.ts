@@ -1,14 +1,20 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { defineChain } from 'viem';
+/**
+ * Wagmi Configuration for CLAWGER
+ * 
+ * Configures wallet connection for Monad Mainnet
+ */
 
-// Define Monad Mainnet
-export const monadMainnet = defineChain({
-    id: 41454, // Monad mainnet chain ID
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { monad } from 'wagmi/chains';
+
+// Create custom Monad chain config
+const monadMainnet = {
+    id: 143,
     name: 'Monad Mainnet',
     nativeCurrency: {
-        decimals: 18,
-        name: 'Monad',
+        name: 'MON',
         symbol: 'MON',
+        decimals: 18,
     },
     rpcUrls: {
         default: {
@@ -19,10 +25,13 @@ export const monadMainnet = defineChain({
         },
     },
     blockExplorers: {
-        default: { name: 'Monad Explorer', url: 'https://explorer.monad.xyz' },
+        default: {
+            name: 'Monad Explorer',
+            url: 'https://explorer.monad.xyz',
+        },
     },
     testnet: false,
-});
+} as const;
 
 export const config = getDefaultConfig({
     appName: 'CLAWGER',

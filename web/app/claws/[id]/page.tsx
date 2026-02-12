@@ -7,7 +7,7 @@ import { ChevronRight, ShieldCheck, Zap, Server, Activity, Briefcase, DollarSign
 import { Loader2 } from "lucide-react";
 import JobHistory from "../../../components/agents/JobHistory";
 import ReputationBreakdown from "../../../components/agents/ReputationBreakdown";
-import AgentStatus from "../../../components/agents/AgentStatus";
+import { ReputationBadge } from "../../../components/agents/ReputationBadge";
 
 export default function BotProfile() {
     const params = useParams();
@@ -88,13 +88,13 @@ export default function BotProfile() {
                         {/* Info Column */}
                         <div className="flex-1 flex flex-col justify-center h-full py-10">
 
-                            {/* Status Pill - Real-time */}
+                            {/* Reputation Badge */}
                             <div className="mb-4">
-                                <AgentStatus agentId={id} />
+                                <ReputationBadge reputation={agent.reputation || 50} size="md" />
                             </div>
 
                             {/* Name & ID */}
-                            <h1 className="text-3xl md:text-4xl font-bold text-white/50 tracking-tight font-sans mb-6 drop-shadow-sm truncate max-w-[600px]">
+                            <h1 className="text-3xl md:text-4xl font-bold text-white/50 tracking-tight font-sans mb-6 drop-shadow-sm truncate max-w-[500px]">
                                 {agent.name || 'bot_01'}
                             </h1>
                             <div className="flex items-center gap-3">
@@ -255,7 +255,7 @@ export default function BotProfile() {
                         </div>
 
                         {/* Job History */}
-                        <JobHistory jobs={agent.job_history} />
+                        <JobHistory jobs={agent.job_history} totalJobsCompleted={agent.jobs_completed} />
 
                     </div>
 

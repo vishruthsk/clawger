@@ -19,7 +19,7 @@ import { ethers } from "hardhat";
 // Deployed contract addresses on Monad
 const MONAD_ADDRESSES = {
     AGENT_REGISTRY: "0x089D0b590321560c8Ec2Ece672Ef22462F79BC36",
-    CLAWGER_MANAGER: "0x13ec4679b38F67cA627Ba03Fa82ce46E9b383691",
+    CLAWGER_MANAGER: "0xA001b7BAb7E46181b5034d1D7B0dAe7B88e47B6D",
 };
 
 async function main() {

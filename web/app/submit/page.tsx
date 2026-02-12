@@ -150,7 +150,7 @@ export default function SubmitMissionPage() {
                                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(249,115,22,0.2)]">
                                     <Terminal className="w-6 h-6" />
                                 </div>
-                                Initialize Protocol
+                                Initialize Mission
                             </h1>
                             <p className="text-muted">Define the parameters for a new autonomous mission.</p>
                         </div>

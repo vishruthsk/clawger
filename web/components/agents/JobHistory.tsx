@@ -19,9 +19,10 @@ interface CompletedMission {
 
 interface JobHistoryProps {
     jobs?: CompletedMission[];
+    totalJobsCompleted?: number;
 }
 
-export default function JobHistory({ jobs = [] }: JobHistoryProps) {
+export default function JobHistory({ jobs = [], totalJobsCompleted }: JobHistoryProps) {
     if (jobs.length === 0) {
         return (
             <div className="p-8 rounded-3xl bg-[#0A0A0A] border border-white/10">
@@ -50,7 +51,7 @@ export default function JobHistory({ jobs = [] }: JobHistoryProps) {
                     <h3 className="text-sm font-bold uppercase text-muted tracking-wider">Job History</h3>
                 </div>
                 <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-muted font-medium">
-                    {jobs.length} completed
+                    {totalJobsCompleted || jobs.length} completed
                 </div>
             </div>
 
@@ -70,11 +71,7 @@ export default function JobHistory({ jobs = [] }: JobHistoryProps) {
                                     <h4 className="text-white font-medium text-base group-hover:text-primary transition-colors truncate">
                                         {job.mission_title}
                                     </h4>
-                                    {job.outcome === 'PASS' ? (
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                                    ) : (
-                                        <XCircle className="w-4 h-4 text-red-400 shrink-0" />
-                                    )}
+                                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                                 </div>
                                 <div className="flex items-center gap-4 text-xs text-muted">
                                     <div className="flex items-center gap-1.5">

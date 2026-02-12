@@ -78,80 +78,73 @@ export async function POST(request: NextRequest) {
 /**
  * GET /api/agents
  * List all agents (public)
+ * 
+ * PRODUCTION ONLY - Returns only real agents from Postgres
+ * Demo data is served via /api/demo/agents
  */
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
 
-        const filters = {
-            specialty: searchParams.get('specialty') || undefined,
-            available: searchParams.get('available') === 'true' ? true :
-                searchParams.get('available') === 'false' ? false : undefined,
-            min_reputation: searchParams.get('min_reputation')
-                ? parseInt(searchParams.get('min_reputation')!)
-                : undefined,
-            search: searchParams.get('search') || undefined,
-            tags: searchParams.get('tags') ? searchParams.get('tags')!.split(',') : undefined,
-            // New filters for Phase 17
-            capability: searchParams.get('capability') || undefined,
-            status: searchParams.get('status') || undefined,
-            minRep: searchParams.get('minRep') ? parseInt(searchParams.get('minRep')!) : undefined,
-            maxRate: searchParams.get('maxRate') ? parseInt(searchParams.get('maxRate')!) : undefined
-        };
+        // Parse filters from query params
+        const filters: any = {};
 
-        const agents = agentAPI.listAgents(filters);
+        const type = searchParams.get('type');
+        if (type === 'worker' || type === 'verifier') {
+            filters.type = type;
+        }
 
-        // Initialize economic modules
-        const tvsCalculator = new TVSCalculator(missionStore);
-        const bondTracker = new BondTracker(dataPath);
+        const capability = searchParams.get('capability');
+        if (capability) {
+            filters.capability = capability;
+        }
 
-        // Remove sensitive fields and inject real-time stats
-        const publicAgents = agents.map(agent => {
-            const realEarnings = jobHistory.getTotalEarnings(agent.id);
-            const realJobCount = jobHistory.getJobCount(agent.id);
-            const totalValueSecured = tvsCalculator.getTotalValueSecured(agent.id);
-            const activeBond = bondTracker.getActiveBond(agent.id);
+        const minRep = searchParams.get('min_reputation') || searchParams.get('minRep');
+        if (minRep) {
+            filters.min_reputation = parseInt(minRep);
+        }
 
-            // Calculate success rate
-            const jobOutcomes = jobHistory.getJobOutcomes(agent.id);
-            const passedJobs = jobOutcomes.filter(j => j.outcome === 'PASS').length;
-            const totalJobs = jobOutcomes.length;
-            const successRate = totalJobs > 0 ? (passedJobs / totalJobs) * 100 : 100;
+        const active = searchParams.get('active');
+        if (active !== null) {
+            filters.active = active === 'true';
+        }
 
-            // Apply filters
-            if (filters.capability && !agent.specialties.some(s =>
-                s.toLowerCase().includes(filters.capability!.toLowerCase())
-            )) {
-                return null;
-            }
+        const search = searchParams.get('search');
+        if (search) {
+            filters.search = search;
+        }
 
-            if (filters.maxRate && agent.hourly_rate && agent.hourly_rate > filters.maxRate) {
-                return null;
-            }
+        // Query database for agents
+        const { AgentQueries } = await import('@/lib/queries/agent-queries');
+        const agentQueries = new AgentQueries();
+        const agents = await agentQueries.listAgents(filters);
 
-            if (filters.minRep && agent.reputation < filters.minRep) {
-                return null;
-            }
+        // Transform to frontend format with stats
+        const publicAgents = await Promise.all(
+            agents.map(async (agent) => {
+                const stats = await agentQueries.getAgentStats(agent.address);
+                const totalValueSecured = await agentQueries.getTotalValueSecured(agent.address);
 
-            return {
-                id: agent.id,
-                name: agent.name,
-                description: agent.description,
-                specialties: agent.specialties,
-                hourly_rate: agent.hourly_rate || 0,
-                available: agent.available,
-                reputation: agent.reputation || 50,
-                jobs_completed: Math.max(realJobCount, agent.jobs_completed || 0),
-                total_earnings: realEarnings || 0,
-                total_value_secured: totalValueSecured,
-                active_bond: activeBond > 0 ? activeBond : null,
-                success_rate: Math.round(successRate),
-                status: agent.status || 'active',
-                platform: agent.platform,
-                neural_spec: agent.neural_spec,
-                type: agent.type || 'worker'
-            };
-        }).filter(agent => agent !== null); // Remove filtered out agents
+                return {
+                    id: agent.address,
+                    address: agent.address,
+                    name: `Agent ${agent.address.slice(0, 8)}`,
+                    type: agent.agent_type === '0' ? 'worker' : 'verifier',
+                    specialties: agent.capabilities,
+                    reputation: agent.reputation,
+                    available: agent.active,
+                    hourly_rate: parseFloat(agent.min_fee) / 1e18,
+                    min_fee: parseFloat(agent.min_fee) / 1e18,
+                    min_bond: parseFloat(agent.min_bond) / 1e18,
+                    registered_at: agent.registered_at,
+                    jobs_completed: stats.jobs_completed,
+                    total_earnings: stats.total_earnings / 1e18,
+                    success_rate: Math.round(stats.success_rate),
+                    total_value_secured: totalValueSecured / 1e18,
+                    status: agent.active ? 'active' : 'inactive'
+                };
+            })
+        );
 
         return NextResponse.json(publicAgents);
     } catch (error: any) {
@@ -159,7 +152,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(
             {
                 error: error.message || 'Failed to list agents',
-                code: 'LIST_ERROR'
+                code: 'DATABASE_ERROR'
             },
             { status: 500 }
         );

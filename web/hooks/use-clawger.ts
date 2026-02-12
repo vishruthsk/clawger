@@ -5,6 +5,8 @@ const authFetcher = ([url, token]: [string, string]) => fetch(url, {
     headers: { Authorization: `Bearer ${token}` }
 }).then(res => res.json());
 
+// Indexer API base URL (from environment or default to localhost)
+const INDEXER_API = process.env.NEXT_PUBLIC_INDEXER_API || 'http://localhost:3003';
 
 export function useSystemMetrics() {
     const { data, error, isLoading } = useSWR('/api/metrics', fetcher, { refreshInterval: 5000 });
@@ -40,19 +42,64 @@ export function useContractDetail(id: string) {
     };
 }
 
-export function useAgents(filters?: { type?: 'worker' | 'verifier'; search?: string; tags?: string[] }) {
+/**
+ * Fetch agents from production API + demo endpoints
+ * Merges real agents with demo agents for full UX
+ */
+export function useAgents(filters?: { type?: 'worker' | 'verifier'; search?: string; tags?: string[]; active?: boolean }) {
     const params = new URLSearchParams();
-    if (filters?.type) params.append('type', filters.type);
-    if (filters?.search) params.append('search', filters.search);
-    if (filters?.tags && filters.tags.length > 0) params.append('tags', filters.tags.join(','));
 
-    const key = `/api/bots?${params.toString()}`;
-    const { data, error, isLoading, mutate } = useSWR(key, fetcher);
+    // Build query params
+    if (filters?.type) {
+        params.append('type', filters.type);
+    }
+    if (filters?.active !== undefined) {
+        params.append('active', filters.active.toString());
+    }
+
+    const queryString = params.toString();
+
+    // Fetch production agents
+    const { data: prodData, error: prodError, isLoading: prodLoading } = useSWR(
+        `/api/agents${queryString ? `?${queryString}` : ''}`,
+        fetcher,
+        { refreshInterval: 5000 }
+    );
+
+    // Fetch demo agents (will return 404 if DEMO_MODE=false)
+    const { data: demoData, error: demoError } = useSWR(
+        `/api/demo/agents${queryString ? `?${queryString}` : ''}`,
+        fetcher,
+        { refreshInterval: 5000, shouldRetryOnError: false }
+    );
+
+    // Merge production + demo agents
+    const allAgents = [
+        ...(Array.isArray(prodData) ? prodData : []),
+        ...(Array.isArray(demoData) ? demoData : [])
+    ];
+
+    // Apply client-side search filter if provided
+    const filteredAgents = filters?.search
+        ? allAgents.filter((agent: any) =>
+            (agent.name || '').toLowerCase().includes(filters.search!.toLowerCase()) ||
+            (agent.id || '').toLowerCase().includes(filters.search!.toLowerCase()) ||
+            (agent.specialties || []).some((s: string) => s.toLowerCase().includes(filters.search!.toLowerCase()))
+        )
+        : allAgents;
+
+    // Apply tag filter if provided
+    const tagFilteredAgents = filters?.tags && filters.tags.length > 0
+        ? filteredAgents.filter((agent: any) =>
+            filters.tags!.some(tag => (agent.tags || agent.specialties || []).includes(tag))
+        )
+        : filteredAgents;
+
     return {
-        agents: data,
-        isLoading,
-        isError: error,
-        mutate
+        agents: tagFilteredAgents,
+        isLoading: prodLoading,
+        isError: prodError,
+        mutate: () => { } // TODO: implement mutate for both sources
     };
 }
 
@@ -78,11 +125,27 @@ export function useLocalProcesses() {
 }
 
 export function useAgent(id: string | null) {
-    const { data, error, isLoading } = useSWR(id ? `/api/agents/${id}` : null, fetcher);
+    // Fetch from demo API first
+    const { data: demoData, error: demoError, isLoading: demoLoading } = useSWR(
+        id ? `/api/demo/agents/${id}` : null,
+        fetcher,
+        { shouldRetryOnError: false }
+    );
+
+    // Fetch from production API as fallback
+    const { data: prodData, error: prodError, isLoading: prodLoading } = useSWR(
+        id && !demoData ? `/api/agents/${id}` : null,
+        fetcher,
+        { shouldRetryOnError: false }
+    );
+
+    // Prioritize demo data, fall back to production
+    const agent = demoData || prodData || null;
+
     return {
-        agent: data,
-        isLoading,
-        isError: error
+        agent,
+        isLoading: demoLoading || prodLoading,
+        isError: !agent && (demoError || prodError)
     };
 }
 
@@ -119,19 +182,36 @@ export function useMissions(filters?: { status?: string; type?: 'crew' | 'solo' 
     if (filters?.scope && filters.scope !== 'all') params.append('scope', filters.scope);
     if (filters?.requester_id) params.append('requester_id', filters.requester_id);
 
-    const key = `/api/missions?${params.toString()}`;
+    const queryString = params.toString();
 
-    // Use authFetcher if token provided, otherwise standard fetcher
-    const { data, error, isLoading, mutate } = useSWR(
-        token ? [key, token] : key,
+    // Fetch production missions
+    const { data: prodData, error: prodError, isLoading: prodLoading } = useSWR(
+        token ? [`/api/missions?${queryString}`, token] : `/api/missions?${queryString}`,
         token ? authFetcher : fetcher,
         { refreshInterval: 3000 }
     );
+
+    // DISABLED: Demo missions fetching to keep mission data contained to production only
+    // We want demo agents but NOT demo missions
+    /*
+    const { data: demoData } = useSWR(
+        `/api/demo/missions?${queryString}`,
+        fetcher,
+        { refreshInterval: 3000, shouldRetryOnError: false }
+    );
+    */
+
+    // Combine production and demo missions (demo disabled for now)
+    const allMissions = [
+        ...(prodData || []),
+        // ...(demoData || [])  // DISABLED
+    ];
+
     return {
-        missions: data,
-        isLoading,
-        isError: error,
-        refresh: mutate
+        missions: allMissions,
+        isLoading: prodLoading,
+        isError: prodError,
+        refresh: () => { } // TODO: implement refresh for both sources
     };
 }
 

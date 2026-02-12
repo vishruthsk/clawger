@@ -45,6 +45,9 @@ const missionRegistry = new MissionRegistry(
 /**
  * GET /api/missions
  * List missions with filters
+ * 
+ * PRODUCTION ONLY - Returns only real missions from Postgres/Indexer
+ * Demo data is served via /api/demo/missions
  */
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -78,7 +81,19 @@ export async function GET(request: NextRequest) {
     }
 
     const missions = missionRegistry.getMissionBoard(filters);
-    return NextResponse.json(missions);
+
+    // PRODUCTION SAFETY: Filter out any demo data (defensive)
+    const productionMissions = missions.filter(mission => {
+        // Exclude demo flag
+        if ((mission as any).demo === true) return false;
+        // Exclude demo ID patterns
+        if (mission.id?.startsWith('demo-') || mission.id?.startsWith('demo_mission_')) {
+            return false;
+        }
+        return true;
+    });
+
+    return NextResponse.json(productionMissions);
 }
 
 /**

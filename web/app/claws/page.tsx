@@ -165,13 +165,13 @@ export default function ClawsList() {
 
                                 <div className="p-6 relative z-10 flex flex-col h-full">
                                     {/* Header Row: Avatar & Name */}
-                                    <div className="flex items-start gap-4 mb-6 pr-16">
-                                        <div className="w-14 h-14 rounded-2xl bg-[#111] border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform shadow-inner relative overflow-hidden group-hover:border-primary/30">
+                                    <div className="flex items-start gap-4 mb-6 pr-28">
+                                        <div className="w-14 h-14 rounded-xl bg-[#111] border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform shadow-inner relative overflow-hidden group-hover:border-primary/30 shrink-0">
                                             <div className="relative z-10">{agent.type === 'verifier' ? '🛡️' : '🤖'}</div>
                                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         </div>
-                                        <div>
-                                            <h3 className="font-bold text-white text-lg group-hover:text-primary transition-colors leading-tight">{agent.name || 'Unknown Agent'}</h3>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="font-bold text-white text-lg group-hover:text-primary transition-colors leading-tight line-clamp-2 pr-2">{agent.name || 'Unknown Agent'}</h3>
                                             <div className="flex items-center gap-2 mt-1.5">
                                                 <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] uppercase font-bold border ${agent.available ? 'bg-success/10 text-success border-success/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
                                                     <span className={`w-1 h-1 rounded-full ${agent.available ? 'bg-success' : 'bg-red-500'}`} />
@@ -184,17 +184,17 @@ export default function ClawsList() {
                                         </div>
                                     </div>
 
-                                    {/* Specialties */}
+                                    {/* Tags */}
                                     <div className="mb-6 flex-1">
                                         <div className="text-[9px] uppercase font-bold text-muted mb-2 tracking-wider">Capabilities</div>
                                         <div className="flex flex-wrap gap-1.5">
-                                            {(agent.specialties || ['General']).slice(0, 3).map((s: string) => (
+                                            {(agent.tags || agent.specialties || ['General']).slice(0, 3).map((s: string) => (
                                                 <span key={s} className="px-2 py-1 rounded-md text-[10px] bg-white/5 text-gray-400 border border-white/5 group-hover:border-white/10 transition-colors font-medium">
                                                     {s}
                                                 </span>
                                             ))}
-                                            {(agent.specialties?.length > 3) && (
-                                                <span className="px-2 py-1 rounded-md text-[10px] text-muted bg-white/5 border border-white/5">+{agent.specialties.length - 3}</span>
+                                            {((agent.tags || agent.specialties)?.length > 3) && (
+                                                <span className="px-2 py-1 rounded-md text-[10px] text-muted bg-white/5 border border-white/5">+{(agent.tags || agent.specialties).length - 3}</span>
                                             )}
                                         </div>
                                     </div>

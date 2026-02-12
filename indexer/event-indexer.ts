@@ -20,11 +20,7 @@
 import { ethers } from 'ethers';
 import Database from 'better-sqlite3';
 import path from 'path';
-
-// Monad configuration
-const MONAD_RPC = 'https://rpc.monad.xyz';
-const AGENT_REGISTRY = '0x089D0b590321560c8Ec2Ece672Ef22462F79BC36';
-const CLAWGER_MANAGER = '0x13ec4679b38F67cA627Ba03Fa82ce46E9b383691';
+import { MONAD_PRODUCTION } from '../config/monad-production';
 
 // Database setup
 const DB_PATH = path.join(process.cwd(), 'data', 'events.db');
@@ -82,6 +78,11 @@ function initDatabase() {
         CREATE INDEX IF NOT EXISTS idx_proposals_status ON proposals(status);
         CREATE INDEX IF NOT EXISTS idx_tasks_worker ON tasks(worker);
         CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status);
+
+        CREATE TABLE IF NOT EXISTS indexer_state (
+            key TEXT PRIMARY KEY,
+            value TEXT
+        );
     `);
 }
 
@@ -221,22 +222,77 @@ const handlers = {
     },
 };
 
+// Block persistence helpers
+function saveLastBlock(blockNumber: number): void {
+    db.prepare('INSERT OR REPLACE INTO indexer_state (key, value) VALUES (?, ?)')
+        .run('last_block', blockNumber.toString());
+}
+
+function getLastBlock(): number {
+    const row = db.prepare('SELECT value FROM indexer_state WHERE key = ?')
+        .get('last_block') as { value: string } | undefined;
+
+    // Default to AgentRegistry deployment block if not set
+    return row ? parseInt(row.value) : MONAD_PRODUCTION.deploymentBlocks.AGENT_REGISTRY;
+}
+
+// RPC connection with retry logic
+async function connectWithRetry(maxRetries = 5): Promise<ethers.JsonRpcProvider> {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const provider = new ethers.JsonRpcProvider(MONAD_PRODUCTION.rpcUrl);
+            await provider.getNetwork(); // Test connection
+            console.log(`✅ Connected to Monad RPC (attempt ${i + 1})`);
+            return provider;
+        } catch (error) {
+            console.error(`❌ Connection attempt ${i + 1} failed:`, error);
+            if (i < maxRetries - 1) {
+                const delay = 5000 * (i + 1); // Exponential backoff
+                console.log(`⏳ Retrying in ${delay / 1000}s...`);
+                await new Promise(r => setTimeout(r, delay));
+            }
+        }
+    }
+    throw new Error('Failed to connect to Monad RPC after multiple attempts');
+}
+
 // Main indexer
 async function startIndexer() {
     console.log('🚀 Starting CLAWGER Event Indexer...\n');
+    console.log(`📍 Network: ${MONAD_PRODUCTION.name} (Chain ID: ${MONAD_PRODUCTION.chainId})`);
+    console.log(`🔗 RPC: ${MONAD_PRODUCTION.rpcUrl}\n`);
 
     // Initialize database
     initDatabase();
     console.log('✅ Database initialized\n');
 
-    // Connect to Monad
-    const provider = new ethers.JsonRpcProvider(MONAD_RPC);
+    // Connect to Monad with retry
+    const provider = await connectWithRetry();
     const network = await provider.getNetwork();
     console.log(`🔗 Connected to Monad (Chain ID: ${network.chainId})\n`);
 
-    // Create contract instances
-    const registry = new ethers.Contract(AGENT_REGISTRY, REGISTRY_ABI, provider);
-    const manager = new ethers.Contract(CLAWGER_MANAGER, MANAGER_ABI, provider);
+    // Verify we're on the correct network
+    if (Number(network.chainId) !== MONAD_PRODUCTION.chainId) {
+        throw new Error(
+            `Network mismatch! Expected chain ID ${MONAD_PRODUCTION.chainId}, got ${network.chainId}`
+        );
+    }
+
+    // Create contract instances using production config
+    const registry = new ethers.Contract(
+        MONAD_PRODUCTION.contracts.AGENT_REGISTRY,
+        REGISTRY_ABI,
+        provider
+    );
+    const manager = new ethers.Contract(
+        MONAD_PRODUCTION.contracts.CLAWGER_MANAGER,
+        MANAGER_ABI,
+        provider
+    );
+
+    // Get last processed block
+    const lastBlock = getLastBlock();
+    console.log(`📦 Last processed block: ${lastBlock}\n`);
 
     console.log('📡 Listening for events...\n');
 

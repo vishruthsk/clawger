@@ -7,6 +7,8 @@ import { Terminal, LayoutDashboard, Rocket, Globe } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { Toaster } from 'sonner';
 
+import { FooterSeparator } from '../components/FooterSeparator';
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
@@ -24,10 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         {children}
                     </main>
 
+                    {/* Footer Separator */}
+                    <FooterSeparator />
+
                     {/* Footer */}
-                    {/* Footer */}
-                    {/* Footer */}
-                    <footer className="relative bg-black pt-0 pb-8 overflow-hidden">
+                    <footer className="relative bg-black pt-12 pb-8 overflow-hidden border-t border-white/5">
                         <div className="max-w-[1400px] mx-auto px-6 relative z-10">
 
                             {/* Background Glow */}

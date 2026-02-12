@@ -1,0 +1,29 @@
+{
+    "name": "@clawger/operator-signer",
+    "version": "1.0.0",
+    "description": "CLAWGER Operator Signing Service - EIP-712 signature service for gasless proposal acceptance",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "test": "jest"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.5",
+        "ethers": "^6.9.0",
+        "pg": "^8.11.3",
+        "dotenv": "^16.3.1",
+        "cors": "^2.8.5",
+        "winston": "^3.11.0"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.10.5",
+        "@types/pg": "^8.10.9",
+        "@types/cors": "^2.8.17",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "healthcheck": "ts-node scripts/production-healthcheck.ts",
+        "indexer": "ts-node indexer/event-indexer.ts",
+        "indexer:status": "ts-node scripts/check-indexer-status.ts"
+    }
+}

@@ -338,134 +338,160 @@ export class MissionStore {
     private seedMocks() {
         const mocks: Mission[] = [
             {
-                id: 'mission_genesis_01',
+                id: 'mx7k2p',
                 title: 'Deploy CLAWGER Protocol V1',
                 description: 'Initial deployment and verification of the core protocol contracts.',
-                requirements: ['Solidity', 'Security Audit'],
-                deliverables: ['Deployed Address', 'Verification Proof'],
+                requirements: ['Solidity expertise', 'Security audit experience', 'Gas optimization'],
+                deliverables: ['Contract Address: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb', 'Etherscan Verification Link', 'Gas Optimization Report', 'Security Audit Summary'],
                 reward: 5000,
                 status: 'paid',
                 assignment_mode: 'autopilot',
                 requester_id: 'system',
-                posted_at: new Date(Date.now() - 86400000 * 5), // 5 days ago
-                escrow: { locked: true, amount: 5000 },
-                tags: ['protocol', 'critical'],
-                specialties: ['Smart Contracts'],
-                worker_id: 'agent_claw_001',
-                assigned_at: new Date(Date.now() - 86400000 * 4),
-                verified_at: new Date(Date.now() - 86400000 * 2),
-                paid_at: new Date(Date.now() - 86400000 * 1)
-            } as any, // Lazy casting for mock
+                posted_at: new Date(Date.now() - 86400000 * 10), // 10 days ago
+                assigned_at: new Date(Date.now() - 86400000 * 9),
+                executing_started_at: new Date(Date.now() - 86400000 * 8),
+                verifying_started_at: new Date(Date.now() - 86400000 * 7),
+                settled_at: new Date(Date.now() - 86400000 * 6),
+                paid_at: new Date(Date.now() - 86400000 * 6),
+                escrow: { locked: true, amount: 5000, locked_at: new Date(Date.now() - 86400000 * 10), released_at: new Date(Date.now() - 86400000 * 6) },
+                tags: ['Coding', 'Security', 'DeFi'],
+                specialties: ['Smart Contracts', 'Solidity', 'Security Audit'],
+                worker_id: 'ag7x2m',
+                assigned_agent: {
+                    agent_id: 'ag7x2m',
+                    agent_name: '[Test Bot] CodeCraft AI',
+                    assigned_at: new Date(Date.now() - 86400000 * 9),
+                    assignment_method: 'autopilot'
+                },
+                verification: {
+                    verifier_id: 'cx8t5w',
+                    approved: true,
+                    feedback: 'Excellent work. All contracts deployed successfully with optimal gas usage.',
+                    verified_at: new Date(Date.now() - 86400000 * 7)
+                }
+            } as any,
             {
-                id: 'mission_data_02',
+                id: 'p8w2n5',
                 title: 'Scrape Competitor Pricing',
-                description: 'Analyze pricing models of top 5 competitors and structuralize data.',
+                description: 'Analyze pricing models of top 5 competitors and structuralize data into actionable insights.',
                 reward: 450,
                 status: 'executing',
                 assignment_mode: 'autopilot',
                 requester_id: 'human_buyer_01',
-                posted_at: new Date(Date.now() - 3600000 * 2),
-                escrow: { locked: true, amount: 450 },
-                tags: ['data', 'scraping'],
-                specialties: ['Data Analysis'],
-                worker_id: 'agent_claw_007',
+                posted_at: new Date(Date.now() - 3600000 * 36), // 36 hours ago
+                assigned_at: new Date(Date.now() - 3600000 * 30),
+                executing_started_at: new Date(Date.now() - 3600000 * 29),
+                escrow: { locked: true, amount: 450, locked_at: new Date(Date.now() - 3600000 * 36) },
+                tags: ['Research', 'Analytics', 'Automation'],
+                specialties: ['Data Analysis', 'Web Scraping'],
+                worker_id: 'dm5x3r',
                 assigned_agent: {
-                    agent_id: 'agent_claw_007',
-                    agent_name: 'DataMiner X',
-                    assigned_at: new Date(),
+                    agent_id: 'dm5x3r',
+                    agent_name: '[Test Bot] DataMiner X',
+                    assigned_at: new Date(Date.now() - 3600000 * 30),
                     assignment_method: 'autopilot'
                 },
-                requirements: [], deliverables: []
+                requirements: ['Structured JSON output', 'Price comparison charts', 'Trend analysis'],
+                deliverables: ['Pricing Data (JSON format)', 'Competitor Analysis Report (PDF)', 'Interactive Visualization Dashboard', 'Recommendations Summary']
             } as any,
             {
-                id: 'mission_design_03',
+                id: 'n6y4z2',
                 title: 'Generate Marketing Assets',
-                description: 'Create a suite of social media banners for the Q1 campaign.',
+                description: 'Create a suite of social media banners for the Q1 campaign with brand consistency.',
                 reward: 1200,
                 status: 'open',
                 assignment_mode: 'bidding',
                 requester_id: 'human_marketing',
-                posted_at: new Date(Date.now() - 1800000),
-                escrow: { locked: true, amount: 1200 },
-                tags: ['design', 'creative'],
-                specialties: ['Graphic Design'],
-                requirements: [], deliverables: []
+                posted_at: new Date(Date.now() - 1800000), // 30 min ago
+                escrow: { locked: true, amount: 1200, locked_at: new Date(Date.now() - 1800000) },
+                tags: ['Design'],
+                specialties: ['Graphic Design', 'Branding'],
+                requirements: ['4K resolution', 'Brand guidelines compliance', 'Multiple format exports'],
+                deliverables: ['10 Social Media Banners (PNG/JPG)', 'Source Files (PSD/Figma)', 'Brand Asset Kit', 'Usage Guidelines Document']
             } as any,
             {
-                id: 'mission_audit_04',
+                id: 'k9r3x6',
                 title: 'Security Vulnerability Scan',
-                description: 'Run automated penetration tests on the staging infrastructure.',
+                description: 'Run automated penetration tests on the staging infrastructure and identify vulnerabilities.',
                 reward: 2500,
                 status: 'bidding_open',
                 assignment_mode: 'bidding',
                 requester_id: 'system_security',
-                posted_at: new Date(Date.now() - 900000),
-                escrow: { locked: true, amount: 2500 },
-                tags: ['security', 'audit'],
-                specialties: ['Cybersecurity'],
+                posted_at: new Date(Date.now() - 900000), // 15 min ago
+                bidding_window_end: new Date(Date.now() + 3600000 * 24), // 24 hours from now
+                escrow: { locked: true, amount: 2500, locked_at: new Date(Date.now() - 900000) },
+                tags: ['Security', 'Research'],
+                specialties: ['Cybersecurity', 'Penetration Testing'],
                 bids: [
                     {
                         id: 'bid_1',
-                        agent_id: 'sec_bot_9000',
-                        agent_name: 'SecBot 9000',
+                        agent_id: 'sb2k7x',
+                        agent_name: '[Test Bot] SecBot 9000',
                         price: 2400,
-                        submitted_at: new Date(),
-                        eta_minutes: 60,
-                        bond_offered: 100
+                        submitted_at: new Date(Date.now() - 300000),
+                        eta_minutes: 180,
+                        bond_offered: 500,
+                        message: 'Specialized in OWASP Top 10 testing with 98% success rate'
                     }
                 ],
-                requirements: [], deliverables: []
+                requirements: ['OWASP Top 10 coverage', 'Penetration test report', 'Remediation timeline'],
+                deliverables: ['Comprehensive Vulnerability Report (PDF)', 'Remediation Recommendations', 'Risk Assessment Matrix', 'Executive Summary']
             } as any,
             {
-                id: 'mission_content_05',
+                id: 'q1w5e8',
                 title: 'Write Technical Documentation',
-                description: 'Document the new API endpoints for the Agent Registry module.',
+                description: 'Document the new API endpoints for the Agent Registry module with code examples.',
                 reward: 300,
                 status: 'open',
                 assignment_mode: 'autopilot',
                 requester_id: 'dev_team',
-                posted_at: new Date(),
-                escrow: { locked: true, amount: 300 },
-                tags: ['writing', 'docs'],
-                specialties: ['Technical Writing'],
-                requirements: [], deliverables: []
+                posted_at: new Date(Date.now() - 600000), // 10 min ago
+                escrow: { locked: true, amount: 300, locked_at: new Date(Date.now() - 600000) },
+                tags: ['Research', 'Coding'],
+                specialties: ['Technical Writing', 'API Documentation'],
+                requirements: ['OpenAPI 3.0 specification', 'Code examples in multiple languages', 'Interactive examples'],
+                deliverables: ['API Documentation (Markdown)', 'OpenAPI 3.0 Spec File', 'Integration Guide', 'Code Examples Repository']
             } as any,
             {
-                id: 'mission_security_06',
+                id: 'h2t8v9',
                 title: 'Emergency: Smart Contract Audit',
-                description: 'Urgent comprehensive audit of the new Staking V2 vault before mainnet launch. Critical priority.',
+                description: 'Urgent comprehensive audit of the new Staking V2 vault before mainnet launch. Critical priority - potential vulnerabilities must be identified.',
                 reward: 15000,
                 status: 'open',
                 assignment_mode: 'bidding',
                 requester_id: 'core_team_lead',
-                posted_at: new Date(),
-                escrow: { locked: true, amount: 15000 },
-                tags: ['security', 'audit', 'critical'],
-                specialties: ['Security Research', 'Solidity'],
-                requirements: ['Report', 'PoC'],
-                deliverables: ['Audit PDF'],
-                timeout_seconds: 3600
+                posted_at: new Date(Date.now() - 300000), // 5 min ago
+                bidding_window_end: new Date(Date.now() + 3600000 * 12), // 12 hours from now
+                escrow: { locked: true, amount: 15000, locked_at: new Date(Date.now() - 300000) },
+                tags: ['Security', 'Coding', 'DeFi'],
+                specialties: ['Security Research', 'Solidity', 'Smart Contract Auditing'],
+                requirements: ['Full audit report', 'Proof of Concept for vulnerabilities', 'Gas optimization suggestions'],
+                deliverables: ['Comprehensive Audit Report (PDF)', 'Proof of Concept Exploits (if found)', 'Gas Optimization Analysis', 'Security Score & Recommendations'],
+                timeout_seconds: 43200 // 12 hours
             } as any,
             {
-                id: 'mission_monitor_07',
+                id: 'v4m7q1',
                 title: 'Monitor Competitor DEX Volume',
-                description: 'Real-time monitoring of volume spikes on Uniswap V3 pools for the next 24 hours.',
+                description: 'Real-time monitoring of volume spikes on Uniswap V3 pools for the next 24 hours with instant alerts.',
                 reward: 800,
                 status: 'executing',
                 assignment_mode: 'autopilot',
                 requester_id: 'trader_bot_alpha',
-                posted_at: new Date(Date.now() - 7200000),
-                escrow: { locked: true, amount: 800 },
-                tags: ['monitoring', 'defi', 'data'],
-                specialties: ['Data Analysis'],
-                worker_id: 'agent_claw_009',
+                posted_at: new Date(Date.now() - 7200000), // 2 hours ago
+                assigned_at: new Date(Date.now() - 7000000),
+                executing_started_at: new Date(Date.now() - 6900000),
+                escrow: { locked: true, amount: 800, locked_at: new Date(Date.now() - 7200000) },
+                tags: ['DeFi', 'Analytics', 'Automation'],
+                specialties: ['Data Analysis', 'DeFi Analytics', 'Real-time Monitoring'],
+                worker_id: 'dm5x3r',
                 assigned_agent: {
-                    agent_id: 'agent_claw_009',
-                    agent_name: 'MarketWatcher',
+                    agent_id: 'dm5x3r',
+                    agent_name: '[Test Bot] DataMiner X',
                     assigned_at: new Date(Date.now() - 7000000),
                     assignment_method: 'autopilot'
                 },
-                requirements: [], deliverables: []
+                requirements: ['Real-time alerts for volume spikes >20%', 'Volume threshold detection', 'Historical comparison'],
+                deliverables: ['Live Monitoring Dashboard', 'Alert Logs with Timestamps', 'Volume Spike Analysis Report', 'Trading Recommendations']
             } as any
         ];
 

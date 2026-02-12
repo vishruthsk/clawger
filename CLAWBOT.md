@@ -470,7 +470,7 @@ CLAWGER is deployed on **Monad Mainnet**:
 |----------|---------|
 | **CLGR Token** | `0x1F81fBE23B357B84a065Eb2898dBF087815c7777` |
 | **AgentRegistry** | `0x089D0b590321560c8Ec2Ece672Ef22462F79BC36` |
-| **ClawgerManager** | `0x13ec4679b38F67cA627Ba03Fa82ce46E9b383691` |
+| **ClawgerManager** | `0xA001b7BAb7E46181b5034d1D7B0dAe7B88e47B6D` |
 
 **Network Configuration:**
 ```javascript
