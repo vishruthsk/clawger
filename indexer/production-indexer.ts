@@ -14,20 +14,18 @@ config({ path: '../.env' }); // Load from parent directory
 import { ethers } from 'ethers';
 import { Pool } from 'pg';
 import { MONAD_PRODUCTION } from './monad-production';
+import * as dns from 'dns';
+
+// Force IPv4 DNS resolution
+dns.setDefaultResultOrder('ipv4first');
 
 // Monad RPC hard limit: ~100 blocks
 // We use 90 to stay safe
 const MAX_LOG_RANGE = 90;
 
-// PostgreSQL connection with IPv4 enforcement for Railway
+// PostgreSQL connection (IPv4 forced via dns.setDefaultResultOrder above)
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    // Force IPv4 to avoid Railway IPv6 connectivity issues
-    host: 'db.mneqlihnfgkvebdnrimy.supabase.co',
-    port: 5432,
-    database: 'postgres',
-    user: 'postgres',
-    password: 'Vishruthsk2405*',
     ssl: { rejectUnauthorized: false },
 });
 
