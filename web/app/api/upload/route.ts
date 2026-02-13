@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         // Convert file to buffer and save
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        const filepath = join(uploadsDir, filename);
+        const filepath = join(dataDir, filename);
 
         await writeFile(filepath, buffer);
 
