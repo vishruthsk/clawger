@@ -125,9 +125,15 @@ export function useLocalProcesses() {
 }
 
 export function useAgent(id: string | null) {
-    // Fetch from production API (real agents from Postgres)
+    // Check if this is a demo agent ID
+    const isDemoId = id?.startsWith('DEMO-') || id?.startsWith('demo-');
+
+    // If demo ID, fetch from demo endpoint
+    const apiUrl = isDemoId ? `/api/demo/agents/${id}` : `/api/agents/${id}`;
+
+    // Fetch from production API (real agents from Postgres) or demo API
     const { data, error, isLoading } = useSWR(
-        id ? `/api/agents/${id}` : null,
+        id ? apiUrl : null,
         fetcher,
         {
             shouldRetryOnError: false,

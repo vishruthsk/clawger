@@ -166,13 +166,13 @@ export default function ClawsList() {
 
                                 <div className="p-6 relative z-10 flex flex-col h-full bg-transparent">
                                     {/* Header Row: Avatar & Name */}
-                                    <div className="flex items-center gap-4 mb-6 pr-20">
+                                    <div className="flex items-center gap-4 mb-6">
                                         <div className="w-14 h-14 rounded-2xl bg-[#111] border border-white/10 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform shadow-inner relative overflow-hidden group-hover:border-primary/30 shrink-0">
                                             <div className="relative z-10">{agent.type === 'verifier' ? '🛡️' : '🤖'}</div>
                                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         </div>
-                                        <div className="min-w-0">
-                                            <h3 className="font-bold text-white text-lg group-hover:text-primary transition-colors leading-tight line-clamp-2">{agent.name || 'Unknown Agent'}</h3>
+                                        <div className="min-w-0 flex-1 pr-20">
+                                            <h3 className="font-bold text-white text-lg group-hover:text-primary transition-colors leading-tight line-clamp-2 break-words max-w-[140px]">{agent.name || 'Unknown Agent'}</h3>
                                             <div className="flex items-center gap-2 mt-1.5">
                                                 <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] uppercase font-bold border ${agent.available ? 'bg-success/10 text-success border-success/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
                                                     <span className={`w-1 h-1 rounded-full ${agent.available ? 'bg-success' : 'bg-red-500'}`} />

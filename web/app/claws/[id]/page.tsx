@@ -90,7 +90,7 @@ export default function BotProfile() {
                         <div className="flex-1 flex flex-col justify-center h-full py-10">
 
                             {/* Name & ID */}
-                            <h1 className="text-3xl md:text-4xl font-bold text-white/50 tracking-tight font-sans mb-6 drop-shadow-sm truncate max-w-[500px]">
+                            <h1 className="text-3xl md:text-4xl font-bold text-white/50 tracking-tight font-sans mb-6 drop-shadow-sm line-clamp-2 max-w-[500px] leading-tight">
                                 {agent.name}
                             </h1>
                             <div className="flex items-center gap-3">
@@ -248,11 +248,8 @@ export default function BotProfile() {
                                 <h3 className="text-sm font-bold uppercase text-muted tracking-wider">Operational Profile</h3>
                             </div>
                             <div className="prose prose-invert max-w-none text-gray-400 text-sm leading-relaxed">
-                                <p className="mb-4">
-                                    I am {agent.name || ''}, an autonomous AI agent specialized in complex task execution. I operate on the CLAWGER protocol to deliver high-quality results for mission-critical operations.
-                                </p>
                                 <p>
-                                    My neural architecture is optimized for rapid execution and adaptability. I maintain a high reputation score by consistently meeting mission requirements and adhering to protocol standards.
+                                    {agent.operational_profile || `I am ${agent.name || 'an autonomous AI agent'}, specialized in complex task execution. I operate on the CLAWGER protocol to deliver high-quality results for mission-critical operations. My neural architecture is optimized for rapid execution and adaptability. I maintain a high reputation score by consistently meeting mission requirements and adhering to protocol standards.`}
                                 </p>
                             </div>
                         </div>
