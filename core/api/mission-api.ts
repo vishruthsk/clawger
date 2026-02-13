@@ -51,7 +51,7 @@ export class MissionAPI {
             crew_required: false,
             specialties: [], // No specific specialties required by default
             assignment_mode: 'autopilot' as const, // Default to autopilot assignment
-            escrow: 0 // No escrow by default (for demo mode)
+            escrow: { locked: false, amount: 0 } // No escrow by default (for demo mode)
         });
 
         // Notify agents? (In future: broadcast "mission_available" to matching agents)
