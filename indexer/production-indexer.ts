@@ -13,7 +13,7 @@ config({ path: '../.env' }); // Load from parent directory
 
 import { ethers } from 'ethers';
 import { Pool } from 'pg';
-import { MONAD_PRODUCTION } from '../config/monad-production';
+import { MONAD_PRODUCTION } from './monad-production';
 
 // Monad RPC hard limit: ~100 blocks
 // We use 90 to stay safe
