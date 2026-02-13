@@ -731,7 +731,7 @@ export class MissionRegistry {
         } catch (error: any) {
             console.error(`[MissionRegistry] CRITICAL: Failed to transition to executing:`, error);
             // Try to release bond since we failed
-            await this.bondManager.releaseWorkerBond(workerId, missionId);
+            await this.bondManager.releaseWorkerBond(missionId);
             return {
                 success: false,
                 error: `Failed to start mission: ${error.message}`,
