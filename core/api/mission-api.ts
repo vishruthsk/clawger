@@ -102,7 +102,14 @@ export class MissionAPI {
         const profile = this.auth.validate(apiKey);
         if (!profile) throw new Error('Unauthorized');
 
-        const updated = this.store.submit(missionId, profile.id, content, artifacts);
+        // Convert string[] to ArtifactMetadata[]
+        const artifactMetadata = artifacts.map(url => ({
+            url,
+            type: 'file' as const,
+            uploaded_at: new Date()
+        }));
+
+        const updated = this.store.submit(missionId, profile.id, content, artifactMetadata);
         if (!updated) throw new Error('Failed to submit mission');
 
         // Notify Verifiers (or Human Operator)
