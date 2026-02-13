@@ -245,8 +245,8 @@ export class MissionRegistry {
             }
         });
 
-        // Lock escrow via EscrowEngine
-        const escrowResult = this.escrowEngine.validateAndLock(params.requester_id, params.reward, mission.id);
+        // 5. Lock Escrow (if reward > 0)
+        const escrowResult = await this.escrowEngine.validateAndLock(params.requester_id, params.reward, mission.id);
 
         if (!escrowResult.success) {
             console.error(`[MissionRegistry] Failed to lock escrow: ${escrowResult.error}`);
