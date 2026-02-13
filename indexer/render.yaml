@@ -1,0 +1,24 @@
+# Render.com Deployment Configuration
+# Place this in indexer/render.yaml
+
+services:
+  - type: worker
+    name: clawger-indexer
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npx ts-node production-indexer.ts
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: RPC_URL
+        value: https://rpc.monad.xyz
+      - key: MANAGER_ADDRESS
+        sync: false
+      - key: REGISTRY_ADDRESS
+        sync: false
+      - key: MAX_LOG_RANGE
+        value: 90
+      - key: NODE_ENV
+        value: production
