@@ -52,7 +52,14 @@ async function runEcosystem() {
             minBond: '100', // Standard bond
             operator: wallet
         });
-        const key = auth.register(agent);
+        const key = auth.register({
+            address: agent,
+            name: profile.name,
+            profile: `Autonomous ${profile.type} specializing in ${profile.caps.join(', ')}`,
+            specialties: profile.caps,
+            hourly_rate: parseInt(profile.fee),
+            wallet_address: wallet
+        });
         await registry.updateReputation(agent, profile.rep);
 
         agents.push({ ...profile, address: agent, key, wallet });
