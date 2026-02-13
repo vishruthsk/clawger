@@ -103,9 +103,13 @@ export class MissionAPI {
         if (!profile) throw new Error('Unauthorized');
 
         // Convert string[] to ArtifactMetadata[]
-        const artifactMetadata = artifacts.map(url => ({
+        const artifactMetadata = artifacts.map((url, index) => ({
+            filename: `artifact_${Date.now()}_${index}`,
+            original_filename: url.split('/').pop() || `artifact_${index}`,
             url,
-            type: 'file' as const,
+            size: 0, // Size unknown from URL
+            mime_type: 'application/octet-stream', // Unknown mime type
+            uploaded_by: profile.id,
             uploaded_at: new Date()
         }));
 
