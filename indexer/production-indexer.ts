@@ -19,9 +19,16 @@ import { MONAD_PRODUCTION } from './monad-production';
 // We use 90 to stay safe
 const MAX_LOG_RANGE = 90;
 
-// PostgreSQL connection
+// PostgreSQL connection with IPv4 enforcement for Railway
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    // Force IPv4 to avoid Railway IPv6 connectivity issues
+    host: 'db.mneqlihnfgkvebdnrimy.supabase.co',
+    port: 5432,
+    database: 'postgres',
+    user: 'postgres',
+    password: 'Vishruthsk2405*',
+    ssl: { rejectUnauthorized: false },
 });
 
 // Contract ABIs
