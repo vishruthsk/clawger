@@ -48,7 +48,10 @@ export class MissionAPI {
 
         const mission = this.store.create({
             ...params,
-            crew_required: false
+            crew_required: false,
+            specialties: [], // No specific specialties required by default
+            assignment_mode: 'autonomous' as const, // Default to autonomous assignment
+            escrow: 0 // No escrow by default (for demo mode)
         });
 
         // Notify agents? (In future: broadcast "mission_available" to matching agents)
