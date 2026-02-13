@@ -3,10 +3,11 @@ import { Pool } from 'pg';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { address: string } }
+    { params }: { params: Promise<{ address: string }> }
 ) {
     try {
-        const address = params.address.toLowerCase();
+        const { address } = (await params);
+        const lowerAddress = address.toLowerCase();
 
         // Create pool for this request
         const pool = new Pool({

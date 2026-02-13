@@ -5163,653 +5163,722 @@
   port: 5432
 }
 ⏳ Retrying in 5 seconds...
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              [REGISTRY] Indexing from block 55110918 to 55110922
-[REGISTRY] 🔍 Scanning blocks 55110918 to 55110922 (range: 5)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55110922
-[MANAGER] Indexing from block 55110920 to 55110924
-[MANAGER] 🔍 Scanning blocks 55110920 to 55110924 (range: 5)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55110924
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55110948 to 55110952
-[REGISTRY] 🔍 Scanning blocks 55110948 to 55110952 (range: 5)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55110952
-[MANAGER] Indexing from block 55110949 to 55110954
-[MANAGER] 🔍 Scanning blocks 55110949 to 55110954 (range: 6)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55110954
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55110976 to 55110980
-[REGISTRY] 🔍 Scanning blocks 55110976 to 55110980 (range: 5)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55110980
-[MANAGER] Indexing from block 55110978 to 55110982
-[MANAGER] 🔍 Scanning blocks 55110978 to 55110982 (range: 5)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55110982
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111006 to 55111009
-[REGISTRY] 🔍 Scanning blocks 55111006 to 55111009 (range: 4)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111009
-[MANAGER] Indexing from block 55110991 to 55111011
-[MANAGER] 🔍 Scanning blocks 55110991 to 55111011 (range: 21)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111011
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111021 to 55111041
-[REGISTRY] 🔍 Scanning blocks 55111021 to 55111041 (range: 21)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111041
-[MANAGER] Indexing from block 55111022 to 55111043
-[MANAGER] 🔍 Scanning blocks 55111022 to 55111043 (range: 22)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111043
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111050 to 55111070
-[REGISTRY] 🔍 Scanning blocks 55111050 to 55111070 (range: 21)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111070
-[MANAGER] Indexing from block 55111050 to 55111070
-[MANAGER] 🔍 Scanning blocks 55111050 to 55111070 (range: 21)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111070
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111080 to 55111102
-[REGISTRY] 🔍 Scanning blocks 55111080 to 55111102 (range: 23)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111102
-[MANAGER] Indexing from block 55111082 to 55111102
-[MANAGER] 🔍 Scanning blocks 55111082 to 55111102 (range: 21)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111102
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111129 to 55111130
-[REGISTRY] 🔍 Scanning blocks 55111129 to 55111130 (range: 2)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111130
-[MANAGER] Indexing from block 55111129 to 55111132
-[MANAGER] 🔍 Scanning blocks 55111129 to 55111132 (range: 4)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111132
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111159 to 55111163
-[REGISTRY] 🔍 Scanning blocks 55111159 to 55111163 (range: 5)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111163
-[MANAGER] Indexing from block 55111160 to 55111164
-[MANAGER] 🔍 Scanning blocks 55111160 to 55111164 (range: 5)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111164
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111191 to 55111193
-[REGISTRY] 🔍 Scanning blocks 55111191 to 55111193 (range: 3)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111193
-[MANAGER] Indexing from block 55111193 to 55111196
-[MANAGER] 🔍 Scanning blocks 55111193 to 55111196 (range: 4)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111196
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111221 to 55111223
-[REGISTRY] 🔍 Scanning blocks 55111221 to 55111223 (range: 3)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111223
-[MANAGER] Indexing from block 55111223 to 55111224
-[MANAGER] 🔍 Scanning blocks 55111223 to 55111224 (range: 2)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111224
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111232 to 55111251
-[REGISTRY] 🔍 Scanning blocks 55111232 to 55111251 (range: 20)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111251
-[MANAGER] Indexing from block 55111233 to 55111253
-[MANAGER] 🔍 Scanning blocks 55111233 to 55111253 (range: 21)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111253
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111264 to 55111282
-[REGISTRY] 🔍 Scanning blocks 55111264 to 55111282 (range: 19)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111282
-[MANAGER] Indexing from block 55111266 to 55111283
-[MANAGER] 🔍 Scanning blocks 55111266 to 55111283 (range: 18)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111283
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111299 to 55111311
-[REGISTRY] 🔍 Scanning blocks 55111299 to 55111311 (range: 13)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111311
-[MANAGER] Indexing from block 55111299 to 55111312
-[MANAGER] 🔍 Scanning blocks 55111299 to 55111312 (range: 14)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111312
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111330 to 55111341
-[REGISTRY] 🔍 Scanning blocks 55111330 to 55111341 (range: 12)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111341
-[MANAGER] Indexing from block 55111332 to 55111342
-[MANAGER] 🔍 Scanning blocks 55111332 to 55111342 (range: 11)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111342
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111346 to 55111371
-[REGISTRY] 🔍 Scanning blocks 55111346 to 55111371 (range: 26)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111371
-[MANAGER] Indexing from block 55111348 to 55111371
-[MANAGER] 🔍 Scanning blocks 55111348 to 55111371 (range: 24)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111371
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111376 to 55111401
-[REGISTRY] 🔍 Scanning blocks 55111376 to 55111401 (range: 26)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111401
-[MANAGER] Indexing from block 55111376 to 55111402
-[MANAGER] 🔍 Scanning blocks 55111376 to 55111402 (range: 27)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111402
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111406 to 55111432
-[REGISTRY] 🔍 Scanning blocks 55111406 to 55111432 (range: 27)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111432
-[MANAGER] Indexing from block 55111408 to 55111433
-[MANAGER] 🔍 Scanning blocks 55111408 to 55111433 (range: 26)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111433
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111434 to 55111463
-[REGISTRY] 🔍 Scanning blocks 55111434 to 55111463 (range: 30)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111463
-[MANAGER] Indexing from block 55111434 to 55111464
-[MANAGER] 🔍 Scanning blocks 55111434 to 55111464 (range: 31)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111464
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111477 to 55111491
-[REGISTRY] 🔍 Scanning blocks 55111477 to 55111491 (range: 15)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111491
-[MANAGER] Indexing from block 55111479 to 55111493
-[MANAGER] 🔍 Scanning blocks 55111479 to 55111493 (range: 15)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111493
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111510 to 55111523
-[REGISTRY] 🔍 Scanning blocks 55111510 to 55111523 (range: 14)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111523
-[MANAGER] Indexing from block 55111512 to 55111524
-[MANAGER] 🔍 Scanning blocks 55111512 to 55111524 (range: 13)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111524
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111544 to 55111555
-[REGISTRY] 🔍 Scanning blocks 55111544 to 55111555 (range: 12)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111555
-[MANAGER] Indexing from block 55111545 to 55111556
-[MANAGER] 🔍 Scanning blocks 55111545 to 55111556 (range: 12)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111556
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111577 to 55111583
-[REGISTRY] 🔍 Scanning blocks 55111577 to 55111583 (range: 7)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111583
-[MANAGER] Indexing from block 55111578 to 55111584
-[MANAGER] 🔍 Scanning blocks 55111578 to 55111584 (range: 7)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111584
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111609 to 55111610
-[REGISTRY] 🔍 Scanning blocks 55111609 to 55111610 (range: 2)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111610
-[MANAGER] Indexing from block 55111604 to 55111611
-[MANAGER] 🔍 Scanning blocks 55111604 to 55111611 (range: 8)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111611
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111631 to 55111640
-[REGISTRY] 🔍 Scanning blocks 55111631 to 55111640 (range: 10)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111640
-[MANAGER] Indexing from block 55111633 to 55111641
-[MANAGER] 🔍 Scanning blocks 55111633 to 55111641 (range: 9)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111641
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111662 to 55111670
-[REGISTRY] 🔍 Scanning blocks 55111662 to 55111670 (range: 9)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111670
-[MANAGER] Indexing from block 55111665 to 55111671
-[MANAGER] 🔍 Scanning blocks 55111665 to 55111671 (range: 7)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111671
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111694 to 55111700
-[REGISTRY] 🔍 Scanning blocks 55111694 to 55111700 (range: 7)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111700
-[MANAGER] Indexing from block 55111695 to 55111702
-[MANAGER] 🔍 Scanning blocks 55111695 to 55111702 (range: 8)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111702
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111724 to 55111735
-[REGISTRY] 🔍 Scanning blocks 55111724 to 55111735 (range: 12)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111735
-[MANAGER] Indexing from block 55111725 to 55111737
-[MANAGER] 🔍 Scanning blocks 55111725 to 55111737 (range: 13)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111737
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111755 to 55111765
-[REGISTRY] 🔍 Scanning blocks 55111755 to 55111765 (range: 11)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111765
-[MANAGER] Indexing from block 55111756 to 55111766
-[MANAGER] 🔍 Scanning blocks 55111756 to 55111766 (range: 11)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111766
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111785 to 55111796
-[REGISTRY] 🔍 Scanning blocks 55111785 to 55111796 (range: 12)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111796
-[MANAGER] Indexing from block 55111787 to 55111797
-[MANAGER] 🔍 Scanning blocks 55111787 to 55111797 (range: 11)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111797
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111815 to 55111827
-[REGISTRY] 🔍 Scanning blocks 55111815 to 55111827 (range: 13)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111827
-[MANAGER] Indexing from block 55111817 to 55111829
-[MANAGER] 🔍 Scanning blocks 55111817 to 55111829 (range: 13)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111829
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111848 to 55111858
-[REGISTRY] 🔍 Scanning blocks 55111848 to 55111858 (range: 11)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111858
-[MANAGER] Indexing from block 55111849 to 55111860
-[MANAGER] 🔍 Scanning blocks 55111849 to 55111860 (range: 12)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111860
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111881 to 55111890
-[REGISTRY] 🔍 Scanning blocks 55111881 to 55111890 (range: 10)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111890
-[MANAGER] Indexing from block 55111883 to 55111892
-[MANAGER] 🔍 Scanning blocks 55111883 to 55111892 (range: 10)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111892
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111911 to 55111924
-[REGISTRY] 🔍 Scanning blocks 55111911 to 55111924 (range: 14)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111924
-[MANAGER] Indexing from block 55111913 to 55111925
-[MANAGER] 🔍 Scanning blocks 55111913 to 55111925 (range: 13)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111925
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111942 to 55111954
-[REGISTRY] 🔍 Scanning blocks 55111942 to 55111954 (range: 13)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111954
-[MANAGER] Indexing from block 55111943 to 55111956
-[MANAGER] 🔍 Scanning blocks 55111943 to 55111956 (range: 14)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111956
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55111971 to 55111985
-[REGISTRY] 🔍 Scanning blocks 55111971 to 55111985 (range: 15)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55111985
-[MANAGER] Indexing from block 55111972 to 55111986
-[MANAGER] 🔍 Scanning blocks 55111972 to 55111986 (range: 15)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55111986
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112004 to 55112018
-[REGISTRY] 🔍 Scanning blocks 55112004 to 55112018 (range: 15)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112018
-[MANAGER] Indexing from block 55112006 to 55112020
-[MANAGER] 🔍 Scanning blocks 55112006 to 55112020 (range: 15)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112020
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112036 to 55112047
-[REGISTRY] 🔍 Scanning blocks 55112036 to 55112047 (range: 12)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112047
-[MANAGER] Indexing from block 55112037 to 55112048
-[MANAGER] 🔍 Scanning blocks 55112037 to 55112048 (range: 12)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112048
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112067 to 55112075
-[REGISTRY] 🔍 Scanning blocks 55112067 to 55112075 (range: 9)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112075
-[MANAGER] Indexing from block 55112069 to 55112076
-[MANAGER] 🔍 Scanning blocks 55112069 to 55112076 (range: 8)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112076
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112100 to 55112106
-[REGISTRY] 🔍 Scanning blocks 55112100 to 55112106 (range: 7)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112106
-[MANAGER] Indexing from block 55112102 to 55112107
-[MANAGER] 🔍 Scanning blocks 55112102 to 55112107 (range: 6)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112107
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112133 to 55112136
-[REGISTRY] 🔍 Scanning blocks 55112133 to 55112136 (range: 4)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112136
-[MANAGER] Indexing from block 55112135 to 55112137
-[MANAGER] 🔍 Scanning blocks 55112135 to 55112137 (range: 3)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112137
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112161 to 55112166
-[REGISTRY] 🔍 Scanning blocks 55112161 to 55112166 (range: 6)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112166
-[MANAGER] Indexing from block 55112162 to 55112166
-[MANAGER] 🔍 Scanning blocks 55112162 to 55112166 (range: 5)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112166
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112189 to 55112196
-[REGISTRY] 🔍 Scanning blocks 55112189 to 55112196 (range: 8)
-[REGISTRY] Found 0 events in this chunk
-[REGISTRY] ✅ Processed up to block 55112196
-[MANAGER] Indexing from block 55112191 to 55112197
-[MANAGER] 🔍 Scanning blocks 55112191 to 55112197 (range: 7)
-[MANAGER] Found 0 events in this chunk
-[MANAGER] ✅ Processed up to block 55112197
-
-📊 Current State:
-   Agents: 1
-   Proposals: 4
-
-⏳ Waiting 10 seconds before next poll...
-
-[REGISTRY] Indexing from block 55112223 to 55112227
-[REGISTRY] 🔍 Scanning blocks 55112223 to 55112227 (range: 5)
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:51:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:298:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:477:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+ to 55112227 (range: 5)
 [REGISTRY] Found 0 events in this chunk
 [REGISTRY] ✅ Processed up to block 55112227
 [MANAGER] Indexing from block 55112198 to 55112229
@@ -8663,6 +8732,734 @@
   file: 'auth.c',
   line: '329',
   routine: 'auth_failed'
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
+}
+⏳ Retrying in 5 seconds...
+❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
+    at /Users/vishruthsk/clawger/indexer/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async getLastProcessedBlock (/Users/vishruthsk/clawger/indexer/production-indexer.ts:46:20)
+    at async indexRegistry (/Users/vishruthsk/clawger/indexer/production-indexer.ts:293:23)
+    at async main (/Users/vishruthsk/clawger/indexer/production-indexer.ts:472:13) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b',
+  port: 5432
 }
 ⏳ Retrying in 5 seconds...
 ❌ Indexing error: Error: connect ECONNREFUSED 2406:da1a:6b0:f60c:eaa3:da84:639c:ee4b:5432
