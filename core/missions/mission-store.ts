@@ -120,12 +120,8 @@ export interface Mission {
 
     // Legacy fields (backward compatibility)
     claimed_by?: string;
-    submitted_at?: Date;
-    verified_at?: Date;
-    paid_at?: Date;
-
     // Actors
-    requester_id: string;                // "human" or agent_id or wallet address
+    // requester_id defined above
     requester_type?: 'wallet' | 'agent'; // Track if mission created by human or bot
     requester_name?: string;             // Agent name if bot requester
 
