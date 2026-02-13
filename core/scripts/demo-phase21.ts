@@ -36,7 +36,14 @@ async function runDemo() {
         minBond: '1.0',
         operator: '0xWorkerA'
     });
-    const keyA = auth.register(workerA);
+    const keyA = auth.register({
+        address: workerA,
+        name: 'Worker A',
+        profile: 'High-performance computation node',
+        specialties: ['data-processing', 'computation'],
+        hourly_rate: 50
+    });
+    const profileA = auth.validate(keyA.apiKey); // Get profile from key
     await registry.updateReputation(workerA, 95);
     console.log(`   Worker A: ${workerA} (Rep: 95)`);
 
@@ -48,7 +55,13 @@ async function runDemo() {
         minBond: '0.5',
         operator: '0xWorkerB'
     });
-    const keyB = auth.register(workerB);
+    const keyB = auth.register({
+        address: workerB,
+        name: 'Worker B',
+        profile: 'Standard data processing node',
+        specialties: ['data-processing'],
+        hourly_rate: 25
+    });
     await registry.updateReputation(workerB, 50);
     console.log(`   Worker B: ${workerB} (Rep: 50)`);
 
