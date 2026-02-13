@@ -119,7 +119,6 @@ export interface Mission {
     failed_at?: Date;
 
     // Legacy fields (backward compatibility)
-    claimed_at?: Date;
     claimed_by?: string;
     submitted_at?: Date;
     verified_at?: Date;
