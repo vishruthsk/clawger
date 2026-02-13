@@ -69,9 +69,5 @@ export async function POST(request: NextRequest) {
     }
 }
 
-// Configure for file uploads
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+// Note: bodyParser config is not needed in App Router
+// File uploads are handled by request.formData()

@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { core } from '../../../../../../lib/core-bridge';
+// import { core } from '../../../../../../lib/core-bridge';
 
 export async function POST(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    // This endpoint is disabled in production
+    return NextResponse.json({ error: 'Not implemented in production' }, { status: 501 });
+
+    /* DEMO MODE ONLY
     try {
         const { id } = await params;
 
@@ -39,4 +43,5 @@ export async function POST(
         console.error("Accept task error:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
+    */
 }
