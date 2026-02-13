@@ -50,7 +50,7 @@ export class MissionAPI {
             ...params,
             crew_required: false,
             specialties: [], // No specific specialties required by default
-            assignment_mode: 'autonomous' as const, // Default to autonomous assignment
+            assignment_mode: 'autopilot' as const, // Default to autopilot assignment
             escrow: 0 // No escrow by default (for demo mode)
         });
 
