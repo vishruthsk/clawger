@@ -14,8 +14,9 @@ export async function GET(
 ) {
     try {
         const { id } = params;
+        const address = id.toLowerCase();
 
-        const breakdown = reputationEngine.getReputationBreakdown(id);
+        const breakdown = reputationEngine.getReputationBreakdown(address);
 
         return NextResponse.json({
             success: true,

@@ -27,10 +27,18 @@ const pool = new Pool({
 // Contract ABIs
 const REGISTRY_ABI = [
     'event AgentRegistered(address indexed agent, uint8 indexed agentType, uint256 minFee, uint256 minBond, bytes32[] capabilities)',
+    'event ReputationUpdated(address indexed agent, uint256 oldScore, uint256 newScore, string reason)',
 ];
 
 const MANAGER_ABI = [
-    'event ProposalSubmitted(uint256 indexed proposalId, address indexed proposer, string objective, uint256 escrow, uint256 deadline)',
+    'event ProposalSubmitted(uint256 indexed proposalId, address indexed proposer, uint256 escrow, uint256 deadline)',
+    'event ProposalAccepted(uint256 indexed proposalId, uint256 indexed taskId, address indexed worker, address verifier)',
+    'event WorkerBondPosted(uint256 indexed taskId, address indexed worker, uint256 amount)',
+    'event TaskStarted(uint256 indexed taskId)',
+    'event TaskCompleted(uint256 indexed taskId)',
+    'event TaskSettled(uint256 indexed taskId, bool success, uint256 payout)',
+    'event TaskExpired(uint256 indexed taskId)',
+    'function submitProposal(string calldata objective, uint256 escrowAmount, uint256 deadline) external returns (uint256)',
 ];
 
 async function getLastProcessedBlock(contract: 'registry' | 'manager'): Promise<number> {
@@ -62,24 +70,33 @@ async function updateLastProcessedBlock(contract: 'registry' | 'manager', blockN
 async function indexAgentRegistered(event: ethers.EventLog, block: ethers.Block): Promise<void> {
     const { agent, agentType, minFee, minBond, capabilities } = event.args as any;
 
-    console.log(`[AGENT REGISTERED] ${agent} at block ${event.blockNumber} (tx: ${event.transactionHash})`);
+    // ABI GUARD: Verify event has exactly 5 arguments
+    if (!event.args || event.args.length !== 5) {
+        console.error(`❌ [ABI DRIFT] AgentRegistered event has ${event.args?.length || 0} args, expected 5`);
+        console.error(`   TX: ${event.transactionHash}`);
+        throw new Error(`ABI drift detected in AgentRegistered event at tx ${event.transactionHash}`);
+    }
 
-    // Note: operator is NOT in the event, we use agent address as operator
+    console.log(`🎉 [AGENT REGISTERED] ${agent} (type: ${agentType === 0 ? 'worker' : 'verifier'}) at block ${event.blockNumber}`);
+
     await pool.query(`
         INSERT INTO agents (address, agent_type, capabilities, min_fee, min_bond, operator, reputation, active, registered_at, updated_at, block_number, tx_hash)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         ON CONFLICT (address) DO UPDATE SET
+            agent_type = EXCLUDED.agent_type,
             capabilities = EXCLUDED.capabilities,
             min_fee = EXCLUDED.min_fee,
             min_bond = EXCLUDED.min_bond,
-            updated_at = EXCLUDED.updated_at
+            updated_at = EXCLUDED.updated_at,
+            block_number = EXCLUDED.block_number,
+            tx_hash = EXCLUDED.tx_hash
     `, [
         agent.toLowerCase(),
         agentType === 0 ? 'worker' : 'verifier',
         JSON.stringify(capabilities.map((c: string) => c)),
         minFee.toString(),
         minBond.toString(),
-        agent.toLowerCase(), // Use agent address as operator since it's not in the event
+        agent.toLowerCase(), // operator defaults to agent address
         50, // default reputation
         true,
         new Date(block.timestamp * 1000),
@@ -89,15 +106,75 @@ async function indexAgentRegistered(event: ethers.EventLog, block: ethers.Block)
     ]);
 }
 
-async function indexProposalSubmitted(event: ethers.EventLog, block: ethers.Block): Promise<void> {
-    const { proposalId, proposer, objective, escrow, deadline } = event.args as any;
+async function indexReputationUpdated(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { agent, oldScore, newScore, reason } = event.args as any;
 
-    console.log(`[PROPOSAL SUBMITTED] ID ${proposalId} at block ${event.blockNumber} (tx: ${event.transactionHash})`);
+    console.log(`📊 [REPUTATION UPDATED] ${agent}: ${oldScore} → ${newScore} (${reason}) at block ${event.blockNumber}`);
 
+    // Update agent reputation in database
+    await pool.query(`
+        UPDATE agents 
+        SET reputation = $1, updated_at = $2
+        WHERE address = $3
+    `, [Number(newScore), new Date(block.timestamp * 1000), agent.toLowerCase()]);
+
+    // Insert into reputation_updates table for history
+    await pool.query(`
+        INSERT INTO reputation_updates (agent, old_score, new_score, reason, updated_at, block_number, tx_hash)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `, [
+        agent.toLowerCase(),
+        Number(oldScore),
+        Number(newScore),
+        reason,
+        new Date(block.timestamp * 1000),
+        event.blockNumber,
+        event.transactionHash,
+    ]);
+}
+
+async function indexProposalSubmitted(event: ethers.EventLog, block: ethers.Block, provider: ethers.Provider, manager: ethers.Contract): Promise<void> {
+    const { proposalId, proposer, escrow, deadline } = event.args as any;
+
+    // ABI GUARD: Verify event has exactly 4 arguments
+    if (!event.args || event.args.length !== 4) {
+        console.error(`❌ [ABI DRIFT] ProposalSubmitted event has ${event.args?.length || 0} args, expected 4`);
+        console.error(`   TX: ${event.transactionHash}`);
+        throw new Error(`ABI drift detected in ProposalSubmitted event at tx ${event.transactionHash}`);
+    }
+
+    console.log(`💼 [PROPOSAL SUBMITTED] ID ${proposalId} at block ${event.blockNumber} (tx: ${event.transactionHash})`);
+
+    // CRITICAL: Decode objective from transaction calldata
+    let objective = 'Mission details'; // Fallback
+    try {
+        const tx = await provider.getTransaction(event.transactionHash);
+        if (!tx) {
+            console.error(`⚠️  [PROPOSAL] Could not fetch transaction ${event.transactionHash}`);
+        } else {
+            const parsed = manager.interface.parseTransaction({ data: tx.data, value: tx.value });
+            if (parsed && parsed.name === 'submitProposal' && parsed.args.length >= 1) {
+                objective = parsed.args[0]; // First arg is objective
+                console.log(`   ✅ Decoded objective: "${objective.substring(0, 50)}${objective.length > 50 ? '...' : ''}"`);
+            } else {
+                console.error(`⚠️  [PROPOSAL] Could not parse transaction calldata`);
+            }
+        }
+    } catch (error) {
+        console.error(`⚠️  [PROPOSAL] Error decoding objective:`, error);
+    }
+
+    // REPLAY SAFETY: Use UPSERT to ensure idempotency
     await pool.query(`
         INSERT INTO proposals (id, proposer, objective, escrow, deadline, status, created_at, block_number, tx_hash)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        ON CONFLICT (id) DO NOTHING
+        ON CONFLICT (id) DO UPDATE SET
+            objective = EXCLUDED.objective,
+            escrow = EXCLUDED.escrow,
+            deadline = EXCLUDED.deadline,
+            block_number = EXCLUDED.block_number,
+            tx_hash = EXCLUDED.tx_hash,
+            created_at = EXCLUDED.created_at
     `, [
         proposalId.toString(),
         proposer.toLowerCase(),
@@ -109,6 +186,107 @@ async function indexProposalSubmitted(event: ethers.EventLog, block: ethers.Bloc
         event.blockNumber,
         event.transactionHash,
     ]);
+}
+
+async function indexProposalAccepted(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { proposalId, taskId, worker, verifier } = event.args as any;
+
+    console.log(`✅ [PROPOSAL ACCEPTED] Proposal ${proposalId} → Task ${taskId} at block ${event.blockNumber}`);
+
+    // Get proposal data to populate task
+    const proposalResult = await pool.query('SELECT escrow FROM proposals WHERE id = $1', [proposalId.toString()]);
+    const escrow = proposalResult.rows[0]?.escrow || '0';
+
+    // Get task data from contract to get workerBond
+    // For now, use a default bond value - this will be updated when WorkerBondPosted fires
+    const workerBond = '1000000000000000000'; // 1 CLGR default
+
+    await pool.query(`
+        INSERT INTO tasks (id, proposal_id, worker, verifier, escrow, worker_bond, status, settled, created_at, block_number, tx_hash)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        ON CONFLICT (id) DO UPDATE SET
+            worker = EXCLUDED.worker,
+            verifier = EXCLUDED.verifier,
+            escrow = EXCLUDED.escrow,
+            status = EXCLUDED.status,
+            block_number = EXCLUDED.block_number,
+            tx_hash = EXCLUDED.tx_hash
+    `, [
+        taskId.toString(),
+        proposalId.toString(),
+        worker.toLowerCase(),
+        verifier.toLowerCase(),
+        escrow,
+        workerBond,
+        'created',
+        false,
+        new Date(block.timestamp * 1000),
+        event.blockNumber,
+        event.transactionHash,
+    ]);
+
+    // Update proposal status
+    await pool.query('UPDATE proposals SET status = $1 WHERE id = $2', ['accepted', proposalId.toString()]);
+}
+
+async function indexWorkerBondPosted(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { taskId, worker, amount } = event.args as any;
+
+    console.log(`💰 [WORKER BOND POSTED] Task ${taskId}: ${ethers.formatEther(amount)} CLGR at block ${event.blockNumber}`);
+
+    await pool.query(`
+        UPDATE tasks 
+        SET status = $1, worker_bond = $2
+        WHERE id = $3
+    `, ['bonded', amount.toString(), taskId.toString()]);
+}
+
+async function indexTaskStarted(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { taskId } = event.args as any;
+
+    console.log(`🚀 [TASK STARTED] Task ${taskId} at block ${event.blockNumber}`);
+
+    await pool.query(`
+        UPDATE tasks 
+        SET status = $1
+        WHERE id = $2
+    `, ['in_progress', taskId.toString()]);
+}
+
+async function indexTaskCompleted(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { taskId } = event.args as any;
+
+    console.log(`📦 [TASK COMPLETED] Task ${taskId} at block ${event.blockNumber}`);
+
+    await pool.query(`
+        UPDATE tasks 
+        SET status = $1, completed_at = $2
+        WHERE id = $3
+    `, ['completed', new Date(block.timestamp * 1000), taskId.toString()]);
+}
+
+async function indexTaskSettled(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { taskId, success, payout } = event.args as any;
+
+    console.log(`💸 [TASK SETTLED] Task ${taskId}: ${success ? 'SUCCESS' : 'FAILED'}, payout: ${ethers.formatEther(payout)} CLGR`);
+
+    await pool.query(`
+        UPDATE tasks 
+        SET status = $1, settled = $2
+        WHERE id = $3
+    `, [success ? 'verified' : 'failed', true, taskId.toString()]);
+}
+
+async function indexTaskExpired(event: ethers.EventLog, block: ethers.Block): Promise<void> {
+    const { taskId } = event.args as any;
+
+    console.log(`⏰ [TASK EXPIRED] Task ${taskId} at block ${event.blockNumber}`);
+
+    await pool.query(`
+        UPDATE tasks 
+        SET status = $1, settled = $2
+        WHERE id = $3
+    `, ['failed', true, taskId.toString()]);
 }
 
 async function indexRegistry(provider: ethers.Provider, registry: ethers.Contract): Promise<void> {
@@ -129,16 +307,39 @@ async function indexRegistry(provider: ethers.Provider, registry: ethers.Contrac
         console.log(`[REGISTRY] 🔍 Scanning blocks ${fromBlock} to ${toBlock} (range: ${toBlock - fromBlock + 1})`);
 
         try {
-            // Use explicit typed filter
-            const filter = registry.filters.AgentRegistered();
-            const events = await registry.queryFilter(filter, fromBlock, toBlock);
+            // Query both event types
+            const agentRegisteredFilter = registry.filters.AgentRegistered();
+            const reputationUpdatedFilter = registry.filters.ReputationUpdated();
 
-            console.log(`[REGISTRY] Found ${events.length} events in this chunk`);
+            const [
+                agentRegisteredEvents,
+                reputationUpdatedEvents,
+            ] = await Promise.all([
+                registry.queryFilter(agentRegisteredFilter, fromBlock, toBlock),
+                registry.queryFilter(reputationUpdatedFilter, fromBlock, toBlock),
+            ]);
 
-            for (const event of events) {
+            const totalEvents = agentRegisteredEvents.length + reputationUpdatedEvents.length;
+
+            console.log(`[REGISTRY] Found ${totalEvents} events in this chunk`);
+
+            // Process all events in order by block number
+            const allEvents = [
+                ...agentRegisteredEvents.map(e => ({ event: e, type: 'AgentRegistered' })),
+                ...reputationUpdatedEvents.map(e => ({ event: e, type: 'ReputationUpdated' })),
+            ].sort((a, b) => a.event.blockNumber - b.event.blockNumber);
+
+            for (const { event, type } of allEvents) {
                 const block = await provider.getBlock(event.blockNumber);
-                if (block) {
-                    await indexAgentRegistered(event as ethers.EventLog, block);
+                if (!block) continue;
+
+                switch (type) {
+                    case 'AgentRegistered':
+                        await indexAgentRegistered(event as ethers.EventLog, block);
+                        break;
+                    case 'ReputationUpdated':
+                        await indexReputationUpdated(event as ethers.EventLog, block);
+                        break;
                 }
             }
 
@@ -169,16 +370,76 @@ async function indexManager(provider: ethers.Provider, manager: ethers.Contract)
         console.log(`[MANAGER] 🔍 Scanning blocks ${fromBlock} to ${toBlock} (range: ${toBlock - fromBlock + 1})`);
 
         try {
-            // Use explicit typed filter
-            const filter = manager.filters.ProposalSubmitted();
-            const events = await manager.queryFilter(filter, fromBlock, toBlock);
+            // Query all event types
+            const proposalSubmittedFilter = manager.filters.ProposalSubmitted();
+            const proposalAcceptedFilter = manager.filters.ProposalAccepted();
+            const workerBondPostedFilter = manager.filters.WorkerBondPosted();
+            const taskStartedFilter = manager.filters.TaskStarted();
+            const taskCompletedFilter = manager.filters.TaskCompleted();
+            const taskSettledFilter = manager.filters.TaskSettled();
+            const taskExpiredFilter = manager.filters.TaskExpired();
 
-            console.log(`[MANAGER] Found ${events.length} events in this chunk`);
+            const [
+                proposalSubmittedEvents,
+                proposalAcceptedEvents,
+                workerBondPostedEvents,
+                taskStartedEvents,
+                taskCompletedEvents,
+                taskSettledEvents,
+                taskExpiredEvents,
+            ] = await Promise.all([
+                manager.queryFilter(proposalSubmittedFilter, fromBlock, toBlock),
+                manager.queryFilter(proposalAcceptedFilter, fromBlock, toBlock),
+                manager.queryFilter(workerBondPostedFilter, fromBlock, toBlock),
+                manager.queryFilter(taskStartedFilter, fromBlock, toBlock),
+                manager.queryFilter(taskCompletedFilter, fromBlock, toBlock),
+                manager.queryFilter(taskSettledFilter, fromBlock, toBlock),
+                manager.queryFilter(taskExpiredFilter, fromBlock, toBlock),
+            ]);
 
-            for (const event of events) {
+            const totalEvents = proposalSubmittedEvents.length + proposalAcceptedEvents.length +
+                workerBondPostedEvents.length + taskStartedEvents.length + taskCompletedEvents.length +
+                taskSettledEvents.length + taskExpiredEvents.length;
+
+            console.log(`[MANAGER] Found ${totalEvents} events in this chunk`);
+
+            // Process all events in order by block number
+            const allEvents = [
+                ...proposalSubmittedEvents.map(e => ({ event: e, type: 'ProposalSubmitted' })),
+                ...proposalAcceptedEvents.map(e => ({ event: e, type: 'ProposalAccepted' })),
+                ...workerBondPostedEvents.map(e => ({ event: e, type: 'WorkerBondPosted' })),
+                ...taskStartedEvents.map(e => ({ event: e, type: 'TaskStarted' })),
+                ...taskCompletedEvents.map(e => ({ event: e, type: 'TaskCompleted' })),
+                ...taskSettledEvents.map(e => ({ event: e, type: 'TaskSettled' })),
+                ...taskExpiredEvents.map(e => ({ event: e, type: 'TaskExpired' })),
+            ].sort((a, b) => a.event.blockNumber - b.event.blockNumber);
+
+            for (const { event, type } of allEvents) {
                 const block = await provider.getBlock(event.blockNumber);
-                if (block) {
-                    await indexProposalSubmitted(event as ethers.EventLog, block);
+                if (!block) continue;
+
+                switch (type) {
+                    case 'ProposalSubmitted':
+                        await indexProposalSubmitted(event as ethers.EventLog, block, provider, manager);
+                        break;
+                    case 'ProposalAccepted':
+                        await indexProposalAccepted(event as ethers.EventLog, block);
+                        break;
+                    case 'WorkerBondPosted':
+                        await indexWorkerBondPosted(event as ethers.EventLog, block);
+                        break;
+                    case 'TaskStarted':
+                        await indexTaskStarted(event as ethers.EventLog, block);
+                        break;
+                    case 'TaskCompleted':
+                        await indexTaskCompleted(event as ethers.EventLog, block);
+                        break;
+                    case 'TaskSettled':
+                        await indexTaskSettled(event as ethers.EventLog, block);
+                        break;
+                    case 'TaskExpired':
+                        await indexTaskExpired(event as ethers.EventLog, block);
+                        break;
                 }
             }
 

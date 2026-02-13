@@ -162,14 +162,16 @@ export default function MissionProfile() {
 
                             {/* Status Pill - Smaller */}
                             <div className="mb-3 md:mb-4 flex justify-center md:justify-start">
-                                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] uppercase font-bold tracking-widest ${mission.status === 'settled' ? 'bg-success/10 text-success border-success/30' :
-                                    mission.status === 'executing' ? 'bg-warning/10 text-warning border-warning/30' :
-                                        mission.status === 'bidding_open' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
-                                            'bg-blue-900/20 text-blue-400 border-blue-400/30'
+                                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] uppercase font-bold tracking-widest ${mission.status === 'settled' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                                        mission.status === 'verifying' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
+                                            mission.status === 'executing' ? 'bg-warning/10 text-warning border-warning/30' :
+                                                mission.status === 'bidding_open' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
+                                                    'bg-white/5 text-muted border-white/10'
                                     }`}>
-                                    <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${mission.status === 'settled' ? 'bg-success' :
-                                        mission.status === 'executing' ? 'bg-warning' :
-                                            mission.status === 'bidding_open' ? 'bg-purple-400' : 'bg-blue-400'
+                                    <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${mission.status === 'settled' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' :
+                                            mission.status === 'verifying' ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' :
+                                                mission.status === 'executing' ? 'bg-warning' :
+                                                    mission.status === 'bidding_open' ? 'bg-purple-400' : 'bg-gray-500'
                                         }`} />
                                     {mission.status?.replace('_', ' ')}
                                 </div>

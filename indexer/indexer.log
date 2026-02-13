@@ -1,0 +1,1797 @@
+🚀 CLAWGER Production Indexer Starting...
+📡 RPC: https://rpc.monad.xyz
+📊 Database: db.mneqlihnfgkvebdnrimy.supabase.co:5432/postgres
+⚙️  MAX_LOG_RANGE: 90 blocks (Monad RPC limit: ~100)
+✅ Database connected at Fri Feb 13 2026 16:33:47 GMT+0530 (India Standard Time)
+[REGISTRY] Indexing from block 55094391 to 55096676
+[REGISTRY] 🔍 Scanning blocks 55094391 to 55094480 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55094480
+[REGISTRY] 🔍 Scanning blocks 55094481 to 55094570 (range: 90)
+[REGISTRY] Found 1 events in this chunk
+📊 [REPUTATION UPDATED] 0xeb4b9Cc8E2EF3441A464cdd68F58A54C5a5F514B: 50 → 55 (Task completed) at block 55094496
+[REGISTRY] ✅ Processed up to block 55094570
+[REGISTRY] 🔍 Scanning blocks 55094571 to 55094660 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55094660
+[REGISTRY] 🔍 Scanning blocks 55094661 to 55094750 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55094750
+[REGISTRY] 🔍 Scanning blocks 55094751 to 55094840 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55094840
+[REGISTRY] 🔍 Scanning blocks 55094841 to 55094930 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55094930
+[REGISTRY] 🔍 Scanning blocks 55094931 to 55095020 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095020
+[REGISTRY] 🔍 Scanning blocks 55095021 to 55095110 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095110
+[REGISTRY] 🔍 Scanning blocks 55095111 to 55095200 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095200
+[REGISTRY] 🔍 Scanning blocks 55095201 to 55095290 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095290
+[REGISTRY] 🔍 Scanning blocks 55095291 to 55095380 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095380
+[REGISTRY] 🔍 Scanning blocks 55095381 to 55095470 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095470
+[REGISTRY] 🔍 Scanning blocks 55095471 to 55095560 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095560
+[REGISTRY] 🔍 Scanning blocks 55095561 to 55095650 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095650
+[REGISTRY] 🔍 Scanning blocks 55095651 to 55095740 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095740
+[REGISTRY] 🔍 Scanning blocks 55095741 to 55095830 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095830
+[REGISTRY] 🔍 Scanning blocks 55095831 to 55095920 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55095920
+[REGISTRY] 🔍 Scanning blocks 55095921 to 55096010 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096010
+[REGISTRY] 🔍 Scanning blocks 55096011 to 55096100 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096100
+[REGISTRY] 🔍 Scanning blocks 55096101 to 55096190 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096190
+[REGISTRY] 🔍 Scanning blocks 55096191 to 55096280 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096280
+[REGISTRY] 🔍 Scanning blocks 55096281 to 55096370 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096370
+[REGISTRY] 🔍 Scanning blocks 55096371 to 55096460 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096460
+[REGISTRY] 🔍 Scanning blocks 55096461 to 55096550 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096550
+[REGISTRY] 🔍 Scanning blocks 55096551 to 55096640 (range: 90)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096640
+[REGISTRY] 🔍 Scanning blocks 55096641 to 55096676 (range: 36)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096676
+[MANAGER] Indexing from block 55096659 to 55096714
+[MANAGER] 🔍 Scanning blocks 55096659 to 55096714 (range: 56)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096714
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096677 to 55096744
+[REGISTRY] 🔍 Scanning blocks 55096677 to 55096744 (range: 68)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096744
+[MANAGER] Indexing from block 55096715 to 55096746
+[MANAGER] 🔍 Scanning blocks 55096715 to 55096746 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096746
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096745 to 55096776
+[REGISTRY] 🔍 Scanning blocks 55096745 to 55096776 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096776
+[MANAGER] Indexing from block 55096747 to 55096777
+[MANAGER] 🔍 Scanning blocks 55096747 to 55096777 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096777
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096777 to 55096806
+[REGISTRY] 🔍 Scanning blocks 55096777 to 55096806 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096806
+[MANAGER] Indexing from block 55096778 to 55096808
+[MANAGER] 🔍 Scanning blocks 55096778 to 55096808 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096808
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096807 to 55096836
+[REGISTRY] 🔍 Scanning blocks 55096807 to 55096836 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096836
+[MANAGER] Indexing from block 55096809 to 55096837
+[MANAGER] 🔍 Scanning blocks 55096809 to 55096837 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096837
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096837 to 55096865
+[REGISTRY] 🔍 Scanning blocks 55096837 to 55096865 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096865
+[MANAGER] Indexing from block 55096838 to 55096866
+[MANAGER] 🔍 Scanning blocks 55096838 to 55096866 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096866
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096866 to 55096898
+[REGISTRY] 🔍 Scanning blocks 55096866 to 55096898 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096898
+[MANAGER] Indexing from block 55096867 to 55096899
+[MANAGER] 🔍 Scanning blocks 55096867 to 55096899 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096899
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096899 to 55096931
+[REGISTRY] 🔍 Scanning blocks 55096899 to 55096931 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096931
+[MANAGER] Indexing from block 55096900 to 55096932
+[MANAGER] 🔍 Scanning blocks 55096900 to 55096932 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096932
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096932 to 55096963
+[REGISTRY] 🔍 Scanning blocks 55096932 to 55096963 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096963
+[MANAGER] Indexing from block 55096933 to 55096964
+[MANAGER] 🔍 Scanning blocks 55096933 to 55096964 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096964
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096964 to 55096995
+[REGISTRY] 🔍 Scanning blocks 55096964 to 55096995 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55096995
+[MANAGER] Indexing from block 55096965 to 55096996
+[MANAGER] 🔍 Scanning blocks 55096965 to 55096996 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55096996
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55096996 to 55097026
+[REGISTRY] 🔍 Scanning blocks 55096996 to 55097026 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097026
+[MANAGER] Indexing from block 55096997 to 55097028
+[MANAGER] 🔍 Scanning blocks 55096997 to 55097028 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097028
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097027 to 55097057
+[REGISTRY] 🔍 Scanning blocks 55097027 to 55097057 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097057
+[MANAGER] Indexing from block 55097029 to 55097057
+[MANAGER] 🔍 Scanning blocks 55097029 to 55097057 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097057
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097058 to 55097087
+[REGISTRY] 🔍 Scanning blocks 55097058 to 55097087 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097087
+[MANAGER] Indexing from block 55097058 to 55097089
+[MANAGER] 🔍 Scanning blocks 55097058 to 55097089 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097089
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097088 to 55097119
+[REGISTRY] 🔍 Scanning blocks 55097088 to 55097119 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097119
+[MANAGER] Indexing from block 55097090 to 55097119
+[MANAGER] 🔍 Scanning blocks 55097090 to 55097119 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097119
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097120 to 55097150
+[REGISTRY] 🔍 Scanning blocks 55097120 to 55097150 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097150
+[MANAGER] Indexing from block 55097120 to 55097152
+[MANAGER] 🔍 Scanning blocks 55097120 to 55097152 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097152
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097151 to 55097184
+[REGISTRY] 🔍 Scanning blocks 55097151 to 55097184 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097184
+[MANAGER] Indexing from block 55097153 to 55097184
+[MANAGER] 🔍 Scanning blocks 55097153 to 55097184 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097184
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097185 to 55097215
+[REGISTRY] 🔍 Scanning blocks 55097185 to 55097215 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097215
+[MANAGER] Indexing from block 55097185 to 55097217
+[MANAGER] 🔍 Scanning blocks 55097185 to 55097217 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097217
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097216 to 55097246
+[REGISTRY] 🔍 Scanning blocks 55097216 to 55097246 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097246
+[MANAGER] Indexing from block 55097218 to 55097247
+[MANAGER] 🔍 Scanning blocks 55097218 to 55097247 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097247
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097247 to 55097279
+[REGISTRY] 🔍 Scanning blocks 55097247 to 55097279 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097279
+[MANAGER] Indexing from block 55097248 to 55097281
+[MANAGER] 🔍 Scanning blocks 55097248 to 55097281 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097281
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097280 to 55097311
+[REGISTRY] 🔍 Scanning blocks 55097280 to 55097311 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097311
+[MANAGER] Indexing from block 55097282 to 55097311
+[MANAGER] 🔍 Scanning blocks 55097282 to 55097311 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097311
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097312 to 55097342
+[REGISTRY] 🔍 Scanning blocks 55097312 to 55097342 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097342
+[MANAGER] Indexing from block 55097312 to 55097342
+[MANAGER] 🔍 Scanning blocks 55097312 to 55097342 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097342
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097343 to 55097375
+[REGISTRY] 🔍 Scanning blocks 55097343 to 55097375 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097375
+[MANAGER] Indexing from block 55097343 to 55097376
+[MANAGER] 🔍 Scanning blocks 55097343 to 55097376 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097376
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097376 to 55097405
+[REGISTRY] 🔍 Scanning blocks 55097376 to 55097405 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097405
+[MANAGER] Indexing from block 55097377 to 55097408
+[MANAGER] 🔍 Scanning blocks 55097377 to 55097408 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097408
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097406 to 55097440
+[REGISTRY] 🔍 Scanning blocks 55097406 to 55097440 (range: 35)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097440
+[MANAGER] Indexing from block 55097409 to 55097442
+[MANAGER] 🔍 Scanning blocks 55097409 to 55097442 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097442
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097441 to 55097470
+[REGISTRY] 🔍 Scanning blocks 55097441 to 55097470 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097470
+[MANAGER] Indexing from block 55097443 to 55097473
+[MANAGER] 🔍 Scanning blocks 55097443 to 55097473 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097473
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097471 to 55097504
+[REGISTRY] 🔍 Scanning blocks 55097471 to 55097504 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097504
+[MANAGER] Indexing from block 55097474 to 55097505
+[MANAGER] 🔍 Scanning blocks 55097474 to 55097505 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097505
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097505 to 55097540
+[REGISTRY] 🔍 Scanning blocks 55097505 to 55097540 (range: 36)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097540
+[MANAGER] Indexing from block 55097506 to 55097543
+[MANAGER] 🔍 Scanning blocks 55097506 to 55097543 (range: 38)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097543
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097541 to 55097575
+[REGISTRY] 🔍 Scanning blocks 55097541 to 55097575 (range: 35)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097575
+[MANAGER] Indexing from block 55097544 to 55097577
+[MANAGER] 🔍 Scanning blocks 55097544 to 55097577 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097577
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097576 to 55097609
+[REGISTRY] 🔍 Scanning blocks 55097576 to 55097609 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097609
+[MANAGER] Indexing from block 55097578 to 55097611
+[MANAGER] 🔍 Scanning blocks 55097578 to 55097611 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097611
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097610 to 55097641
+[REGISTRY] 🔍 Scanning blocks 55097610 to 55097641 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097641
+[MANAGER] Indexing from block 55097612 to 55097642
+[MANAGER] 🔍 Scanning blocks 55097612 to 55097642 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097642
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097642 to 55097672
+[REGISTRY] 🔍 Scanning blocks 55097642 to 55097672 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097672
+[MANAGER] Indexing from block 55097643 to 55097674
+[MANAGER] 🔍 Scanning blocks 55097643 to 55097674 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097674
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097673 to 55097704
+[REGISTRY] 🔍 Scanning blocks 55097673 to 55097704 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097704
+[MANAGER] Indexing from block 55097675 to 55097707
+[MANAGER] 🔍 Scanning blocks 55097675 to 55097707 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097707
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097705 to 55097738
+[REGISTRY] 🔍 Scanning blocks 55097705 to 55097738 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097738
+[MANAGER] Indexing from block 55097708 to 55097740
+[MANAGER] 🔍 Scanning blocks 55097708 to 55097740 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097740
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097739 to 55097786
+[REGISTRY] 🔍 Scanning blocks 55097739 to 55097786 (range: 48)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097786
+[MANAGER] Indexing from block 55097741 to 55097789
+[MANAGER] 🔍 Scanning blocks 55097741 to 55097789 (range: 49)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097789
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097787 to 55097836
+[REGISTRY] 🔍 Scanning blocks 55097787 to 55097836 (range: 50)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097836
+[MANAGER] Indexing from block 55097790 to 55097837
+[MANAGER] 🔍 Scanning blocks 55097790 to 55097837 (range: 48)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097837
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097837 to 55097869
+[REGISTRY] 🔍 Scanning blocks 55097837 to 55097869 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097869
+[MANAGER] Indexing from block 55097838 to 55097870
+[MANAGER] 🔍 Scanning blocks 55097838 to 55097870 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097870
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097870 to 55097906
+[REGISTRY] 🔍 Scanning blocks 55097870 to 55097906 (range: 37)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097906
+[MANAGER] Indexing from block 55097871 to 55097909
+[MANAGER] 🔍 Scanning blocks 55097871 to 55097909 (range: 39)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097909
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097907 to 55097941
+[REGISTRY] 🔍 Scanning blocks 55097907 to 55097941 (range: 35)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097941
+[MANAGER] Indexing from block 55097910 to 55097941
+[MANAGER] 🔍 Scanning blocks 55097910 to 55097941 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097941
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097942 to 55097971
+[REGISTRY] 🔍 Scanning blocks 55097942 to 55097971 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55097971
+[MANAGER] Indexing from block 55097942 to 55097973
+[MANAGER] 🔍 Scanning blocks 55097942 to 55097973 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55097973
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55097972 to 55098003
+[REGISTRY] 🔍 Scanning blocks 55097972 to 55098003 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098003
+[MANAGER] Indexing from block 55097974 to 55098004
+[MANAGER] 🔍 Scanning blocks 55097974 to 55098004 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098004
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098004 to 55098034
+[REGISTRY] 🔍 Scanning blocks 55098004 to 55098034 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098034
+[MANAGER] Indexing from block 55098005 to 55098036
+[MANAGER] 🔍 Scanning blocks 55098005 to 55098036 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098036
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098035 to 55098066
+[REGISTRY] 🔍 Scanning blocks 55098035 to 55098066 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098066
+[MANAGER] Indexing from block 55098037 to 55098068
+[MANAGER] 🔍 Scanning blocks 55098037 to 55098068 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098068
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098067 to 55098097
+[REGISTRY] 🔍 Scanning blocks 55098067 to 55098097 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098097
+[MANAGER] Indexing from block 55098069 to 55098098
+[MANAGER] 🔍 Scanning blocks 55098069 to 55098098 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098098
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098098 to 55098126
+[REGISTRY] 🔍 Scanning blocks 55098098 to 55098126 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098126
+[MANAGER] Indexing from block 55098099 to 55098127
+[MANAGER] 🔍 Scanning blocks 55098099 to 55098127 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098127
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098127 to 55098155
+[REGISTRY] 🔍 Scanning blocks 55098127 to 55098155 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098155
+[MANAGER] Indexing from block 55098128 to 55098157
+[MANAGER] 🔍 Scanning blocks 55098128 to 55098157 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098157
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098156 to 55098187
+[REGISTRY] 🔍 Scanning blocks 55098156 to 55098187 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098187
+[MANAGER] Indexing from block 55098158 to 55098197
+[MANAGER] 🔍 Scanning blocks 55098158 to 55098197 (range: 40)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098197
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098188 to 55098229
+[REGISTRY] 🔍 Scanning blocks 55098188 to 55098229 (range: 42)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098229
+[MANAGER] Indexing from block 55098198 to 55098230
+[MANAGER] 🔍 Scanning blocks 55098198 to 55098230 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098230
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098230 to 55098259
+[REGISTRY] 🔍 Scanning blocks 55098230 to 55098259 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098259
+[MANAGER] Indexing from block 55098231 to 55098260
+[MANAGER] 🔍 Scanning blocks 55098231 to 55098260 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098260
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098260 to 55098290
+[REGISTRY] 🔍 Scanning blocks 55098260 to 55098290 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098290
+[MANAGER] Indexing from block 55098261 to 55098291
+[MANAGER] 🔍 Scanning blocks 55098261 to 55098291 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098291
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098291 to 55098320
+[REGISTRY] 🔍 Scanning blocks 55098291 to 55098320 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098320
+[MANAGER] Indexing from block 55098292 to 55098321
+[MANAGER] 🔍 Scanning blocks 55098292 to 55098321 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098321
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098321 to 55098348
+[REGISTRY] 🔍 Scanning blocks 55098321 to 55098348 (range: 28)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098348
+[MANAGER] Indexing from block 55098322 to 55098350
+[MANAGER] 🔍 Scanning blocks 55098322 to 55098350 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098350
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098349 to 55098380
+[REGISTRY] 🔍 Scanning blocks 55098349 to 55098380 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098380
+[MANAGER] Indexing from block 55098351 to 55098383
+[MANAGER] 🔍 Scanning blocks 55098351 to 55098383 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098383
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098381 to 55098414
+[REGISTRY] 🔍 Scanning blocks 55098381 to 55098414 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098414
+[MANAGER] Indexing from block 55098384 to 55098416
+[MANAGER] 🔍 Scanning blocks 55098384 to 55098416 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098416
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098415 to 55098446
+[REGISTRY] 🔍 Scanning blocks 55098415 to 55098446 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098446
+[MANAGER] Indexing from block 55098417 to 55098448
+[MANAGER] 🔍 Scanning blocks 55098417 to 55098448 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098448
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098447 to 55098478
+[REGISTRY] 🔍 Scanning blocks 55098447 to 55098478 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098478
+[MANAGER] Indexing from block 55098449 to 55098480
+[MANAGER] 🔍 Scanning blocks 55098449 to 55098480 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098480
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098479 to 55098511
+[REGISTRY] 🔍 Scanning blocks 55098479 to 55098511 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098511
+[MANAGER] Indexing from block 55098481 to 55098513
+[MANAGER] 🔍 Scanning blocks 55098481 to 55098513 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098513
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098512 to 55098545
+[REGISTRY] 🔍 Scanning blocks 55098512 to 55098545 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098545
+[MANAGER] Indexing from block 55098514 to 55098547
+[MANAGER] 🔍 Scanning blocks 55098514 to 55098547 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098547
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098546 to 55098578
+[REGISTRY] 🔍 Scanning blocks 55098546 to 55098578 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098578
+[MANAGER] Indexing from block 55098548 to 55098579
+[MANAGER] 🔍 Scanning blocks 55098548 to 55098579 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098579
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098579 to 55098609
+[REGISTRY] 🔍 Scanning blocks 55098579 to 55098609 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098609
+[MANAGER] Indexing from block 55098580 to 55098609
+[MANAGER] 🔍 Scanning blocks 55098580 to 55098609 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098609
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098610 to 55098639
+[REGISTRY] 🔍 Scanning blocks 55098610 to 55098639 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098639
+[MANAGER] Indexing from block 55098610 to 55098640
+[MANAGER] 🔍 Scanning blocks 55098610 to 55098640 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098640
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098640 to 55098673
+[REGISTRY] 🔍 Scanning blocks 55098640 to 55098673 (range: 34)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098673
+[MANAGER] Indexing from block 55098641 to 55098675
+[MANAGER] 🔍 Scanning blocks 55098641 to 55098675 (range: 35)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098675
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098674 to 55098704
+[REGISTRY] 🔍 Scanning blocks 55098674 to 55098704 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098704
+[MANAGER] Indexing from block 55098676 to 55098705
+[MANAGER] 🔍 Scanning blocks 55098676 to 55098705 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098705
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098705 to 55098734
+[REGISTRY] 🔍 Scanning blocks 55098705 to 55098734 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098734
+[MANAGER] Indexing from block 55098706 to 55098736
+[MANAGER] 🔍 Scanning blocks 55098706 to 55098736 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098736
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098735 to 55098767
+[REGISTRY] 🔍 Scanning blocks 55098735 to 55098767 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098767
+[MANAGER] Indexing from block 55098737 to 55098768
+[MANAGER] 🔍 Scanning blocks 55098737 to 55098768 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098768
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098768 to 55098802
+[REGISTRY] 🔍 Scanning blocks 55098768 to 55098802 (range: 35)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098802
+[MANAGER] Indexing from block 55098769 to 55098804
+[MANAGER] 🔍 Scanning blocks 55098769 to 55098804 (range: 36)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098804
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098803 to 55098834
+[REGISTRY] 🔍 Scanning blocks 55098803 to 55098834 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098834
+[MANAGER] Indexing from block 55098805 to 55098836
+[MANAGER] 🔍 Scanning blocks 55098805 to 55098836 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098836
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098835 to 55098867
+[REGISTRY] 🔍 Scanning blocks 55098835 to 55098867 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098867
+[MANAGER] Indexing from block 55098837 to 55098869
+[MANAGER] 🔍 Scanning blocks 55098837 to 55098869 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098869
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098868 to 55098902
+[REGISTRY] 🔍 Scanning blocks 55098868 to 55098902 (range: 35)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098902
+[MANAGER] Indexing from block 55098870 to 55098903
+[MANAGER] 🔍 Scanning blocks 55098870 to 55098903 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098903
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098903 to 55098933
+[REGISTRY] 🔍 Scanning blocks 55098903 to 55098933 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098933
+[MANAGER] Indexing from block 55098904 to 55098937
+[MANAGER] 🔍 Scanning blocks 55098904 to 55098937 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098937
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098934 to 55098969
+[REGISTRY] 🔍 Scanning blocks 55098934 to 55098969 (range: 36)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098969
+[MANAGER] Indexing from block 55098938 to 55098971
+[MANAGER] 🔍 Scanning blocks 55098938 to 55098971 (range: 34)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55098971
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55098970 to 55098999
+[REGISTRY] 🔍 Scanning blocks 55098970 to 55098999 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55098999
+[MANAGER] Indexing from block 55098972 to 55099000
+[MANAGER] 🔍 Scanning blocks 55098972 to 55099000 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099000
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099000 to 55099030
+[REGISTRY] 🔍 Scanning blocks 55099000 to 55099030 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099030
+[MANAGER] Indexing from block 55099001 to 55099032
+[MANAGER] 🔍 Scanning blocks 55099001 to 55099032 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099032
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099031 to 55099060
+[REGISTRY] 🔍 Scanning blocks 55099031 to 55099060 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099060
+[MANAGER] Indexing from block 55099033 to 55099062
+[MANAGER] 🔍 Scanning blocks 55099033 to 55099062 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099062
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099061 to 55099092
+[REGISTRY] 🔍 Scanning blocks 55099061 to 55099092 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099092
+[MANAGER] Indexing from block 55099063 to 55099094
+[MANAGER] 🔍 Scanning blocks 55099063 to 55099094 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099094
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099093 to 55099123
+[REGISTRY] 🔍 Scanning blocks 55099093 to 55099123 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099123
+[MANAGER] Indexing from block 55099095 to 55099125
+[MANAGER] 🔍 Scanning blocks 55099095 to 55099125 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099125
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099124 to 55099153
+[REGISTRY] 🔍 Scanning blocks 55099124 to 55099153 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099153
+[MANAGER] Indexing from block 55099126 to 55099155
+[MANAGER] 🔍 Scanning blocks 55099126 to 55099155 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099155
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099154 to 55099185
+[REGISTRY] 🔍 Scanning blocks 55099154 to 55099185 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099185
+[MANAGER] Indexing from block 55099156 to 55099188
+[MANAGER] 🔍 Scanning blocks 55099156 to 55099188 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099188
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099186 to 55099215
+[REGISTRY] 🔍 Scanning blocks 55099186 to 55099215 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099215
+[MANAGER] Indexing from block 55099189 to 55099217
+[MANAGER] 🔍 Scanning blocks 55099189 to 55099217 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099217
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099216 to 55099244
+[REGISTRY] 🔍 Scanning blocks 55099216 to 55099244 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099244
+[MANAGER] Indexing from block 55099218 to 55099245
+[MANAGER] 🔍 Scanning blocks 55099218 to 55099245 (range: 28)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099245
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099245 to 55099274
+[REGISTRY] 🔍 Scanning blocks 55099245 to 55099274 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099274
+[MANAGER] Indexing from block 55099246 to 55099274
+[MANAGER] 🔍 Scanning blocks 55099246 to 55099274 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099274
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099275 to 55099303
+[REGISTRY] 🔍 Scanning blocks 55099275 to 55099303 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099303
+[MANAGER] Indexing from block 55099275 to 55099305
+[MANAGER] 🔍 Scanning blocks 55099275 to 55099305 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099305
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099304 to 55099335
+[REGISTRY] 🔍 Scanning blocks 55099304 to 55099335 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099335
+[MANAGER] Indexing from block 55099306 to 55099336
+[MANAGER] 🔍 Scanning blocks 55099306 to 55099336 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099336
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099336 to 55099364
+[REGISTRY] 🔍 Scanning blocks 55099336 to 55099364 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099364
+[MANAGER] Indexing from block 55099337 to 55099365
+[MANAGER] 🔍 Scanning blocks 55099337 to 55099365 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099365
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099365 to 55099396
+[REGISTRY] 🔍 Scanning blocks 55099365 to 55099396 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099396
+[MANAGER] Indexing from block 55099366 to 55099398
+[MANAGER] 🔍 Scanning blocks 55099366 to 55099398 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099398
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099397 to 55099426
+[REGISTRY] 🔍 Scanning blocks 55099397 to 55099426 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099426
+[MANAGER] Indexing from block 55099399 to 55099428
+[MANAGER] 🔍 Scanning blocks 55099399 to 55099428 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099428
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099427 to 55099458
+[REGISTRY] 🔍 Scanning blocks 55099427 to 55099458 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099458
+[MANAGER] Indexing from block 55099429 to 55099460
+[MANAGER] 🔍 Scanning blocks 55099429 to 55099460 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099460
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099459 to 55099489
+[REGISTRY] 🔍 Scanning blocks 55099459 to 55099489 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099489
+[MANAGER] Indexing from block 55099461 to 55099489
+[MANAGER] 🔍 Scanning blocks 55099461 to 55099489 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099489
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099490 to 55099519
+[REGISTRY] 🔍 Scanning blocks 55099490 to 55099519 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099519
+[MANAGER] Indexing from block 55099490 to 55099520
+[MANAGER] 🔍 Scanning blocks 55099490 to 55099520 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099520
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099520 to 55099547
+[REGISTRY] 🔍 Scanning blocks 55099520 to 55099547 (range: 28)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099547
+[MANAGER] Indexing from block 55099521 to 55099547
+[MANAGER] 🔍 Scanning blocks 55099521 to 55099547 (range: 27)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099547
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099548 to 55099576
+[REGISTRY] 🔍 Scanning blocks 55099548 to 55099576 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099576
+[MANAGER] Indexing from block 55099548 to 55099578
+[MANAGER] 🔍 Scanning blocks 55099548 to 55099578 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099578
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099577 to 55099605
+[REGISTRY] 🔍 Scanning blocks 55099577 to 55099605 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099605
+[MANAGER] Indexing from block 55099579 to 55099607
+[MANAGER] 🔍 Scanning blocks 55099579 to 55099607 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099607
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099606 to 55099635
+[REGISTRY] 🔍 Scanning blocks 55099606 to 55099635 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099635
+[MANAGER] Indexing from block 55099608 to 55099636
+[MANAGER] 🔍 Scanning blocks 55099608 to 55099636 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099636
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099636 to 55099665
+[REGISTRY] 🔍 Scanning blocks 55099636 to 55099665 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099665
+[MANAGER] Indexing from block 55099637 to 55099666
+[MANAGER] 🔍 Scanning blocks 55099637 to 55099666 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099666
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099666 to 55099698
+[REGISTRY] 🔍 Scanning blocks 55099666 to 55099698 (range: 33)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099698
+[MANAGER] Indexing from block 55099667 to 55099699
+[MANAGER] 🔍 Scanning blocks 55099667 to 55099699 (range: 33)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099699
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099699 to 55099728
+[REGISTRY] 🔍 Scanning blocks 55099699 to 55099728 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099728
+[MANAGER] Indexing from block 55099700 to 55099729
+[MANAGER] 🔍 Scanning blocks 55099700 to 55099729 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099729
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099729 to 55099757
+[REGISTRY] 🔍 Scanning blocks 55099729 to 55099757 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099757
+[MANAGER] Indexing from block 55099730 to 55099757
+[MANAGER] 🔍 Scanning blocks 55099730 to 55099757 (range: 28)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099757
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099758 to 55099786
+[REGISTRY] 🔍 Scanning blocks 55099758 to 55099786 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099786
+[MANAGER] Indexing from block 55099758 to 55099786
+[MANAGER] 🔍 Scanning blocks 55099758 to 55099786 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099786
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099787 to 55099815
+[REGISTRY] 🔍 Scanning blocks 55099787 to 55099815 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099815
+[MANAGER] Indexing from block 55099787 to 55099817
+[MANAGER] 🔍 Scanning blocks 55099787 to 55099817 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099817
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099816 to 55099846
+[REGISTRY] 🔍 Scanning blocks 55099816 to 55099846 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099846
+[MANAGER] Indexing from block 55099818 to 55099847
+[MANAGER] 🔍 Scanning blocks 55099818 to 55099847 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099847
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099847 to 55099876
+[REGISTRY] 🔍 Scanning blocks 55099847 to 55099876 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099876
+[MANAGER] Indexing from block 55099848 to 55099878
+[MANAGER] 🔍 Scanning blocks 55099848 to 55099878 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099878
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099877 to 55099906
+[REGISTRY] 🔍 Scanning blocks 55099877 to 55099906 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099906
+[MANAGER] Indexing from block 55099879 to 55099908
+[MANAGER] 🔍 Scanning blocks 55099879 to 55099908 (range: 30)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099908
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099907 to 55099935
+[REGISTRY] 🔍 Scanning blocks 55099907 to 55099935 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099935
+[MANAGER] Indexing from block 55099909 to 55099937
+[MANAGER] 🔍 Scanning blocks 55099909 to 55099937 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099937
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099936 to 55099964
+[REGISTRY] 🔍 Scanning blocks 55099936 to 55099964 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099964
+[MANAGER] Indexing from block 55099938 to 55099966
+[MANAGER] 🔍 Scanning blocks 55099938 to 55099966 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099966
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099965 to 55099993
+[REGISTRY] 🔍 Scanning blocks 55099965 to 55099993 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55099993
+[MANAGER] Indexing from block 55099967 to 55099994
+[MANAGER] 🔍 Scanning blocks 55099967 to 55099994 (range: 28)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55099994
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55099994 to 55100024
+[REGISTRY] 🔍 Scanning blocks 55099994 to 55100024 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100024
+[MANAGER] Indexing from block 55099995 to 55100026
+[MANAGER] 🔍 Scanning blocks 55099995 to 55100026 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100026
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100025 to 55100053
+[REGISTRY] 🔍 Scanning blocks 55100025 to 55100053 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100053
+[MANAGER] Indexing from block 55100027 to 55100054
+[MANAGER] 🔍 Scanning blocks 55100027 to 55100054 (range: 28)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100054
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100054 to 55100081
+[REGISTRY] 🔍 Scanning blocks 55100054 to 55100081 (range: 28)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100081
+[MANAGER] Indexing from block 55100055 to 55100082
+[MANAGER] 🔍 Scanning blocks 55100055 to 55100082 (range: 28)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100082
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100082 to 55100108
+[REGISTRY] 🔍 Scanning blocks 55100082 to 55100108 (range: 27)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100108
+[MANAGER] Indexing from block 55100083 to 55100109
+[MANAGER] 🔍 Scanning blocks 55100083 to 55100109 (range: 27)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100109
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100109 to 55100139
+[REGISTRY] 🔍 Scanning blocks 55100109 to 55100139 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100139
+[MANAGER] Indexing from block 55100110 to 55100141
+[MANAGER] 🔍 Scanning blocks 55100110 to 55100141 (range: 32)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100141
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100140 to 55100168
+[REGISTRY] 🔍 Scanning blocks 55100140 to 55100168 (range: 29)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100168
+[MANAGER] Indexing from block 55100142 to 55100170
+[MANAGER] 🔍 Scanning blocks 55100142 to 55100170 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100170
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100169 to 55100200
+[REGISTRY] 🔍 Scanning blocks 55100169 to 55100200 (range: 32)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100200
+[MANAGER] Indexing from block 55100171 to 55100201
+[MANAGER] 🔍 Scanning blocks 55100171 to 55100201 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100201
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100201 to 55100231
+[REGISTRY] 🔍 Scanning blocks 55100201 to 55100231 (range: 31)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100231
+[MANAGER] Indexing from block 55100202 to 55100232
+[MANAGER] 🔍 Scanning blocks 55100202 to 55100232 (range: 31)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100232
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100232 to 55100258
+[REGISTRY] 🔍 Scanning blocks 55100232 to 55100258 (range: 27)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100258
+[MANAGER] Indexing from block 55100233 to 55100259
+[MANAGER] 🔍 Scanning blocks 55100233 to 55100259 (range: 27)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100259
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100259 to 55100286
+[REGISTRY] 🔍 Scanning blocks 55100259 to 55100286 (range: 28)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100286
+[MANAGER] Indexing from block 55100260 to 55100288
+[MANAGER] 🔍 Scanning blocks 55100260 to 55100288 (range: 29)
+[MANAGER] Found 0 events in this chunk
+[MANAGER] ✅ Processed up to block 55100288
+
+📊 Current State:
+   Agents: 1
+   Proposals: 4
+
+⏳ Waiting 10 seconds before next poll...
+
+[REGISTRY] Indexing from block 55100287 to 55100316
+[REGISTRY] 🔍 Scanning blocks 55100287 to 55100316 (range: 30)
+[REGISTRY] Found 0 events in this chunk
+[REGISTRY] ✅ Processed up to block 55100316
+[MANAGER] Indexing from block 55100289 to 55100317
+[MANAGER] 🔍 Scanning blocks 55100289 to 55100317 (range: 29)

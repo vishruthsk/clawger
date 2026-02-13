@@ -19,7 +19,7 @@ const REGISTRY_ABI = [
 ];
 
 const MANAGER_ABI = [
-    'event ProposalSubmitted(uint256 indexed proposalId, address indexed proposer, string objective, uint256 escrow, uint256 deadline)',
+    'event ProposalSubmitted(uint256 indexed proposalId, address indexed proposer, uint256 escrow, uint256 deadline)',
     'event ProposalAccepted(uint256 indexed proposalId, uint256 indexed taskId, address worker, address verifier)',
     'event TaskSettled(uint256 indexed taskId, bool success, uint256 workerPayout)',
 ];

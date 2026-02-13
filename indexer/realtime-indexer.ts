@@ -16,11 +16,12 @@ const pool = new Pool({
 
 // Contract ABIs
 const REGISTRY_ABI = [
-    'event AgentRegistered(address indexed agent, uint8 agentType, bytes32[] capabilities, uint256 minFee, uint256 minBond, address operator)',
+    'event AgentRegistered(address indexed agent, uint8 indexed agentType, uint256 minFee, uint256 minBond, bytes32[] capabilities)',
 ];
 
 const MANAGER_ABI = [
-    'event ProposalSubmitted(uint256 indexed proposalId, address indexed proposer, string objective, uint256 escrow, uint256 deadline)',
+    'event ProposalSubmitted(uint256 indexed proposalId, address indexed proposer, uint256 escrow, uint256 deadline)',
+    'function submitProposal(string calldata objective, uint256 escrowAmount, uint256 deadline) external returns (uint256)',
 ];
 
 const SAFE_LOOKBACK = 200; // Blocks to look back if indexer was offline
@@ -53,25 +54,35 @@ async function updateLastProcessedBlock(contract: 'registry' | 'manager', blockN
 }
 
 async function indexAgentRegistered(event: ethers.EventLog, block: ethers.Block): Promise<void> {
-    const { agent, agentType, capabilities, minFee, minBond, operator } = event.args as any;
+    const { agent, agentType, minFee, minBond, capabilities } = event.args as any;
 
-    console.log(`🎉 [AGENT REGISTERED] ${agent} at block ${event.blockNumber}`);
+    // ABI GUARD: Verify event has exactly 5 arguments
+    if (!event.args || event.args.length !== 5) {
+        console.error(`❌ [ABI DRIFT] AgentRegistered event has ${event.args?.length || 0} args, expected 5`);
+        console.error(`   TX: ${event.transactionHash}`);
+        throw new Error(`ABI drift detected in AgentRegistered event at tx ${event.transactionHash}`);
+    }
+
+    console.log(`🎉 [AGENT REGISTERED] ${agent} (type: ${agentType === 0 ? 'worker' : 'verifier'}) at block ${event.blockNumber}`);
 
     await pool.query(`
         INSERT INTO agents (address, agent_type, capabilities, min_fee, min_bond, operator, reputation, active, registered_at, updated_at, block_number, tx_hash)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         ON CONFLICT (address) DO UPDATE SET
+            agent_type = EXCLUDED.agent_type,
             capabilities = EXCLUDED.capabilities,
             min_fee = EXCLUDED.min_fee,
             min_bond = EXCLUDED.min_bond,
-            updated_at = EXCLUDED.updated_at
+            updated_at = EXCLUDED.updated_at,
+            block_number = EXCLUDED.block_number,
+            tx_hash = EXCLUDED.tx_hash
     `, [
         agent.toLowerCase(),
         agentType === 0 ? 'worker' : 'verifier',
         JSON.stringify(capabilities.map((c: string) => c)),
         minFee.toString(),
         minBond.toString(),
-        operator.toLowerCase(),
+        agent.toLowerCase(), // operator defaults to agent address
         50, // default reputation
         true,
         new Date(block.timestamp * 1000),
@@ -81,15 +92,48 @@ async function indexAgentRegistered(event: ethers.EventLog, block: ethers.Block)
     ]);
 }
 
-async function indexProposalSubmitted(event: ethers.EventLog, block: ethers.Block): Promise<void> {
-    const { proposalId, proposer, objective, escrow, deadline } = event.args as any;
+async function indexProposalSubmitted(event: ethers.EventLog, block: ethers.Block, provider: ethers.Provider, manager: ethers.Contract): Promise<void> {
+    const { proposalId, proposer, escrow, deadline } = event.args as any;
 
-    console.log(`[PROPOSAL SUBMITTED] ID ${proposalId} at block ${event.blockNumber}`);
+    // ABI GUARD: Verify event has exactly 4 arguments
+    if (!event.args || event.args.length !== 4) {
+        console.error(`❌ [ABI DRIFT] ProposalSubmitted event has ${event.args?.length || 0} args, expected 4`);
+        console.error(`   TX: ${event.transactionHash}`);
+        throw new Error(`ABI drift detected in ProposalSubmitted event at tx ${event.transactionHash}`);
+    }
 
+    console.log(`💼 [PROPOSAL SUBMITTED] ID ${proposalId} at block ${event.blockNumber} (tx: ${event.transactionHash})`);
+
+    // CRITICAL: Decode objective from transaction calldata
+    let objective = 'Mission details'; // Fallback
+    try {
+        const tx = await provider.getTransaction(event.transactionHash);
+        if (!tx) {
+            console.error(`⚠️  [PROPOSAL] Could not fetch transaction ${event.transactionHash}`);
+        } else {
+            const parsed = manager.interface.parseTransaction({ data: tx.data, value: tx.value });
+            if (parsed && parsed.name === 'submitProposal' && parsed.args.length >= 1) {
+                objective = parsed.args[0]; // First arg is objective
+                console.log(`   ✅ Decoded objective: "${objective.substring(0, 50)}${objective.length > 50 ? '...' : ''}"`);
+            } else {
+                console.error(`⚠️  [PROPOSAL] Could not parse transaction calldata`);
+            }
+        }
+    } catch (error) {
+        console.error(`⚠️  [PROPOSAL] Error decoding objective:`, error);
+    }
+
+    // REPLAY SAFETY: Use UPSERT to ensure idempotency
     await pool.query(`
         INSERT INTO proposals (id, proposer, objective, escrow, deadline, status, created_at, block_number, tx_hash)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        ON CONFLICT (id) DO NOTHING
+        ON CONFLICT (id) DO UPDATE SET
+            objective = EXCLUDED.objective,
+            escrow = EXCLUDED.escrow,
+            deadline = EXCLUDED.deadline,
+            block_number = EXCLUDED.block_number,
+            tx_hash = EXCLUDED.tx_hash,
+            created_at = EXCLUDED.created_at
     `, [
         proposalId.toString(),
         proposer.toLowerCase(),
@@ -191,7 +235,7 @@ async function indexManager(provider: ethers.Provider, manager: ethers.Contract)
         for (const event of events) {
             const block = await provider.getBlock(event.blockNumber);
             if (block) {
-                await indexProposalSubmitted(event as ethers.EventLog, block);
+                await indexProposalSubmitted(event as ethers.EventLog, block, provider, manager);
             }
         }
 

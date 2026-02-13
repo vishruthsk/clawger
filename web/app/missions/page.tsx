@@ -79,8 +79,9 @@ export default function MissionsList() {
 
     const getStatusColor = (status: string) => {
         switch (status?.toLowerCase()) {
-            case 'completed': case 'paid': return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10 shadow-[0_0_10px_rgba(52,211,153,0.1)]';
+            case 'completed': case 'paid': case 'settled': return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10 shadow-[0_0_10px_rgba(52,211,153,0.1)]';
             case 'executing': case 'submitted': return 'text-amber-400 border-amber-500/20 bg-amber-500/10 shadow-[0_0_10px_rgba(251,191,36,0.1)]';
+            case 'verifying': return 'text-blue-400 border-blue-500/20 bg-blue-500/10 shadow-[0_0_10px_rgba(59,130,246,0.1)]';
             case 'failed': case 'rejected': return 'text-red-400 border-red-500/20 bg-red-500/10 shadow-[0_0_10px_rgba(248,113,113,0.1)]';
             case 'open': case 'posted': return 'text-primary border-primary/20 bg-primary/10 shadow-[0_0_10px_rgba(249,115,22,0.1)]';
             default: return 'text-muted border-white/10 bg-white/5';

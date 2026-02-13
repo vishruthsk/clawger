@@ -5,14 +5,48 @@
 
 "use client";
 
-import { Shield, TrendingUp, AlertCircle } from "lucide-react";
+import { Shield, TrendingUp, TrendingDown, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { formatDistanceToNow } from "date-fns";
 
 interface ReputationBreakdownProps {
     agent: any;
     completedMissions?: number;
 }
 
+interface ReputationUpdate {
+    old_score: number;
+    new_score: number;
+    reason: string;
+    updated_at: string;
+    block_number: number;
+    tx_hash: string;
+}
+
 export default function ReputationBreakdown({ agent, completedMissions = 0 }: ReputationBreakdownProps) {
+    const [history, setHistory] = useState<ReputationUpdate[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchHistory() {
+            try {
+                const res = await fetch(`/api/agents/${agent.address}/reputation-history`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setHistory(data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch reputation history:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        if (agent.address) {
+            fetchHistory();
+        }
+    }, [agent.address]);
+
     // Use real breakdown from API if available, otherwise fallback to base
     const breakdown = agent.reputation_breakdown || {
         base: 50,
@@ -22,7 +56,7 @@ export default function ReputationBreakdown({ agent, completedMissions = 0 }: Re
         total: agent.reputation || 50
     };
 
-    const hasEarnedReputation = breakdown.settlements !== 0 || breakdown.ratings !== 0 || breakdown.failures !== 0;
+    const hasHistory = history.length > 0;
 
     return (
         <div className="p-6 rounded-3xl bg-[#0A0A0A] border border-white/10 relative overflow-hidden group hover:border-primary/20 transition-colors duration-500">
@@ -34,10 +68,10 @@ export default function ReputationBreakdown({ agent, completedMissions = 0 }: Re
                     <Shield className="w-4 h-4 text-emerald-500" />
                     <h3 className="text-xs font-bold uppercase text-muted tracking-wider">Reputation Logic</h3>
                 </div>
-                {hasEarnedReputation && completedMissions > 0 && (
+                {hasHistory && (
                     <div className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">
                         <TrendingUp className="w-3 h-3" />
-                        <span>Active Growth</span>
+                        <span>{history.length} Updates</span>
                     </div>
                 )}
             </div>
@@ -52,35 +86,59 @@ export default function ReputationBreakdown({ agent, completedMissions = 0 }: Re
                     <span className="text-lg font-mono font-medium text-white/80">{Number(breakdown.base).toFixed(2)}</span>
                 </div>
 
-                {hasEarnedReputation ? (
-                    <div className="space-y-2 pl-4 border-l-2 border-dashed border-white/10 ml-2">
-                        {breakdown.settlements !== 0 && (
-                            <div className="flex items-center justify-between group/item">
-                                <span className="text-sm text-muted group-hover/item:text-white transition-colors">Settlements</span>
-                                <span className={`text-sm font-mono font-medium ${breakdown.settlements > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                                    {breakdown.settlements > 0 ? '+' : ''}{Number(breakdown.settlements).toFixed(2)}
-                                </span>
-                            </div>
-                        )}
+                {/* Reputation History - Aggregated */}
+                {loading ? (
+                    <div className="py-4 text-center border border-dashed border-white/10 rounded-xl bg-white/[0.02]">
+                        <span className="text-xs text-muted">Loading history...</span>
+                    </div>
+                ) : hasHistory ? (
+                    <div className="space-y-2">
+                        {(() => {
+                            // Aggregate changes by reason
+                            const aggregated = history.reduce((acc, update) => {
+                                const change = update.new_score - update.old_score;
+                                if (!acc[update.reason]) {
+                                    acc[update.reason] = {
+                                        total: 0,
+                                        count: 0,
+                                        lastUpdate: update.updated_at,
+                                    };
+                                }
+                                acc[update.reason].total += change;
+                                acc[update.reason].count += 1;
+                                acc[update.reason].lastUpdate = update.updated_at;
+                                return acc;
+                            }, {} as Record<string, { total: number; count: number; lastUpdate: string }>);
 
-                        {breakdown.ratings !== 0 && (
-                            <div className="flex items-center justify-between group/item">
-                                <span className="text-sm text-muted group-hover/item:text-white transition-colors">Performance Ratings</span>
-                                <span className={`text-sm font-mono font-medium ${breakdown.ratings > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                                    {breakdown.ratings > 0 ? '+' : ''}{Number(breakdown.ratings).toFixed(2)}
-                                </span>
-                            </div>
-                        )}
+                            return Object.entries(aggregated).map(([reason, data]) => {
+                                const isPositive = data.total > 0;
 
-                        {breakdown.failures !== 0 && (
-                            <div className="flex items-center justify-between group/item">
-                                <span className="text-sm text-muted group-hover/item:text-red-200 transition-colors">Mission Failures</span>
-                                <span className="text-sm text-red-400 font-mono font-bold">{Number(breakdown.failures).toFixed(2)}</span>
-                            </div>
-                        )}
+                                return (
+                                    <div
+                                        key={reason}
+                                        className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors group/item"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            {isPositive ? (
+                                                <TrendingUp className="w-3 h-3 text-emerald-400" />
+                                            ) : (
+                                                <TrendingDown className="w-3 h-3 text-red-400" />
+                                            )}
+                                            <span className="text-sm text-white font-medium">{reason}</span>
+                                            {data.count > 1 && (
+                                                <span className="text-xs text-muted/60 font-mono">×{data.count}</span>
+                                            )}
+                                        </div>
+                                        <span className={`text-sm font-mono font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                                            {isPositive ? '+' : ''}{data.total.toFixed(0)}
+                                        </span>
+                                    </div>
+                                );
+                            });
+                        })()}
                     </div>
                 ) : (
-                    <div className="py-4 text-center border mr-2 ml-2 border-dashed border-white/10 rounded-xl bg-white/[0.02]">
+                    <div className="py-4 text-center border border-dashed border-white/10 rounded-xl bg-white/[0.02]">
                         <span className="text-xs text-muted">No mission history yet</span>
                     </div>
                 )}
@@ -94,7 +152,7 @@ export default function ReputationBreakdown({ agent, completedMissions = 0 }: Re
                         </span>
                     </div>
 
-                    {hasEarnedReputation && (
+                    {hasHistory && (
                         <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full"
@@ -104,6 +162,23 @@ export default function ReputationBreakdown({ agent, completedMissions = 0 }: Re
                     )}
                 </div>
             </div>
+
+            <style jsx>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 2px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(52, 211, 153, 0.3);
+                    border-radius: 2px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(52, 211, 153, 0.5);
+                }
+            `}</style>
         </div>
     );
 }

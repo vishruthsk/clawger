@@ -14,6 +14,7 @@ import { SettlementEngine } from '@core/settlement/settlement-engine';
 import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import { ECONOMY_CONFIG, calculateMissionCost } from '@/config/economy';
 import { MissionFilters } from '@core/missions/mission-registry';
+import { ReputationEngine } from '@core/agents/reputation-engine';
 
 // Singletons (Prod: DI)
 const agentAuth = new AgentAuth('../data');
@@ -28,6 +29,7 @@ const assignmentHistory = new AssignmentHistoryTracker('../data');
 const bondManager = new BondManager(tokenLedger, '../data');
 const jobHistory = new JobHistoryManager('../data');
 const settlementEngine = new SettlementEngine(tokenLedger, bondManager, agentAuth, jobHistory, '../data');
+const reputationEngine = new ReputationEngine('../data');
 
 const missionRegistry = new MissionRegistry(
     missionStore,
@@ -38,7 +40,8 @@ const missionRegistry = new MissionRegistry(
     escrowEngine,
     assignmentHistory,
     bondManager,
-    settlementEngine
+    settlementEngine,
+    reputationEngine
 );
 
 
@@ -49,51 +52,191 @@ const missionRegistry = new MissionRegistry(
  * PRODUCTION ONLY - Returns only real missions from Postgres/Indexer
  * Demo data is served via /api/demo/missions
  */
-export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
+import { Pool } from 'pg';
 
-    const filters: MissionFilters = {
-        status: searchParams.get('status') || undefined,
-        specialty: searchParams.get('specialty') || undefined,
-        min_reward: searchParams.get('min_reward')
-            ? parseFloat(searchParams.get('min_reward')!)
-            : undefined,
-        max_reward: searchParams.get('max_reward')
-            ? parseFloat(searchParams.get('max_reward')!)
-            : undefined,
-        assignment_mode: (searchParams.get('assignment_mode') as 'autopilot' | 'bidding') || undefined,
-        requester_id: searchParams.get('requester_id') || undefined,
-        type: (searchParams.get('type') as 'crew' | 'solo') || undefined,
-        scope: (searchParams.get('scope') as 'all' | 'mine' | 'assigned_to_me') || undefined,
-        viewer_id: undefined // Will be set if auth header exists
-    };
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+});
 
-    // Extract viewer_id from auth header if scope filtering is requested
-    const authHeader = request.headers.get('Authorization');
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        const token = authHeader.substring(7);
-        // We need a simple way to get address from token without full validation overhead if possible
-        // or just use walletAuth
-        const session = walletAuth.validateSession(token);
-        if (session) {
-            filters.viewer_id = session.address;
-        }
+async function getRealMissions() {
+    try {
+        const result = await pool.query('SELECT * FROM proposals ORDER BY block_number DESC');
+        return result.rows.map(row => ({
+            id: row.id,
+            title: row.objective.length > 50 ? row.objective.substring(0, 50) + '...' : row.objective,
+            description: row.objective,
+            status: 'open',
+            reward: parseFloat(row.escrow) / 1e18, // Convert wei to ether
+            currency: 'CLGR',
+            tags: ['blockchain', 'verification'],
+            specialties: ['security', 'auditing'],
+            requirements: ['On-chain verification'],
+            deliverables: ['Execution Proof', 'Block Hash'], // Added default deliverables
+            posted_at: row.created_at,
+            bidding_window_end: row.deadline,
+            requester: {
+                id: row.proposer,
+                name: 'On-Chain Proposer',
+                type: 'human',
+                avatar: '/avatars/default.png',
+                reputation: 100
+            },
+            stats: {
+                bids: 0,
+                views: 0
+            },
+            is_real: true, // Flag to identify real missions
+            tx_hash: row.tx_hash
+        }));
+    } catch (error) {
+        console.error('Failed to fetch real missions:', error);
+        return [];
     }
+}
 
-    const missions = missionRegistry.getMissionBoard(filters);
-
-    // PRODUCTION SAFETY: Filter out any demo data (defensive)
-    const productionMissions = missions.filter(mission => {
-        // Exclude demo flag
-        if ((mission as any).demo === true) return false;
-        // Exclude demo ID patterns
-        if (mission.id?.startsWith('demo-') || mission.id?.startsWith('demo_mission_')) {
-            return false;
+function getDummyMissions() {
+    return [
+        {
+            id: 'demo-1',
+            title: 'Emergency: Smart Contract Audit',
+            description: 'Urgent audit required for a new DeFi protocol launching on Monad. Focus on reentrancy and oracle manipulation vectors. Critical priority.',
+            status: 'open',
+            reward: 5000,
+            currency: 'CLGR',
+            tags: ['audit', 'security', 'defi'],
+            specialties: ['security_auditing', 'smart_contracts'],
+            requirements: ['Prior audit experience', 'Slither report', 'Manual review'],
+            deliverables: ['Audit Report (PDF)', 'Remediation Guide'],
+            posted_at: new Date().toISOString(),
+            bidding_window_end: new Date(Date.now() + 86400000).toISOString(),
+            requester: {
+                id: 'org-1',
+                name: 'DeFi Safe',
+                type: 'human',
+                avatar: '/avatars/org1.png',
+                reputation: 98
+            },
+            stats: {
+                bids: 12,
+                views: 345
+            }
+        },
+        {
+            id: 'demo-2',
+            title: 'Frontend Development for NFT Marketplace',
+            description: 'Build a responsive React frontend for an upcoming NFT marketplace. tailored for high-frequency trading.',
+            status: 'executing', // UPDATED: Executing
+            reward: 2500,
+            currency: 'CLGR',
+            tags: ['frontend', 'react', 'nft'],
+            specialties: ['frontend_dev', 'ui_ux'],
+            requirements: ['React 18', 'TailwindCSS', 'Ethers.js'],
+            deliverables: ['GitHub Repository', 'Deployed Vercel Link'],
+            posted_at: new Date(Date.now() - 3600000 * 24).toISOString(),
+            assigned_at: new Date(Date.now() - 3600000 * 2).toISOString(),
+            executing_started_at: new Date(Date.now() - 3600000 * 1).toISOString(),
+            assigned_agent: {
+                agent_id: 'agent_pixel',
+                agent_name: 'PixelWizard',
+                assigned_at: new Date(Date.now() - 3600000 * 2).toISOString(),
+                reasoning: 'Selected for superior portfolio in NFT marketplaces.'
+            },
+            requester: {
+                id: 'org-2',
+                name: 'NFT World',
+                type: 'human',
+                avatar: '/avatars/org2.png',
+                reputation: 92
+            },
+            stats: {
+                bids: 5,
+                views: 120
+            }
+        },
+        {
+            id: 'demo-3',
+            title: 'Zero-Knowledge Proof Verifier',
+            description: 'Implement a Groth16 verifier in Rust for a privacy-preserving rollup.',
+            status: 'settled', // UPDATED: Settled/Paid
+            reward: 8000,
+            currency: 'CLGR',
+            tags: ['zk', 'rust', 'cryptography'],
+            specialties: ['cryptography', 'backend_dev'],
+            requirements: ['Rust', 'Circom', 'Bellman'],
+            deliverables: ['Rust Crate', 'Benchmark Results'],
+            posted_at: new Date(Date.now() - 7200000 * 48).toISOString(),
+            assigned_at: new Date(Date.now() - 7200000 * 40).toISOString(),
+            executing_started_at: new Date(Date.now() - 7200000 * 38).toISOString(),
+            submitted_at: new Date(Date.now() - 7200000 * 10).toISOString(),
+            verified_at: new Date(Date.now() - 7200000 * 5).toISOString(),
+            settled_at: new Date(Date.now() - 7200000 * 2).toISOString(),
+            assigned_agent: {
+                agent_id: 'agent_zk',
+                agent_name: 'ZeroKnowledge',
+                assigned_at: new Date(Date.now() - 7200000 * 40).toISOString()
+            },
+            requester: {
+                id: 'org-3',
+                name: 'Privacy Layer',
+                type: 'human',
+                avatar: '/avatars/org3.png',
+                reputation: 99
+            },
+            stats: {
+                bids: 3,
+                views: 890
+            }
+        },
+        {
+            id: 'demo-4',
+            title: 'Arbitrage Bot Strategy Optimization',
+            description: 'Optimize existing Python arbitrage bot for lower latency execution on Monad.',
+            status: 'verifying', // UPDATED: Verifying
+            reward: 1500,
+            currency: 'CLGR',
+            tags: ['trading', 'python', 'optimization'],
+            specialties: ['python', 'trading_algo'],
+            requirements: ['Python', 'AsyncIO', 'MEV Knowledge'],
+            deliverables: ['Optimized Script', 'Latency Report'],
+            posted_at: new Date(Date.now() - 18000000 * 2).toISOString(),
+            assigned_at: new Date(Date.now() - 18000000).toISOString(),
+            submitted_at: new Date(Date.now() - 3600000).toISOString(),
+            verifying_started_at: new Date(Date.now() - 1800000).toISOString(),
+            assigned_agent: {
+                agent_id: 'agent_algo',
+                agent_name: 'AlgoTrader',
+                assigned_at: new Date(Date.now() - 18000000).toISOString()
+            },
+            requester: {
+                id: 'user-4',
+                name: 'Alpha Seeker',
+                type: 'human',
+                avatar: '/avatars/user4.png',
+                reputation: 85
+            },
+            stats: {
+                bids: 8,
+                views: 210
+            }
         }
-        return true;
-    });
+    ];
+}
 
-    return NextResponse.json(productionMissions);
+/**
+ * GET /api/missions
+ * List missions (HYBRID: Real Postgres Data + Dummy Mock Data)
+ */
+export async function GET(request: NextRequest) {
+    // 1. Fetch real missions from DB
+    const realMissions = await getRealMissions();
+
+    // 2. Get dummy missions
+    const dummyMissions = getDummyMissions();
+
+    // 3. Combine them (Real first)
+    const allMissions = [...realMissions, ...dummyMissions];
+
+    return NextResponse.json(allMissions);
 }
 
 /**
