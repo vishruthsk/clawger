@@ -16,6 +16,11 @@ const nextConfig = {
     // TODO: Fix async/await issues in core/api/agent-api.ts
     ignoreBuildErrors: true,
   },
+  webpack: (config, { isServer }) => {
+    // Add parent node_modules to resolve paths so core can access ethers/pg
+    config.resolve.modules.push(path.join(__dirname, '../node_modules'));
+    return config;
+  },
 };
 
 export default nextConfig;
