@@ -2,11 +2,10 @@
  * Assignment History Tracker
  * 
  * Tracks recent mission assignments per agent for anti-monopoly fairness.
- * Persists to disk for durability across restarts.
+ * Persists to PostgreSQL for durability.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '../db';
 
 export interface AssignmentRecord {
     mission_id: string;
@@ -19,167 +18,85 @@ export interface AgentAssignmentHistory {
 }
 
 export class AssignmentHistoryTracker {
-    private history: Map<string, AssignmentRecord[]> = new Map();
-    private persistencePath: string;
     private readonly WINDOW_SIZE = 10; // Track last 10 assignments
 
-    constructor(persistenceDir: string = './data') {
-        this.persistencePath = path.join(persistenceDir, 'assignment-history.json');
-        this.load();
+    constructor() {
+        console.log('[AssignmentHistoryTracker] Initialized with PostgreSQL persistence');
     }
 
     /**
      * Record a new assignment
      */
-    recordAssignment(agentId: string, missionId: string): void {
-        const records = this.history.get(agentId) || [];
-
-        records.push({
-            mission_id: missionId,
-            assigned_at: new Date()
-        });
-
-        // Keep only last WINDOW_SIZE assignments
-        if (records.length > this.WINDOW_SIZE) {
-            records.shift();
-        }
-
-        this.history.set(agentId, records);
-        this.save();
+    async recordAssignment(agentId: string, missionId: string): Promise<void> {
+        await pool.query(
+            `INSERT INTO assignment_history (agent_id, mission_id, assigned_at) 
+             VALUES ($1, $2, NOW())`,
+            [agentId, missionId]
+        );
+        // (Optional: Implement cleanup logic to delete old records > WINDOW_SIZE if needed, but storage is cheap)
     }
 
     /**
-     * Get number of recent wins within a time window
+     * Get number of recent wins within a time window (limit to latest X records)
      */
-    getRecentWins(agentId: string, windowSize: number = this.WINDOW_SIZE): number {
-        const records = this.history.get(agentId) || [];
+    async getRecentWins(agentId: string, windowSize: number = this.WINDOW_SIZE): Promise<number> {
+        // Count total assignments for agent in recent history?
+        // Or simply get the last X records.
+        // We define "recent" loosely or by count.
+        // Let's return the count of total assignments?
+        // Or specific recent logic?
+        // Implementation: Return count of assignments in the `assignment_history` table for this agent?
+        // That might be ALL time history.
+        // The original implementation kept a fixed window size in JSON array.
+        // So `getRecentWins` returned count UP TO `windowSize`.
+        // Let's replicate this: count the last `windowSize` records.
+        // Effectively, `MIN(count, windowSize)`.
 
-        // Return count of assignments within window
-        return Math.min(records.length, windowSize);
+        const res = await pool.query(
+            `SELECT COUNT(*) as count FROM assignment_history WHERE agent_id = $1`,
+            [agentId]
+        );
+        const count = parseInt(res.rows[0].count);
+        return Math.min(count, windowSize);
     }
 
     /**
-     * Get number of consecutive wins for an agent (most recent assignments)
+     * Get number of consecutive wins for an agent
+     * (Approximated by total recent wins confined to window)
      */
-    getConsecutiveWins(agentId: string): number {
-        const records = this.history.get(agentId) || [];
-        if (records.length === 0) return 0;
-
-        // This is a naive implementation because we only track this agent's history
-        // To truly know if they won *consecutive* missions globally, we'd need a global assignment log.
-        // However, the requirement says "if agent won last 3 missions in same specialty".
-        // If we only look at THIS agent's history, we know they won these.
-        // But did anyone else win in between?
-        // Ah, "last 3 missions" usually suggests "last 3 missions THIS AGENT participated in" OR "last 3 missions globally".
-        // Interpreting as "Agent's recent streak".
-        // If an agent wins Mission A, then Mission B, then Mission C... that's a streak.
-        // The `records` array stores the missions this agent won.
-        // Since we don't store *failed* attempts here, we can't easily check "did they win 3 in a row compared to others".
-        // checking the prompt: "If agent won last 3 missions in same specialty".
-        // This implies looking at the *global* list of missions in that specialty.
-        // But we don't have that easily indexable here.
-        // Let's stick to the "Recent Wins" count which effectively proxies frequency.
-        // If an agent has 3 wins in the last short window, that's high frequency.
-        // Actually, the prompt says "If agent won last 3 missions". 
-        // Let's look at `latest assignments` globally if possible?
-        // `AssignmentHistoryTracker` only maps `agentId` -> `records`.
-        // It does NOT have a global list. 
-        // I should stick to `getRecentWins` or assume the prompt implies "High frequency".
-        // Wait, "Anti-Monopoly Cooldown... if agent won last 3 missions in same specialty".
-        // Implementation Plan says: "If agent won last 3 missions (of same specialty?)".
-        // Given constraints, I will interpret this as checking if the agent has a high density of recent wins.
-        // But I previously implemented `getRecentWins` which returns count in window.
-        // Maybe I can just check if `recent_wins >= 3`.
-
-        // However, I can implement `getConsecutiveWins` as simply returning the count of recent wins, 
-        // to match the interface needed by AssignmentEngine, or refine it if I switch storage.
-        // For now, consistent with `records` being *only* wins, `records.length` is strictly wins.
-        // I will just return `records.length` (up to the window size).
-        return records.length;
+    async getConsecutiveWins(agentId: string): Promise<number> {
+        return this.getRecentWins(agentId);
     }
 
     /**
      * Get all assignment records for an agent
      */
-    getAgentHistory(agentId: string): AssignmentRecord[] {
-        return this.history.get(agentId) || [];
-    }
+    async getAgentHistory(agentId: string): Promise<AssignmentRecord[]> {
+        const res = await pool.query(
+            `SELECT mission_id, assigned_at FROM assignment_history 
+             WHERE agent_id = $1 
+             ORDER BY assigned_at DESC 
+             LIMIT $2`,
+            [agentId, this.WINDOW_SIZE]
+        );
 
-    /**
-     * Get assignment statistics
-     */
-    getStats(): {
-        total_agents: number;
-        total_assignments: number;
-        assignments_by_agent: Map<string, number>;
-    } {
-        const assignments_by_agent = new Map<string, number>();
-
-        for (const [agentId, records] of this.history.entries()) {
-            assignments_by_agent.set(agentId, records.length);
-        }
-
-        const total_assignments = Array.from(assignments_by_agent.values())
-            .reduce((sum, count) => sum + count, 0);
-
-        return {
-            total_agents: this.history.size,
-            total_assignments,
-            assignments_by_agent
-        };
+        return res.rows.map(row => ({
+            mission_id: row.mission_id,
+            assigned_at: new Date(row.assigned_at)
+        }));
     }
 
     /**
      * Clear history for an agent
      */
-    clearAgentHistory(agentId: string): void {
-        this.history.delete(agentId);
-        this.save();
+    async clearAgentHistory(agentId: string): Promise<void> {
+        await pool.query('DELETE FROM assignment_history WHERE agent_id = $1', [agentId]);
     }
 
     /**
      * Clear all history
      */
-    clearAll(): void {
-        this.history.clear();
-        this.save();
-    }
-
-    /**
-     * Persistence
-     */
-    private save(): void {
-        if (!fs.existsSync(path.dirname(this.persistencePath))) {
-            fs.mkdirSync(path.dirname(this.persistencePath), { recursive: true });
-        }
-
-        const data = Array.from(this.history.entries()).map(([agentId, records]) => ({
-            agent_id: agentId,
-            recent_assignments: records
-        }));
-
-        fs.writeFileSync(this.persistencePath, JSON.stringify(data, null, 2));
-    }
-
-    private load(): void {
-        if (fs.existsSync(this.persistencePath)) {
-            try {
-                const raw = fs.readFileSync(this.persistencePath, 'utf8');
-                const data: AgentAssignmentHistory[] = JSON.parse(raw);
-
-                for (const agentHistory of data) {
-                    // Convert date strings back to Date objects
-                    const records = agentHistory.recent_assignments.map(r => ({
-                        mission_id: r.mission_id,
-                        assigned_at: new Date(r.assigned_at)
-                    }));
-                    this.history.set(agentHistory.agent_id, records);
-                }
-
-                console.log(`[AssignmentHistory] Loaded ${this.history.size} agent histories from disk`);
-            } catch (e) {
-                console.error('[AssignmentHistory] Failed to load history from disk', e);
-            }
-        }
+    async clearAll(): Promise<void> {
+        await pool.query('DELETE FROM assignment_history');
     }
 }

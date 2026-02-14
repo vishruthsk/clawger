@@ -1,150 +1,84 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { MissionStore } from '@core/missions/mission-store';
-import { CrewMissionStore } from '@core/missions/crew-mission-store';
-import { AgentAuth } from '@core/registry/agent-auth';
-
-// Singletons
-const missionStore = new MissionStore('../data');
-const crewStore = new CrewMissionStore('../data');
-const agentAuth = new AgentAuth('../data');
-
 /**
  * GET /api/missions/:id/artifacts
- * List all artifacts for a mission with optional filters
+ * 
+ * Returns artifact metadata with fresh signed URLs for downloading
  */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { pool } from '@core/db';
+import { getSignedUrl } from '../../../../../lib/supabase-storage';
+
 export async function GET(
     request: NextRequest,
-    context: { params: Promise<{ id: string }> }
+    { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = await context.params;
-        const { searchParams } = new URL(request.url);
+        const missionId = params.id;
 
-        const mission = missionStore.get(id);
-
-        if (!mission) {
-            return NextResponse.json(
-                { error: 'Mission not found', code: 'NOT_FOUND' },
-                { status: 404 }
-            );
-        }
-
-        if (!mission.crew_required) {
-            return NextResponse.json(
-                { error: 'Not a crew mission', code: 'INVALID_MISSION_TYPE' },
-                { status: 400 }
-            );
-        }
-
-        let artifacts = mission.mission_artifacts || [];
-
-        // Apply filters
-        const agentId = searchParams.get('agent_id');
-        const subtaskId = searchParams.get('subtask_id');
-        const type = searchParams.get('type');
-
-        if (agentId) {
-            artifacts = artifacts.filter(a => a.agent_id === agentId);
-        }
-        if (subtaskId) {
-            artifacts = artifacts.filter(a => a.subtask_id === subtaskId);
-        }
-        if (type) {
-            artifacts = artifacts.filter(a => a.type === type);
-        }
-
-        // Sort by upload time (newest first)
-        artifacts.sort((a, b) =>
-            new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime()
+        // Query mission_artifacts table
+        const result = await pool.query(
+            `SELECT 
+                id, mission_id, filename, original_filename, storage_path,
+                size, mime_type, uploaded_by, uploaded_at
+             FROM mission_artifacts
+             WHERE mission_id = $1
+             ORDER BY uploaded_at ASC`,
+            [missionId]
         );
 
+        if (result.rows.length === 0) {
+            return NextResponse.json({ artifacts: [] });
+        }
+
+        // Generate fresh signed URLs for each artifact
+        const artifacts = await Promise.all(
+            result.rows.map(async (row) => {
+                try {
+                    // Generate signed URL valid for 1 hour
+                    const { url: downloadUrl, expiresAt } = await getSignedUrl(row.storage_path, 3600);
+
+                    // Update cached signed URL in database
+                    await pool.query(
+                        `UPDATE mission_artifacts 
+                         SET signed_url = $1, url_expires_at = $2
+                         WHERE id = $3`,
+                        [downloadUrl, expiresAt, row.id]
+                    );
+
+                    return {
+                        id: row.id,
+                        filename: row.filename,
+                        original_filename: row.original_filename,
+                        size: row.size,
+                        mime_type: row.mime_type,
+                        uploaded_by: row.uploaded_by,
+                        uploaded_at: row.uploaded_at,
+                        download_url: downloadUrl,
+                        url_expires_at: expiresAt
+                    };
+                } catch (error) {
+                    console.error(`[GET /api/missions/:id/artifacts] Failed to generate signed URL for ${row.id}:`, error);
+                    return null;
+                }
+            })
+        );
+
+        // Filter out any null artifacts (failed URL generation)
+        const validArtifacts = artifacts.filter(a => a !== null);
+
         return NextResponse.json({
-            mission_id: id,
-            artifacts,
-            total: artifacts.length
+            mission_id: missionId,
+            artifacts: validArtifacts,
+            count: validArtifacts.length
         });
 
     } catch (error: any) {
-        console.error('[API] Get artifacts error:', error);
+        console.error('[GET /api/missions/:id/artifacts] Error:', error);
         return NextResponse.json(
-            { error: error.message, code: 'INTERNAL_ERROR' },
-            { status: 500 }
-        );
-    }
-}
-
-/**
- * POST /api/missions/:id/artifacts
- * Upload a new artifact for a subtask
- */
-export async function POST(
-    request: NextRequest,
-    context: { params: Promise<{ id: string }> }
-) {
-    try {
-        const { id } = await context.params;
-        const body = await request.json();
-
-        // Validate request
-        if (!body.subtask_id || !body.agent_id || !body.url || !body.type) {
-            return NextResponse.json(
-                {
-                    error: 'Missing required fields',
-                    code: 'INVALID_REQUEST',
-                    hint: 'Required: subtask_id, agent_id, url, type'
-                },
-                { status: 400 }
-            );
-        }
-
-        const mission = missionStore.get(id);
-
-        if (!mission) {
-            return NextResponse.json(
-                { error: 'Mission not found', code: 'NOT_FOUND' },
-                { status: 404 }
-            );
-        }
-
-        if (!mission.crew_required) {
-            return NextResponse.json(
-                { error: 'Not a crew mission', code: 'INVALID_MISSION_TYPE' },
-                { status: 400 }
-            );
-        }
-
-        // Verify agent is in crew
-        const isInCrew = mission.crew_assignments?.some(c => c.agent_id === body.agent_id);
-        if (!isInCrew) {
-            return NextResponse.json(
-                { error: 'Agent not in crew', code: 'UNAUTHORIZED' },
-                { status: 403 }
-            );
-        }
-
-        // Add artifact
-        const artifact = crewStore.addArtifact(
-            mission,
-            body.subtask_id,
-            body.agent_id,
-            body.url,
-            body.type,
-            body.metadata || {},
-            body.description
-        );
-
-        // Save mission
-        missionStore.update(id, mission);
-
-        return NextResponse.json({
-            success: true,
-            artifact
-        }, { status: 201 });
-
-    } catch (error: any) {
-        console.error('[API] Upload artifact error:', error);
-        return NextResponse.json(
-            { error: error.message, code: 'INTERNAL_ERROR' },
+            {
+                error: error.message || 'Internal server error',
+                code: 'ARTIFACT_FETCH_FAILED'
+            },
             { status: 500 }
         );
     }

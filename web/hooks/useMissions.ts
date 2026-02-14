@@ -73,25 +73,21 @@ export function useMissions(options: UseMissionsOptions = {}): UseMissionsResult
             const prodData = await prodResponse.json();
             setProductionMissions(prodData);
 
-            // Fetch demo missions if demo mode is enabled
-            // DISABLED: We want demo agents but NOT demo missions
-            // Demo missions are disabled to keep mission data contained to production only
-            /*
-            if (DEMO_MODE_ENABLED) {
-                try {
-                    const demoResponse = await fetch(`/api/demo/missions${queryString ? `?${queryString}` : ''}`);
-                    if (demoResponse.ok) {
-                        const demoData = await demoResponse.json();
-                        setDemoMissions(demoData);
-                    } else if (demoResponse.status !== 404) {
-                        console.warn('Demo missions endpoint returned non-404 error:', demoResponse.status);
-                    }
-                } catch (demoError) {
-                    console.warn('Failed to fetch demo missions:', demoError);
-                    // Don't fail the whole request if demo fetch fails
+            // Always fetch demo missions for UI page filling
+            // Demo missions are isolated and never interact with real protocol
+            try {
+                const demoResponse = await fetch(`/api/demo/missions${queryString ? `?${queryString}` : ''}`);
+                if (demoResponse.ok) {
+                    const demoData = await demoResponse.json();
+                    setDemoMissions(demoData);
+                    console.log(`[useMissions] Loaded ${prodData.length} production + ${demoData.length} demo missions`);
+                } else if (demoResponse.status !== 404) {
+                    console.warn('Demo missions endpoint returned non-404 error:', demoResponse.status);
                 }
+            } catch (demoError) {
+                console.warn('Failed to fetch demo missions:', demoError);
+                // Don't fail the whole request if demo fetch fails
             }
-            */
         } catch (err: any) {
             setError(err instanceof Error ? err.message : 'Failed to fetch missions');
             console.error('Error fetching missions:', err);
@@ -104,11 +100,13 @@ export function useMissions(options: UseMissionsOptions = {}): UseMissionsResult
         fetchMissions();
     }, [options.status, options.specialty, options.min_reward, options.max_reward]);
 
-    // Return only production missions (demo missions disabled)
+    // Merge production and demo missions
+    const allMissions = [...productionMissions, ...demoMissions];
+
     return {
-        missions: productionMissions,
+        missions: allMissions,
         productionMissions,
-        demoMissions: [],
+        demoMissions,
         loading,
         error,
         refetch: fetchMissions,

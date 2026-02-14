@@ -2,13 +2,12 @@
  * Agent Authentication System
  * Manages API keys (Bearer Tokens) for autonomous agents.
  * 
- * In a production system, this would use a database and secure hashing.
- * For this implementation, we use an in-memory store with persistence to JSON.
+ * Production Implementation: Uses PostgreSQL for persistence.
  */
 
 import * as crypto from 'crypto';
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '../db';
+
 /**
  * Neural Specification
  * Defines an agent's AI model, capabilities, tool access, and operational limits.
@@ -110,20 +109,14 @@ export interface AgentProfile {
 export type AgentCredentials = AgentProfile;
 
 export class AgentAuth {
-    private creds: Map<string, AgentCredentials> = new Map(); // apiKey -> Creds
-    private addressToKey: Map<string, string> = new Map();    // address -> apiKey
-    private persistencePath: string;
-
-    constructor(persistenceDir: string = './data') {
-        this.persistencePath = path.join(persistenceDir, 'agent-auth.json');
-        console.log(`[AgentAuth] Persistence Path: ${path.resolve(this.persistencePath)}`); // DEBUG
-        this.load();
+    constructor() {
+        console.log('[AgentAuth] Initialized with PostgreSQL persistence');
     }
 
     /**
      * Register a new agent with full profile
      */
-    register(params: {
+    async register(params: {
         address: string;
         name: string;
         profile: string;
@@ -133,228 +126,209 @@ export class AgentAuth {
         hourly_rate?: number;
         wallet_address?: string;
         neural_spec?: NeuralSpec;
-    }): AgentProfile {
+    }): Promise<AgentProfile> {
         // Validate hourly_rate
         if (!params.hourly_rate || params.hourly_rate <= 0) {
             throw new Error('hourly_rate is required and must be greater than 0');
         }
 
-        // Check if already registered
-        if (this.addressToKey.has(params.address)) {
-            const existingKey = this.addressToKey.get(params.address)!;
-            return this.creds.get(existingKey)!;
+        // Check if already registered by address (or recreate key if lost)
+        const check = await pool.query('SELECT * FROM agents WHERE address = $1', [params.address]);
+        if (check.rows.length > 0 && check.rows[0].api_key) {
+            return this.mapRowToProfile(check.rows[0]);
         }
 
         const apiKey = `claw_sk_${crypto.randomBytes(24).toString('hex')}`;
-        const agentId = `agent_${crypto.randomBytes(8).toString('hex')}`;
+        // Use existing ID if present (from indexer), else create new
+        let agentId = check.rows.length > 0 ? check.rows[0].id : `agent_${crypto.randomBytes(8).toString('hex')}`;
 
-        const profile: AgentProfile = {
-            id: agentId,
-            apiKey,
-            address: params.address,
-            name: params.name,
-            description: params.description,
-            profile: params.profile,
-            specialties: params.specialties,
-            platform: params.platform || 'clawdbot',
-            neural_spec: params.neural_spec,
-            hourly_rate: params.hourly_rate,
-            available: true,
-            oversight_enabled: false,
-            oversight_level: 'auto',
-            wallet_address: params.wallet_address || params.address,
-            status: 'onboarding', // Requires genesis mission or first job
-            reputation: 50, // Start at neutral
-            jobs_posted: 0,
-            jobs_completed: 0,
-            createdAt: new Date(),
-            lastActive: new Date()
-        };
+        // Upsert
+        const result = await pool.query(`
+            INSERT INTO agents (
+                id, address, api_key, name, description, profile, specialties, platform, 
+                hourly_rate, wallet_address, status, reputation, jobs_posted, 
+                jobs_completed, created_at, last_active
+            ) VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
+                'onboarding', 50, 0, 0, NOW(), NOW()
+            ) 
+            ON CONFLICT (address) DO UPDATE SET 
+                api_key = EXCLUDED.api_key,
+                name = EXCLUDED.name,
+                description = EXCLUDED.description,
+                profile = EXCLUDED.profile,
+                specialties = EXCLUDED.specialties,
+                hourly_rate = EXCLUDED.hourly_rate,
+                wallet_address = EXCLUDED.wallet_address,
+                last_active = NOW()
+            RETURNING *
+        `, [
+            agentId, params.address, apiKey, params.name, params.description, params.profile,
+            params.specialties, params.platform || 'clawdbot', params.hourly_rate,
+            params.wallet_address || params.address
+        ]);
 
-        this.creds.set(apiKey, profile);
-        this.addressToKey.set(params.address, apiKey);
-        this.save();
-
-        return profile;
+        return this.mapRowToProfile(result.rows[0]);
     }
 
     /**
      * Validate an API key
      */
-    validate(apiKey: string): AgentCredentials | null {
-        if (!this.creds.has(apiKey)) {
-            this.load();
-            if (!this.creds.has(apiKey)) return null;
-        }
+    async validate(apiKey: string): Promise<AgentCredentials | null> {
+        const result = await pool.query(`
+            UPDATE agents SET last_active = NOW() 
+            WHERE api_key = $1 
+            RETURNING *
+        `, [apiKey]);
 
-        const creds = this.creds.get(apiKey)!;
-
-        // Update last active
-        creds.lastActive = new Date();
-        // Don't save on every read for perf, but in real app we would
-
-        return creds;
+        if (result.rows.length === 0) return null;
+        return this.mapRowToProfile(result.rows[0]);
     }
 
     /**
      * Activate an agent (after genesis mission)
      */
-    activate(apiKey: string): boolean {
-        const creds = this.creds.get(apiKey);
-        if (!creds) return false;
-
-        creds.status = 'active';
-        this.save();
-        return true;
+    async activate(apiKey: string): Promise<boolean> {
+        const result = await pool.query(`
+            UPDATE agents SET status = 'active' 
+            WHERE api_key = $1
+        `, [apiKey]);
+        return (result.rowCount ?? 0) > 0;
     }
 
     /**
      * Update agent profile
      */
-    updateProfile(apiKey: string, updates: Partial<Pick<AgentProfile,
+    async updateProfile(apiKey: string, updates: Partial<Pick<AgentProfile,
         'description' | 'profile' | 'specialties' | 'hourly_rate' |
         'available' | 'wallet_address' | 'webhook_url' | 'oversight_enabled' | 'oversight_level'
-    >>): AgentProfile | null {
-        const profile = this.creds.get(apiKey);
-        if (!profile) return null;
+    >>): Promise<AgentProfile | null> {
 
-        // Apply updates
-        Object.assign(profile, updates);
-        profile.lastActive = new Date();
-        profile.last_seen = new Date();
+        // Build dynamic update query
+        const fields: string[] = [];
+        const values: any[] = [];
+        let idx = 1;
 
-        this.save();
-        return profile;
+        for (const [key, value] of Object.entries(updates)) {
+            fields.push(`${key} = $${idx++}`);
+            values.push(value);
+        }
+
+        if (fields.length === 0) return this.validate(apiKey);
+
+        values.push(apiKey);
+        const query = `
+            UPDATE agents SET ${fields.join(', ')}, last_active = NOW() 
+            WHERE api_key = $${idx} 
+            RETURNING *
+        `;
+
+        const result = await pool.query(query, values);
+        if (result.rows.length === 0) return null;
+        return this.mapRowToProfile(result.rows[0]);
     }
 
     /**
      * Get agent by ID
      */
-    getById(agentId: string): AgentProfile | null {
-        this.load(); // Ensure fresh data
-        for (const profile of this.creds.values()) {
-            if (profile.id === agentId) {
-                return profile;
-            }
-        }
-        return null;
+    async getById(agentId: string): Promise<AgentProfile | null> {
+        const result = await pool.query('SELECT * FROM agents WHERE id = $1', [agentId]);
+        if (result.rows.length === 0) return null;
+        return this.mapRowToProfile(result.rows[0]);
     }
 
     /**
      * List all agents (public)
      */
-    listAgents(filters?: {
+    async listAgents(filters?: {
         specialty?: string;
         available?: boolean;
         min_reputation?: number;
-    }): AgentProfile[] {
-        this.load(); // Ensure fresh data
-        let agents = Array.from(this.creds.values());
+    }): Promise<AgentProfile[]> {
+        let query = 'SELECT * FROM agents WHERE 1=1';
+        const values: any[] = [];
+        let idx = 1;
 
         if (filters?.specialty) {
-            agents = agents.filter(a =>
-                a.specialties.some(s => s.toLowerCase().includes(filters.specialty!.toLowerCase()))
-            );
+            query += ` AND $${idx}::text = ANY(specialties)`;
+            values.push(filters.specialty);
+            idx++;
         }
 
         if (filters?.available !== undefined) {
-            agents = agents.filter(a => a.available === filters.available);
+            query += ` AND available = $${idx}`;
+            values.push(filters.available);
+            idx++;
         }
 
         if (filters?.min_reputation !== undefined) {
-            agents = agents.filter(a => a.reputation >= filters.min_reputation!);
+            query += ` AND reputation >= $${idx}`;
+            values.push(filters.min_reputation);
+            idx++;
         }
 
-        return agents;
+        const result = await pool.query(query, values);
+        return result.rows.map(row => this.mapRowToProfile(row));
     }
 
-    /**
-     * Persistence
-     */
-    private save() {
-        if (!fs.existsSync(path.dirname(this.persistencePath))) {
-            fs.mkdirSync(path.dirname(this.persistencePath), { recursive: true });
-        }
-
-        const data = Array.from(this.creds.entries());
-        fs.writeFileSync(this.persistencePath, JSON.stringify(data, null, 2));
-    }
-
-    public load() {
-        if (fs.existsSync(this.persistencePath)) {
-            try {
-                const raw = fs.readFileSync(this.persistencePath, 'utf8');
-                const data = JSON.parse(raw);
-                this.creds = new Map(data);
-
-                // Rebuild reverse map
-                for (const [key, creds] of this.creds.entries()) {
-                    // Fix dates from JSON
-                    (creds as any).createdAt = new Date((creds as any).createdAt);
-                    (creds as any).lastActive = new Date((creds as any).lastActive);
-
-                    this.addressToKey.set((creds as any).address, key);
-                }
-            } catch (e) {
-                console.error("Failed to load auth DB", e);
-            }
-        }
-    }
     /**
      * Update agent reputation (internal/admin)
      */
-    updateReputation(agentId: string, newReputation: number): boolean {
-        for (const [key, profile] of this.creds.entries()) {
-            if (profile.id === agentId) {
-                profile.reputation = Math.max(0, Math.min(200, newReputation));
-                this.save();
-                return true;
-            }
-        }
-        return false;
+    async updateReputation(agentId: string, newReputation: number): Promise<boolean> {
+        const clampedRep = Math.max(0, Math.min(200, newReputation));
+        const result = await pool.query('UPDATE agents SET reputation = $1 WHERE id = $2', [clampedRep, agentId]);
+        return (result.rowCount ?? 0) > 0;
     }
 
     /**
      * Add earnings to agent's total (after settlement)
      */
-    addEarnings(agentId: string, amount: number): boolean {
-        for (const [key, profile] of this.creds.entries()) {
-            if (profile.id === agentId) {
-                profile.total_earnings = (profile.total_earnings || 0) + amount;
-                this.save();
-                return true;
-            }
-        }
-        return false;
+    async addEarnings(agentId: string, amount: number): Promise<boolean> {
+        const result = await pool.query('UPDATE agents SET total_earnings = COALESCE(total_earnings, 0) + $1 WHERE id = $2', [amount, agentId]);
+        return (result.rowCount ?? 0) > 0;
     }
 
     /**
      * Increment job completion count
      */
-    incrementJobCount(agentId: string): boolean {
-        const agent = this.getById(agentId);
-        if (!agent) return false;
-
-        const cred = this.creds.get(agent.apiKey);
-        if (!cred) return false;
-
-        cred.jobs_completed = (cred.jobs_completed || 0) + 1;
-        this.save();
-        return true;
+    async incrementJobCount(agentId: string): Promise<boolean> {
+        const result = await pool.query('UPDATE agents SET jobs_completed = COALESCE(jobs_completed, 0) + 1 WHERE id = $1', [agentId]);
+        return (result.rowCount ?? 0) > 0;
     }
 
     /**
      * Update last active timestamp (for heartbeat)
      */
-    updateLastActive(agentId: string): boolean {
-        const agent = this.getById(agentId);
-        if (!agent) return false;
+    async updateLastActive(agentId: string): Promise<boolean> {
+        const result = await pool.query('UPDATE agents SET last_active = NOW() WHERE id = $1', [agentId]);
+        return (result.rowCount ?? 0) > 0;
+    }
 
-        const cred = this.creds.get(agent.apiKey);
-        if (!cred) return false;
-
-        cred.lastActive = new Date();
-        this.save();
-        return true;
+    private mapRowToProfile(row: any): AgentProfile {
+        return {
+            id: row.id,
+            apiKey: row.api_key,
+            address: row.address,
+            name: row.name,
+            description: row.description,
+            profile: row.profile,
+            specialties: row.specialties || [],
+            platform: row.platform,
+            hourly_rate: parseFloat(row.hourly_rate),
+            available: row.available,
+            oversight_enabled: row.oversight_enabled,
+            oversight_level: row.oversight_level,
+            wallet_address: row.wallet_address,
+            webhook_url: row.webhook_url,
+            status: row.status,
+            reputation: row.reputation,
+            jobs_posted: row.jobs_posted,
+            jobs_completed: row.jobs_completed,
+            total_earnings: parseFloat(row.total_earnings || '0'),
+            createdAt: new Date(row.created_at),
+            lastActive: new Date(row.last_active),
+            last_seen: row.last_active ? new Date(row.last_active) : undefined,
+            neural_spec: row.neural_spec // Assuming stored as JSONB if added later
+        };
     }
 }

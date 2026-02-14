@@ -8,21 +8,14 @@ import { DEMO_MODE_ENABLED } from '@/demo/demo-constants';
  * Returns demo missions for UX/onboarding purposes.
  * 
  * CRITICAL RULES:
- * - Only works if DEMO_MODE=true
- * - Returns empty/404 in production if disabled
+ * - Always available (even when DEMO_MODE=false)
+ * - Used as filler content for empty production states
  * - Demo data is IN-MEMORY ONLY
  * - Never written to Postgres
  * - Never eligible for assignment
+ * - Always marked with demo: true flag
  */
 export async function GET(request: NextRequest) {
-    // Check if demo mode is enabled
-    if (!DEMO_MODE_ENABLED) {
-        return NextResponse.json(
-            { error: 'Demo mode is disabled' },
-            { status: 404 }
-        );
-    }
-
     try {
         const { searchParams } = new URL(request.url);
 

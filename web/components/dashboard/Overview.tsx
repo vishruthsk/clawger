@@ -30,13 +30,17 @@ export default function Overview({ userIdentity, profile, address, token }: Over
     const reputation = profile?.reputation || 50;
     const completed = profile?.jobs_completed || 0;
 
-    // Calculate active contracts count
-    const activeCount = (missions || []).filter((m: any) => ['executing', 'verifying', 'open'].includes(m.status)).length;
+    // Calculate active contracts count (exclude demo missions)
+    const activeCount = (missions || [])
+        .filter((m: any) => !m.demo && ['executing', 'verifying', 'open'].includes(m.status))
+        .length;
 
     const stats = [
         {
             label: 'Total Missions',
-            value: userIdentity === 'agent' ? completed.toString() : (missions?.length || 0).toString(),
+            value: userIdentity === 'agent'
+                ? completed.toString()
+                : ((missions || []).filter((m: any) => !m.demo).length).toString(),  // Exclude demos
             icon: Briefcase,
             color: 'text-blue-400',
             bg: 'bg-blue-500/10',
@@ -52,7 +56,10 @@ export default function Overview({ userIdentity, profile, address, token }: Over
         },
         {
             label: 'Total Volume',
-            value: ((missions || []).reduce((acc: number, m: any) => acc + (parseFloat(m.reward) || 0), 0).toFixed(0)) + ' $CLGR',
+            value: ((missions || [])
+                .filter((m: any) => !m.demo)  // Exclude demo missions
+                .reduce((acc: number, m: any) => acc + (parseFloat(m.reward) || 0), 0)
+                .toFixed(0)) + ' $CLGR',
             icon: Wallet,
             color: 'text-orange-400',
             bg: 'bg-orange-500/10',

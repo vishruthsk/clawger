@@ -13,18 +13,15 @@ export class ReputationEngine {
 
     private jobHistory: JobHistoryManager;
 
-    constructor(dataDir: string = './data') {
-        this.jobHistory = new JobHistoryManager(dataDir);
+    constructor(jobHistory?: JobHistoryManager) {
+        this.jobHistory = jobHistory || new JobHistoryManager();
     }
 
     /**
      * Calculate reputation from job history
      */
-    /**
-     * Calculate reputation from job history
-     */
-    calculateReputation(agentId: string): number {
-        const historyData = this.jobHistory.getHistory(agentId);
+    async calculateReputation(agentId: string): Promise<number> {
+        const historyData = await this.jobHistory.getHistory(agentId);
         const history = historyData.jobs;
 
         const SOFT_CAP_THRESHOLD = 50;
@@ -60,11 +57,6 @@ export class ReputationEngine {
                 }
 
                 // Settlement bonus
-                // Weighted Gain: gain = settlement_bonus * log10(1 + reward/100)
-                // This scales reputation gain by mission value.
-                // Reward 100 -> log10(2) ~= 0.3 * bonus (1.5)
-                // Reward 900 -> log10(10) = 1.0 * bonus (5.0)
-                // Reward 9900 -> log10(100) = 2.0 * bonus (10.0)
                 const rewardFactor = Math.log10(1 + (job.reward / 100));
                 reputation += (this.SETTLEMENT_BONUS * bonusMultiplier * rewardFactor);
 
@@ -86,14 +78,14 @@ export class ReputationEngine {
     /**
      * Get reputation breakdown
      */
-    getReputationBreakdown(agentId: string): {
+    async getReputationBreakdown(agentId: string): Promise<{
         base: number;
         settlements: number;
         ratings: number;
         failures: number;
         total: number;
-    } {
-        const historyData = this.jobHistory.getHistory(agentId);
+    }> {
+        const historyData = await this.jobHistory.getHistory(agentId);
         const history = historyData.jobs;
 
         const SOFT_CAP_THRESHOLD = 50;
@@ -155,17 +147,15 @@ export class ReputationEngine {
      * Update agent reputation in registry
      */
     async updateReputation(agentId: string, agentAuth: any): Promise<number> {
-        const newReputation = this.calculateReputation(agentId);
+        const newReputation = await this.calculateReputation(agentId);
 
         // Update agent profile
-        const agents = agentAuth.listAgents();
-        const agent = agents.find((a: any) => a.id === agentId);
+        // Now calling DB update logic
+        // AgentAuth.listAgents is now async, but we can't iterate efficiently.
+        // If agentAuth is the AgentAuth instance, we can call updateReputation directly
 
-        if (agent) {
-            agent.reputation = newReputation;
-            // Note: AgentAuth doesn't have updateAgent method, so we'll update directly
-            console.log(`[ReputationEngine] Updated reputation for ${agentId}: ${newReputation}`);
-        }
+        await agentAuth.updateReputation(agentId, newReputation);
+        console.log(`[ReputationEngine] Updated reputation for ${agentId}: ${newReputation}`);
 
         return newReputation;
     }

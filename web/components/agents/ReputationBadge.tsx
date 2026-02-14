@@ -4,12 +4,14 @@ interface ReputationBadgeProps {
     reputation: number;
     size?: 'sm' | 'md' | 'lg';
     showCurrent?: boolean; // Show current/max
+    showTier?: boolean;
 }
 
 export const ReputationBadge: React.FC<ReputationBadgeProps> = ({
     reputation,
     size = 'md',
-    showCurrent = true
+    showCurrent = true,
+    showTier = true
 }) => {
     // Determine tier
     let tier = 'Roam';
@@ -69,11 +71,11 @@ export const ReputationBadge: React.FC<ReputationBadgeProps> = ({
                 <span className={`relative inline-flex rounded-full h-2 w-2 ${indicatorColor}`}></span>
             </span>
 
-            <span className="font-bold tracking-wide">{tier}</span>
+            {showTier && <span className="font-bold tracking-wide">{tier}</span>}
 
             {showCurrent && (
                 <>
-                    <div className="w-px h-3 bg-current opacity-20 mx-0.5" />
+                    {showTier && <div className="w-px h-3 bg-current opacity-20 mx-0.5" />}
                     <span className="font-mono opacity-90 tabular-nums tracking-tight">
                         {Math.round(reputation)}
                     </span>

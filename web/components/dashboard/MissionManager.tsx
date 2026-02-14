@@ -41,6 +41,40 @@ export default function MissionManager({ userIdentity, profile, address, token }
 
     const { missions, isLoading } = useMissions(filters, authToken);
 
+    // Handle download for completed missions
+    const handleDownload = async (missionId: string) => {
+        try {
+            const headers: HeadersInit = {};
+            if (authToken) {
+                headers['Authorization'] = `Bearer ${authToken}`;
+            } else if (address) {
+                headers['x-wallet-address'] = address;
+            }
+
+            const response = await fetch(`/api/missions/${missionId}/result`, { headers });
+
+            if (!response.ok) {
+                console.error('Download failed:', await response.text());
+                alert('Failed to download results. Please try again.');
+                return;
+            }
+
+            // Trigger download
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mission_${missionId}_result.json`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Download error:', error);
+            alert('Failed to download results. Please try again.');
+        }
+    };
+
     const getStatusColor = (status: string) => {
         switch (status?.toLowerCase()) {
             case 'settled': case 'paid': return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10';
@@ -59,7 +93,24 @@ export default function MissionManager({ userIdentity, profile, address, token }
         );
     }
 
-    const missionList = missions || [];
+    // Client-side filtering by status
+    const filteredMissions = (missions || []).filter((mission: any) => {
+        if (statusFilter === 'all') return true;
+
+        const missionStatus = (mission.status || '').toLowerCase();
+
+        if (statusFilter === 'open') {
+            return missionStatus === 'open' || missionStatus === 'posted' || missionStatus === 'bidding_open';
+        } else if (statusFilter === 'executing') {
+            return missionStatus === 'executing' || missionStatus === 'in_progress';
+        } else if (statusFilter === 'settled') {
+            return missionStatus === 'settled' || missionStatus === 'paid' || missionStatus === 'completed';
+        }
+
+        return missionStatus === statusFilter.toLowerCase();
+    });
+
+    const missionList = filteredMissions;
 
     return (
         <div className="space-y-6">
@@ -135,13 +186,17 @@ export default function MissionManager({ userIdentity, profile, address, token }
                         </thead>
                         <tbody className="divide-y divide-white/5 text-sm">
                             {missionList.map((mission: any) => (
-                                <tr key={mission.id} className="hover:bg-white/5 transition-colors group">
+                                <tr
+                                    key={mission.id}
+                                    onClick={() => window.location.href = `/missions/${mission.id}`}
+                                    className="hover:bg-white/5 transition-colors group cursor-pointer"
+                                >
                                     <td className="px-6 py-4">
                                         <div className="flex flex-col">
-                                            <Link href={`/missions/${mission.id}`} className="font-medium text-white hover:text-primary transition-colors mb-0.5">
+                                            <div className="font-medium text-white group-hover:text-primary transition-colors mb-0.5">
                                                 {mission.title}
-                                            </Link>
-                                            <span className="text-[10px] text-muted font-mono">{mission.id.substring(0, 12)}...</span>
+                                            </div>
+                                            <span className="text-[10px] text-muted font-mono">{mission.id}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
@@ -156,7 +211,12 @@ export default function MissionManager({ userIdentity, profile, address, token }
                                         {mission.assigned_agent ? (
                                             <div className="flex items-center gap-2">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                                                <span className="text-xs text-white font-mono">{mission.assigned_agent.agent_name || mission.assigned_agent.agent_id.substring(0, 8)}</span>
+                                                <span className="text-xs text-white font-mono">
+                                                    {typeof mission.assigned_agent === 'string'
+                                                        ? mission.assigned_agent.substring(0, 8)
+                                                        : (mission.assigned_agent?.agent_name || mission.assigned_agent?.agent_id?.substring(0, 8) || 'Agent')
+                                                    }
+                                                </span>
                                             </div>
                                         ) : (
                                             <span className="text-xs text-muted italic">Unassigned</span>
@@ -166,18 +226,20 @@ export default function MissionManager({ userIdentity, profile, address, token }
                                         {mission.updated_at ? formatDistanceToNow(new Date(mission.updated_at), { addSuffix: true }) : formatDistanceToNow(new Date(mission.created_at || new Date()), { addSuffix: true })}
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        {['verifying', 'settled', 'paid'].includes(mission.status) && mission.work_artifacts?.length > 0 && (
-                                            <a
-                                                href={mission.work_artifacts[0].url}
-                                                download
-                                                target="_blank"
-                                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all group/btn"
+                                        {(mission.status === 'settled' || mission.status === 'completed' || mission.status === 'paid' || mission.status === 'verifying') ? (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDownload(mission.id);
+                                                }}
+                                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 text-xs font-bold transition-all group/btn"
                                                 title="Download Result"
-                                                onClick={(e) => e.stopPropagation()}
                                             >
                                                 <Download className="w-3 h-3 group-hover/btn:scale-110 transition-transform" />
                                                 <span className="hidden sm:inline">Download</span>
-                                            </a>
+                                            </button>
+                                        ) : (
+                                            <span className="text-xs text-muted">—</span>
                                         )}
                                     </td>
                                 </tr>
@@ -185,7 +247,8 @@ export default function MissionManager({ userIdentity, profile, address, token }
                         </tbody>
                     </table>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }

@@ -628,8 +628,8 @@ export const DEMO_MISSIONS: DemoMission[] = [
         demo: true,
     },
 
-    // Additional missions for variety (37 more to reach 45 total)
-    ...Array.from({ length: 37 }, (_, i) => {
+    // Additional missions for variety (2 more to reach 10 total)
+    ...Array.from({ length: 2 }, (_, i) => {
         const missionIds = ['r5t2y7', 'u8i3o6', 'a4s9d1', 'f7g2h5', 'j3k8l4', 'z6x1c9', 'v2b7n3', 'm9q4w8', 'e5r1t6', 'y3u7i2',
             'o8p4a1', 's6d9f3', 'g2h5j7', 'k4l8z1', 'x9c3v6', 'b7n2m5', 'q4w8e1', 'r6t2y9', 'u3i7o4', 'a8s1d6',
             'f3g7h2', 'j9k4l8', 'z1x6c3', 'v7b2n9', 'm4q8w5', 'e1r6t3', 'y7u2i8', 'o4p9a6', 's1d3f7', 'g8h2j4',
@@ -734,21 +734,55 @@ export const DEMO_MISSIONS: DemoMission[] = [
             tags: tagSets[i],
             escrow: { locked: true, amount: [600, 800, 1000, 1200, 1400, 1500, 1800, 2000][i % 8] },
             demo: true as const,
+            // Generate timeline based on status
+            timeline: (() => {
+                const missionDate = new Date(baseTime - (i + 1) * 30 * 60 * 1000);
+                const currentStatus = ['open', 'bidding_open', 'executing'][i % 3];
+
+                const events: Array<{ event: string; timestamp: string; status: 'completed' | 'in_progress' | 'pending' }> = [
+                    {
+                        event: 'Mission Posted',
+                        timestamp: missionDate.toISOString(),
+                        status: 'completed' as const
+                    }
+                ];
+
+                if (currentStatus === 'bidding_open' || currentStatus === 'executing') {
+                    events.push({
+                        event: 'Bidding Started',
+                        timestamp: new Date(missionDate.getTime() + 2 * 60 * 60 * 1000).toISOString(),
+                        status: 'completed' as const
+                    });
+                }
+
+                if (currentStatus === 'executing') {
+                    events.push({
+                        event: 'Agent Assigned',
+                        timestamp: new Date(missionDate.getTime() + 6 * 60 * 60 * 1000).toISOString(),
+                        status: 'completed' as const
+                    });
+                    events.push({
+                        event: 'Work In Progress',
+                        timestamp: new Date(missionDate.getTime() + 8 * 60 * 60 * 1000).toISOString(),
+                        status: 'in_progress' as const
+                    });
+                }
+
+                return events;
+            })()
         };
     }),
 ];
 
 // Helper to get demo data based on mode
 export function getDemoAgents(): DemoAgent[] {
-    if (process.env.DEMO_MODE !== 'true') {
-        return [];
-    }
+    // Always return demo agents for frontend filler content
+    // DEMO_MODE only affects backend core module behavior
     return DEMO_AGENTS;
 }
 
 export function getDemoMissions(): DemoMission[] {
-    if (process.env.DEMO_MODE !== 'true') {
-        return [];
-    }
+    // Always return demo missions for frontend filler content
+    // DEMO_MODE only affects backend core module behavior
     return DEMO_MISSIONS;
 }

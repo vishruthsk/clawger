@@ -45,7 +45,7 @@ export interface EscrowDetails {
  * - Slash on failure/timeout
  * 
  * Mode Support:
- * - DEMO_MODE=true: JSON ledger (off-chain simulation)
+ * - DEMO_MODE=true: Postgres ledger (off-chain simulation)
  * - DEMO_MODE=false: ClawgerManager smart contract (Monad blockchain)
  */
 export class EscrowEngine {
@@ -73,7 +73,7 @@ export class EscrowEngine {
 
         // Check if mission already has escrow
         const existing = isDemoMode()
-            ? this.ledger.getEscrowStatus(missionId)
+            ? await this.ledger.getEscrowStatus(missionId)
             : await this.getOnChainEscrow(missionId);
 
         if (existing) {
@@ -96,7 +96,7 @@ export class EscrowEngine {
         // DEMO MODE: Use JSON ledger
         if (isDemoMode()) {
             // Check available balance
-            const available = this.ledger.getAvailableBalance(normalizedRequester);
+            const available = await this.ledger.getAvailableBalance(normalizedRequester);
             if (available < amount) {
                 return {
                     success: false,
@@ -111,7 +111,7 @@ export class EscrowEngine {
             }
 
             // Lock escrow in JSON
-            const locked = this.ledger.lockEscrow(normalizedRequester, amount, missionId);
+            const locked = await this.ledger.lockEscrow(normalizedRequester, amount, missionId);
 
             if (!locked) {
                 return {
@@ -191,12 +191,12 @@ export class EscrowEngine {
     /**
      * Release escrow to agent upon successful verification
      */
-    releaseToAgent(missionId: string, agentAddress: string): EscrowResult {
+    async releaseToAgent(missionId: string, agentAddress: string): Promise<EscrowResult> {
         // Normalize address
         const normalizedAgent = agentAddress.toLowerCase();
 
         // Check if escrow exists
-        const escrow = this.ledger.getEscrowStatus(missionId);
+        const escrow = await this.ledger.getEscrowStatus(missionId);
         if (!escrow) {
             return {
                 success: false,
@@ -215,7 +215,7 @@ export class EscrowEngine {
         }
 
         // Release to agent
-        const released = this.ledger.releaseEscrow(missionId, normalizedAgent);
+        const released = await this.ledger.releaseEscrow(missionId, normalizedAgent);
 
         if (!released) {
             return {
@@ -243,11 +243,11 @@ export class EscrowEngine {
      * @param reason - Reason for slashing
      * @param slashPercentage - Percentage to slash (0-100), default 100
      */
-    slashAndRefund(
+    async slashAndRefund(
         missionId: string,
         reason: string,
         slashPercentage: number = 100
-    ): EscrowResult {
+    ): Promise<EscrowResult> {
         // Validate slash percentage
         if (slashPercentage < 0 || slashPercentage > 100) {
             return {
@@ -258,7 +258,7 @@ export class EscrowEngine {
         }
 
         // Check if escrow exists
-        const escrow = this.ledger.getEscrowStatus(missionId);
+        const escrow = await this.ledger.getEscrowStatus(missionId);
         if (!escrow) {
             return {
                 success: false,
@@ -281,7 +281,7 @@ export class EscrowEngine {
         const refundAmount = escrow.amount - slashAmount;
 
         // Slash escrow
-        const slashed = this.ledger.slashEscrow(missionId, slashAmount);
+        const slashed = await this.ledger.slashEscrow(missionId, slashAmount);
 
         if (!slashed) {
             return {
@@ -307,8 +307,8 @@ export class EscrowEngine {
     /**
      * Get escrow details for a mission
      */
-    getEscrowDetails(missionId: string): EscrowDetails | null {
-        const status = this.ledger.getEscrowStatus(missionId);
+    async getEscrowDetails(missionId: string): Promise<EscrowDetails | null> {
+        const status = await this.ledger.getEscrowStatus(missionId);
         if (!status) {
             return null;
         }
@@ -329,16 +329,17 @@ export class EscrowEngine {
     /**
      * Check if requester has sufficient balance for amount
      */
-    canAfford(requester: string, amount: number): boolean {
-        const available = this.ledger.getAvailableBalance(requester.toLowerCase());
+    async canAfford(requester: string, amount: number): Promise<boolean> {
+        const available = await this.ledger.getAvailableBalance(requester.toLowerCase());
         return available >= amount;
     }
 
     /**
      * Get all escrows for a requester
      */
-    getEscrowsForRequester(requester: string): EscrowDetails[] {
-        const escrows = this.ledger.getEscrowsForAddress(requester.toLowerCase());
+    async getEscrowsForRequester(requester: string): Promise<EscrowDetails[]> {
+        const escrows = await this.ledger.getEscrowsForAddress(requester.toLowerCase());
+        // Map is synchronous, Array.map is fine on array of results
         return escrows.map(e => ({
             missionId: e.missionId,
             owner: e.owner,

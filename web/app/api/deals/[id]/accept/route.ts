@@ -3,81 +3,13 @@ import { AgentAuth } from '@core/registry/agent-auth';
 import { MissionStore } from '@core/missions/mission-store';
 import { EscrowEngine } from '@core/escrow/escrow-engine';
 import { TokenLedger } from '@core/ledger/token-ledger';
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '@core/db';
 
 // Singletons
-const agentAuth = new AgentAuth('../data');
-const missionStore = new MissionStore('../data');
-const tokenLedger = new TokenLedger('../data');
+const agentAuth = new AgentAuth();
+const missionStore = new MissionStore();
+const tokenLedger = new TokenLedger();
 const escrowEngine = new EscrowEngine(tokenLedger);
-
-// Simplified Deal interface (matching propose endpoint)
-interface Deal {
-    id: string;
-    proposer_id: string;
-    target_agent_id: string;
-    description: string;
-    reward: number;
-    estimated_minutes: number;
-    requirements?: string[];
-    deliverables?: string[];
-    status: 'pending' | 'accepted' | 'rejected' | 'expired';
-    created_at: Date;
-    expires_at: Date;
-    accepted_at?: Date;
-}
-
-// Simple deal store (shares same storage as propose endpoint)
-class DealStore {
-    private deals: Map<string, Deal> = new Map();
-    private dataFile: string;
-
-    constructor(dataDir: string = '../data') {
-        this.dataFile = path.join(dataDir, 'deals.json');
-        this.load();
-    }
-
-    private load() {
-        if (fs.existsSync(this.dataFile)) {
-            try {
-                const data = JSON.parse(fs.readFileSync(this.dataFile, 'utf-8'));
-                data.forEach((deal: any) => {
-                    deal.created_at = new Date(deal.created_at);
-                    deal.expires_at = new Date(deal.expires_at);
-                    if (deal.accepted_at) deal.accepted_at = new Date(deal.accepted_at);
-                    this.deals.set(deal.id, deal);
-                });
-            } catch (error) {
-                console.error('[DealStore] Failed to load:', error);
-            }
-        }
-    }
-
-    private save() {
-        try {
-            const data = Array.from(this.deals.values());
-            fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
-        } catch (error) {
-            console.error('[DealStore] Failed to save:', error);
-        }
-    }
-
-    get(id: string): Deal | null {
-        return this.deals.get(id) || null;
-    }
-
-    update(id: string, updates: Partial<Deal>): Deal | null {
-        const deal = this.deals.get(id);
-        if (!deal) return null;
-
-        Object.assign(deal, updates);
-        this.save();
-        return deal;
-    }
-}
-
-const dealStore = new DealStore('../data');
 
 /**
  * POST /api/deals/:id/accept
@@ -123,16 +55,21 @@ export async function POST(
         }
 
         // ============================================
-        // STEP 2: Get deal and validate
+        // STEP 2: Get deal from database and validate
         // ============================================
-        const deal = dealStore.get(dealId);
+        const result = await pool.query(
+            `SELECT * FROM deals WHERE id = $1`,
+            [dealId]
+        );
 
-        if (!deal) {
+        if (result.rows.length === 0) {
             return NextResponse.json(
                 { error: 'Deal not found', code: 'NOT_FOUND' },
                 { status: 404 }
             );
         }
+
+        const deal = result.rows[0];
 
         // Verify agent is the target
         if (deal.target_agent_id !== agent.id) {
@@ -159,13 +96,16 @@ export async function POST(
         }
 
         // Check if expired
-        if (new Date() > deal.expires_at) {
-            dealStore.update(dealId, { status: 'expired' });
+        if (new Date() > new Date(deal.expires_at)) {
+            await pool.query(
+                `UPDATE deals SET status = $1 WHERE id = $2`,
+                ['expired', dealId]
+            );
             return NextResponse.json(
                 {
                     error: 'Deal expired',
                     code: 'DEAL_EXPIRED',
-                    expired_at: deal.expires_at.toISOString()
+                    expired_at: deal.expires_at
                 },
                 { status: 400 }
             );
@@ -177,7 +117,7 @@ export async function POST(
         const mission = missionStore.create({
             title: `[DEAL] ${deal.description.substring(0, 50)}`,
             description: deal.description,
-            reward: deal.reward,
+            reward: parseFloat(deal.reward),
             tags: ['deal', 'agent-to-agent'],
             specialties: [],
             assignment_mode: 'autopilot',
@@ -186,7 +126,7 @@ export async function POST(
             deliverables: deal.deliverables || [],
             escrow: {
                 locked: false,
-                amount: deal.reward
+                amount: parseFloat(deal.reward)
             }
         });
 
@@ -198,7 +138,7 @@ export async function POST(
         const escrowLocked = escrowEngine.lockEscrow(
             deal.proposer_id,
             mission.id,
-            deal.reward
+            parseFloat(deal.reward)
         );
 
         if (!escrowLocked) {
@@ -216,7 +156,7 @@ export async function POST(
         missionStore.update(mission.id, {
             escrow: {
                 locked: true,
-                amount: deal.reward,
+                amount: parseFloat(deal.reward),
                 locked_at: new Date()
             }
         });
@@ -240,12 +180,12 @@ export async function POST(
         console.log(`[Deals] Assigned mission ${mission.id} to agent ${agent.id}`);
 
         // ============================================
-        // STEP 6: Update deal status
+        // STEP 6: Update deal status in database
         // ============================================
-        dealStore.update(dealId, {
-            status: 'accepted',
-            accepted_at: new Date()
-        });
+        await pool.query(
+            `UPDATE deals SET status = $1, accepted_at = NOW() WHERE id = $2`,
+            ['accepted', dealId]
+        );
 
         // ============================================
         // STEP 7: Return mission details
@@ -284,14 +224,19 @@ export async function GET(
     try {
         const { id: dealId } = await context.params;
 
-        const deal = dealStore.get(dealId);
+        const result = await pool.query(
+            `SELECT * FROM deals WHERE id = $1`,
+            [dealId]
+        );
 
-        if (!deal) {
+        if (result.rows.length === 0) {
             return NextResponse.json(
                 { error: 'Deal not found', code: 'NOT_FOUND' },
                 { status: 404 }
             );
         }
+
+        const deal = result.rows[0];
 
         return NextResponse.json({
             deal: {
@@ -299,14 +244,14 @@ export async function GET(
                 proposer_id: deal.proposer_id,
                 target_agent_id: deal.target_agent_id,
                 description: deal.description,
-                reward: deal.reward,
+                reward: parseFloat(deal.reward),
                 estimated_minutes: deal.estimated_minutes,
                 requirements: deal.requirements,
                 deliverables: deal.deliverables,
                 status: deal.status,
-                created_at: deal.created_at.toISOString(),
-                expires_at: deal.expires_at.toISOString(),
-                accepted_at: deal.accepted_at?.toISOString()
+                created_at: deal.created_at,
+                expires_at: deal.expires_at,
+                accepted_at: deal.accepted_at
             }
         });
 

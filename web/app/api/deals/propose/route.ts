@@ -2,100 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AgentAuth } from '@core/registry/agent-auth';
 import { TokenLedger } from '@core/ledger/token-ledger';
 import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '@core/db';
 
 // Singletons
-const agentAuth = new AgentAuth('../data');
-const tokenLedger = new TokenLedger('../data');
+const agentAuth = new AgentAuth();
+const tokenLedger = new TokenLedger();
 const notifications = new AgentNotificationQueue();
-
-// Deal storage
-interface Deal {
-    id: string;
-    proposer_id: string;
-    target_agent_id: string;
-    description: string;
-    reward: number;
-    estimated_minutes: number;
-    requirements?: string[];
-    deliverables?: string[];
-    status: 'pending' | 'accepted' | 'rejected' | 'expired';
-    created_at: Date;
-    expires_at: Date;
-    accepted_at?: Date;
-}
-
-class DealStore {
-    private deals: Map<string, Deal> = new Map();
-    private dataFile: string;
-
-    constructor(dataDir: string = '../data') {
-        this.dataFile = path.join(dataDir, 'deals.json');
-        this.load();
-    }
-
-    private load() {
-        if (fs.existsSync(this.dataFile)) {
-            try {
-                const data = JSON.parse(fs.readFileSync(this.dataFile, 'utf-8'));
-                data.forEach((deal: any) => {
-                    deal.created_at = new Date(deal.created_at);
-                    deal.expires_at = new Date(deal.expires_at);
-                    if (deal.accepted_at) deal.accepted_at = new Date(deal.accepted_at);
-                    this.deals.set(deal.id, deal);
-                });
-            } catch (error) {
-                console.error('[DealStore] Failed to load:', error);
-            }
-        }
-    }
-
-    private save() {
-        try {
-            const data = Array.from(this.deals.values());
-            fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
-        } catch (error) {
-            console.error('[DealStore] Failed to save:', error);
-        }
-    }
-
-    create(deal: Omit<Deal, 'id' | 'status' | 'created_at' | 'expires_at'>): Deal {
-        const id = `deal_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
-        const newDeal: Deal = {
-            ...deal,
-            id,
-            status: 'pending',
-            created_at: new Date(),
-            expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
-        };
-
-        this.deals.set(id, newDeal);
-        this.save();
-        return newDeal;
-    }
-
-    get(id: string): Deal | null {
-        return this.deals.get(id) || null;
-    }
-
-    update(id: string, updates: Partial<Deal>): Deal | null {
-        const deal = this.deals.get(id);
-        if (!deal) return null;
-
-        Object.assign(deal, updates);
-        this.save();
-        return deal;
-    }
-
-    listByAgent(agentId: string): Deal[] {
-        return Array.from(this.deals.values())
-            .filter(d => d.proposer_id === agentId || d.target_agent_id === agentId)
-            .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
-    }
-}
-
-const dealStore = new DealStore('../data');
 
 /**
  * POST /api/deals/propose
@@ -185,17 +97,32 @@ export async function POST(request: NextRequest) {
         }
 
         // ============================================
-        // STEP 5: Create deal
+        // STEP 5: Create deal in database
         // ============================================
-        const deal = dealStore.create({
-            proposer_id: proposer.id,
-            target_agent_id: body.target_agent_id,
-            description: body.description,
-            reward: body.reward,
-            estimated_minutes: body.estimated_minutes,
-            requirements: body.requirements,
-            deliverables: body.deliverables
-        });
+        const dealId = `deal_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+        const result = await pool.query(
+            `INSERT INTO deals (
+                id, proposer_id, target_agent_id, description, reward, 
+                estimated_minutes, requirements, deliverables, status, expires_at
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING *`,
+            [
+                dealId,
+                proposer.id,
+                body.target_agent_id,
+                body.description,
+                body.reward,
+                body.estimated_minutes,
+                JSON.stringify(body.requirements || []),
+                JSON.stringify(body.deliverables || []),
+                'pending',
+                expiresAt
+            ]
+        );
+
+        const deal = result.rows[0];
 
         console.log(`[Deals] Agent ${proposer.id} proposed deal ${deal.id} to agent ${body.target_agent_id}`);
 
@@ -225,11 +152,11 @@ export async function POST(request: NextRequest) {
                     name: targetAgent.name
                 },
                 description: deal.description,
-                reward: deal.reward,
+                reward: parseFloat(deal.reward),
                 estimated_minutes: deal.estimated_minutes,
                 status: deal.status,
-                created_at: deal.created_at.toISOString(),
-                expires_at: deal.expires_at.toISOString()
+                created_at: deal.created_at,
+                expires_at: deal.expires_at
             },
             message: 'Deal proposed successfully. Target agent has been notified.'
         }, { status: 201 });
@@ -267,19 +194,25 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const deals = dealStore.listByAgent(agent.id);
+        // Query deals where agent is proposer or target
+        const result = await pool.query(
+            `SELECT * FROM deals 
+             WHERE proposer_id = $1 OR target_agent_id = $1
+             ORDER BY created_at DESC`,
+            [agent.id]
+        );
 
         return NextResponse.json({
-            deals: deals.map(d => ({
+            deals: result.rows.map(d => ({
                 id: d.id,
                 proposer_id: d.proposer_id,
                 target_agent_id: d.target_agent_id,
                 description: d.description,
-                reward: d.reward,
+                reward: parseFloat(d.reward),
                 estimated_minutes: d.estimated_minutes,
                 status: d.status,
-                created_at: d.created_at.toISOString(),
-                expires_at: d.expires_at.toISOString(),
+                created_at: d.created_at,
+                expires_at: d.expires_at,
                 direction: d.proposer_id === agent.id ? 'outgoing' : 'incoming'
             }))
         });

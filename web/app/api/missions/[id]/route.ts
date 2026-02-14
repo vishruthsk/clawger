@@ -1,416 +1,309 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Pool } from 'pg';
-import { AgentAuth } from '@core/registry/agent-auth';
-import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
-import { MissionStore } from '@core/missions/mission-store';
-import { MissionRegistry } from '@core/missions/mission-registry';
-import { TaskQueue } from '@core/dispatch/task-queue';
-import { HeartbeatManager } from '@core/dispatch/heartbeat-manager';
-import { TokenLedger } from '@core/ledger/token-ledger';
-import { EscrowEngine } from '@core/escrow/escrow-engine';
-import { AssignmentHistoryTracker } from '@core/missions/assignment-history';
-import { BondManager } from '@core/bonds/bond-manager';
-import { SettlementEngine } from '@core/settlement/settlement-engine';
-import { ReputationEngine } from '@core/agents/reputation-engine';
-import { JobHistoryManager } from '@core/jobs/job-history-manager';
-
-// Database Pool
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-});
-
-// Singletons
-const agentAuth = new AgentAuth('../data');
-const notifications = new AgentNotificationQueue();
-const missionStore = new MissionStore('../data');
-const taskQueue = new TaskQueue('../data');
-const heartbeatManager = new HeartbeatManager(agentAuth, '../data');
-const tokenLedger = new TokenLedger('../data');
-const escrowEngine = new EscrowEngine(tokenLedger);
-const assignmentHistory = new AssignmentHistoryTracker('../data');
-const bondManager = new BondManager(tokenLedger, '../data');
-const reputationEngine = new ReputationEngine('../data');
-const jobHistory = new JobHistoryManager('../data');
-const settlementEngine = new SettlementEngine(
-    tokenLedger,
-    bondManager,
-    agentAuth,
-    jobHistory,
-    '../data'
-);
-
-const missionRegistry = new MissionRegistry(
-    missionStore,
-    agentAuth,
-    notifications,
-    taskQueue,
-    heartbeatManager,
-    escrowEngine,
-    assignmentHistory,
-    bondManager,
-    settlementEngine,
-    reputationEngine
-);
-
-function getDummyMissions() {
-    return [
-        {
-            id: 'demo-1',
-            title: 'Emergency: Smart Contract Audit',
-            description: 'Urgent audit required for a new DeFi protocol launching on Monad. Focus on reentrancy and oracle manipulation vectors. Critical priority.',
-            status: 'open',
-            reward: 5000,
-            currency: 'CLGR',
-            tags: ['audit', 'security', 'defi'],
-            specialties: ['security_auditing', 'smart_contracts'],
-            requirements: ['Prior audit experience', 'Slither report', 'Manual review'],
-            deliverables: ['Audit Report (PDF)', 'Remediation Guide'],
-            posted_at: new Date().toISOString(),
-            bidding_window_end: new Date(Date.now() + 86400000).toISOString(),
-            requester: {
-                id: 'org-1',
-                name: 'DeFi Safe',
-                type: 'human',
-                avatar: '/avatars/org1.png',
-                reputation: 98
-            },
-            stats: {
-                bids: 12,
-                views: 345
-            }
-        },
-        {
-            id: 'demo-2',
-            title: 'Frontend Development for NFT Marketplace',
-            description: 'Build a responsive React frontend for an upcoming NFT marketplace. tailored for high-frequency trading.',
-            status: 'executing',
-            reward: 2500,
-            currency: 'CLGR',
-            tags: ['frontend', 'react', 'nft'],
-            specialties: ['frontend_dev', 'ui_ux'],
-            requirements: ['React 18', 'TailwindCSS', 'Ethers.js'],
-            deliverables: ['GitHub Repository', 'Deployed Vercel Link'],
-            posted_at: new Date(Date.now() - 3600000 * 24).toISOString(),
-            assigned_at: new Date(Date.now() - 3600000 * 2).toISOString(),
-            executing_started_at: new Date(Date.now() - 3600000 * 1).toISOString(),
-            assigned_agent: {
-                agent_id: 'agent_pixel',
-                agent_name: 'PixelWizard',
-                assigned_at: new Date(Date.now() - 3600000 * 2).toISOString(),
-                reasoning: 'Selected for superior portfolio in NFT marketplaces.'
-            },
-            requester: {
-                id: 'org-2',
-                name: 'NFT World',
-                type: 'human',
-                avatar: '/avatars/org2.png',
-                reputation: 92
-            },
-            stats: {
-                bids: 5,
-                views: 120
-            }
-        },
-        {
-            id: 'demo-3',
-            title: 'Zero-Knowledge Proof Verifier',
-            description: 'Implement a Groth16 verifier in Rust for a privacy-preserving rollup.',
-            status: 'settled',
-            reward: 8000,
-            currency: 'CLGR',
-            tags: ['zk', 'rust', 'cryptography'],
-            specialties: ['cryptography', 'backend_dev'],
-            requirements: ['Rust', 'Circom', 'Bellman'],
-            deliverables: ['Rust Crate', 'Benchmark Results'],
-            posted_at: new Date(Date.now() - 7200000 * 48).toISOString(),
-            assigned_at: new Date(Date.now() - 7200000 * 40).toISOString(),
-            executing_started_at: new Date(Date.now() - 7200000 * 38).toISOString(),
-            submitted_at: new Date(Date.now() - 7200000 * 10).toISOString(),
-            verified_at: new Date(Date.now() - 7200000 * 5).toISOString(),
-            settled_at: new Date(Date.now() - 7200000 * 2).toISOString(),
-            assigned_agent: {
-                agent_id: 'agent_zk',
-                agent_name: 'ZeroKnowledge',
-                assigned_at: new Date(Date.now() - 7200000 * 40).toISOString()
-            },
-            requester: {
-                id: 'org-3',
-                name: 'Privacy Layer',
-                type: 'human',
-                avatar: '/avatars/org3.png',
-                reputation: 99
-            },
-            stats: {
-                bids: 3,
-                views: 890
-            }
-        },
-        {
-            id: 'demo-4',
-            title: 'Arbitrage Bot Strategy Optimization',
-            description: 'Optimize existing Python arbitrage bot for lower latency execution on Monad.',
-            status: 'verifying',
-            reward: 1500,
-            currency: 'CLGR',
-            tags: ['trading', 'python', 'optimization'],
-            specialties: ['python', 'trading_algo'],
-            requirements: ['Python', 'AsyncIO', 'MEV Knowledge'],
-            deliverables: ['Optimized Script', 'Latency Report'],
-            posted_at: new Date(Date.now() - 18000000 * 2).toISOString(),
-            assigned_at: new Date(Date.now() - 18000000).toISOString(),
-            submitted_at: new Date(Date.now() - 3600000).toISOString(),
-            verifying_started_at: new Date(Date.now() - 1800000).toISOString(),
-            assigned_agent: {
-                agent_id: 'agent_algo',
-                agent_name: 'AlgoTrader',
-                assigned_at: new Date(Date.now() - 18000000).toISOString()
-            },
-            requester: {
-                id: 'user-4',
-                name: 'Alpha Seeker',
-                type: 'human',
-                avatar: '/avatars/user4.png',
-                reputation: 85
-            },
-            stats: {
-                bids: 8,
-                views: 210
-            }
-        }
-    ];
-}
+import { pool } from '@core/db';
+import { formatEther } from 'ethers';
 
 /**
  * GET /api/missions/:id
- * Get mission details with bids and timeline (HYBRID: Postgres + File Store)
+ * 
+ * Returns a single mission by merging data from proposals and tasks tables.
+ * Support Next.js 15+ async params.
  */
+type Params = Promise<{ id: string }>;
+
 export async function GET(
     request: NextRequest,
-    context: { params: Promise<{ id: string }> }
+    props: { params: Params } // Next.js 15+ compatible signature
 ) {
     try {
-        const { id } = await context.params;
+        // Handle params being a Promise (Next.js 15) or an object (Next.js 14)
+        // await is safe for both (awaiting an object returns the object)
+        const params = await props.params;
+        const { id } = params;
 
-        // 1. Try fetching from Postgres (Real Mission)
-        try {
-            const res = await pool.query('SELECT * FROM proposals WHERE id = $1', [id]);
-            if (res.rows.length > 0) {
-                const row = res.rows[0];
-                const mission = {
-                    id: row.id,
-                    title: row.objective.length > 50 ? row.objective.substring(0, 50) + '...' : row.objective,
-                    description: row.objective,
-                    status: 'open',
-                    reward: parseFloat(row.escrow) / 1e18,
-                    currency: 'CLGR',
-                    tags: ['blockchain', 'verification'],
-                    specialties: ['security', 'auditing'],
-                    requirements: ['On-chain verification'], // Added default requirements
-                    deliverables: ['Execution Proof', 'Block Hash'], // Added default deliverables
-                    posted_at: row.created_at,
-                    bidding_window_end: row.deadline,
-                    requester: {
-                        id: row.proposer,
-                        name: 'On-Chain Proposer',
-                        type: 'human',
-                        avatar: '/avatars/default.png',
-                        reputation: 100
-                    },
-                    stats: { bids: 0, views: 0 },
-                    is_real: true,
-                    tx_hash: row.tx_hash,
-                    escrow: {
-                        locked: true,
-                        amount: parseFloat(row.escrow) / 1e18,
-                        tx_hash: row.tx_hash
-                    }
-                };
+        console.log('[Mission Detail API] Fetching mission:', id);
 
-                return NextResponse.json({
-                    mission,
-                    bids: [],
-                    timeline: [{
-                        status: 'posted',
-                        timestamp: row.created_at,
-                        description: 'Mission posted on-chain'
-                    }],
-                    assigned_agent: null,
-                    escrow_status: {
-                        locked: true,
-                        amount: parseFloat(row.escrow) / 1e18,
-                        tx_hash: row.tx_hash
-                    }
-                });
-            }
-        } catch (pgError) {
-            console.warn('Failed to fetch from Postgres, falling back to file store:', pgError);
-        }
+        // ========================================
+        // STEP 1: Fetch Proposal Data
+        // ========================================
+        const proposalResult = await pool.query(`
+            SELECT 
+                id,
+                proposer,
+                objective,
+                escrow,
+                deadline,
+                status,
+                tx_hash,
+                block_number,
+                created_at
+            FROM proposals
+            WHERE id = $1::integer
+        `, [id]);
 
-        // 2. Fallback to File Store (Mock/Legacy Missions)
-        const mission = missionRegistry.getMission(id);
-
-        if (!mission) {
-            // 3. Try Dummy Missions (Hardcoded)
-            const dummyMissions = getDummyMissions();
-            const dummy = dummyMissions.find(m => m.id === id);
-            if (dummy) {
-                return NextResponse.json({
-                    mission: dummy,
-                    bids: [],
-                    timeline: [
-                        { status: 'posted', timestamp: dummy.posted_at, description: 'Mission posted' },
-                        ...(dummy.assigned_at ? [{ status: 'assigned', timestamp: dummy.assigned_at, description: `Assigned to ${dummy.assigned_agent?.agent_name}` }] : []),
-                        ...(dummy.executing_started_at ? [{ status: 'executing', timestamp: dummy.executing_started_at, description: 'Execution started' }] : []),
-                        ...(dummy.submitted_at ? [{ status: 'submitted', timestamp: dummy.submitted_at, description: 'Work submitted' }] : []),
-                        ...(dummy.settled_at ? [{ status: 'settled', timestamp: dummy.settled_at, description: 'Payment settled' }] : [])
-                    ],
-                    assigned_agent: dummy.assigned_agent ? {
-                        id: dummy.assigned_agent.agent_id,
-                        name: dummy.assigned_agent.agent_name,
-                        // Add mock details as needed
-                        type: 'bot',
-                        reputation: 95
-                    } : null,
-                    escrow_status: {
-                        locked: true,
-                        amount: dummy.reward,
-                        tx_hash: '0x123...mock'
-                    }
-                });
-            }
-
+        if (proposalResult.rows.length === 0) {
+            console.log('[Mission Detail API] Not found:', id);
             return NextResponse.json(
-                { error: 'Mission not found', code: 'NOT_FOUND' },
+                {
+                    error: 'Mission not found',
+                    code: 'NOT_FOUND'
+                },
                 { status: 404 }
             );
         }
 
-        // Build timeline from mission status history
-        const timeline = [];
+        const proposal = proposalResult.rows[0];
 
-        if (mission.posted_at) {
-            timeline.push({
-                status: 'posted',
-                timestamp: mission.posted_at,
-                description: 'Mission posted'
-            });
+        // ========================================
+        // STEP 2: Fetch Task Data with Agent Details
+        // ========================================
+        const taskResult = await pool.query(`
+            SELECT 
+                t.id as task_id,
+                t.worker,
+                t.verifier,
+                t.status as task_status,
+                t.settled,
+                t.escrow as task_escrow,
+                t.worker_bond,
+                t.created_at as task_created_at,
+                worker_agent.name as worker_name,
+                worker_agent.reputation as worker_reputation,
+                worker_agent.agent_type as worker_type,
+                verifier_agent.name as verifier_name,
+                verifier_agent.reputation as verifier_reputation
+            FROM tasks t
+            LEFT JOIN agents worker_agent ON t.worker = worker_agent.address
+            LEFT JOIN agents verifier_agent ON t.verifier = verifier_agent.address
+            WHERE t.proposal_id = $1::integer
+        `, [id]);
+
+        const task = taskResult.rows[0] || null;
+
+        // ========================================
+        // STEP 3: Transform to Mission Format
+        // ========================================
+
+        // Format bounty from wei to CLGR (remove decimals)
+        const formattedReward = parseFloat(formatEther(proposal.escrow)).toString();
+
+        // Determine display status (settled takes priority, then task status, then proposal status)
+        let displayStatus = task ? task.task_status : proposal.status;
+        if (task && task.settled) {
+            displayStatus = 'settled';
         }
 
-        if (mission.bidding_window_end) {
-            const biddingEndDate = mission.bidding_window_end instanceof Date
-                ? mission.bidding_window_end
-                : new Date(mission.bidding_window_end);
+        // Clean title (remove timestamp suffix like " - 1771000869504")
+        let cleanTitle = (proposal.objective?.substring(0, 60) || `Proposal #${proposal.id}`)
+            .replace(/ - \d+$/, '');
 
-            timeline.push({
-                status: 'bidding_open',
-                timestamp: mission.posted_at,
-                description: `Bidding window open until ${biddingEndDate.toISOString()}`
-            });
+        // Add ellipsis if title was truncated
+        if (proposal.objective && proposal.objective.length > 60) {
+            cleanTitle += '...';
         }
 
-        // ✅ CRITICAL: Assigned - check both top-level and nested assigned_at
-        const assignedTimestamp = mission.assigned_at ||
-            (typeof mission.assigned_agent === 'object' && mission.assigned_agent?.assigned_at);
+        // Extract tags and deliverables from description
+        const tags = extractTags(proposal.objective);
+        const deliverables = extractDeliverables(proposal.objective);
 
-        if (assignedTimestamp) {
-            let agentName = 'Unknown Agent';
+        // Build mission object
+        const mission = {
+            id: proposal.id,
+            title: cleanTitle,
+            description: proposal.objective,
+            reward: formattedReward, // "1" instead of "1.0"
+            status: displayStatus,
+            assignment_mode: 'autopilot',
+            requester_id: proposal.proposer,
+            posted_at: proposal.created_at,
+            deadline: proposal.deadline,
 
-            // ✅ CRITICAL: Handle both legacy (string) and new (object) formats
-            if (mission.assigned_agent) {
-                if (typeof mission.assigned_agent === 'string') {
-                    // Legacy format: assigned_agent is just an ID
-                    const agent = agentAuth.getById(mission.assigned_agent);
-                    agentName = agent?.name || mission.assigned_agent;
-                } else {
-                    // New format: assigned_agent is AssignmentDetails object
-                    agentName = mission.assigned_agent.agent_name;
-                }
-            } else if (mission.worker_id) {
-                // ✅ CRITICAL: Legacy missions use worker_id instead of assigned_agent
-                const agent = agentAuth.getById(mission.worker_id);
-                agentName = agent?.name || mission.worker_id;
-            }
+            // Task-specific fields with agent details
+            assigned_agent: task?.worker ? {
+                agent_id: task.worker,
+                name: task.worker_name || task.worker.substring(0, 8) + '...',
+                reputation: task.worker_reputation || 50,
+                type: task.worker_type || 'Standard'
+            } : null,
+            verifier: task?.verifier ? {
+                agent_id: task.verifier,
+                name: task.verifier_name || task.verifier.substring(0, 8) + '...',
+                reputation: task.verifier_reputation || 50
+            } : null,
+            verifiers: task?.verifier ? [{
+                agent_id: task.verifier,
+                name: task.verifier_name || task.verifier.substring(0, 8) + '...',
+                reputation: task.verifier_reputation || 50
+            }] : [],
+            task_id: task?.task_id || null,
+            settled: task?.settled || false,
+            worker_bond: task?.worker_bond ? parseFloat(formatEther(task.worker_bond)).toString() : null,
 
-            timeline.push({
-                status: 'assigned',
-                timestamp: assignedTimestamp,
-                description: `Assigned to ${agentName}`,
-                agent: mission.assigned_agent || mission.worker_id
-            });
-        }
+            // Additional fields for compatibility
+            specialties: [], // Don't duplicate tags here
+            requirements: [],
+            deliverables: deliverables, // Use extracted deliverables
+            tags: tags, // Tags only appear here
+            escrow: formattedReward,
+            timeline: generateTimeline(proposal, task),
+            bids: [],
 
-        // ✅ CRITICAL: Executing - check both new and legacy fields
-        if (mission.executing_started_at || mission.claimed_at) {
-            timeline.push({
-                status: 'executing',
-                timestamp: mission.executing_started_at || mission.claimed_at,
-                description: 'Work in progress'
-            });
-        }
+            // Escrow status for UI (determines if "Required Bond" shows "Posted" or "Pending")
+            escrow_status: {
+                locked: task?.worker_bond && task.worker_bond !== '0',
+                amount: task?.worker_bond ? parseFloat(formatEther(task.worker_bond)).toString() : null
+            },
 
-        // ✅ CRITICAL: Verifying - check both new and legacy fields
-        if (mission.verifying_started_at || mission.submitted_at) {
-            timeline.push({
-                status: 'verifying',
-                timestamp: mission.verifying_started_at || mission.submitted_at,
-                description: 'Under verification'
-            });
-        }
+            // Metadata
+            tx_hash: proposal.tx_hash,
+            block_number: proposal.block_number,
+            demo: false,
+        };
 
-        // ✅ CRITICAL: Settled - check both new and legacy fields
-        if (mission.settled_at || mission.verified_at) {
-            timeline.push({
-                status: 'settled',
-                timestamp: mission.settled_at || mission.verified_at,
-                description: 'Mission completed and verified'
-            });
-        }
-
-        // ✅ CRITICAL: Paid - legacy field only
-        if (mission.paid_at) {
-            timeline.push({
-                status: 'paid',
-                timestamp: mission.paid_at,
-                description: 'Payment released'
-            });
-        }
-
-        if (mission.failed_at) {
-            timeline.push({
-                status: 'failed',
-                timestamp: mission.failed_at,
-                description: mission.failure_reason || 'Mission failed'
-            });
-        }
-
-        // Get assigned agent profile if available
-        let assigned_agent_profile = null;
-        if (mission.assigned_agent) {
-            // ✅ CRITICAL: Handle both legacy (string) and new (object) formats
-            if (typeof mission.assigned_agent === 'string') {
-                // Legacy format: assigned_agent is just an ID
-                assigned_agent_profile = agentAuth.getById(mission.assigned_agent);
-            } else {
-                // New format: assigned_agent is AssignmentDetails object
-                assigned_agent_profile = agentAuth.getById(mission.assigned_agent.agent_id);
-            }
-        }
-
-        return NextResponse.json({
-            mission,
-            bids: mission.bids || [],
-            timeline,
-            assigned_agent: assigned_agent_profile,
-            escrow_status: mission.escrow ? {
-                locked: mission.escrow.locked,
-                amount: mission.escrow.amount,
-                tx_hash: mission.escrow.tx_hash
-            } : null
-        });
+        return NextResponse.json(mission);
     } catch (error: any) {
+        console.error('[API /missions/:id] Error:', error);
         return NextResponse.json(
-            { error: error.message, code: 'INTERNAL_ERROR' },
+            {
+                error: 'Failed to fetch mission',
+                code: 'DATABASE_ERROR',
+                details: error.message
+            },
             { status: 500 }
         );
     }
+}
+
+/**
+ * Extract tags from description text based on keywords
+ */
+function extractTags(description: string): string[] {
+    if (!description) return [];
+
+    const tags = new Set<string>();
+    const lowerDesc = description.toLowerCase();
+
+    // Keywords mapping
+    const keywords: Record<string, string> = {
+        'reputation': 'Reputation System',
+        'audit': 'Smart Contract Audit',
+        'security': 'Security',
+        'frontend': 'Frontend',
+        'backend': 'Backend',
+        'api': 'API Development',
+        'database': 'Database',
+        'design': 'UI/UX Design',
+        'agent': 'Autonomous Agents',
+        'ai': 'AI Integration',
+        'blockchain': 'Blockchain',
+        'defi': 'DeFi',
+        'nft': 'NFT',
+        'test': 'QA & Testing',
+        'verification': 'On-Chain Verification'
+    };
+
+    // Add matching tags
+    Object.entries(keywords).forEach(([keyword, tag]) => {
+        if (lowerDesc.includes(keyword)) {
+            tags.add(tag);
+        }
+    });
+
+    // Default tag if none found
+    if (tags.size === 0) {
+        tags.add('General Task');
+    }
+
+    return Array.from(tags).slice(0, 5); // Limit to 5 tags
+}
+
+/**
+ * Extract deliverables from description (looking for bullet points or lists)
+ */
+function extractDeliverables(description: string): string[] {
+    if (!description) return [];
+
+    // Look for lines starting with -, *, or number.
+    const lines = description.split('\n');
+    const deliverables = lines
+        .filter(line => /^\s*[-*•]\s+/.test(line) || /^\s*\d+\.\s+/.test(line))
+        .map(line => line.replace(/^\s*[-*•\d\.]+\s+/, '').trim())
+        .filter(line => line.length > 5); // Filter out too short lines
+
+    // If no explicit list found, try to extract based on sentences containing "deliver" or "implement"
+    if (deliverables.length === 0) {
+        const sentences = description.match(/[^.!?]+[.!?]+/g) || [];
+        sentences.forEach(sentence => {
+            const s = sentence.toLowerCase();
+            if (s.includes('deliver') || s.includes('create') || s.includes('implement') || s.includes('build')) {
+                deliverables.push(sentence.trim());
+            }
+        });
+    }
+
+    // Fallback if still empty
+    if (deliverables.length === 0) {
+        return ["Complete mission objective", "Provide proof of work", "Submit executable artifacts"];
+    }
+
+    return deliverables.slice(0, 6); // Limit to 6 items
+}
+
+/**
+ * Generate timeline events from proposal and task data
+ */
+function generateTimeline(proposal: any, task: any) {
+    const events = [];
+
+    // Mission posted
+    events.push({
+        event: 'Mission Posted',
+        timestamp: proposal.created_at, // UPDATED: Changed from 'time' to 'timestamp' to match frontend expectation
+        status: 'completed',
+        actor: proposal.proposer
+    });
+
+    if (task) {
+        // Agent assigned
+        events.push({
+            event: 'Agent Assigned',
+            timestamp: task.task_created_at,
+            status: 'completed',
+            actor: task.worker
+        });
+
+        // Add status-based events
+        if (task.task_status === 'executing' || task.task_status === 'completed' || task.task_status === 'verified') {
+            events.push({
+                event: 'Execution Started',
+                timestamp: task.task_created_at, // Ideally we'd have a separate field, using created_at for now
+                status: 'completed'
+            });
+        }
+
+        if (task.task_status === 'completed' || task.task_status === 'verified') {
+            events.push({
+                event: 'Work Submitted',
+                timestamp: task.task_created_at, // Use task creation time as approximation
+                status: 'completed'
+            });
+        }
+
+        if (task.task_status === 'verified') {
+            events.push({
+                event: 'Verification Complete',
+                timestamp: task.task_created_at, // Use task creation time as approximation
+                status: 'completed'
+            });
+        }
+
+        if (task.settled) {
+            events.push({
+                event: 'Payment Settled',
+                timestamp: task.task_created_at, // Use task creation time as approximation
+                status: 'completed'
+            });
+        }
+    }
+
+    return events;
 }

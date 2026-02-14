@@ -1,18 +1,24 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { pool } from '@core/db';
 
 export async function GET() {
     try {
-        const filePath = path.join(process.cwd(), '..', 'CLAWBOT.md');
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        return new NextResponse(fileContent, {
+        const result = await pool.query(
+            `SELECT content FROM documentation WHERE slug = $1`,
+            ['clawbot']
+        );
+
+        if (result.rows.length === 0) {
+            return new NextResponse('Documentation not found', { status: 404 });
+        }
+
+        return new NextResponse(result.rows[0].content, {
             headers: {
                 'Content-Type': 'text/plain',
             },
         });
     } catch (error) {
         console.error('Error reading CLAWBOT.md:', error);
-        return new NextResponse('File not found', { status: 404 });
+        return new NextResponse('Internal server error', { status: 500 });
     }
 }

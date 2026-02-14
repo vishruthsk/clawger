@@ -39,11 +39,25 @@ export default function MissionsList() {
         // NOTE: Removed status filter from API call - doing it client-side instead
     });
 
-    // Client-side search and status filtering
+    // Client-side filtering: search, status, and tab filters
     const filteredMissions = (missions || []).filter((m: any) => {
         // Search filter
         const matchesSearch = (m.contract_id || m.id || '').toLowerCase().includes(debouncedSearch.toLowerCase()) ||
             (m.objective || m.title || '').toLowerCase().includes(debouncedSearch.toLowerCase());
+
+        // Tab filter (Crew/Solo/Mine)
+        let matchesTab = true;
+        if (activeTab === 'crew') {
+            // Crew missions have assignment_mode === 'crew' OR have a crew array
+            matchesTab = m.assignment_mode === 'crew' || (m.crew && Array.isArray(m.crew) && m.crew.length > 0);
+        } else if (activeTab === 'solo') {
+            // Solo missions are autopilot or bidding (not crew)
+            matchesTab = m.assignment_mode !== 'crew' && (!m.crew || m.crew.length === 0);
+        } else if (activeTab === 'mine') {
+            // My missions - would need wallet address to filter
+            // For now, show all missions (TODO: implement wallet-based filtering)
+            matchesTab = true;
+        }
 
         // Status filter
         let matchesStatus = true;
@@ -71,19 +85,20 @@ export default function MissionsList() {
             console.log(`[Filter Debug] Mission ${m.id}: status="${missionStatus}", filter="${statusFilter}", matches=${matchesStatus}`);
         }
 
-        return matchesSearch && matchesStatus;
+        return matchesSearch && matchesTab && matchesStatus;
     });
 
     // Debug: Log filter results
-    console.log(`[Filter Debug] Total missions: ${missions?.length}, Filtered: ${filteredMissions.length}, Filter: ${statusFilter}`);
+    console.log(`[Filter Debug] Total missions: ${missions?.length}, Filtered: ${filteredMissions.length}, Tab: ${activeTab}, Status: ${statusFilter}`);
 
     const getStatusColor = (status: string) => {
         switch (status?.toLowerCase()) {
             case 'completed': case 'paid': case 'settled': return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10 shadow-[0_0_10px_rgba(52,211,153,0.1)]';
             case 'executing': case 'submitted': return 'text-amber-400 border-amber-500/20 bg-amber-500/10 shadow-[0_0_10px_rgba(251,191,36,0.1)]';
-            case 'verifying': return 'text-blue-400 border-blue-500/20 bg-blue-500/10 shadow-[0_0_10px_rgba(59,130,246,0.1)]';
+            case 'verifying': case 'verified': return 'text-blue-400 border-blue-500/20 bg-blue-500/10 shadow-[0_0_10px_rgba(59,130,246,0.1)]';
             case 'failed': case 'rejected': return 'text-red-400 border-red-500/20 bg-red-500/10 shadow-[0_0_10px_rgba(248,113,113,0.1)]';
             case 'open': case 'posted': return 'text-primary border-primary/20 bg-primary/10 shadow-[0_0_10px_rgba(249,115,22,0.1)]';
+            case 'bidding_open': return 'text-orange-400 border-orange-500/20 bg-orange-500/10 shadow-[0_0_10px_rgba(249,115,22,0.2)]';
             default: return 'text-muted border-white/10 bg-white/5';
         }
     };
@@ -206,7 +221,7 @@ export default function MissionsList() {
             {/* Main Content */}
             <div className="max-w-[1200px] mx-auto px-12 py-12">
                 {viewMode === 'grid' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div key={`grid-${statusFilter}-${debouncedSearch}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {filteredMissions.map((contract: any) => (
                             <Link
                                 key={contract.id || contract.contract_id}
@@ -223,13 +238,22 @@ export default function MissionsList() {
                                 {/* Top Right Gradient Square */}
                                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/20 via-primary/5 to-transparent rounded-bl-[3rem] opacity-50 group-hover:opacity-100 transition-all duration-500 pointer-events-none z-0" />
 
-                                {/* Top Right Tech Badge */}
-                                <div className="absolute top-4 right-4 z-20">
+                                {/* Top Right Badges Stack */}
+                                <div className="absolute top-4 right-4 z-20 flex flex-col gap-2 items-end">
+                                    {/* NET::MAIN Badge */}
                                     <div className="bg-black/80 backdrop-blur border border-white/10 rounded-lg px-2 py-1 flex items-center gap-1.5 shadow-sm group-hover:border-primary/30 transition-colors">
                                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
                                         <span className="text-[9px] font-mono text-muted uppercase tracking-wider group-hover:text-white transition-colors">NET::MAIN</span>
                                     </div>
+
+                                    {/* Demo Badge */}
+                                    {contract.demo && (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] uppercase font-bold tracking-wider border border-white/10 bg-black/80 backdrop-blur text-white/50">
+                                            Demo
+                                        </span>
+                                    )}
                                 </div>
+
 
                                 <div className="p-6 relative z-10 flex flex-col h-full">
                                     {/* Top Row: Status & Crew Badge */}
@@ -239,7 +263,7 @@ export default function MissionsList() {
                                                 {getStatusIcon(contract.status || contract.state)}
                                                 {contract.status || contract.state || 'OPEN'}
                                             </span>
-                                            {contract.assignment_mode === 'crew' && (
+                                            {(contract.assignment_mode === 'crew' || (contract.crew && Array.isArray(contract.crew) && contract.crew.length > 0)) && (
                                                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider border border-blue-500/20 bg-blue-500/10 text-blue-400">
                                                     <Users className="w-3 h-3" />
                                                     Crew
@@ -248,22 +272,23 @@ export default function MissionsList() {
                                         </div>
                                     </div>
 
-                                    {/* ID & Date Row */}
-                                    <div className="flex items-center gap-3 mb-3 text-[10px] text-muted font-mono">
-                                        <span className="bg-white/5 px-1.5 py-0.5 rounded border border-white/5 truncate max-w-[100px]">
-                                            {(contract.id || contract.contract_id || '').replace('mission_', '').substring(0, 8)}
-                                        </span>
-                                        <span className="flex items-center gap-1">
-                                            <Clock className="w-3 h-3" />
-                                            {contract.posted_at ? formatDistanceToNow(new Date(contract.posted_at), { addSuffix: true }) : 'Just now'}
-                                        </span>
-                                    </div>
-
                                     {/* Title & Desc */}
                                     <div className="mb-6 flex-1">
                                         <h3 className="font-bold text-white text-lg mb-2 group-hover:text-primary transition-colors leading-tight tracking-tight line-clamp-2">
                                             {contract.title || contract.objective || 'Untitled Protocol'}
                                         </h3>
+
+                                        {/* ID & Date Row (Moved Below Title) */}
+                                        <div className="flex items-center gap-3 mb-3 text-[10px] text-muted font-mono">
+                                            <span className="bg-white/5 px-1.5 py-0.5 rounded border border-white/5 truncate max-w-[100px] text-white/50 group-hover:text-white/80 transition-colors">
+                                                {(contract.id || contract.contract_id || '').replace('mission_', '').substring(0, 8)}
+                                            </span>
+                                            <span className="flex items-center gap-1">
+                                                <Clock className="w-3 h-3" />
+                                                {contract.posted_at ? formatDistanceToNow(new Date(contract.posted_at), { addSuffix: true }) : 'Just now'}
+                                            </span>
+                                        </div>
+
                                         <p className="text-xs text-muted/70 line-clamp-2 leading-relaxed font-light">
                                             {contract.description || 'No detailed parameters provided for this protocol execution.'}
                                         </p>
@@ -300,11 +325,13 @@ export default function MissionsList() {
 
                                         <div className="bg-[#111] rounded-lg p-2.5 border border-white/5 group-hover:border-white/10 transition-colors relative">
                                             <div className="text-[9px] text-muted uppercase font-bold mb-0.5 tracking-wider">Operator</div>
-                                            {(contract.worker || contract.assigned_agent) ? (
+                                            {(contract.worker || contract.assigned_agent || (contract.crew && contract.crew.length > 0)) ? (
                                                 <div className="flex items-center gap-1.5">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                                     <div className="text-white font-mono text-[10px] truncate">
-                                                        {(contract.worker || contract.assigned_agent?.agent_name || 'Agent').substring(0, 8)}...
+                                                        {contract.crew && contract.crew.length > 0
+                                                            ? `${contract.crew.length} Agent${contract.crew.length > 1 ? 's' : ''}`
+                                                            : (contract.worker || contract.assigned_agent?.agent_name || 'Agent').substring(0, 8) + '...'}
                                                     </div>
                                                 </div>
                                             ) : (
@@ -336,7 +363,7 @@ export default function MissionsList() {
                                     <th className="px-6 py-4 font-normal text-right">Age</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/5 text-sm">
+                            <tbody key={`list-${statusFilter}-${debouncedSearch}`} className="divide-y divide-white/5 text-sm">
                                 {filteredMissions.map((contract: any) => (
                                     <tr key={contract.id || contract.contract_id} className="hover:bg-white/5 transition-colors group">
                                         <td className="px-6 py-4 font-mono text-primary/70 text-xs">

@@ -3,10 +3,12 @@
  * 
  * Orchestrates mission creation, assignment, and lifecycle management.
  * Determines assignment mode and triggers appropriate engine.
+ * 
+ * Refactored for PostgreSQL persistence (Async/Await)
  */
 
-import { MissionStore, Mission, Bid, AssignmentDetails } from './mission-store';
-import { AssignmentEngine } from './assignment-engine';
+import { MissionStore, Mission, Bid, AssignmentDetails, MissionStatus, ArtifactMetadata, MissionFilters } from './mission-store';
+import { AssignmentEngine, AssignmentResult } from './assignment-engine';
 import { BiddingEngine } from './bidding-engine';
 import { AgentAuth } from '../registry/agent-auth';
 import { AgentNotificationQueue } from '../tasks/agent-notification-queue';
@@ -60,19 +62,9 @@ export interface MissionCreationResult {
         adjusted_score: number;
         rank_in_pool: number;
         pool_size: number;
+        reputation_multiplier: number;
+        explanation_text: string;
     };
-}
-
-export interface MissionFilters {
-    status?: string;
-    specialty?: string;
-    min_reward?: number;
-    max_reward?: number;
-    assignment_mode?: 'autopilot' | 'bidding';
-    requester_id?: string;
-    type?: 'crew' | 'solo';
-    scope?: 'all' | 'mine' | 'assigned_to_me';
-    viewer_id?: string;
 }
 
 export class MissionRegistry {
@@ -100,7 +92,7 @@ export class MissionRegistry {
         assignmentHistory: AssignmentHistoryTracker,
         bondManager: BondManager,
         settlementEngine: SettlementEngine,
-        reputationEngine: ReputationEngine // New param
+        reputationEngine: ReputationEngine
     ) {
         this.missionStore = missionStore;
         this.agentAuth = agentAuth;
@@ -125,21 +117,14 @@ export class MissionRegistry {
 
     /**
      * ✅ CRITICAL: Canonical lifecycle transition method
-     * 
-     * Guarantees:
-     * - Automatic timestamp attachment based on status
-     * - Immediate persistence to disk
-     * - Verification that persistence succeeded
-     * - Loud failures instead of silent ones
-     * 
-     * This is the ONLY way lifecycle transitions should happen.
+     * Guarantees persistence and consistency.
      */
-    private transitionMission(
+    private async transitionMission(
         missionId: string,
-        nextStatus: 'bidding_open' | 'assigned' | 'executing' | 'verifying' | 'settled' | 'failed' | 'paid',
+        nextStatus: MissionStatus,
         additionalUpdates: Partial<Mission> = {}
-    ): Mission {
-        const mission = this.missionStore.get(missionId);
+    ): Promise<Mission> {
+        const mission = await this.missionStore.get(missionId);
         if (!mission) {
             throw new Error(`[LIFECYCLE] CRITICAL: Mission ${missionId} not found`);
         }
@@ -149,11 +134,9 @@ export class MissionRegistry {
 
         switch (nextStatus) {
             case 'bidding_open':
-                // ✅ NEW: Bidding phase - no timestamp needed (bidding_window_end set separately)
                 console.log(`[LIFECYCLE] ${missionId} → bidding_open`);
                 break;
             case 'assigned':
-                // ✅ NEW: Assignment complete - attach timestamp if not already set
                 updates.assigned_at = updates.assigned_at || new Date();
                 console.log(`[LIFECYCLE] ${missionId} → assigned`);
                 break;
@@ -179,14 +162,14 @@ export class MissionRegistry {
                 break;
         }
 
-        // ✅ CRITICAL: Persist immediately
-        const updated = this.missionStore.update(missionId, updates);
+        // Persist immediately
+        const updated = await this.missionStore.update(missionId, updates);
         if (!updated) {
             throw new Error(`[LIFECYCLE] CRITICAL: Failed to persist ${missionId} → ${nextStatus}`);
         }
 
-        // ✅ CRITICAL: Verify persistence
-        const verified = this.missionStore.get(missionId);
+        // Verify persistence
+        const verified = await this.missionStore.get(missionId);
         if (!verified) {
             throw new Error(`[LIFECYCLE] CRITICAL: Mission ${missionId} disappeared after persist`);
         }
@@ -224,7 +207,7 @@ export class MissionRegistry {
         console.log(`[MissionRegistry] Assignment mode: ${assignment_mode}`);
 
         // Create mission
-        const mission = this.missionStore.create({
+        const mission = await this.missionStore.create({
             requester_id: params.requester_id,
             title: params.title,
             description: params.description,
@@ -240,31 +223,28 @@ export class MissionRegistry {
             direct_agent_id: params.direct_agent_id,
             direct_agent_name: params.direct_agent_name,
             escrow: {
-                locked: false, // Will be locked by escrow manager
+                locked: false,
                 amount: params.reward
             }
         });
 
-        // 5. Lock Escrow (if reward > 0)
+        // Lock Escrow
         const escrowResult = await this.escrowEngine.validateAndLock(params.requester_id, params.reward, mission.id);
 
         if (!escrowResult.success) {
             console.error(`[MissionRegistry] Failed to lock escrow: ${escrowResult.error}`);
-            // In a real DB transaction, we would rollback creation here.
-            // For now, mission is created but will be stuck or we should delete it.
-            // Let's set status to failed immediately
-            this.missionStore.update(mission.id, {
+            await this.missionStore.update(mission.id, {
                 status: 'failed',
                 failed_at: new Date(),
                 failure_reason: 'Escrow lock failed: ' + escrowResult.error
             });
             return {
-                mission: this.missionStore.get(mission.id)!,
+                mission: (await this.missionStore.get(mission.id))!,
                 assignment_mode
             };
         } else {
-            // Update mission to reflect locked status (MissionStore default is locked: false)
-            this.missionStore.update(mission.id, {
+            // Update mission to reflect locked status
+            await this.missionStore.update(mission.id, {
                 escrow: {
                     locked: true,
                     amount: params.reward,
@@ -273,7 +253,7 @@ export class MissionRegistry {
             });
         }
 
-        // Route to appropriate handler based on assignment mode
+        // Route to appropriate handler
         if (assignment_mode === 'direct_hire') {
             return await this.handleDirectHire(mission, params.direct_agent_id!, params.direct_agent_name!);
         } else if (params.crew_enabled) {
@@ -292,7 +272,6 @@ export class MissionRegistry {
         const result = await this.assignmentEngine.assignAgent(mission);
 
         if (result.success && result.assigned_agent) {
-            // Update mission with assignment
             const assignmentDetails: AssignmentDetails = {
                 agent_id: result.assigned_agent.agent_id,
                 agent_name: result.assigned_agent.agent_name,
@@ -300,16 +279,14 @@ export class MissionRegistry {
                 assignment_method: 'autopilot'
             };
 
-            this.missionStore.update(mission.id, {
+            await this.missionStore.update(mission.id, {
                 status: 'assigned',
                 assigned_at: new Date(),
                 assigned_agent: assignmentDetails
             });
 
-            // Dispatch task to agent
             this.dispatchMissionToAgent(mission.id, result.assigned_agent.agent_id);
 
-            // Notify agent (legacy notification system)
             this.notifications.createTask(
                 result.assigned_agent.agent_id,
                 'mission_available',
@@ -325,33 +302,27 @@ export class MissionRegistry {
             console.log(`[MissionRegistry] Mission ${mission.id} assigned to ${result.assigned_agent.agent_name}`);
 
             return {
-                mission: this.missionStore.get(mission.id)!,
+                mission: (await this.missionStore.get(mission.id))!,
                 assignment_mode: 'autopilot',
                 assigned_agent: result.assigned_agent,
                 assignment_reasoning: result.assignment_reasoning
             };
         } else {
-            // Assignment failed - provide detailed reason
             const detailedReason = result.reason || 'No suitable agent found';
             const scoresSummary = result.scores?.map(s =>
                 `${s.agent_name}: ${s.final_score.toFixed(3)}`
             ).join(', ') || 'No candidates evaluated';
 
-            this.missionStore.update(mission.id, {
+            await this.missionStore.update(mission.id, {
                 status: 'failed',
                 failed_at: new Date(),
                 failure_reason: `${detailedReason}. Candidates: ${scoresSummary}`
             });
 
             console.error(`[MissionRegistry] Mission ${mission.id} assignment failed`);
-            console.error(`  Reason: ${detailedReason}`);
-            console.error(`  Candidates evaluated: ${result.scores?.length || 0}`);
-            if (result.scores && result.scores.length > 0) {
-                console.error(`  Top candidates: ${scoresSummary}`);
-            }
 
             return {
-                mission: this.missionStore.get(mission.id)!,
+                mission: (await this.missionStore.get(mission.id))!,
                 assignment_mode: 'autopilot'
             };
         }
@@ -359,49 +330,44 @@ export class MissionRegistry {
 
     /**
      * Handle direct hire assignment
-     * Immediately assigns mission to specified agent without autopilot scoring
      */
     private async handleDirectHire(mission: Mission, agentId: string, agentName: string): Promise<MissionCreationResult> {
         console.log(`[MissionRegistry] Direct hire: assigning mission ${mission.id} to ${agentName} (${agentId})`);
 
-        // Validate agent exists
-        const agent = this.agentAuth.getById(agentId);
+        const agent = await this.agentAuth.getById(agentId);
         if (!agent) {
             console.error(`[MissionRegistry] Direct hire failed: agent ${agentId} not found`);
-            this.missionStore.update(mission.id, {
+            await this.missionStore.update(mission.id, {
                 status: 'failed',
                 failed_at: new Date(),
                 failure_reason: `Direct hire failed: agent ${agentId} not found`
             });
 
             return {
-                mission: this.missionStore.get(mission.id)!,
+                mission: (await this.missionStore.get(mission.id))!,
                 assignment_mode: 'direct_hire'
             };
         }
 
-        // Create assignment details
         const assignmentDetails: AssignmentDetails = {
             agent_id: agentId,
             agent_name: agentName || agent.name,
             assigned_at: new Date(),
-            assignment_method: 'manual' // Direct hire is a form of manual assignment
+            assignment_method: 'manual'
         };
 
-        // Immediately assign mission
-        this.missionStore.update(mission.id, {
+        await this.missionStore.update(mission.id, {
             status: 'assigned',
             assigned_at: new Date(),
             assigned_agent: assignmentDetails
         });
 
-        // Dispatch mission_assigned task to agent (EXACTLY ONE TASK)
         this.dispatchMissionToAgent(mission.id, agentId);
 
         console.log(`[MissionRegistry] Direct hire complete: mission ${mission.id} assigned to ${agentName}`);
 
         return {
-            mission: this.missionStore.get(mission.id)!,
+            mission: (await this.missionStore.get(mission.id))!,
             assignment_mode: 'direct_hire',
             assigned_agent: {
                 agent_id: agentId,
@@ -413,14 +379,13 @@ export class MissionRegistry {
     /**
      * Handle bidding mode
      */
-    private handleBiddingMode(mission: Mission): MissionCreationResult {
+    private async handleBiddingMode(mission: Mission): Promise<MissionCreationResult> {
         // Open bidding window
-        const windowEnd = this.biddingEngine.openBiddingWindow(mission, (missionId) => {
+        const windowEnd = await this.biddingEngine.openBiddingWindow(mission, (missionId) => {
             this.closeBiddingAndAssign(missionId);
         });
 
-        // Update mission status
-        this.missionStore.update(mission.id, {
+        await this.missionStore.update(mission.id, {
             status: 'bidding_open',
             bidding_window_end: windowEnd
         });
@@ -428,7 +393,7 @@ export class MissionRegistry {
         console.log(`[MissionRegistry] Bidding window opened for mission ${mission.id} until ${windowEnd.toISOString()}`);
 
         return {
-            mission: this.missionStore.get(mission.id)!,
+            mission: (await this.missionStore.get(mission.id))!,
             assignment_mode: 'bidding',
             bidding_window_end: windowEnd
         };
@@ -443,7 +408,7 @@ export class MissionRegistry {
         bond_offered: number;
         message?: string;
     }): Promise<{ success: boolean; reason?: string; bid?: Bid }> {
-        const mission = this.missionStore.get(missionId);
+        const mission = await this.missionStore.get(missionId);
         if (!mission) {
             return { success: false, reason: 'Mission not found' };
         }
@@ -455,7 +420,7 @@ export class MissionRegistry {
             const bids = mission.bids || [];
             bids.push(result.bid);
 
-            this.missionStore.update(missionId, { bids });
+            await this.missionStore.update(missionId, { bids });
 
             console.log(`[MissionRegistry] Bid added to mission ${missionId}`);
         }
@@ -467,7 +432,7 @@ export class MissionRegistry {
      * Close bidding window and assign winner
      */
     private async closeBiddingAndAssign(missionId: string): Promise<void> {
-        const mission = this.missionStore.get(missionId);
+        const mission = await this.missionStore.get(missionId);
         if (!mission) {
             console.error(`[MissionRegistry] Mission ${missionId} not found`);
             return;
@@ -478,7 +443,6 @@ export class MissionRegistry {
         const result = this.biddingEngine.selectWinner(mission);
 
         if (result.success && result.winner) {
-            // ✅ CRITICAL: Use transitionMission to assign winner
             const assignmentDetails: AssignmentDetails = {
                 agent_id: result.winner.agent_id,
                 agent_name: result.winner.agent_name,
@@ -488,7 +452,7 @@ export class MissionRegistry {
             };
 
             try {
-                this.transitionMission(missionId, 'assigned', {
+                await this.transitionMission(missionId, 'assigned', {
                     assigned_agent: assignmentDetails
                 });
             } catch (error: any) {
@@ -496,10 +460,8 @@ export class MissionRegistry {
                 return;
             }
 
-            // Dispatch task to winner
             this.dispatchMissionToAgent(missionId, result.winner.agent_id);
 
-            // Notify winner (legacy)
             this.notifications.createTask(
                 result.winner.agent_id,
                 'mission_available',
@@ -514,9 +476,8 @@ export class MissionRegistry {
 
             console.log(`[MissionRegistry] Mission ${missionId} assigned to ${result.winner.agent_name}`);
         } else {
-            // ✅ CRITICAL: Use transitionMission to fail mission
             try {
-                this.transitionMission(missionId, 'failed', {
+                await this.transitionMission(missionId, 'failed', {
                     failure_reason: result.reason || 'No valid bids'
                 });
             } catch (error: any) {
@@ -531,13 +492,12 @@ export class MissionRegistry {
      * Manually assign mission (admin only)
      */
     async manualAssignment(missionId: string, agentId: string, reason: string): Promise<boolean> {
-        const mission = this.missionStore.get(missionId);
+        const mission = await this.missionStore.get(missionId);
         if (!mission) return false;
 
-        const agent = this.agentAuth.getById(agentId);
+        const agent = await this.agentAuth.getById(agentId);
         if (!agent) return false;
 
-        // Close bidding if active
         if (mission.status === 'bidding_open') {
             this.biddingEngine.closeBiddingWindow(missionId);
         }
@@ -549,13 +509,12 @@ export class MissionRegistry {
             assignment_method: 'manual'
         };
 
-        this.missionStore.update(missionId, {
+        await this.missionStore.update(missionId, {
             status: 'assigned',
             assigned_at: new Date(),
             assigned_agent: assignmentDetails
         });
 
-        // Notify agent
         this.notifications.createTask(
             agentId,
             'mission_available',
@@ -576,8 +535,8 @@ export class MissionRegistry {
     /**
      * Get mission board with filters
      */
-    getMissionBoard(filters?: MissionFilters): Mission[] {
-        let missions = this.missionStore.list();
+    async getMissionBoard(filters?: MissionFilters): Promise<Mission[]> {
+        let missions = await this.missionStore.list();
 
         if (filters?.scope === 'mine' && filters?.viewer_id) {
             missions = missions.filter(m => m.requester_id === filters.viewer_id);
@@ -594,10 +553,8 @@ export class MissionRegistry {
 
         if (filters?.type) {
             if (filters.type === 'crew') {
-                // Crew missions have assignment_mode === 'crew'
                 missions = missions.filter(m => m.assignment_mode === 'crew');
             } else if (filters.type === 'solo') {
-                // Solo missions are anything NOT crew (autopilot, bidding, direct_hire)
                 missions = missions.filter(m => m.assignment_mode !== 'crew');
             }
         }
@@ -632,19 +589,19 @@ export class MissionRegistry {
     /**
      * Get mission by ID with full details
      */
-    getMission(missionId: string): Mission | null {
-        return this.missionStore.get(missionId);
+    async getMission(missionId: string): Promise<Mission | null> {
+        return await this.missionStore.get(missionId);
     }
 
     /**
      * Get missions for agent
      */
-    getAgentMissions(agentId: string): {
+    async getAgentMissions(agentId: string): Promise<{
         active: Mission[];
         completed: Mission[];
         failed: Mission[];
-    } {
-        const allMissions = this.missionStore.list();
+    }> {
+        const allMissions = await this.missionStore.list();
 
         const agentMissions = allMissions.filter(m =>
             m.assigned_agent?.agent_id === agentId ||
@@ -662,8 +619,6 @@ export class MissionRegistry {
 
     /**
      * Start mission execution (requires worker bond)
-     * 
-     * CRITICAL: Worker MUST stake bond before mission can begin execution
      */
     async startMission(missionId: string, workerId: string): Promise<{
         success: boolean;
@@ -671,14 +626,12 @@ export class MissionRegistry {
         error?: string;
         code?: string;
     }> {
-        const mission = this.missionStore.get(missionId);
+        const mission = await this.missionStore.get(missionId);
 
-        // Validation
         if (!mission) {
             return { success: false, error: 'Mission not found', code: 'MISSION_NOT_FOUND' };
         }
 
-        // ✅ CRITICAL: Reject bidding missions gracefully (not a failure, just not ready)
         if (mission.status === 'bidding_open') {
             return {
                 success: false,
@@ -725,12 +678,11 @@ export class MissionRegistry {
             };
         }
 
-        // ✅ CRITICAL: Use canonical transition method
+        // Canonical transition
         try {
-            this.transitionMission(missionId, 'executing');
+            await this.transitionMission(missionId, 'executing');
         } catch (error: any) {
             console.error(`[MissionRegistry] CRITICAL: Failed to transition to executing:`, error);
-            // Try to release bond since we failed
             await this.bondManager.releaseWorkerBond(missionId);
             return {
                 success: false,
@@ -750,11 +702,11 @@ export class MissionRegistry {
     /**
      * @deprecated Use startMission() which requires bond staking
      */
-    startExecution(missionId: string): boolean {
-        const mission = this.missionStore.get(missionId);
+    async startExecution(missionId: string): Promise<boolean> {
+        const mission = await this.missionStore.get(missionId);
         if (!mission || mission.status !== 'assigned') return false;
 
-        this.missionStore.update(missionId, {
+        await this.missionStore.update(missionId, {
             status: 'executing',
             executing_started_at: new Date()
         });
@@ -766,20 +718,18 @@ export class MissionRegistry {
     /**
      * Submit work for verification
      */
-    submitWork(missionId: string, agentId: string, content: string, artifacts: import('./mission-store').ArtifactMetadata[]): boolean {
-        const mission = this.missionStore.get(missionId);
+    async submitWork(missionId: string, agentId: string, content: string, artifacts: ArtifactMetadata[]): Promise<boolean> {
+        const mission = await this.missionStore.get(missionId);
         if (!mission || mission.status !== 'executing') return false;
         if (mission.assigned_agent?.agent_id !== agentId) return false;
 
-        // Validate content
         if (!content && (!artifacts || artifacts.length === 0)) {
             console.warn(`[MissionRegistry] Submission rejected: Empty content and artifacts`);
             return false;
         }
 
-        // ✅ CRITICAL: Use canonical transition method with submission data
         try {
-            this.transitionMission(missionId, 'verifying', {
+            await this.transitionMission(missionId, 'verifying', {
                 submission: {
                     content,
                     artifacts: [],  // Legacy field
@@ -792,14 +742,11 @@ export class MissionRegistry {
             return false;
         }
 
-        // Dispatch verification task to requester (if they are an agent) OR just log for human verifier
         const requesterId = mission.requester_id;
-
-        // Check if requester is an agent using AgentAuth
-        const requesterAgent = this.agentAuth.getById(requesterId); // Assuming requester_id can be agent ID
+        const requesterAgent = await this.agentAuth.getById(requesterId);
 
         if (requesterAgent) {
-            this.taskQueue.enqueue({
+            await this.taskQueue.enqueue({
                 agent_id: requesterId,
                 type: 'verification_required',
                 priority: 'urgent',
@@ -813,8 +760,6 @@ export class MissionRegistry {
             });
             console.log(`[MissionRegistry] Dispatched verification task to agent ${requesterId}`);
         } else {
-            // Human requester - UI will poll for status 'verifying'
-            // We could add a 'user_notifications' queue later
             console.log(`[MissionRegistry] Work submitted. Waiting for human verification from ${requesterId}`);
         }
 
@@ -825,19 +770,14 @@ export class MissionRegistry {
     /**
      * Dispatch mission to agent via task queue
      */
-    private dispatchMissionToAgent(missionId: string, agentId: string): void {
-        const mission = this.missionStore.get(missionId);
+    private async dispatchMissionToAgent(missionId: string, agentId: string): Promise<void> {
+        const mission = await this.missionStore.get(missionId);
         if (!mission) return;
 
         console.log(`[MissionRegistry] 🚀 DISPATCHING mission ${missionId} to agent ${agentId}`);
-        console.log(`[MissionRegistry] Mission title: "${mission.title}", reward: ${mission.reward}`);
 
-        // DEBUG: Write to file to confirm this is being called
-        const fs = require('fs');
-        const debugLog = `${new Date().toISOString()} - DISPATCH CALLED: mission=${missionId}, agent=${agentId}\n`;
-        fs.appendFileSync('./data/dispatch-debug.log', debugLog);
-
-        this.taskQueue.enqueue({
+        // Await the enqueue to ensure it's persisted in DB
+        await this.taskQueue.enqueue({
             agent_id: agentId,
             type: 'mission_assigned',
             priority: 'high',
@@ -857,9 +797,6 @@ export class MissionRegistry {
 
     /**
      * Settle mission with automatic SettlementEngine integration
-     * 
-     * Call this after verification consensus is reached.
-     * Settlement is AUTOMATIC and deterministic.
      */
     async settleMissionWithVerification(
         missionId: string,
@@ -875,7 +812,7 @@ export class MissionRegistry {
         settlement?: any;
         error?: string;
     }> {
-        const mission = this.missionStore.get(missionId);
+        const mission = await this.missionStore.get(missionId);
 
         if (!mission) {
             return { success: false, error: 'Mission not found' };
@@ -887,13 +824,11 @@ export class MissionRegistry {
 
         console.log(`\n[MissionRegistry] Settling mission ${missionId} with ${votes.length} verification votes\n`);
 
-        // Update mission to settling state
-        this.missionStore.update(missionId, {
+        await this.missionStore.update(missionId, {
             status: 'verifying',
             verifying_started_at: new Date()
         });
 
-        // Call SettlementEngine for automatic settlement
         const settlement = await this.settlementEngine.settleMission(
             missionId,
             mission.requester_id,
@@ -912,9 +847,8 @@ export class MissionRegistry {
             };
         }
 
-        // Update mission based on outcome
         if (settlement.outcome === 'PASS') {
-            this.missionStore.update(missionId, {
+            await this.missionStore.update(missionId, {
                 status: 'settled',
                 settled_at: new Date(),
                 escrow: {
@@ -924,17 +858,17 @@ export class MissionRegistry {
                 }
             });
 
-            // Update agent reputation (success)
-            const agent = this.agentAuth.getById(mission.assigned_agent.agent_id);
-            if (agent) {
-                agent.reputation = Math.min(100, agent.reputation + 5);
-            }
+            // Update agent reputation (success) - requires admin key or method on Auth
+            // For now, assuming agentAuth has internal methods or we manually update DB
+            // We can't use agent.reputation += 5 then save unless we have apiKey/updateProfile
+            // But we can use `pool` if we had access. `AgentAuth` has `updateReputation`.
+            await this.agentAuth.updateReputation(mission.assigned_agent.agent_id, (await this.agentAuth.getById(mission.assigned_agent.agent_id))!.reputation + 5);
 
             console.log(`[MissionRegistry] Mission ${missionId} settled successfully (PASS)\n`);
 
         } else {
             // FAIL
-            this.missionStore.update(missionId, {
+            await this.missionStore.update(missionId, {
                 status: 'failed',
                 failed_at: new Date(),
                 failure_reason: 'Verification failed',
@@ -946,10 +880,7 @@ export class MissionRegistry {
             });
 
             // Update agent reputation (failure)
-            const agent = this.agentAuth.getById(mission.assigned_agent.agent_id);
-            if (agent) {
-                agent.reputation = Math.max(0, agent.reputation - 10);
-            }
+            await this.agentAuth.updateReputation(mission.assigned_agent.agent_id, (await this.agentAuth.getById(mission.assigned_agent.agent_id))!.reputation - 10);
 
             console.log(`[MissionRegistry] Mission ${missionId} settled as failure (FAIL)\n`);
         }
@@ -963,19 +894,16 @@ export class MissionRegistry {
 
     /**
      * @deprecated Use settleMissionWithVerification() for automatic settlement
-     * 
-     * Legacy manual settlement method
      */
-    settleMission(missionId: string, outcome: 'success' | 'failure', reason?: string): boolean {
-        const mission = this.missionStore.get(missionId);
+    async settleMission(missionId: string, outcome: 'success' | 'failure', reason?: string): Promise<boolean> {
+        const mission = await this.missionStore.get(missionId);
         if (!mission) return false;
 
         if (outcome === 'success') {
-            // Release Escrow
-            const releaseResult = this.escrowEngine.releaseToAgent(missionId, mission.assigned_agent!.agent_id);
+            const releaseResult = await this.escrowEngine.releaseToAgent(missionId, mission.assigned_agent!.agent_id);
 
             if (releaseResult.success) {
-                this.missionStore.update(missionId, {
+                await this.missionStore.update(missionId, {
                     status: 'settled',
                     settled_at: new Date(),
                     escrow: {
@@ -985,8 +913,7 @@ export class MissionRegistry {
                     }
                 });
 
-                // Dispatch Payment Notification
-                this.taskQueue.enqueue({
+                await this.taskQueue.enqueue({
                     agent_id: mission.assigned_agent!.agent_id,
                     type: 'payment_received',
                     priority: 'high',
@@ -997,60 +924,43 @@ export class MissionRegistry {
                     }
                 });
 
-                // Update agent reputation (mock)
-                const agent = this.agentAuth.getById(mission.assigned_agent!.agent_id);
-                if (agent) {
-                    // Workaround: Mock reputation increase on the object directly
-                    // Note: This won't persist to disk unless we have the API key to call updateProfile
-                    // or add a method to AgentAuth to update by ID (admin only)
-                    agent.reputation = Math.min(100, agent.reputation + 2);
-                }
+                // Update agent reputation
+                await this.agentAuth.updateReputation(mission.assigned_agent!.agent_id, (await this.agentAuth.getById(mission.assigned_agent!.agent_id))!.reputation + 2);
 
                 console.log(`[MissionRegistry] Mission ${missionId} settled successfully. Funds released.`);
             } else {
                 console.error(`[MissionRegistry] Failed to release escrow: ${releaseResult.error}`);
-                // Mission stays in 'verifying' or moves to 'failed'? 
-                // Currently returning false implies failure to settle
                 return false;
             }
 
         } else {
-            // Slash and Refund
-            // Default: 100% refund to requester (100% slash of potential earnings, essentially cancellation)
-            // If we had staking, we would slash the stake.
-            // Here "slashing" means the agent doesn't get paid, and money goes back to requester.
-            const slashResult = this.escrowEngine.slashAndRefund(missionId, reason || 'Verification failed');
+            const slashResult = await this.escrowEngine.slashAndRefund(missionId, reason || 'Verification failed');
 
             if (slashResult.success) {
-                this.missionStore.update(missionId, {
+                await this.missionStore.update(missionId, {
                     status: 'failed',
                     failed_at: new Date(),
                     failure_reason: reason,
                     escrow: {
                         locked: false,
                         amount: mission.reward,
-                        released_at: new Date() // Actually refunded
+                        released_at: new Date()
                     }
                 });
 
-                // Dispatch Failure/Slash Notification
-                this.taskQueue.enqueue({
+                await this.taskQueue.enqueue({
                     agent_id: mission.assigned_agent!.agent_id,
-                    type: 'bond_slashed', // or mission_failed
+                    type: 'bond_slashed',
                     priority: 'high',
                     payload: {
                         mission_id: missionId,
                         action: `Mission rejected: ${reason}`,
                         reason: reason,
-                        amount: 0 // No bond staked yet in this MVP
+                        amount: 0
                     }
                 });
 
-                // Reduce reputation
-                const agent = this.agentAuth.getById(mission.assigned_agent!.agent_id);
-                if (agent) {
-                    agent.reputation = Math.max(0, agent.reputation - 5);
-                }
+                await this.agentAuth.updateReputation(mission.assigned_agent!.agent_id, (await this.agentAuth.getById(mission.assigned_agent!.agent_id))!.reputation - 5);
 
                 console.log(`[MissionRegistry] Mission ${missionId} failed: ${reason}. Funds refunded.`);
             } else {
@@ -1097,7 +1007,7 @@ export class MissionRegistry {
         ];
 
         // Update mission with task graph
-        this.missionStore.update(mission.id, {
+        await this.missionStore.update(mission.id, {
             status: 'posted',
             task_graph: {
                 nodes: subtasks.reduce((acc, st) => {
@@ -1111,7 +1021,7 @@ export class MissionRegistry {
 
         // Enqueue crew_task_available for each subtask
         for (const subtask of subtasks) {
-            this.taskQueue.enqueue({
+            await this.taskQueue.enqueue({
                 agent_id: 'broadcast',
                 type: 'crew_task_available',
                 priority: 'high',
@@ -1129,7 +1039,7 @@ export class MissionRegistry {
         console.log(`[MissionRegistry] Crew mission ${mission.id} created with ${subtasks.length} subtasks`);
 
         return {
-            mission: this.missionStore.get(mission.id)!,
+            mission: (await this.missionStore.get(mission.id))!,
             assignment_mode: 'crew',
             crew_subtasks: subtasks.map(st => ({
                 id: st.id,

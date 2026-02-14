@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Terminal, DollarSign, Upload, AlertCircle, Loader2, Target, Shield, Zap, Tag, ChevronRight, X } from "lucide-react";
+import { Terminal, DollarSign, Upload, AlertCircle, Loader2, Target, Shield, Zap, Tag, ChevronRight, X, Users } from "lucide-react";
 import Link from "next/link";
 import { useSWRConfig } from "swr";
 import { useAccount, useSignMessage, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
@@ -10,6 +10,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { parseEther, keccak256, toBytes } from "viem";
 import { abi as ClawgerManagerABI, CLAWGER_MANAGER_ADDRESS } from "../../lib/contracts";
 import { toast } from "sonner";
+import { MISSION_CATEGORIES } from "@core/constants";
 
 export default function SubmitMissionPage() {
     const router = useRouter();
@@ -21,14 +22,16 @@ export default function SubmitMissionPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [missionType, setMissionType] = useState<'solo' | 'crew'>('solo');
+    const [crewSize, setCrewSize] = useState(2);
+    const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         reward: '',
-        specialties: '',
         requirements: '',
         deliverables: '',
-        tags: '',
         deadline: ''
     });
 
@@ -42,6 +45,14 @@ export default function SubmitMissionPage() {
         setSelectedFiles(files => files.filter((_, i) => i !== index));
     };
 
+    const toggleCategory = (category: string, list: string[], setter: (list: string[]) => void) => {
+        if (list.includes(category)) {
+            setter(list.filter(c => c !== category));
+        } else {
+            setter([...list, category]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -50,15 +61,18 @@ export default function SubmitMissionPage() {
             return;
         }
 
+        if (selectedSpecialties.length === 0) {
+            toast.error("Please select at least one required specialty");
+            return;
+        }
+
         setIsSubmitting(true);
         setError(null);
 
         try {
             // Parse form data
-            const specialties = formData.specialties.split(',').map(s => s.trim()).filter(Boolean);
             const requirements = formData.requirements.split('\\n').map(s => s.trim()).filter(Boolean);
             const deliverables = formData.deliverables.split('\\n').map(s => s.trim()).filter(Boolean);
-            const tags = formData.tags.split(',').map(s => s.trim()).filter(Boolean);
             const rewardAmount = parseFloat(formData.reward);
 
             // Generate mission ID
@@ -81,32 +95,41 @@ export default function SubmitMissionPage() {
             // Note: In production, you'd use useWaitForTransactionReceipt hook
             // For now, we'll proceed after getting the tx hash
 
-            // Step 4: Submit to backend with escrow proof
-            const payload = {
-                title: formData.title,
-                description: formData.description,
-                reward: rewardAmount,
-                specialties,
-                requirements,
-                deliverables,
-                tags,
-                deadline: formData.deadline ? new Date(formData.deadline).toISOString() : undefined,
-                timeout_seconds: 3600 * 24 * 3,
-                // Production escrow proof
-                wallet_address: address,
-                wallet_signature: signature,
-                tx_hash: txHash,
-                mission_id: missionIdBytes,
-                escrow_locked: true,
-            };
+            // Step 4: Prepare payload with files
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('description', formData.description);
+            formDataToSend.append('reward', rewardAmount.toString());
+            formDataToSend.append('specialties', JSON.stringify(selectedSpecialties));
+            formDataToSend.append('requirements', JSON.stringify(requirements));
+            formDataToSend.append('deliverables', JSON.stringify(deliverables));
+            formDataToSend.append('tags', JSON.stringify(selectedTags));
+            formDataToSend.append('mission_type', missionType);
+            if (missionType === 'crew') {
+                formDataToSend.append('crew_size', crewSize.toString());
+                formDataToSend.append('crew_enabled', 'true');
+            }
+            if (formData.deadline) {
+                formDataToSend.append('deadline', new Date(formData.deadline).toISOString());
+            }
+            formDataToSend.append('timeout_seconds', (3600 * 24 * 3).toString());
+            formDataToSend.append('wallet_address', address);
+            formDataToSend.append('wallet_signature', signature);
+            formDataToSend.append('tx_hash', txHash);
+            formDataToSend.append('mission_id', missionIdBytes);
+            formDataToSend.append('escrow_locked', 'true');
+
+            // Attach files
+            selectedFiles.forEach((file, index) => {
+                formDataToSend.append(`file_${index}`, file);
+            });
 
             const response = await fetch('/api/missions', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${address}`,
                 },
-                body: JSON.stringify(payload)
+                body: formDataToSend
             });
 
             const data = await response.json();
@@ -202,41 +225,100 @@ export default function SubmitMissionPage() {
                         </div>
                     </div>
 
-                    {/* Section 2: Requirements & Config */}
+                    {/* Section 2: Mission Type & Configuration */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-2 text-xs font-bold text-muted uppercase tracking-wider mb-4 border-b border-white/5 pb-2">
                             <Zap className="w-3 h-3 text-primary" /> Configuration
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Specialties */}
-                            <div className="space-y-2">
-                                <label className="text-xs uppercase font-bold text-muted ml-1">Required Specialties <span className="text-red-500">*</span></label>
-                                <input
-                                    type="text"
-                                    required
-                                    placeholder="e.g. Solidity, Python, Security"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-muted/30 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                                    value={formData.specialties}
-                                    onChange={(e) => setFormData({ ...formData, specialties: e.target.value })}
-                                />
-                                <p className="text-[10px] text-muted pl-1">Comma separated skills required for agents.</p>
+                        {/* Mission Type Selector */}
+                        <div className="space-y-2">
+                            <label className="text-xs uppercase font-bold text-muted ml-1">Mission Type <span className="text-red-500">*</span></label>
+                            <div className="grid grid-cols-2 gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setMissionType('solo')}
+                                    className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 ${missionType === 'solo'
+                                            ? 'bg-primary/10 border-primary/50 text-primary'
+                                            : 'bg-white/5 border-white/10 text-muted hover:border-white/20'
+                                        }`}
+                                >
+                                    <Target className="w-4 h-4" />
+                                    <span className="font-medium">Solo Mission</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setMissionType('crew')}
+                                    className={`px-4 py-3 rounded-xl border transition-all flex items-center justify-center gap-2 ${missionType === 'crew'
+                                            ? 'bg-primary/10 border-primary/50 text-primary'
+                                            : 'bg-white/5 border-white/10 text-muted hover:border-white/20'
+                                        }`}
+                                >
+                                    <Users className="w-4 h-4" />
+                                    <span className="font-medium">Crew Mission</span>
+                                </button>
                             </div>
+                            <p className="text-[10px] text-muted pl-1">
+                                {missionType === 'solo' ? 'Single agent will handle the entire mission' : 'Multiple agents will collaborate on different subtasks'}
+                            </p>
+                        </div>
 
-                            {/* Tags */}
+                        {/* Crew Size (only for crew missions) */}
+                        {missionType === 'crew' && (
                             <div className="space-y-2">
-                                <label className="text-xs uppercase font-bold text-muted ml-1">Tags</label>
-                                <div className="relative">
-                                    <Tag className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-                                    <input
-                                        type="text"
-                                        placeholder="defi, arbitrage, audit"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder:text-muted/30 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                                        value={formData.tags}
-                                        onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                                    />
-                                </div>
+                                <label className="text-xs uppercase font-bold text-muted ml-1">Number of Agents Needed</label>
+                                <input
+                                    type="number"
+                                    min="2"
+                                    max="10"
+                                    value={crewSize}
+                                    onChange={(e) => setCrewSize(parseInt(e.target.value) || 2)}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-muted/30 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
+                                />
+                                <p className="text-[10px] text-muted pl-1">How many agents will work on this mission (2-10)</p>
                             </div>
+                        )}
+
+                        {/* Required Specialties (Multi-select) */}
+                        <div className="space-y-2">
+                            <label className="text-xs uppercase font-bold text-muted ml-1">Required Specialties <span className="text-red-500">*</span></label>
+                            <div className="flex flex-wrap gap-2">
+                                {MISSION_CATEGORIES.map((category) => (
+                                    <button
+                                        key={category}
+                                        type="button"
+                                        onClick={() => toggleCategory(category, selectedSpecialties, setSelectedSpecialties)}
+                                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${selectedSpecialties.includes(category)
+                                                ? 'bg-primary text-black'
+                                                : 'bg-white/5 text-muted border border-white/10 hover:border-primary/30'
+                                            }`}
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
+                            </div>
+                            <p className="text-[10px] text-muted pl-1">Select the skills required for agents to complete this mission</p>
+                        </div>
+
+                        {/* Tags (Multi-select) */}
+                        <div className="space-y-2">
+                            <label className="text-xs uppercase font-bold text-muted ml-1">Mission Tags</label>
+                            <div className="flex flex-wrap gap-2">
+                                {MISSION_CATEGORIES.map((category) => (
+                                    <button
+                                        key={category}
+                                        type="button"
+                                        onClick={() => toggleCategory(category, selectedTags, setSelectedTags)}
+                                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${selectedTags.includes(category)
+                                                ? 'bg-orange-500/20 text-primary border border-primary/30'
+                                                : 'bg-white/5 text-muted border border-white/10 hover:border-white/20'
+                                            }`}
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
+                            </div>
+                            <p className="text-[10px] text-muted pl-1">Categorize your mission for better discoverability</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

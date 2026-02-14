@@ -1,5 +1,4 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '../db';
 
 /**
  * Escrow status for a mission
@@ -20,168 +19,52 @@ export interface EscrowStatus {
  * Transaction record
  */
 export interface Transaction {
-    id: string;
+    id: number; // Changed from string to number (SERIAL)
+    tx_id: string;
     type: 'transfer' | 'escrow_lock' | 'escrow_release' | 'escrow_slash' | 'mint' | 'burn';
     from?: string;
     to?: string;
     amount: number;
     missionId?: string;
-    timestamp: Date;
     metadata?: any;
-}
-
-/**
- * Ledger state
- */
-interface LedgerState {
-    balances: { [address: string]: number };
-    escrows: { [missionId: string]: EscrowStatus };
-    transactions: Transaction[];
+    timestamp: Date;
 }
 
 /**
  * TokenLedger - $CLAWGER balance tracking and escrow accounting
  * 
  * Deterministic, append-only ledger for token operations
+ * Now backed by PostgreSQL.
  */
 export class TokenLedger {
-    private dataDir: string;
-    private ledgerFile: string;
-    private state: LedgerState;
-    private txCounter: number;
 
-    constructor(dataDir: string = './data') {
-        this.dataDir = dataDir;
-        this.ledgerFile = path.join(dataDir, 'token-ledger.json');
-        this.state = {
-            balances: {},
-            escrows: {},
-            transactions: []
-        };
-        this.txCounter = 0;
-        this.load();
-    }
-
-    /**
-     * Load ledger state from disk
-     */
-    private load(): void {
-        if (!fs.existsSync(this.dataDir)) {
-            fs.mkdirSync(this.dataDir, { recursive: true });
-        }
-
-        if (fs.existsSync(this.ledgerFile)) {
-            try {
-                const data = JSON.parse(fs.readFileSync(this.ledgerFile, 'utf-8'));
-
-                // Restore state with date conversion
-                this.state.balances = data.balances || {};
-                this.state.escrows = {};
-                this.state.transactions = [];
-
-                // Convert escrow dates
-                if (data.escrows) {
-                    for (const [missionId, escrow] of Object.entries(data.escrows)) {
-                        this.state.escrows[missionId] = {
-                            ...(escrow as any),
-                            locked_at: new Date((escrow as any).locked_at),
-                            released_at: (escrow as any).released_at ? new Date((escrow as any).released_at) : undefined,
-                            slashed_at: (escrow as any).slashed_at ? new Date((escrow as any).slashed_at) : undefined
-                        };
-                    }
-                }
-
-                // Convert transaction dates
-                if (data.transactions) {
-                    this.state.transactions = data.transactions.map((tx: any) => ({
-                        ...tx,
-                        timestamp: new Date(tx.timestamp)
-                    }));
-
-                    // Update counter
-                    this.txCounter = this.state.transactions.length;
-                }
-            } catch (error) {
-                console.error('Failed to load token ledger:', error);
-            }
-        } else {
-            // Initialize with seed balances for testing
-            this.seedInitialBalances();
-        }
-    }
-
-    /**
-     * Save ledger state to disk
-     */
-    private save(): void {
-        const data = {
-            balances: this.state.balances,
-            escrows: Object.fromEntries(
-                Object.entries(this.state.escrows).map(([id, escrow]) => [
-                    id,
-                    {
-                        ...escrow,
-                        locked_at: escrow.locked_at.toISOString(),
-                        released_at: escrow.released_at?.toISOString(),
-                        slashed_at: escrow.slashed_at?.toISOString()
-                    }
-                ])
-            ),
-            transactions: this.state.transactions.map(tx => ({
-                ...tx,
-                timestamp: tx.timestamp.toISOString()
-            }))
-        };
-
-        fs.writeFileSync(this.ledgerFile, JSON.stringify(data, null, 2));
-    }
-
-    /**
-     * Seed initial balances for testing
-     */
-    private seedInitialBalances(): void {
-        // Give some test wallets initial balances
-        this.state.balances = {
-            '0x1234567890123456789012345678901234567890': 10000, // Test wallet 1
-            '0x0987654321098765432109876543210987654321': 5000,  // Test wallet 2
-            '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd': 2500   // Test wallet 3
-        };
-
-        // Record mint transactions
-        for (const [address, amount] of Object.entries(this.state.balances)) {
-            this.recordTransaction({
-                type: 'mint',
-                to: address,
-                amount,
-                metadata: { reason: 'Initial seed balance' }
-            });
-        }
-
-        this.save();
+    constructor() {
+        console.log('[TokenLedger] Initialized with PostgreSQL persistence');
     }
 
     /**
      * Get balance for an address
      */
-    getBalance(address: string): number {
-        const normalizedAddress = address.toLowerCase();
-        return this.state.balances[normalizedAddress] || 0;
+    async getBalance(address: string): Promise<number> {
+        const result = await pool.query('SELECT balance FROM ledger_balances WHERE address = $1', [address.toLowerCase()]);
+        return result.rows.length > 0 ? parseFloat(result.rows[0].balance) : 0;
     }
 
     /**
      * Get available balance (total - escrowed)
      */
-    getAvailableBalance(address: string): number {
+    async getAvailableBalance(address: string): Promise<number> {
         const normalizedAddress = address.toLowerCase();
-        const total = this.getBalance(normalizedAddress);
+        const total = await this.getBalance(normalizedAddress);
 
         // Calculate escrowed amount
-        let escrowed = 0;
-        for (const escrow of Object.values(this.state.escrows)) {
-            if (escrow.owner.toLowerCase() === normalizedAddress && escrow.status === 'locked') {
-                escrowed += escrow.amount;
-            }
-        }
+        const escrowResult = await pool.query(`
+            SELECT SUM(amount) as locked_amount 
+            FROM ledger_escrows 
+            WHERE owner = $1 AND status = 'locked'
+        `, [normalizedAddress]);
+
+        const escrowed = escrowResult.rows[0].locked_amount ? parseFloat(escrowResult.rows[0].locked_amount) : 0;
 
         return total - escrowed;
     }
@@ -189,259 +72,372 @@ export class TokenLedger {
     /**
      * Get escrowed amount for an address
      */
-    getEscrowedAmount(address: string): number {
-        const normalizedAddress = address.toLowerCase();
-        let escrowed = 0;
+    async getEscrowedAmount(address: string): Promise<number> {
+        const result = await pool.query(`
+            SELECT SUM(amount) as locked_amount 
+            FROM ledger_escrows 
+            WHERE owner = $1 AND status = 'locked'
+        `, [address.toLowerCase()]);
 
-        for (const escrow of Object.values(this.state.escrows)) {
-            if (escrow.owner.toLowerCase() === normalizedAddress && escrow.status === 'locked') {
-                escrowed += escrow.amount;
-            }
-        }
-
-        return escrowed;
+        return result.rows[0].locked_amount ? parseFloat(result.rows[0].locked_amount) : 0;
     }
 
     /**
      * Lock escrow for a mission
      */
-    lockEscrow(address: string, amount: number, missionId: string): boolean {
+    async lockEscrow(address: string, amount: number, missionId: string): Promise<boolean> {
         const normalizedAddress = address.toLowerCase();
 
-        // Check if escrow already exists
-        if (this.state.escrows[missionId]) {
-            console.error(`Escrow already exists for mission: ${missionId}`);
+        // Transactional lock
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+
+            // Check if escrow already exists
+            const existing = await client.query('SELECT 1 FROM ledger_escrows WHERE mission_id = $1', [missionId]);
+            if (existing.rowCount && existing.rowCount > 0) {
+                console.error(`Escrow already exists for mission: ${missionId}`);
+                await client.query('ROLLBACK');
+                return false;
+            }
+
+            // Check AVAILABLE balance (this is tricky in SQL without locking rows)
+            // Ideally we calculate available balance based on current state
+            // For MVP, we trust getAvailableBalance logic but ensure consistency
+            const currentBalanceRes = await client.query('SELECT balance FROM ledger_balances WHERE address = $1 FOR UPDATE', [normalizedAddress]);
+            const currentBalance = currentBalanceRes.rows.length > 0 ? parseFloat(currentBalanceRes.rows[0].balance) : 0;
+
+            // Check locked amount
+            const lockedRes = await client.query("SELECT SUM(amount) as locked FROM ledger_escrows WHERE owner = $1 AND status = 'locked'", [normalizedAddress]);
+            const locked = lockedRes.rows[0].locked ? parseFloat(lockedRes.rows[0].locked) : 0;
+
+            if (currentBalance - locked < amount) {
+                console.error(`Insufficient available balance. Has: ${currentBalance - locked}, Needs: ${amount}`);
+                await client.query('ROLLBACK');
+                return false;
+            }
+
+            // Create escrow
+            await client.query(`
+                INSERT INTO ledger_escrows (mission_id, owner, amount, status)
+                VALUES ($1, $2, $3, 'locked')
+            `, [missionId, normalizedAddress, amount]);
+
+            // Record transaction
+            await this.recordTransaction(client, {
+                type: 'escrow_lock',
+                from: normalizedAddress,
+                amount,
+                missionId,
+                metadata: { action: 'lock' }
+            });
+
+            await client.query('COMMIT');
+            return true;
+        } catch (e) {
+            await client.query('ROLLBACK');
+            console.error('Failed to lock escrow', e);
             return false;
+        } finally {
+            client.release();
         }
-
-        // Check available balance
-        const available = this.getAvailableBalance(normalizedAddress);
-        if (available < amount) {
-            console.error(`Insufficient balance. Available: ${available}, Required: ${amount}`);
-            return false;
-        }
-
-        // Create escrow
-        this.state.escrows[missionId] = {
-            missionId,
-            owner: normalizedAddress,
-            amount,
-            locked_at: new Date(),
-            status: 'locked'
-        };
-
-        // Record transaction
-        this.recordTransaction({
-            type: 'escrow_lock',
-            from: normalizedAddress,
-            amount,
-            missionId,
-            metadata: { action: 'lock' }
-        });
-
-        this.save();
-        return true;
     }
 
     /**
      * Release escrow to recipient
      */
-    releaseEscrow(missionId: string, recipient: string): boolean {
-        const escrow = this.state.escrows[missionId];
+    async releaseEscrow(missionId: string, recipient: string): Promise<boolean> {
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
 
-        if (!escrow) {
-            console.error(`Escrow not found for mission: ${missionId}`);
+            const escrowRes = await client.query("SELECT * FROM ledger_escrows WHERE mission_id = $1 FOR UPDATE", [missionId]);
+            if (escrowRes.rows.length === 0) {
+                await client.query('ROLLBACK');
+                return false;
+            }
+            const escrow = escrowRes.rows[0];
+
+            if (escrow.status !== 'locked') {
+                console.error(`Escrow not in locked state: ${escrow.status}`);
+                await client.query('ROLLBACK');
+                return false;
+            }
+
+            const normalizedRecipient = recipient.toLowerCase();
+            const amount = parseFloat(escrow.amount);
+
+            // Transfer: Update balances
+            // Decrease owner balance (it was locked, now it's gone)
+            await client.query('UPDATE ledger_balances SET balance = balance - $1 WHERE address = $2', [amount, escrow.owner]);
+
+            // Increase recipient balance
+            await client.query(`
+                INSERT INTO ledger_balances (address, balance) VALUES ($1, $2)
+                ON CONFLICT (address) DO UPDATE SET balance = ledger_balances.balance + $2
+            `, [normalizedRecipient, amount]);
+
+            // Update escrow status
+            await client.query(`
+                UPDATE ledger_escrows 
+                SET status = 'released', released_to = $1, released_at = NOW() 
+                WHERE mission_id = $2
+            `, [normalizedRecipient, missionId]);
+
+            // Record transaction
+            await this.recordTransaction(client, {
+                type: 'escrow_release',
+                from: escrow.owner,
+                to: normalizedRecipient,
+                amount,
+                missionId,
+                metadata: { action: 'release' }
+            });
+
+            await client.query('COMMIT');
+            return true;
+        } catch (e) {
+            await client.query('ROLLBACK');
+            console.error('Failed to release escrow', e);
             return false;
+        } finally {
+            client.release();
         }
-
-        if (escrow.status !== 'locked') {
-            console.error(`Escrow not in locked state: ${escrow.status}`);
-            return false;
-        }
-
-        const normalizedRecipient = recipient.toLowerCase();
-
-        // Transfer from owner to recipient
-        this.transfer(escrow.owner, normalizedRecipient, escrow.amount);
-
-        // Update escrow status
-        escrow.status = 'released';
-        escrow.released_to = normalizedRecipient;
-        escrow.released_at = new Date();
-
-        // Record transaction
-        this.recordTransaction({
-            type: 'escrow_release',
-            from: escrow.owner,
-            to: normalizedRecipient,
-            amount: escrow.amount,
-            missionId,
-            metadata: { action: 'release' }
-        });
-
-        this.save();
-        return true;
     }
 
     /**
      * Slash escrow (partial or full)
      */
-    slashEscrow(missionId: string, slashAmount: number): boolean {
-        const escrow = this.state.escrows[missionId];
+    async slashEscrow(missionId: string, slashAmount: number): Promise<boolean> {
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
 
-        if (!escrow) {
-            console.error(`Escrow not found for mission: ${missionId}`);
+            const escrowRes = await client.query("SELECT * FROM ledger_escrows WHERE mission_id = $1 FOR UPDATE", [missionId]);
+            if (escrowRes.rows.length === 0) {
+                await client.query('ROLLBACK');
+                return false;
+            }
+            const escrow = escrowRes.rows[0];
+            const lockedAmount = parseFloat(escrow.amount);
+
+
+            if (escrow.status !== 'locked') {
+                await client.query('ROLLBACK');
+                return false;
+            }
+
+            if (slashAmount > lockedAmount) {
+                console.error(`Slash amount exceeds escrow: ${slashAmount} > ${lockedAmount}`);
+                await client.query('ROLLBACK');
+                return false;
+            }
+
+            // Burn slashed amount (remove from owner balance)
+            await client.query('UPDATE ledger_balances SET balance = balance - $1 WHERE address = $2', [slashAmount, escrow.owner]);
+
+            // Update escrow status
+            await client.query(`
+                UPDATE ledger_escrows 
+                SET status = 'slashed', slashed_amount = $1, slashed_at = NOW() 
+                WHERE mission_id = $2
+            `, [slashAmount, missionId]);
+
+            const remainder = lockedAmount - slashAmount;
+
+            // Record transaction
+            await this.recordTransaction(client, {
+                type: 'escrow_slash',
+                from: escrow.owner,
+                amount: slashAmount,
+                missionId,
+                metadata: { action: 'slash', remainder }
+            });
+
+            await client.query('COMMIT');
+            return true;
+        } catch (e) {
+            await client.query('ROLLBACK');
+            console.error('Failed to slash escrow', e);
             return false;
+        } finally {
+            client.release();
         }
-
-        if (escrow.status !== 'locked') {
-            console.error(`Escrow not in locked state: ${escrow.status}`);
-            return false;
-        }
-
-        if (slashAmount > escrow.amount) {
-            console.error(`Slash amount exceeds escrow: ${slashAmount} > ${escrow.amount}`);
-            return false;
-        }
-
-        // Burn slashed amount (remove from circulation)
-        const currentBalance = this.getBalance(escrow.owner);
-        this.state.balances[escrow.owner] = currentBalance - slashAmount;
-
-        // Update escrow status
-        escrow.status = 'slashed';
-        escrow.slashed_amount = slashAmount;
-        escrow.slashed_at = new Date();
-
-        // If partial slash, release remainder
-        const remainder = escrow.amount - slashAmount;
-        if (remainder > 0) {
-            // Remainder stays with owner (already in their balance)
-        }
-
-        // Record transaction
-        this.recordTransaction({
-            type: 'escrow_slash',
-            from: escrow.owner,
-            amount: slashAmount,
-            missionId,
-            metadata: { action: 'slash', remainder }
-        });
-
-        this.save();
-        return true;
     }
 
     /**
      * Transfer tokens between addresses
      */
-    transfer(from: string, to: string, amount: number): boolean {
+    async transfer(from: string, to: string, amount: number): Promise<boolean> {
         const normalizedFrom = from.toLowerCase();
         const normalizedTo = to.toLowerCase();
+        const client = await pool.connect();
 
-        // Check balance
-        const fromBalance = this.getBalance(normalizedFrom);
-        if (fromBalance < amount) {
-            console.error(`Insufficient balance for transfer. Has: ${fromBalance}, Needs: ${amount}`);
+        try {
+            await client.query('BEGIN');
+
+            const fromBalanceRes = await client.query('SELECT balance FROM ledger_balances WHERE address = $1 FOR UPDATE', [normalizedFrom]);
+            const fromBalance = fromBalanceRes.rows.length > 0 ? parseFloat(fromBalanceRes.rows[0].balance) : 0;
+
+            if (fromBalance < amount) {
+                console.error(`Insufficient balance for transfer. Has: ${fromBalance}, Needs: ${amount}`);
+                await client.query('ROLLBACK');
+                return false;
+            }
+
+            // Deduct from sender
+            await client.query('UPDATE ledger_balances SET balance = balance - $1 WHERE address = $2', [amount, normalizedFrom]);
+
+            // Add to recipient
+            await client.query(`
+                INSERT INTO ledger_balances (address, balance) VALUES ($1, $2)
+                ON CONFLICT (address) DO UPDATE SET balance = ledger_balances.balance + $2
+            `, [normalizedTo, amount]);
+
+            await this.recordTransaction(client, {
+                type: 'transfer',
+                from: normalizedFrom,
+                to: normalizedTo,
+                amount
+            });
+
+            await client.query('COMMIT');
+            return true;
+        } catch (e) {
+            await client.query('ROLLBACK');
+            console.error('Failed to transfer', e);
             return false;
+        } finally {
+            client.release();
         }
-
-        // Update balances
-        this.state.balances[normalizedFrom] = fromBalance - amount;
-        this.state.balances[normalizedTo] = this.getBalance(normalizedTo) + amount;
-
-        // Record transaction
-        this.recordTransaction({
-            type: 'transfer',
-            from: normalizedFrom,
-            to: normalizedTo,
-            amount
-        });
-
-        this.save();
-        return true;
     }
 
     /**
      * Get escrow status for a mission
      */
-    getEscrowStatus(missionId: string): EscrowStatus | null {
-        return this.state.escrows[missionId] || null;
+    async getEscrowStatus(missionId: string): Promise<EscrowStatus | null> {
+        const result = await pool.query('SELECT * FROM ledger_escrows WHERE mission_id = $1', [missionId]);
+        if (result.rows.length === 0) return null;
+
+        const row = result.rows[0];
+        return {
+            missionId: row.mission_id,
+            owner: row.owner,
+            amount: parseFloat(row.amount),
+            locked_at: new Date(row.locked_at),
+            status: row.status,
+            released_to: row.released_to,
+            released_at: row.released_at ? new Date(row.released_at) : undefined,
+            slashed_amount: row.slashed_amount ? parseFloat(row.slashed_amount) : undefined,
+            slashed_at: row.slashed_at ? new Date(row.slashed_at) : undefined
+        };
     }
 
     /**
      * Get all escrows for an address
      */
-    getEscrowsForAddress(address: string): EscrowStatus[] {
-        const normalizedAddress = address.toLowerCase();
-        return Object.values(this.state.escrows).filter(
-            escrow => escrow.owner === normalizedAddress
-        );
+    async getEscrowsForAddress(address: string): Promise<EscrowStatus[]> {
+        const result = await pool.query('SELECT * FROM ledger_escrows WHERE owner = $1', [address.toLowerCase()]);
+
+        return result.rows.map(row => ({
+            missionId: row.mission_id,
+            owner: row.owner,
+            amount: parseFloat(row.amount),
+            locked_at: new Date(row.locked_at),
+            status: row.status,
+            released_to: row.released_to,
+            released_at: row.released_at ? new Date(row.released_at) : undefined,
+            slashed_amount: row.slashed_amount ? parseFloat(row.slashed_amount) : undefined,
+            slashed_at: row.slashed_at ? new Date(row.slashed_at) : undefined
+        }));
     }
 
     /**
      * Get transaction history for an address
      */
-    getTransactionHistory(address: string, limit: number = 50): Transaction[] {
-        const normalizedAddress = address.toLowerCase();
+    async getTransactionHistory(address: string, limit: number = 50): Promise<Transaction[]> {
+        const result = await pool.query(`
+            SELECT * FROM ledger_transactions 
+            WHERE from_address = $1 OR to_address = $1
+            ORDER BY timestamp DESC
+            LIMIT $2
+        `, [address.toLowerCase(), limit]);
 
-        return this.state.transactions
-            .filter(tx =>
-                tx.from?.toLowerCase() === normalizedAddress ||
-                tx.to?.toLowerCase() === normalizedAddress
-            )
-            .slice(-limit)
-            .reverse();
+        return result.rows.map(row => ({
+            id: row.id,
+            tx_id: row.tx_id,
+            type: row.type,
+            from: row.from_address,
+            to: row.to_address,
+            amount: parseFloat(row.amount),
+            missionId: row.mission_id,
+            metadata: row.metadata,
+            timestamp: new Date(row.timestamp)
+        }));
     }
 
     /**
-     * Record a transaction
+     * Record a transaction (Internal Helper)
      */
-    private recordTransaction(tx: Omit<Transaction, 'id' | 'timestamp'>): void {
-        const transaction: Transaction = {
-            ...tx,
-            id: `tx_${String(this.txCounter++).padStart(6, '0')}`,
-            timestamp: new Date()
-        };
-
-        this.state.transactions.push(transaction);
+    private async recordTransaction(client: any, tx: Omit<Transaction, 'id' | 'timestamp' | 'tx_id'>): Promise<void> {
+        const txId = `tx_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+        await client.query(`
+            INSERT INTO ledger_transactions (tx_id, type, from_address, to_address, amount, mission_id, metadata)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `, [
+            txId, tx.type, tx.from, tx.to, tx.amount, tx.missionId,
+            tx.metadata ? JSON.stringify(tx.metadata) : null
+        ]);
     }
 
     /**
      * Mint tokens (for testing/admin)
      */
-    mint(address: string, amount: number): void {
+    async mint(address: string, amount: number): Promise<void> {
         const normalizedAddress = address.toLowerCase();
-        const currentBalance = this.getBalance(normalizedAddress);
-        this.state.balances[normalizedAddress] = currentBalance + amount;
 
-        this.recordTransaction({
-            type: 'mint',
-            to: normalizedAddress,
-            amount,
-            metadata: { reason: 'Manual mint' }
-        });
+        await pool.query(`
+            INSERT INTO ledger_balances (address, balance) VALUES ($1, $2)
+            ON CONFLICT (address) DO UPDATE SET balance = ledger_balances.balance + $2
+        `, [normalizedAddress, amount]);
 
-        this.save();
+        const client = await pool.connect();
+        try {
+            await this.recordTransaction(client, {
+                type: 'mint',
+                to: normalizedAddress,
+                amount,
+                metadata: { reason: 'Manual mint' }
+            });
+        } finally {
+            client.release();
+        }
     }
 
     /**
      * Get total supply
      */
-    getTotalSupply(): number {
-        return Object.values(this.state.balances).reduce((sum, balance) => sum + balance, 0);
+    async getTotalSupply(): Promise<number> {
+        const result = await pool.query('SELECT SUM(balance) as total FROM ledger_balances');
+        return result.rows[0].total ? parseFloat(result.rows[0].total) : 0;
     }
 
     /**
      * Get ledger stats
      */
-    getStats() {
+    async getStats() {
+        const supply = await this.getTotalSupply();
+        const accountsRes = await pool.query('SELECT count(*) as count FROM ledger_balances');
+        const escrowsRes = await pool.query('SELECT count(*) as count FROM ledger_escrows');
+        const lockedRes = await pool.query("SELECT count(*) as count FROM ledger_escrows WHERE status = 'locked'");
+        const txRes = await pool.query('SELECT count(*) as count FROM ledger_transactions');
+
         return {
-            totalSupply: this.getTotalSupply(),
-            totalAccounts: Object.keys(this.state.balances).length,
-            totalEscrows: Object.keys(this.state.escrows).length,
-            lockedEscrows: Object.values(this.state.escrows).filter(e => e.status === 'locked').length,
-            totalTransactions: this.state.transactions.length
+            totalSupply: supply,
+            totalAccounts: parseInt(accountsRes.rows[0].count),
+            totalEscrows: parseInt(escrowsRes.rows[0].count),
+            lockedEscrows: parseInt(lockedRes.rows[0].count),
+            totalTransactions: parseInt(txRes.rows[0].count)
         };
     }
 }

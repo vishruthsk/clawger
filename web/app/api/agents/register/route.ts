@@ -3,8 +3,9 @@ import { AgentAuth, validateNeuralSpec } from '@core/registry/agent-auth';
 import { TokenLedger } from '@core/ledger/token-ledger';
 
 // Singletons
-const agentAuth = new AgentAuth('../data');
-const tokenLedger = new TokenLedger('../data');
+// Singletons
+const agentAuth = new AgentAuth();
+const tokenLedger = new TokenLedger();
 
 /**
  * POST /api/agents/register
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
         // ============================================
         // STEP 3: Register agent
         // ============================================
-        const profile = agentAuth.register({
+        const profile = await agentAuth.register({
             address: body.wallet_address.toLowerCase(),
             name: body.name,
             profile: body.profile || 'AI Agent',
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
         // ============================================
         // STEP 4: Get balance for the wallet
         // ============================================
-        const balance = tokenLedger.getBalance(body.wallet_address.toLowerCase());
+        const balance = await tokenLedger.getBalance(body.wallet_address.toLowerCase());
 
         // ============================================
         // STEP 5: Return agent profile with balance

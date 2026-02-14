@@ -1,5 +1,4 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '../db';
 
 export interface JobHistoryEntry {
     mission_id: string;
@@ -22,149 +21,141 @@ export interface AgentJobHistory {
 }
 
 export class JobHistoryManager {
-    private dataDir: string;
-    private historyFile: string;
-    private histories: Map<string, AgentJobHistory>;
 
-    constructor(dataDir: string = './data') {
-        this.dataDir = dataDir;
-        this.historyFile = path.join(dataDir, 'job-history.json');
-        this.histories = new Map();
-        this.load();
+    constructor() {
+        console.log('[JobHistoryManager] Initialized with PostgreSQL persistence');
     }
 
     /**
      * Record a job outcome with idempotency
-     * This is the SINGLE source of truth for history updates
+     * This updates the `tasks` table and `job_reviews` table.
      */
-    recordJobOutcome(agentId: string, entry: JobHistoryEntry): void {
-        const history = this.getOrCreateHistory(agentId);
-
-        // Idempotency check
+    async recordJobOutcome(agentId: string, entry: JobHistoryEntry): Promise<void> {
         // If entry_id is not provided, generate it
         const entryId = entry.entry_id || `${entry.mission_id}:${entry.subtask_id || 'solo'}`;
         entry.entry_id = entryId;
 
-        // Check if entry already exists
-        const exists = history.jobs.some(j => j.entry_id === entryId);
-        if (exists) {
-            console.log(`[JobHistory] Skipping duplicate entry for ${agentId}: ${entryId}`);
-            return;
+        console.log(`[JobHistory] Recording ${entry.outcome} for ${agentId}: ${entry.mission_title} (+${entry.reward})`);
+
+        // Update Task table (assuming task already exists, update status)
+        // Or insert if not exists (for sidecar simulation)
+        // Note: The indexer populates 'tasks'. Here we are updating it with 'completed' status potentially.
+        // We assume mission_id corresponds to task.id for simplicity in this MVP 
+        // OR we map mission_id -> task.mission_id ??? 
+        // Indexer schema: id (primary key), mission_id (foreign/relational)
+
+        // For off-chain simulation, we will treat 'entry.mission_id' as task ID.
+
+        await pool.query(`
+            INSERT INTO tasks (
+                id, worker, reward, status, completed_at, updated_at
+            ) VALUES (
+                $1, $2, $3, $4, NOW(), NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+                worker = EXCLUDED.worker,
+                reward = EXCLUDED.reward,
+                status = EXCLUDED.status,
+                completed_at = NOW(),
+                updated_at = NOW()
+        `, [
+            entry.mission_id,
+            agentId,
+            entry.reward,
+            entry.outcome === 'PASS' ? 'verified' : 'failed'
+        ]);
+
+        // Record Review if rating exists
+        if (entry.rating) {
+            await pool.query(`
+                INSERT INTO job_reviews (mission_id, agent_id, rating)
+                VALUES ($1, $2, $3)
+                ON CONFLICT (mission_id) DO UPDATE SET rating = EXCLUDED.rating
+            `, [entry.mission_id, agentId, entry.rating]);
         }
 
-        // Add entry
-        history.jobs.push(entry);
-
-        // Update total earnings
-        history.total_earnings += entry.reward;
-
-        // Sort by date desc
-        history.jobs.sort((a, b) =>
-            new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime()
-        );
-
-        this.histories.set(agentId, history);
-        this.save();
-
-        console.log(`[JobHistory] Recorded ${entry.outcome} for ${agentId}: ${entry.mission_title} (+${entry.reward})`);
+        // Update Agent Stats (increment jobs, add earnings) - Redundant if AgentReputation does it?
+        // But JobHistory is used for history retrieval.
+        // We will query history dynamically, so no need to store aggregated stats in a file.
     }
 
     /**
      * @deprecated Use recordJobOutcome instead
      */
-    addEntry(agentId: string, entry: JobHistoryEntry): void {
-        this.recordJobOutcome(agentId, entry);
+    async addEntry(agentId: string, entry: JobHistoryEntry): Promise<void> {
+        await this.recordJobOutcome(agentId, entry);
     }
 
     /**
      * Get history for an agent
      */
-    getHistory(agentId: string): AgentJobHistory {
-        this.load(); // Force reload to get latest data from other processes/instances
-        return this.getOrCreateHistory(agentId);
+    async getHistory(agentId: string): Promise<AgentJobHistory> {
+        // Fetch tasks
+        const tasksRes = await pool.query(`
+            SELECT t.*, r.rating 
+            FROM tasks t
+            LEFT JOIN job_reviews r ON t.id = r.mission_id
+            WHERE t.worker = $1 AND (t.status = 'verified' OR t.status = 'failed')
+            ORDER BY t.completed_at DESC
+        `, [agentId]);
+
+        const jobs: JobHistoryEntry[] = tasksRes.rows.map(row => ({
+            mission_id: row.id,
+            mission_title: row.result_cid || 'Untitled Mission', // Using result_cid as title placeholder or fetch from mission store?
+            reward: parseFloat(row.reward),
+            completed_at: row.completed_at ? new Date(row.completed_at).toISOString() : new Date().toISOString(),
+            type: 'solo', // Default for now, column not in tasks table yet
+            outcome: row.status === 'verified' ? 'PASS' : 'FAIL',
+            rating: row.rating,
+            requester_id: row.requester
+        }));
+
+        const totalEarnings = jobs.reduce((sum, j) => sum + (j.outcome === 'PASS' ? j.reward : 0), 0);
+
+        return {
+            agent_id: agentId,
+            total_earnings: totalEarnings,
+            jobs: jobs
+        };
     }
 
     /**
      * Get history entry count
      */
-    getJobCount(agentId: string): number {
-        return this.getOrCreateHistory(agentId).jobs.length;
+    async getJobCount(agentId: string): Promise<number> {
+        const res = await pool.query("SELECT count(*) as count FROM tasks WHERE worker = $1 AND (status = 'verified' OR status = 'failed')", [agentId]);
+        return parseInt(res.rows[0].count);
     }
 
     /**
      * Get number of collaborations between agent and requester
      */
-    getCollaborationCount(agentId: string, requesterId: string): number {
-        const history = this.getOrCreateHistory(agentId);
-        return history.jobs.filter(j => j.requester_id === requesterId).length;
+    async getCollaborationCount(agentId: string, requesterId: string): Promise<number> {
+        const res = await pool.query("SELECT count(*) as count FROM tasks WHERE worker = $1 AND requester = $2", [agentId, requesterId]);
+        return parseInt(res.rows[0].count);
     }
 
     /**
      * Get total earnings
      */
-    getTotalEarnings(agentId: string): number {
-        return this.getOrCreateHistory(agentId).total_earnings;
+    async getTotalEarnings(agentId: string): Promise<number> {
+        const res = await pool.query("SELECT SUM(reward) as total FROM tasks WHERE worker = $1 AND status = 'verified'", [agentId]);
+        return res.rows[0].total ? parseFloat(res.rows[0].total) : 0;
     }
 
     /**
      * Get recent jobs
      */
-    getRecentJobs(agentId: string, limit: number = 10): JobHistoryEntry[] {
-        const history = this.getOrCreateHistory(agentId);
-        // Jobs are already sorted by date desc on insertion
+    async getRecentJobs(agentId: string, limit: number = 10): Promise<JobHistoryEntry[]> {
+        const history = await this.getHistory(agentId);
         return history.jobs.slice(0, limit);
     }
 
     /**
      * Get all job outcomes for an agent (for success rate calculation)
      */
-    getJobOutcomes(agentId: string): JobHistoryEntry[] {
-        return this.getOrCreateHistory(agentId).jobs;
-    }
-
-
-    private getOrCreateHistory(agentId: string): AgentJobHistory {
-        if (!this.histories.has(agentId)) {
-            this.histories.set(agentId, {
-                agent_id: agentId,
-                total_earnings: 0,
-                jobs: []
-            });
-        }
-        return this.histories.get(agentId)!;
-    }
-
-    private load(): void {
-        try {
-            if (fs.existsSync(this.historyFile)) {
-                const data = fs.readFileSync(this.historyFile, 'utf8');
-                const json = JSON.parse(data);
-
-                // Convert array to map
-                if (Array.isArray(json)) {
-                    json.forEach((h: AgentJobHistory) => {
-                        this.histories.set(h.agent_id, h);
-                    });
-                }
-            }
-        } catch (error) {
-            console.error('Failed to load job history:', error);
-            // Initialize empty if failed
-            this.histories = new Map();
-        }
-    }
-
-    private save(): void {
-        try {
-            if (!fs.existsSync(this.dataDir)) {
-                fs.mkdirSync(this.dataDir, { recursive: true });
-            }
-
-            const data = Array.from(this.histories.values());
-            fs.writeFileSync(this.historyFile, JSON.stringify(data, null, 2));
-        } catch (error) {
-            console.error('Failed to save job history:', error);
-        }
+    async getJobOutcomes(agentId: string): Promise<JobHistoryEntry[]> {
+        const history = await this.getHistory(agentId);
+        return history.jobs;
     }
 }
-

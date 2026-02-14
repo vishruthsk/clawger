@@ -73,6 +73,32 @@ export default function MissionProfile() {
         }
     };
 
+    // Handle result download
+    const handleDownloadResult = async () => {
+        try {
+            const response = await fetch(`/api/missions/${id}/result`);
+            if (!response.ok) {
+                const error = await response.json();
+                alert(error.message || 'Failed to download result');
+                return;
+            }
+
+            // Create blob and trigger download
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mission_${id}_result.json`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Download error:', error);
+            alert('Failed to download result. Please try again.');
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center">
@@ -97,18 +123,31 @@ export default function MissionProfile() {
 
     // Verifiers (Mock for now as Mission object might not have detailed verifier list yet, or it's in logic)
     // Assuming mission.verifiers is an array of IDs if available, or we use a placeholder
-    const verifierDetails = (mission.verifiers || []).map((vId: string) => ({
-        id: vId,
-        details: agents?.find((a: any) => a.address === vId)
-    }));
+    // Handle verifiers - API now returns array of objects with {agent_id, name, reputation}
+    const verifierDetails = (mission.verifiers || []).map((v: any) => {
+        // If v is already an object with agent_id, use it directly
+        if (typeof v === 'object' && v.agent_id) {
+            return {
+                id: v.agent_id,
+                name: v.name,
+                reputation: v.reputation,
+                details: v
+            };
+        }
+        // Fallback for old format (string IDs)
+        return {
+            id: v,
+            details: agents?.find((a: any) => a.address === v)
+        };
+    });
 
     // Formatted Timeline
     const TIMELINE_EVENTS = (timeline || []).map((evt: any) => ({
-        label: evt.status.replace(/_/g, ' '),
+        label: evt.event || evt.status.replace(/_/g, ' '), // Use event name, fallback to status
         time: evt.timestamp ? format(new Date(evt.timestamp), 'MMM d, HH:mm') : 'Pending',
         status: ['failed', 'timeout'].includes(evt.status) ? 'failed' :
             ['settled', 'completed'].includes(evt.status) ? 'completed' :
-                ['executing', 'verifying'].includes(evt.status) ? 'processing' : 'default',
+                ['executing', 'verified'].includes(evt.status) ? 'processing' : 'default',
         description: evt.description
     }));
 
@@ -160,21 +199,36 @@ export default function MissionProfile() {
                         {/* Info Column */}
                         <div className="flex-1 flex flex-col justify-center text-center md:text-left">
 
-                            {/* Status Pill - Smaller */}
-                            <div className="mb-3 md:mb-4 flex justify-center md:justify-start">
+                            {/* Status Pill & Badges */}
+                            <div className="mb-3 md:mb-4 flex flex-wrap justify-center md:justify-start gap-2">
                                 <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] uppercase font-bold tracking-widest ${mission.status === 'settled' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                                        mission.status === 'verifying' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
-                                            mission.status === 'executing' ? 'bg-warning/10 text-warning border-warning/30' :
-                                                mission.status === 'bidding_open' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
-                                                    'bg-white/5 text-muted border-white/10'
+                                    mission.status === 'verified' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
+                                        mission.status === 'executing' ? 'bg-warning/10 text-warning border-warning/30' :
+                                            mission.status === 'bidding_open' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
+                                                'bg-white/5 text-muted border-white/10'
                                     }`}>
                                     <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${mission.status === 'settled' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' :
-                                            mission.status === 'verifying' ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' :
-                                                mission.status === 'executing' ? 'bg-warning' :
-                                                    mission.status === 'bidding_open' ? 'bg-purple-400' : 'bg-gray-500'
+                                        mission.status === 'verified' ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' :
+                                            mission.status === 'executing' ? 'bg-warning' :
+                                                mission.status === 'bidding_open' ? 'bg-purple-400' : 'bg-gray-500'
                                         }`} />
                                     {mission.status?.replace('_', ' ')}
                                 </div>
+                                {(mission.assignment_mode === 'crew' || (mission.crew && Array.isArray(mission.crew) && mission.crew.length > 0)) && (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider border border-blue-500/20 bg-blue-500/10 text-blue-400">
+                                        <Users className="w-3 h-3" />
+                                        Crew
+                                    </span>
+                                )}
+                                {mission.demo && (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider border border-white/10 bg-black/80 text-white/50">
+                                        Demo
+                                    </span>
+                                )}
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] uppercase font-bold tracking-wider border border-white/10 bg-black/80 text-muted">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
+                                    NET::MAIN
+                                </span>
                             </div>
 
                             {/* Name & ID */}
@@ -206,7 +260,7 @@ export default function MissionProfile() {
                     <StatCard label="Reward Pool" value={mission.reward?.toLocaleString() || "0"} unit="CLAWGER" />
                     <StatCard label="Timeout" value={mission.timeout_seconds ? `${mission.timeout_seconds / 60}m` : 'N/A'} />
                     <StatCard label="Bids Placed" value={bids?.length.toString() || "0"} highlighted={bids?.length > 0} />
-                    <StatCard label="Required Bond" value={escrow?.locked ? "Posted" : "Pending"} unit={escrow?.amount ? `${escrow.amount}` : undefined} />
+                    <StatCard label="Required Bond" value={escrow?.amount ? `${escrow.amount}` : "N/A"} unit={escrow?.amount ? "CLAWGER" : undefined} />
                 </div>
 
 
@@ -278,8 +332,8 @@ export default function MissionProfile() {
                                         </div>
                                     </div>
 
-                                    {/* WORK OUTPUT SECTION - Only visible when verifying/settled/paid/verifying */}
-                                    {(['verifying', 'settled', 'paid'].includes(mission.status) && (mission.work_artifacts?.length > 0 || mission.submission?.content)) && (
+                                    {/* WORK OUTPUT SECTION - Only visible when verified/settled/paid/verified */}
+                                    {(['verified', 'settled', 'paid'].includes(mission.status) && (mission.work_artifacts?.length > 0 || mission.submission?.content)) && (
                                         <div className="bg-[#0A0A0A] border border-white/10 p-8 rounded-[2.5rem] relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500 animate-fade-in-up">
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
 
@@ -332,16 +386,21 @@ export default function MissionProfile() {
                                     <div className="bg-[#0A0A0A] border border-white/10 p-6 rounded-3xl">
                                         <h3 className="text-xs font-bold text-muted uppercase mb-4 tracking-wider">Tags & Specialties</h3>
                                         <div className="flex flex-wrap gap-2">
-                                            {(mission.specialties || []).map((s: string) => (
-                                                <span key={s} className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary">
-                                                    {s}
+                                            {[...(mission.specialties || []).map((s: string) => ({ text: s, type: 'specialty' })), ...(mission.tags || []).map((t: string) => ({ text: t, type: 'tag' }))]
+                                                .slice(0, 6)
+                                                .map((item, idx) => (
+                                                    <span key={idx} className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${item.type === 'specialty'
+                                                        ? 'bg-primary/10 border border-primary/20 text-primary'
+                                                        : 'bg-white/5 border border-white/10 text-muted'
+                                                        }`}>
+                                                        {item.text}
+                                                    </span>
+                                                ))}
+                                            {((mission.specialties?.length || 0) + (mission.tags?.length || 0)) > 6 && (
+                                                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-wider text-white/40">
+                                                    +{((mission.specialties?.length || 0) + (mission.tags?.length || 0)) - 6} more
                                                 </span>
-                                            ))}
-                                            {(mission.tags || []).map((t: string) => (
-                                                <span key={t} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-wider text-muted">
-                                                    {t}
-                                                </span>
-                                            ))}
+                                            )}
                                         </div>
                                     </div>
 
@@ -356,7 +415,7 @@ export default function MissionProfile() {
                                                 {mission.deliverables.map((deliverable: string, idx: number) => (
                                                     <div key={idx} className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-primary/20 transition-all duration-200">
                                                         <FileText className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                                                        <span className="text-sm text-white/80 font-mono">{deliverable}</span>
+                                                        <span className="text-sm text-white/80 font-mono break-all">{deliverable}</span>
                                                     </div>
                                                 ))}
                                             </div>
@@ -522,87 +581,222 @@ export default function MissionProfile() {
                     {
                         activeTab === 'workforce' && (
                             <div className="space-y-8 animate-fade-in">
-                                {/* PRIMARY WORKER */}
-                                <div>
-                                    <h3 className="text-xs font-bold text-muted uppercase mb-4 flex items-center gap-2 tracking-wider">
-                                        <Terminal className="w-4 h-4 text-primary" /> Primary Contractor
-                                    </h3>
-                                    {assigned_agent ? (
-                                        <div className="bg-[#0A0A0A] border border-primary/30 p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group hover:border-primary/50 transition-colors">
-                                            <div className="absolute top-0 left-0 w-1 h-full bg-primary shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
-                                            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                {/* WORKFORCE GRID */}
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
 
-                                            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center border border-primary/30 relative z-10">
-                                                <Zap className="w-8 h-8 text-primary" />
+                                    {/* Left Column: Active Personnel (Contractors) */}
+                                    <div className="lg:col-span-2 space-y-8">
+
+                                        {/* Primary Contractors */}
+                                        <div>
+                                            <div className="flex items-center justify-between mb-6">
+                                                <h3 className="text-xs font-bold text-muted uppercase flex items-center gap-2 tracking-wider">
+                                                    <Terminal className="w-4 h-4 text-primary" /> Active Contractors
+                                                </h3>
+                                                <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded border border-primary/20 font-bold uppercase tracking-wider">
+                                                    {mission.crew && mission.crew.length > 0
+                                                        ? `${mission.crew.filter((m: any) => m.role === 'worker').length} Active`
+                                                        : assigned_agent ? '1 Active' : '0 Active'}
+                                                </span>
                                             </div>
 
-                                            <div className="flex-1 text-center md:text-left relative z-10">
-                                                <div className="text-xl font-bold text-white flex items-center justify-center md:justify-start gap-3 mb-2">
-                                                    {assigned_agent.name || assigned_agent.agent_id}
-                                                    <span className="px-2 py-0.5 text-[10px] bg-primary/20 text-primary border border-primary/30 rounded uppercase tracking-wider font-bold">Assigned</span>
-                                                </div>
-                                                <div className="text-sm text-muted font-mono flex items-center gap-4 justify-center md:justify-start">
-                                                    <span className="flex items-center gap-2">Reputation: <ReputationBadge reputation={assigned_agent.reputation ?? 50} size="sm" /></span>
-                                                    <span>Type: <span className="text-white capitalize">{assigned_agent.type || 'Standard'}</span></span>
-                                                </div>
-                                            </div>
+                                            {(mission.crew && mission.crew.length > 0) ? (
+                                                <div className="grid grid-cols-1 gap-4">
+                                                    {mission.crew.filter((m: any) => m.role === 'worker').map((crewMember: any, i: number) => (
+                                                        <div key={i} className="bg-[#0A0A0A] border border-primary/30 p-1 rounded-[2rem] relative overflow-hidden group hover:border-primary/50 transition-colors">
+                                                            <div className="absolute top-0 left-0 w-1 h-full bg-primary shadow-[0_0_15px_rgba(249,115,22,0.6)] z-20" />
+                                                            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-0" />
 
-                                            <div className="text-right relative z-10 bg-white/5 p-4 rounded-xl border border-white/10 min-w-[200px]">
-                                                <div className="text-[10px] text-muted uppercase mb-1 tracking-wider">Contract Value</div>
-                                                <div className="text-2xl font-bold text-white font-mono">{mission.reward?.toLocaleString()} <span className="text-sm text-primary">CLAWGER</span></div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="p-12 border border-dashed border-white/10 rounded-3xl text-center text-muted font-mono bg-white/[0.02]">
-                                            NO WORKER ASSIGNED YET. WAITING FOR MATCH...
-                                        </div>
-                                    )}
-                                </div>
+                                                            <div className="relative z-10 p-6 flex flex-col md:flex-row items-start gap-6">
+                                                                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/30 shrink-0 mt-1">
+                                                                    <Zap className="w-8 h-8 text-primary" />
+                                                                </div>
 
-                                {/* VERIFIER SWARM */}
-                                <div>
-                                    <h3 className="text-xs font-bold text-muted uppercase mb-4 flex items-center gap-2 tracking-wider">
-                                        <ShieldCheck className="w-4 h-4 text-emerald-500" /> Verifier Swarm
-                                    </h3>
+                                                                <div className="flex-1 min-w-0 w-full">
+                                                                    {/* Header Row: Badges */}
+                                                                    <div className="flex items-center gap-3 mb-2">
+                                                                        <span className="px-2 py-0.5 text-[10px] bg-primary text-black border border-primary rounded uppercase tracking-wider font-bold shadow-[0_0_10px_rgba(249,115,22,0.4)] whitespace-nowrap">
+                                                                            {i === 0 ? 'Primary Contractor' : 'Crew Member'}
+                                                                        </span>
+                                                                    </div>
 
-                                    {verifierDetails.length > 0 ? (
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                            {verifierDetails.map((v: any, idx: number) => (
-                                                <div key={idx} className="bg-[#0A0A0A] border border-white/10 p-6 rounded-2xl hover:border-emerald-500/30 transition-colors group relative overflow-hidden">
-                                                    <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-500/5 rounded-bl-full -mr-8 -mt-8 pointer-events-none" />
-                                                    <div className="flex items-center gap-4 mb-4">
-                                                        <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20 group-hover:border-emerald-500/40 transition-colors">
-                                                            <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                                                                    {/* Full Name / Address */}
+                                                                    <div className="text-lg md:text-xl font-bold text-white break-all whitespace-normal font-mono leading-tight mb-4 select-all">
+                                                                        {crewMember.agent_name || crewMember.agent_id}
+                                                                    </div>
+
+                                                                    {/* Stats Row */}
+                                                                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted font-mono">
+                                                                        <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5 group-hover:border-white/10 transition-colors">
+                                                                            <span className="text-[10px] uppercase text-muted">Role</span>
+                                                                            <span className="text-white capitalize text-xs">{crewMember.role || 'Worker'}</span>
+                                                                        </div>
+                                                                        {crewMember.assigned_at && (
+                                                                            <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5 group-hover:border-white/10 transition-colors">
+                                                                                <span className="text-[10px] uppercase text-muted">Assigned</span>
+                                                                                <span className="text-white text-xs">{new Date(crewMember.assigned_at).toLocaleDateString()}</span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="overflow-hidden">
-                                                            <div className="text-xs font-bold text-white truncate w-32 tracking-tight">{v.id}</div>
-                                                            <div className="text-[10px] text-emerald-500/80 uppercase font-bold tracking-wider">Verifier Node</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex justify-between items-center text-xs pt-4 border-t border-white/5">
-                                                        <span className="text-muted">Status</span>
-                                                        <span className="font-bold px-2 py-0.5 rounded uppercase tracking-wider text-[10px] bg-white/10 text-muted">
-                                                            PENDING
-                                                        </span>
-                                                    </div>
+                                                    ))}
                                                 </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="p-12 border border-dashed border-white/10 rounded-3xl text-center text-muted font-mono bg-white/[0.02]">
-                                            VERIFIERS WILL BE ASSIGNED UPON SUBMISSION.
-                                        </div>
-                                    )}
-                                </div>
+                                            ) : assigned_agent ? (
+                                                <div className="grid grid-cols-1 gap-4">
+                                                    {/* We treat the single assigned_agent as an array for future-proofing */}
+                                                    {[assigned_agent].map((agent, i) => (
+                                                        <div key={i} className="bg-[#0A0A0A] border border-primary/30 p-1 rounded-[2rem] relative overflow-hidden group hover:border-primary/50 transition-colors">
+                                                            <div className="absolute top-0 left-0 w-1 h-full bg-primary shadow-[0_0_15px_rgba(249,115,22,0.6)] z-20" />
+                                                            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-0" />
 
-                                {/* ASSIGNMENT ANALYSIS */}
-                                {assigned_agent?.reasoning && (
-                                    <AssignmentAnalysis
-                                        reasoning={assigned_agent.reasoning}
-                                        agentName={assigned_agent.name || assigned_agent.agent_id}
-                                    />
-                                )}
+                                                            <div className="relative z-10 p-6 flex flex-col md:flex-row items-start gap-6">
+                                                                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/30 shrink-0 mt-1">
+                                                                    <Zap className="w-8 h-8 text-primary" />
+                                                                </div>
+
+                                                                <div className="flex-1 min-w-0 w-full">
+                                                                    {/* Header Row: Badges */}
+                                                                    <div className="flex items-center gap-3 mb-2">
+                                                                        <span className="px-2 py-0.5 text-[10px] bg-primary text-black border border-primary rounded uppercase tracking-wider font-bold shadow-[0_0_10px_rgba(249,115,22,0.4)] whitespace-nowrap">
+                                                                            Primary Contractor
+                                                                        </span>
+                                                                    </div>
+
+                                                                    {/* Full Name / Address */}
+                                                                    <div className="text-lg md:text-xl font-bold text-white break-all whitespace-normal font-mono leading-tight mb-4 select-all">
+                                                                        {agent.name && !agent.name.startsWith('0x') ? agent.name : agent.agent_id}
+                                                                    </div>
+
+                                                                    {/* Stats Row */}
+                                                                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted font-mono">
+                                                                        <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5 group-hover:border-white/10 transition-colors">
+                                                                            <span className="text-[10px] uppercase text-muted">Reputation</span>
+                                                                            <ReputationBadge reputation={agent.reputation ?? 50} size="sm" showTier={false} />
+                                                                        </div>
+                                                                        <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5 group-hover:border-white/10 transition-colors">
+                                                                            <span className="text-[10px] uppercase text-muted">Type</span>
+                                                                            <span className="text-white capitalize text-xs">{agent.type || 'Standard'}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="py-12 text-center text-muted font-mono text-sm border border-dashed border-white/10 rounded-2xl bg-white/[0.02]">
+                                                    NO WORKER ASSIGNED YET. WAITING FOR MATCH...
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Verifier Swarm */}
+                                        <div>
+                                            <div className="flex items-center justify-between mb-6">
+                                                <h3 className="text-xs font-bold text-muted uppercase flex items-center gap-2 tracking-wider">
+                                                    <ShieldCheck className="w-4 h-4 text-emerald-500" /> Verifier Swarm
+                                                </h3>
+                                                <span className="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded border border-emerald-500/20 font-bold uppercase tracking-wider">
+                                                    {verifierDetails.length} Nodes
+                                                </span>
+                                            </div>
+
+                                            {verifierDetails.length > 0 ? (
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    {verifierDetails.map((v: any, idx: number) => (
+                                                        <div key={idx} className="bg-[#0A0A0A] border border-white/10 p-5 rounded-2xl hover:border-emerald-500/30 transition-all group relative overflow-hidden flex flex-col justify-between h-full hover:shadow-[0_0_20px_-5px_rgba(16,185,129,0.1)]">
+
+                                                            {/* Background Glow */}
+                                                            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                                            <div className="relative z-10">
+                                                                <div className="flex justify-between items-start mb-4">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center border border-emerald-500/20 text-emerald-500">
+                                                                            <ShieldCheck className="w-4 h-4" />
+                                                                        </div>
+                                                                        <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-500/80">
+                                                                            Verifier 0{idx + 1}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                                                </div>
+
+                                                                <div className="bg-black/40 border border-white/5 rounded-lg p-3 font-mono text-[10px] text-emerald-200/70 break-all leading-relaxed tracking-tight group-hover:border-emerald-500/20 group-hover:text-emerald-100 transition-colors cursor-text select-all shadow-inner">
+                                                                    {v.id}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="relative z-10 flex justify-between items-center text-xs pt-4 mt-auto border-t border-white/5">
+                                                                <span className="text-muted text-[10px] uppercase tracking-wider font-medium">Consensus</span>
+                                                                <span className="flex items-center gap-1.5 px-2 py-1 rounded bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider shadow-[0_0_10px_-4px_rgba(16,185,129,0.2)]">
+                                                                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse" />
+                                                                    Pending
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="p-8 border border-dashed border-white/10 rounded-2xl text-center text-muted font-mono bg-white/[0.02] text-sm">
+                                                    VERIFIERS WILL BE ASSIGNED UPON SUBMISSION.
+                                                </div>
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                    {/* Right Column: Economics & Stats */}
+                                    <div className="space-y-6 sticky top-6 h-fit">
+
+                                        {/* Alignment Spacer to match 'Active Contractors' header */}
+                                        <div className="flex items-center justify-between mb-6 opacity-0 pointer-events-none select-none" aria-hidden="true">
+                                            <h3 className="text-xs font-bold uppercase flex items-center gap-2 tracking-wider">
+                                                <span className="w-4 h-4" /> Placeholder
+                                            </h3>
+                                        </div>
+
+                                        {/* Contract Value Card */}
+                                        <div className="bg-[#0F0F0F] border border-white/10 p-1 rounded-[2rem] overflow-hidden group hover:border-white/20 transition-all relative shadow-2xl shadow-black/50">
+                                            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+
+                                            <div className="relative z-10 p-6 flex flex-col justify-center">
+                                                <h3 className="text-xs font-bold text-muted uppercase mb-4 flex items-center gap-2 tracking-wider">
+                                                    <Wallet className="w-4 h-4 text-white/50" /> Contract Value
+                                                </h3>
+
+                                                <div className="flex items-baseline gap-2 mb-2">
+                                                    <div className="text-4xl font-bold text-white font-sans tracking-tighter">
+                                                        {mission.reward?.toLocaleString()}
+                                                    </div>
+                                                    <div className="text-sm font-bold text-primary font-mono">CLAWGER</div>
+                                                </div>
+
+                                                <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center text-xs">
+                                                    <span className="text-muted">Status</span>
+                                                    <span className={`font-mono font-bold ${escrow?.locked ? 'text-emerald-400' : 'text-muted'}`}>
+                                                        {escrow?.locked ? 'SECURED' : 'PENDING'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Assignment Analysis (Moved here for better flow) */}
+                                        {assigned_agent?.reasoning && (
+                                            <div className="bg-[#0A0A0A] border border-white/10 p-6 rounded-[2rem]">
+                                                <h3 className="text-xs font-bold text-muted uppercase mb-4 flex items-center gap-2 tracking-wider">
+                                                    <Target className="w-4 h-4 text-primary" /> Selection Logic
+                                                </h3>
+                                                <div className="text-sm text-white/70 italic leading-relaxed">
+                                                    "{assigned_agent.reasoning}"
+                                                </div>
+                                            </div>
+                                        )}
+
+                                    </div>
+                                </div>
                             </div>
                         )
                     }
@@ -619,7 +813,7 @@ export default function MissionProfile() {
                                         <h3 className="text-xs font-bold text-muted uppercase flex items-center gap-2 tracking-wider">
                                             <Wallet className="w-4 h-4 text-primary" /> Bounty Escrow
                                         </h3>
-                                        <div className={`px-3 py-1.5 rounded-lg font-bold flex items-center gap-2 text-[10px] uppercase tracking-wider border backdrop-blur-md ${escrow?.locked ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_-5px_rgba(16,185,129,0.3)]' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}>
+                                        <div className={`px-3 py-1.5 rounded-lg font-bold flex items-center gap-2 text-[10px] uppercase tracking-wider border backdrop-blur-md ${escrow?.locked ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_-5px_rgba(16,185,129,0.3)]' : 'bg-emerald-500/5 border-emerald-500/10 text-emerald-500/80 shadow-[0_0_10px_-5px_rgba(16,185,129,0.1)]'}`}>
                                             <ShieldCheck className="w-3 h-3" /> {escrow?.locked ? 'Fully Secured' : 'Unlocked'}
                                         </div>
                                     </div>
@@ -656,7 +850,7 @@ export default function MissionProfile() {
                                     {/* Footer Info */}
                                     <div className="mt-6 flex items-center justify-between text-[10px] text-muted font-mono relative z-10 opacity-60">
                                         <span className="flex items-center gap-1.5">
-                                            <Box className="w-3 h-3" /> Contract ID: {mission.id.substring(0, 8)}...
+                                            <Box className="w-3 h-3" /> Contract ID: {mission.id}
                                         </span>
                                         {escrow?.tx_hash && (
                                             <span className="flex items-center gap-1.5 hover:text-white cursor-pointer transition-colors">
@@ -694,7 +888,9 @@ export default function MissionProfile() {
                                             <div className="bg-black/40 rounded-2xl p-6 border border-white/5 backdrop-blur-sm">
                                                 <div className="flex justify-between mb-4 pb-4 border-b border-white/5">
                                                     <span className="text-xs text-muted uppercase tracking-wider">Bond Amount</span>
-                                                    <span className="text-xl font-mono font-bold text-emerald-400 tracking-tight">500.00 CLAWGER</span>
+                                                    <span className="text-xl font-mono font-bold text-emerald-400 tracking-tight">
+                                                        {mission.worker_bond || '0'} CLAWGER
+                                                    </span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
                                                     <span className="text-xs text-muted uppercase tracking-wider">Slashing Condition</span>
@@ -757,6 +953,17 @@ export default function MissionProfile() {
 
                 {/* Action Buttons */}
                 <div className="mt-8 flex gap-4 justify-end">
+                    {/* Download Result Button */}
+                    {['completed', 'verified', 'settled'].includes(mission.status?.toLowerCase()) && (
+                        <button
+                            onClick={handleDownloadResult}
+                            className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors font-medium flex items-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30"
+                        >
+                            <Download className="w-4 h-4" />
+                            Download Result
+                        </button>
+                    )}
+
                     {/* Request Changes Button */}
                     {(mission.status === 'submitted' || mission.status === 'in_revision') &&
                         (mission.revision_count || 0) < 5 && (

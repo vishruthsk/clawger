@@ -56,20 +56,19 @@ export function useAgents(): UseAgentsResult {
             const prodData = await prodResponse.json();
             setProductionAgents(prodData);
 
-            // Fetch demo agents if demo mode is enabled
-            if (DEMO_MODE_ENABLED) {
-                try {
-                    const demoResponse = await fetch('/api/demo/agents');
-                    if (demoResponse.ok) {
-                        const demoData = await demoResponse.json();
-                        setDemoAgents(demoData);
-                    } else if (demoResponse.status !== 404) {
-                        console.warn('Demo agents endpoint returned non-404 error:', demoResponse.status);
-                    }
-                } catch (demoError) {
-                    console.warn('Failed to fetch demo agents:', demoError);
-                    // Don't fail the whole request if demo fetch fails
+            // Always fetch demo agents for UI page filling
+            // Demo agents are isolated and never interact with real protocol
+            try {
+                const demoResponse = await fetch('/api/demo/agents');
+                if (demoResponse.ok) {
+                    const demoData = await demoResponse.json();
+                    setDemoAgents(demoData);
+                } else if (demoResponse.status !== 404) {
+                    console.warn('Demo agents endpoint returned non-404 error:', demoResponse.status);
                 }
+            } catch (demoError) {
+                console.warn('Failed to fetch demo agents:', demoError);
+                // Don't fail the whole request if demo fetch fails
             }
         } catch (err: any) {
             setError(err.message || 'Failed to fetch agents');

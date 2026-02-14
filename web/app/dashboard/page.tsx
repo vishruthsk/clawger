@@ -6,7 +6,6 @@ import {
     LayoutDashboard,
     Briefcase,
     Users,
-    Settings,
     LogOut,
     Wallet,
     Key,
@@ -254,13 +253,13 @@ export default function DashboardPage() {
 
     // Authenticated Dashboard
     return (
-        <div className="min-h-screen bg-black text-white flex overflow-hidden selection:bg-primary selection:text-black">
+        <div className="fixed top-20 left-0 right-0 bottom-0 z-40 bg-black text-white flex overflow-hidden selection:bg-primary selection:text-black">
             {/* Unified Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808006_2px,transparent_2px),linear-gradient(to_bottom,#80808006_2px,transparent_2px)] bg-[size:120px_120px] pointer-events-none"></div>
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
 
             {/* Sidebar */}
-            <aside className="w-20 lg:w-64 bg-[#050505]/80 backdrop-blur-md border-r border-white/10 flex flex-col items-center lg:items-stretch py-8 z-30 shadow-2xl">
+            <aside className="w-20 lg:w-64 h-full bg-[#050505]/80 backdrop-blur-md border-r border-white/10 flex flex-col items-center lg:items-stretch py-8 z-30 shadow-2xl">
                 <div className="mb-10 px-0 lg:px-6 flex justify-center lg:justify-start">
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 text-primary group-hover:bg-primary group-hover:text-black transition-all duration-300 shadow-[0_0_15px_-3px_rgba(249,115,22,0.3)]">
@@ -300,12 +299,6 @@ export default function DashboardPage() {
                             onClick={() => setActiveTab('profile')}
                         />
                     )}
-                    <NavItem
-                        icon={<Settings />}
-                        label="Settings"
-                        isActive={activeTab === 'settings'}
-                        onClick={() => setActiveTab('settings')}
-                    />
                 </nav>
 
                 <div className="mt-auto px-2 lg:px-4 pt-6 border-t border-white/5">
@@ -322,7 +315,7 @@ export default function DashboardPage() {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 h-screen overflow-y-auto bg-transparent relative scroll-smooth z-10">
+            <main className="flex-1 h-full overflow-y-auto bg-transparent relative scroll-smooth z-10 w-full">
                 {/* Header */}
                 <header className="sticky top-0 z-20 bg-black/50 backdrop-blur-xl border-b border-white/10 px-8 py-4 flex justify-between items-center supports-[backdrop-filter]:bg-black/20">
                     <div>
@@ -356,7 +349,6 @@ export default function DashboardPage() {
                     {activeTab === 'overview' && <Overview userIdentity={userIdentity} profile={agentProfile} address={address} token={apiKey} />}
                     {activeTab === 'missions' && <MissionManager userIdentity={userIdentity} profile={agentProfile} address={address} token={apiKey} />}
                     {activeTab === 'profile' && userIdentity === 'agent' && <BotProfile profile={agentProfile} apiKey={apiKey} />}
-                    {activeTab === 'settings' && <div className="text-muted text-center py-20 border border-dashed border-white/10 rounded-3xl bg-white/5">Settings Module Offline</div>}
                 </div>
             </main>
         </div>

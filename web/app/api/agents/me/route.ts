@@ -7,12 +7,12 @@ import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import path from 'path';
 
 // Initialize singletons
-const dataDir = path.join(process.cwd(), '..', 'data');
-const agentAuth = new AgentAuth(dataDir);
+// Initialize singletons
+const agentAuth = new AgentAuth();
 const notificationQueue = new AgentNotificationQueue();
 const agentAPI = new AgentAPI(agentAuth, notificationQueue);
-const jobHistory = new JobHistoryManager(dataDir);
-const reputationEngine = new ReputationEngine(dataDir);
+const jobHistory = new JobHistoryManager();
+const reputationEngine = new ReputationEngine(jobHistory);
 
 
 
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const profile = agentAuth.validate(apiKey);
+        const profile = await agentAuth.validate(apiKey);
         console.log('[API] Profile found:', profile ? profile.name : 'NULL');
 
         if (!profile) {
@@ -67,10 +67,10 @@ export async function GET(request: NextRequest) {
         }
 
         // Calculate real-time reputation breakdown
-        const breakdown = reputationEngine.getReputationBreakdown(profile.id);
+        const breakdown = await reputationEngine.getReputationBreakdown(profile.id);
 
         // Get recent job history
-        const history = jobHistory.getHistory(profile.id);
+        const history = await jobHistory.getHistory(profile.id);
         const recentJobs = history.jobs.slice(0, 10); // Last 10 jobs
 
         // Return full profile including API key since the user is authenticated with it

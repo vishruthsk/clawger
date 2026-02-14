@@ -100,10 +100,11 @@ export class AssignmentEngine {
         console.log(`[AssignmentEngine] Assigning agent for mission ${mission.id}`);
 
         // Step 1: Get all agents
-        const allAgents = this.agentAuth.listAgents();
+        const allAgents = await this.agentAuth.listAgents();
 
         // Step 2: Apply hard filters
-        const candidates = this.applyHardFilters(allAgents, mission);
+        // Note: applyHardFilters is async now because getActiveMissionCount handles async DB calls
+        const candidates = await this.applyHardFilters(allAgents, mission);
 
         if (candidates.length === 0) {
             return {
@@ -115,7 +116,7 @@ export class AssignmentEngine {
         console.log(`[AssignmentEngine] ${candidates.length} candidates after hard filters`);
 
         // Step 3: Calculate scores
-        const scores = this.calculateScores(candidates, mission);
+        const scores = await this.calculateScores(candidates, mission);
 
         // Step 4: Select winner (Exploration vs Exploitation)
         // 85% chance to pick best score (Exploitation)
@@ -141,7 +142,7 @@ export class AssignmentEngine {
         }
 
         // Step 5: Record assignment
-        this.recordAssignment(winner.agent_id, mission.id);
+        await this.recordAssignment(winner.agent_id, mission.id);
 
         console.log(`[AssignmentEngine] Assigned to ${winner.agent_name} (score: ${winner.final_score.toFixed(3)}, method: ${selectionMethod})`);
 
@@ -172,12 +173,14 @@ export class AssignmentEngine {
     /**
      * Apply hard filters to candidate pool
      */
-    private applyHardFilters(agents: AgentProfile[], mission: Mission): AgentProfile[] {
+    private async applyHardFilters(agents: AgentProfile[], mission: Mission): Promise<AgentProfile[]> {
         console.log(`[AssignmentEngine] Filtering ${agents.length} agents for mission ${mission.id}`);
         console.log(`  Specialty required: ${mission.specialties?.join(', ') || 'none'}`);
         console.log(`  Reward: ${mission.reward} CLAWGER`);
 
-        const filtered = agents.filter(agent => {
+        const filtered: AgentProfile[] = [];
+
+        for (const agent of agents) {
             // Filter 1: Specialty match
             if (mission.specialties && mission.specialties.length > 0) {
                 const agentSpecialties = agent.specialties || [];
@@ -188,8 +191,8 @@ export class AssignmentEngine {
                     )
                 );
                 if (!hasMatch) {
-                    console.log(`  ❌ ${agent.name}: Missing specialty (has: ${agentSpecialties.join(', ')})`);
-                    return false;
+                    // console.log(`  ❌ ${agent.name}: Missing specialty (has: ${agentSpecialties.join(', ')})`);
+                    continue;
                 }
             }
 
@@ -203,8 +206,7 @@ export class AssignmentEngine {
                     )
                 );
                 if (!hasCapability) {
-                    console.log(`  ❌ ${agent.name}: Neural spec lacks required capability (has: ${neuralCapabilities.join(', ')})`);
-                    return false;
+                    continue;
                 }
             }
 
@@ -212,34 +214,31 @@ export class AssignmentEngine {
             if (agent.neural_spec && agent.neural_spec.mission_limits) {
                 const maxReward = agent.neural_spec.mission_limits.max_reward;
                 if (mission.reward > maxReward) {
-                    console.log(`  ❌ ${agent.name}: Mission reward (${mission.reward}) exceeds max_reward limit (${maxReward})`);
-                    return false;
+                    continue;
                 }
             }
 
             // Filter 4: Availability
             if (!agent.available) {
-                console.log(`  ❌ ${agent.name}: Not available`);
-                return false;
+                continue;
             }
 
             // Filter 5: Agent must not be suspended
             if (agent.status === 'suspended') {
-                console.log(`  ❌ ${agent.name}: Suspended`);
-                return false;
+                continue;
             }
 
-            // Filter 6: Agent must have capacity (respect neural_spec max_concurrent if exists)
-            const activeMissions = this.getActiveMissionCount(agent.id);
+            // Filter 6: Agent must have capacity
+            const activeMissions = await this.getActiveMissionCount(agent.id); // Await the async call
             const maxConcurrent = agent.neural_spec?.mission_limits?.max_concurrent || this.config.max_active_missions_per_agent;
             if (activeMissions >= maxConcurrent) {
                 console.log(`  ❌ ${agent.name}: At capacity (${activeMissions}/${maxConcurrent})`);
-                return false;
+                continue;
             }
 
-            console.log(`  ✅ ${agent.name}: Passed all filters (active: ${activeMissions}/${maxConcurrent})`);
-            return true;
-        });
+            // console.log(`  ✅ ${agent.name}: Passed all filters (active: ${activeMissions}/${maxConcurrent})`);
+            filtered.push(agent);
+        }
 
         console.log(`[AssignmentEngine] ${filtered.length} candidates after filtering`);
         return filtered;
@@ -248,8 +247,8 @@ export class AssignmentEngine {
     /**
      * Calculate scores for all candidates
      */
-    private calculateScores(candidates: AgentProfile[], mission: Mission): AssignmentScore[] {
-        return candidates.map(agent => {
+    private async calculateScores(candidates: AgentProfile[], mission: Mission): Promise<AssignmentScore[]> {
+        const scores = await Promise.all(candidates.map(async agent => {
             // Reputation score (0-100 → 0-1)
             const reputation_score = agent.reputation / 100;
 
@@ -285,12 +284,12 @@ export class AssignmentEngine {
             reputation_multiplier = Math.max(0.9, Math.min(1.6, reputation_multiplier));
 
             // 2. Anti-Monopoly Multiplier (Diminishing returns)
-            const recent_wins = this.historyTracker.getRecentWins(agent.id);
+            const recent_wins = await this.historyTracker.getRecentWins(agent.id);
             const anti_monopoly_multiplier = Math.pow(this.config.diminishing_factor, recent_wins);
 
             // 3. Cooldown Penalty (Hard -0.15 check)
             // If won last 3 missions (consecutive wins >= 3), apply penalty
-            const consecutiveWins = this.historyTracker.getConsecutiveWins(agent.id);
+            const consecutiveWins = await this.historyTracker.getConsecutiveWins(agent.id);
             const cooldown_penalty = consecutiveWins >= 3 ? 0.15 : 0;
 
             const final_score = (base_score * reputation_multiplier * anti_monopoly_multiplier) - cooldown_penalty;
@@ -310,7 +309,9 @@ export class AssignmentEngine {
                     latency_score
                 }
             };
-        }).sort((a, b) => b.final_score - a.final_score); // Sort descending
+        }));
+
+        return scores.sort((a, b) => b.final_score - a.final_score); // Sort descending
     }
 
     /**
@@ -390,9 +391,9 @@ export class AssignmentEngine {
     /**
      * Get active mission count for agent
      */
-    private getActiveMissionCount(agentId: string): number {
+    private async getActiveMissionCount(agentId: string): Promise<number> {
         // Query mission store for actual active missions
-        const missions = this.missionStore.list();
+        const missions = await this.missionStore.list(); // Await async list
         const activeMissions = missions.filter(m =>
             m.assigned_agent?.agent_id === agentId &&
             ['assigned', 'executing', 'verifying'].includes(m.status)
@@ -403,19 +404,19 @@ export class AssignmentEngine {
     /**
      * Record assignment for anti-monopoly tracking
      */
-    private recordAssignment(agentId: string, missionId: string): void {
-        this.historyTracker.recordAssignment(agentId, missionId);
+    private async recordAssignment(agentId: string, missionId: string): Promise<void> {
+        await this.historyTracker.recordAssignment(agentId, missionId);
     }
 
     /**
      * Get assignment statistics
      */
-    getStats(): {
+    async getStats(): Promise<{
         total_assignments: number;
         total_agents: number;
         assignments_by_agent: Map<string, number>;
-    } {
-        return this.historyTracker.getStats();
+    }> {
+        return await this.historyTracker.getStats();
     }
 
     /**

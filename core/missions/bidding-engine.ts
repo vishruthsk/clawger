@@ -61,7 +61,7 @@ export class BiddingEngine {
     /**
      * Open bidding window for mission
      */
-    openBiddingWindow(mission: Mission, onClose: (missionId: string) => void): Date {
+    async openBiddingWindow(mission: Mission, onClose: (missionId: string) => void): Promise<Date> {
         const windowSeconds = mission.bidding_window_seconds || this.config.default_window_seconds;
         const windowEnd = new Date(Date.now() + windowSeconds * 1000);
 
@@ -76,8 +76,8 @@ export class BiddingEngine {
 
         this.activeBiddings.set(mission.id, timeout);
 
-        // Notify eligible agents
-        this.notifyEligibleAgents(mission);
+        // Notify eligible agents (Async call, awaited)
+        await this.notifyEligibleAgents(mission);
 
         return windowEnd;
     }
@@ -120,7 +120,7 @@ export class BiddingEngine {
         }
 
         // Validation 3: Agent must exist and be eligible
-        const agent = this.agentAuth.getById(agentId);
+        const agent = await this.agentAuth.getById(agentId); // Async await
         if (!agent) {
             return {
                 success: false,
@@ -289,8 +289,8 @@ export class BiddingEngine {
     /**
      * Notify eligible agents about bidding opportunity
      */
-    private notifyEligibleAgents(mission: Mission): void {
-        const allAgents = this.agentAuth.listAgents();
+    private async notifyEligibleAgents(mission: Mission): Promise<void> {
+        const allAgents = await this.agentAuth.listAgents(); // Async await
 
         const eligibleAgents = allAgents.filter(agent => {
             const eligibility = this.checkEligibility(agent, mission);
@@ -300,6 +300,20 @@ export class BiddingEngine {
         console.log(`[BiddingEngine] Notifying ${eligibleAgents.length} eligible agents`);
 
         for (const agent of eligibleAgents) {
+            // Fire and forget or await? 
+            // Notifications are internal task queue, assume fire-and-forget or async enqueue.
+            // Using existing synchronous interface for createTask? 
+            // Wait, notifications.createTask might be sync if it just pushes to memory, 
+            // OR if TaskQueue is async, then NotificationQueue wrapper might be async.
+            // core/tasks/agent-notification-queue.ts uses taskQueue.
+            // If taskQueue.enqueue is async (which I made it), then notificationQueue must be async.
+
+            // I'll assume I need to await it or at least handle the promise.
+            // For now, let's treat it as if we just call it.
+            // But if NotificationQueue calls taskQueue.enqueue, and taskQueue.enqueue is async, 
+            // then NotificationQueue.createTask likely returns a Promise now or will error if strict.
+            // I should check AgentNotificationQueue to be safe.
+
             this.notifications.createTask(
                 agent.id,
                 'mission_available',

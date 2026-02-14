@@ -1,7 +1,6 @@
 import { TokenLedger } from '../ledger/token-ledger';
 import { ECONOMY_CONFIG } from '../../config/economy';
-import * as fs from 'fs';
-import * as path from 'path';
+import { pool } from '../db';
 
 /**
  * Bond record for tracking stakes
@@ -30,81 +29,12 @@ export interface BondResult {
     code?: string;
 }
 
-/**
- * BondManager - Manage worker and verifier bonds
- * 
- * Responsibilities:
- * - Stake worker bonds when accepting missions
- * - Stake verifier bonds when voting
- * - Release bonds on successful completion
- * - Slash bonds on failure/timeout/dishonesty
- * - Track bond history per agent
- */
 export class BondManager {
     private ledger: TokenLedger;
-    private dataDir: string;
-    private bondsFile: string;
-    private bonds: Map<string, BondRecord>;
-    private bondCounter: number;
 
-    constructor(ledger: TokenLedger, dataDir: string = './data') {
+    constructor(ledger: TokenLedger) {
         this.ledger = ledger;
-        this.dataDir = dataDir;
-        this.bondsFile = path.join(dataDir, 'bonds.json');
-        this.bonds = new Map();
-        this.bondCounter = 0;
-        this.load();
-    }
-
-    /**
-     * Load bond records from disk
-     */
-    private load(): void {
-        if (!fs.existsSync(this.dataDir)) {
-            fs.mkdirSync(this.dataDir, { recursive: true });
-        }
-
-        if (fs.existsSync(this.bondsFile)) {
-            try {
-                const data = JSON.parse(fs.readFileSync(this.bondsFile, 'utf-8'));
-
-                // Restore bonds with date conversion
-                if (data.bonds) {
-                    for (const [bondId, bond] of Object.entries(data.bonds)) {
-                        this.bonds.set(bondId, {
-                            ...(bond as any),
-                            staked_at: new Date((bond as any).staked_at),
-                            released_at: (bond as any).released_at ? new Date((bond as any).released_at) : undefined,
-                            slashed_at: (bond as any).slashed_at ? new Date((bond as any).slashed_at) : undefined
-                        });
-                    }
-
-                    this.bondCounter = this.bonds.size;
-                }
-            } catch (error) {
-                console.error('Failed to load bonds:', error);
-            }
-        }
-    }
-
-    /**
-     * Save bond records to disk
-     */
-    private save(): void {
-        const data = {
-            bonds: Object.fromEntries(
-                Array.from(this.bonds.entries()).map(([id, bond]) => [
-                    id, {
-                        ...bond,
-                        staked_at: bond.staked_at.toISOString(),
-                        released_at: bond.released_at?.toISOString(),
-                        slashed_at: bond.slashed_at?.toISOString()
-                    }
-                ])
-            )
-        };
-
-        fs.writeFileSync(this.bondsFile, JSON.stringify(data, null, 2));
+        console.log('[BondManager] Initialized with PostgreSQL persistence');
     }
 
     /**
@@ -125,7 +55,7 @@ export class BondManager {
         }
 
         // Check if bond already exists
-        const existing = this.getWorkerBond(missionId);
+        const existing = await this.getWorkerBond(missionId);
         if (existing) {
             return {
                 success: false,
@@ -135,7 +65,7 @@ export class BondManager {
         }
 
         // Check agent balance
-        const balance = this.ledger.getAvailableBalance(agentId);
+        const balance = await this.ledger.getAvailableBalance(agentId);
         if (balance < bondAmount) {
             return {
                 success: false,
@@ -145,7 +75,7 @@ export class BondManager {
         }
 
         // Lock bond (internal escrow in token ledger)
-        const locked = this.ledger.lockEscrow(agentId, bondAmount, `bond_${missionId}`);
+        const locked = await this.ledger.lockEscrow(agentId, bondAmount, `bond_${missionId}`);
 
         if (!locked) {
             return {
@@ -155,20 +85,16 @@ export class BondManager {
             };
         }
 
-        // Create bond record
-        const bondId = `bond_${String(this.bondCounter++).padStart(6, '0')}`;
-        const bond: BondRecord = {
-            bondId,
-            agentId,
-            missionId,
-            amount: bondAmount,
-            type: 'worker',
-            status: 'staked',
-            staked_at: new Date()
-        };
+        // Create bond record in DB
+        const bondId = `bond_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 
-        this.bonds.set(bondId, bond);
-        this.save();
+        await pool.query(`
+            INSERT INTO bonds (
+                bond_id, agent_id, mission_id, amount, type, status, staked_at
+            ) VALUES (
+                $1, $2, $3, $4, 'worker', 'staked', NOW()
+            )
+        `, [bondId, agentId, missionId, bondAmount]);
 
         console.log(`[BondManager] Worker bond staked: ${agentId} → ${bondAmount} $CLAWGER for mission ${missionId}`);
 
@@ -196,7 +122,7 @@ export class BondManager {
         }
 
         // Check verifier balance
-        const balance = this.ledger.getAvailableBalance(verifierId);
+        const balance = await this.ledger.getAvailableBalance(verifierId);
         if (balance < bondAmount) {
             return {
                 success: false,
@@ -206,7 +132,7 @@ export class BondManager {
         }
 
         // Lock bond
-        const locked = this.ledger.lockEscrow(verifierId, bondAmount, `verifier_bond_${missionId}_${verifierId}`);
+        const locked = await this.ledger.lockEscrow(verifierId, bondAmount, `verifier_bond_${missionId}_${verifierId}`);
 
         if (!locked) {
             return {
@@ -217,19 +143,15 @@ export class BondManager {
         }
 
         // Create bond record
-        const bondId = `bond_${String(this.bondCounter++).padStart(6, '0')}`;
-        const bond: BondRecord = {
-            bondId,
-            agentId: verifierId,
-            missionId,
-            amount: bondAmount,
-            type: 'verifier',
-            status: 'staked',
-            staked_at: new Date()
-        };
+        const bondId = `bond_vrf_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 
-        this.bonds.set(bondId, bond);
-        this.save();
+        await pool.query(`
+            INSERT INTO bonds (
+                bond_id, agent_id, mission_id, amount, type, status, staked_at
+            ) VALUES (
+                $1, $2, $3, $4, 'verifier', 'staked', NOW()
+            )
+        `, [bondId, verifierId, missionId, bondAmount]);
 
         console.log(`[BondManager] Verifier bond staked: ${verifierId} → ${bondAmount} $CLAWGER for mission ${missionId}`);
 
@@ -243,7 +165,7 @@ export class BondManager {
      * Release worker bond (on success)
      */
     async releaseWorkerBond(missionId: string): Promise<BondResult> {
-        const bond = this.getWorkerBond(missionId);
+        const bond = await this.getWorkerBond(missionId);
 
         if (!bond) {
             return {
@@ -262,7 +184,7 @@ export class BondManager {
         }
 
         // Release escrow back to worker
-        const released = this.ledger.releaseEscrow(`bond_${missionId}`, bond.agentId);
+        const released = await this.ledger.releaseEscrow(`bond_${missionId}`, bond.agentId);
 
         if (!released) {
             return {
@@ -273,11 +195,11 @@ export class BondManager {
         }
 
         // Update bond status
-        bond.status = 'released';
-        bond.released_at = new Date();
-
-        this.bonds.set(bond.bondId, bond);
-        this.save();
+        await pool.query(`
+            UPDATE bonds 
+            SET status = 'released', released_at = NOW() 
+            WHERE bond_id = $1
+        `, [bond.bondId]);
 
         console.log(`[BondManager] Worker bond released: ${bond.agentId} ← ${bond.amount} $CLAWGER`);
 
@@ -295,7 +217,7 @@ export class BondManager {
         reason: string,
         slashRate: number = 1.0
     ): Promise<{ success: boolean; slashedAmount?: number; error?: string }> {
-        const bond = this.getWorkerBond(missionId);
+        const bond = await this.getWorkerBond(missionId);
 
         if (!bond) {
             return {
@@ -315,7 +237,7 @@ export class BondManager {
         const slashedAmount = bond.amount * slashRate;
 
         // Slash escrow
-        const slashed = this.ledger.slashEscrow(`bond_${missionId}`, slashedAmount);
+        const slashed = await this.ledger.slashEscrow(`bond_${missionId}`, slashedAmount);
 
         if (!slashed) {
             return {
@@ -324,14 +246,12 @@ export class BondManager {
             };
         }
 
-        // Update bond status
-        bond.status = 'slashed';
-        bond.slashed_at = new Date();
-        bond.slashed_amount = slashedAmount;
-        bond.slashed_reason = reason;
-
-        this.bonds.set(bond.bondId, bond);
-        this.save();
+        // Update bond status with slash details
+        await pool.query(`
+            UPDATE bonds 
+            SET status = 'slashed', slashed_at = NOW(), slashed_amount = $1, slashed_reason = $2
+            WHERE bond_id = $3
+        `, [slashedAmount, reason, bond.bondId]);
 
         console.log(`[BondManager] Worker bond slashed: ${bond.agentId} -${slashedAmount} $CLAWGER (${reason})`);
 
@@ -354,17 +274,17 @@ export class BondManager {
 
         // Release bonds for honest verifiers
         for (const verifierId of honestVerifiers) {
-            const bond = this.getVerifierBond(missionId, verifierId);
+            const bond = await this.getVerifierBond(missionId, verifierId);
             if (bond && bond.status === 'staked') {
-                const released = this.ledger.releaseEscrow(
+                const released = await this.ledger.releaseEscrow(
                     `verifier_bond_${missionId}_${verifierId}`,
                     verifierId
                 );
 
                 if (released) {
-                    bond.status = 'released';
-                    bond.released_at = new Date();
-                    this.bonds.set(bond.bondId, bond);
+                    await pool.query(`
+                        UPDATE bonds SET status = 'released', released_at = NOW() WHERE bond_id = $1
+                    `, [bond.bondId]);
                     releasedCount++;
                 }
             }
@@ -372,25 +292,23 @@ export class BondManager {
 
         // Slash bonds for dishonest verifiers
         for (const verifierId of dishonestVerifiers) {
-            const bond = this.getVerifierBond(missionId, verifierId);
+            const bond = await this.getVerifierBond(missionId, verifierId);
             if (bond && bond.status === 'staked') {
-                const slashed = this.ledger.slashEscrow(
+                const slashed = await this.ledger.slashEscrow(
                     `verifier_bond_${missionId}_${verifierId}`,
                     bond.amount
                 );
 
                 if (slashed) {
-                    bond.status = 'slashed';
-                    bond.slashed_at = new Date();
-                    bond.slashed_amount = bond.amount;
-                    bond.slashed_reason = 'Dishonest verification vote';
-                    this.bonds.set(bond.bondId, bond);
+                    await pool.query(`
+                        UPDATE bonds 
+                        SET status = 'slashed', slashed_at = NOW(), slashed_amount = $1, slashed_reason = 'Dishonest verification vote'
+                        WHERE bond_id = $2
+                    `, [bond.amount, bond.bondId]);
                     slashedCount++;
                 }
             }
         }
-
-        this.save();
 
         console.log(`[BondManager] Verifier bonds settled: ${releasedCount} released, ${slashedCount} slashed`);
 
@@ -404,47 +322,39 @@ export class BondManager {
     /**
      * Get worker bond for a mission
      */
-    getWorkerBond(missionId: string): BondRecord | null {
-        for (const bond of this.bonds.values()) {
-            if (bond.missionId === missionId && bond.type === 'worker') {
-                return bond;
-            }
-        }
-        return null;
+    async getWorkerBond(missionId: string): Promise<BondRecord | null> {
+        const res = await pool.query("SELECT * FROM bonds WHERE mission_id = $1 AND type = 'worker'", [missionId]);
+        if (res.rows.length === 0) return null;
+        return this.mapRowToBond(res.rows[0]);
     }
 
     /**
      * Get verifier bond for a mission and verifier
      */
-    getVerifierBond(missionId: string, verifierId: string): BondRecord | null {
-        for (const bond of this.bonds.values()) {
-            if (bond.missionId === missionId &&
-                bond.type === 'verifier' &&
-                bond.agentId === verifierId) {
-                return bond;
-            }
-        }
-        return null;
+    async getVerifierBond(missionId: string, verifierId: string): Promise<BondRecord | null> {
+        const res = await pool.query("SELECT * FROM bonds WHERE mission_id = $1 AND type = 'verifier' AND agent_id = $2", [missionId, verifierId]);
+        if (res.rows.length === 0) return null;
+        return this.mapRowToBond(res.rows[0]);
     }
 
     /**
      * Get all bonds for an agent
      */
-    getAgentBonds(agentId: string): BondRecord[] {
-        return Array.from(this.bonds.values())
-            .filter(bond => bond.agentId === agentId);
+    async getAgentBonds(agentId: string): Promise<BondRecord[]> {
+        const res = await pool.query("SELECT * FROM bonds WHERE agent_id = $1", [agentId]);
+        return res.rows.map(row => this.mapRowToBond(row));
     }
 
     /**
      * Get agent bond statistics
      */
-    getAgentBondStats(agentId: string): {
+    async getAgentBondStats(agentId: string): Promise<{
         totalStaked: number;
         totalReleased: number;
         totalSlashed: number;
         activeStakes: number;
-    } {
-        const bonds = this.getAgentBonds(agentId);
+    }> {
+        const bonds = await this.getAgentBonds(agentId);
 
         return {
             totalStaked: bonds.reduce((sum, b) => sum + b.amount, 0),
@@ -457,7 +367,24 @@ export class BondManager {
     /**
      * Get all bonds
      */
-    getAllBonds(): BondRecord[] {
-        return Array.from(this.bonds.values());
+    async getAllBonds(): Promise<BondRecord[]> {
+        const res = await pool.query("SELECT * FROM bonds");
+        return res.rows.map(row => this.mapRowToBond(row));
+    }
+
+    private mapRowToBond(row: any): BondRecord {
+        return {
+            bondId: row.bond_id,
+            agentId: row.agent_id,
+            missionId: row.mission_id,
+            amount: parseFloat(row.amount),
+            type: row.type as 'worker' | 'verifier',
+            status: row.status as 'staked' | 'released' | 'slashed',
+            staked_at: new Date(row.staked_at),
+            released_at: row.released_at ? new Date(row.released_at) : undefined,
+            slashed_at: row.slashed_at ? new Date(row.slashed_at) : undefined,
+            slashed_amount: row.slashed_amount ? parseFloat(row.slashed_amount) : undefined,
+            slashed_reason: row.slashed_reason
+        };
     }
 }

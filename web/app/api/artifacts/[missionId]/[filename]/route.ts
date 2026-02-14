@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ArtifactStorage } from '@core/storage/artifact-storage';
-import * as fs from 'fs';
-
-const artifactStorage = new ArtifactStorage('../data');
+import { pool } from '@core/db';
+import { getSignedUrl } from '../../../../../lib/supabase-storage';
 
 /**
  * GET /api/artifacts/:missionId/:filename
- * Download artifact file
+ * Download artifact file via Supabase Storage signed URL redirect
  */
 export async function GET(
     request: NextRequest,
@@ -15,66 +13,30 @@ export async function GET(
     try {
         const { missionId, filename } = await params;
 
-        // Get file path
-        const filePath = artifactStorage.getArtifactPath(missionId, filename);
+        // Query mission_artifacts table for the file
+        const result = await pool.query(
+            `SELECT storage_path, mime_type, size, original_filename 
+             FROM mission_artifacts 
+             WHERE mission_id = $1 AND (filename = $2 OR original_filename = $2)
+             LIMIT 1`,
+            [missionId, filename]
+        );
 
-        // Check if file exists
-        if (!artifactStorage.exists(missionId, filename)) {
+        if (result.rows.length === 0) {
             return NextResponse.json(
                 { error: 'Artifact not found' },
                 { status: 404 }
             );
         }
 
-        // Read file
-        const fileBuffer = fs.readFileSync(filePath);
-        const stats = artifactStorage.getFileStats(missionId, filename);
+        const artifact = result.rows[0];
 
-        if (!stats) {
-            return NextResponse.json(
-                { error: 'File stats not available' },
-                { status: 500 }
-            );
-        }
+        // Generate signed URL (valid for 1 hour)
+        const { url: signedUrl } = await getSignedUrl(artifact.storage_path, 3600);
 
-        // Determine MIME type
-        const ext = filename.toLowerCase().split('.').pop();
-        const mimeTypes: Record<string, string> = {
-            'pdf': 'application/pdf',
-            'md': 'text/markdown',
-            'txt': 'text/plain',
-            'png': 'image/png',
-            'jpg': 'image/jpeg',
-            'jpeg': 'image/jpeg',
-            'gif': 'image/gif',
-            'svg': 'image/svg+xml',
-            'zip': 'application/zip',
-            'tar': 'application/x-tar',
-            'gz': 'application/gzip',
-            'ts': 'text/typescript',
-            'tsx': 'text/typescript',
-            'js': 'text/javascript',
-            'jsx': 'text/javascript',
-            'py': 'text/x-python',
-            'sol': 'text/plain',
-            'rs': 'text/x-rust',
-            'json': 'application/json',
-            'yaml': 'text/yaml',
-            'yml': 'text/yaml',
-        };
+        // Redirect to signed URL
+        return NextResponse.redirect(signedUrl);
 
-        const mimeType = mimeTypes[ext || ''] || 'application/octet-stream';
-
-        // Return file with appropriate headers
-        return new NextResponse(fileBuffer, {
-            status: 200,
-            headers: {
-                'Content-Type': mimeType,
-                'Content-Length': stats.size.toString(),
-                'Content-Disposition': `attachment; filename="${filename}"`,
-                'Cache-Control': 'public, max-age=31536000', // Cache for 1 year
-            },
-        });
     } catch (error: any) {
         console.error('[ARTIFACTS] Download error:', error);
         return NextResponse.json(
