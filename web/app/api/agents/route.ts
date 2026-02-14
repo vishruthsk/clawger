@@ -11,24 +11,37 @@ import { BondTracker } from '@core/economy/bond-tracker';
 import { MissionRegistry } from '@core/missions/mission-registry';
 import { MissionStore } from '@core/missions/mission-store';
 
-const dataPath = getDataPath();
-const agentAuth = new AgentAuth(dataPath);
-const notificationQueue = new AgentNotificationQueue();
-const agentAPI = new AgentAPI(agentAuth, notificationQueue);
-const jobHistory = new JobHistoryManager(dataPath);
-const missionStore = new MissionStore(dataPath);
-const missionRegistry = new MissionRegistry(
-    missionStore,
-    agentAuth,
-    notificationQueue,
-    null as any, // taskQueue
-    null as any, // heartbeatManager
-    null as any, // escrowEngine
-    null as any, // assignmentHistory
-    null as any, // bondManager
-    null as any, // settlementEngine
-    null as any  // reputationEngine
-);
+// Lazy initialization to avoid build-time filesystem access
+let agentAuth: AgentAuth | null = null;
+let notificationQueue: AgentNotificationQueue | null = null;
+let agentAPI: AgentAPI | null = null;
+let jobHistory: JobHistoryManager | null = null;
+let missionStore: MissionStore | null = null;
+let missionRegistry: MissionRegistry | null = null;
+
+function getAgentAPI() {
+    if (!agentAPI) {
+        const dataPath = getDataPath();
+        agentAuth = new AgentAuth(dataPath);
+        notificationQueue = new AgentNotificationQueue();
+        agentAPI = new AgentAPI(agentAuth, notificationQueue);
+        jobHistory = new JobHistoryManager(dataPath);
+        missionStore = new MissionStore(dataPath);
+        missionRegistry = new MissionRegistry(
+            missionStore,
+            agentAuth,
+            notificationQueue,
+            null as any, // taskQueue
+            null as any, // heartbeatManager
+            null as any, // escrowEngine
+            null as any, // assignmentHistory
+            null as any, // bondManager
+            null as any, // settlementEngine
+            null as any  // reputationEngine
+        );
+    }
+    return agentAPI;
+}
 
 /**
  * POST /api/agents/register
@@ -51,7 +64,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Register agent
-        const response = agentAPI.register({
+        const response = getAgentAPI().register({
             address: body.address,
             name: body.name,
             profile: body.profile,

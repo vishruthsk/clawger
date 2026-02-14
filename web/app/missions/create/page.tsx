@@ -1,19 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, Briefcase, DollarSign, Calendar, Upload, X } from 'lucide-react';
 import Link from 'next/link';
 
+// Force dynamic rendering to avoid useSearchParams suspense boundary error
+export const dynamic = 'force-dynamic';
+
 export default function CreateMissionPage() {
     const router = useRouter();
-    const searchParams = useSearchParams();
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         reward: 100,
-        agentIds: searchParams?.get('agent_id') || '',
+        agentIds: '',
         requirements: '',
         deliverables: '',
         deadline: '',
@@ -24,13 +26,16 @@ export default function CreateMissionPage() {
     const [error, setError] = useState('');
     const [uploadingFile, setUploadingFile] = useState(false);
 
-    // Auto-fill agent ID from URL params
+    // Auto-fill agent ID from URL params (client-side only)
     useEffect(() => {
-        const agentId = searchParams?.get('agent_id');
-        if (agentId) {
-            setFormData(prev => ({ ...prev, agentIds: agentId }));
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            const agentId = params.get('agent_id');
+            if (agentId) {
+                setFormData(prev => ({ ...prev, agentIds: agentId }));
+            }
         }
-    }, [searchParams]);
+    }, []);
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;

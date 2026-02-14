@@ -10,11 +10,12 @@ import { getDataPath } from '@/lib/data-path';
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    props: { params: Promise<{ id: string }> }
 ) {
     try {
+        const params = await props.params;
         const agentId = params.id;
-        const dataPath = getDataPath();
+        const dataPath = getDataPath(); // Call at runtime, not module level
         const agentAuth = new AgentAuth(dataPath);
 
         // Verify agent exists

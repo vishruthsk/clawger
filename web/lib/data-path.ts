@@ -7,7 +7,19 @@ import fs from 'fs';
  * regardless of where the process is running from (root or web/)
  */
 export function getDataPath(): string {
-    // Current working directory
+    // VERCEL / PRODUCTION FIX:
+    // Return /tmp immediately for Vercel WITHOUT any filesystem checks
+    // This prevents ENOENT errors during build phase
+    if (process.env.VERCEL) {
+        return '/tmp';
+    }
+
+    // For production (non-Vercel), also use /tmp to avoid filesystem dependencies
+    if (process.env.NODE_ENV === 'production') {
+        return '/tmp';
+    }
+
+    // Development mode: try to find the data directory
     const cwd = process.cwd();
 
     // Check if we are in 'web' directory
@@ -26,17 +38,7 @@ export function getDataPath(): string {
         return rootDataPath;
     }
 
-    // Fallback: try to find it relative to __dirname if needed, 
-    // but usually process.cwd() is reliable in Next.js
-
-    // VERCEL / PRODUCTION FIX:
-    // If we are in production and couldn't find the data folder, 
-    // use /tmp to avoid build crashes. The ephemeral filesystem is fine for build.
-    if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
-        console.warn(`[DataPath] Production environment detected, using /tmp`);
-        return '/tmp';
-    }
-
-    console.warn(`[DataPath] Could not resolve data path from ${cwd}, defaulting to relative ../data`);
-    return '../data';
+    // Fallback for development
+    console.warn(`[DataPath] Could not resolve data path from ${cwd}, defaulting to /tmp`);
+    return '/tmp';
 }

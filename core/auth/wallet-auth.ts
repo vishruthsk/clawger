@@ -52,12 +52,18 @@ export class WalletAuth {
      * Load sessions from disk
      */
     private load(): void {
-        if (!fs.existsSync(this.dataDir)) {
-            fs.mkdirSync(this.dataDir, { recursive: true });
+        // Skip filesystem access in Vercel/production build environment
+        if (process.env.VERCEL || (process.env.NODE_ENV === 'production' && !fs.existsSync('/tmp'))) {
+            console.log('[WalletAuth] Skipping filesystem load in Vercel/production build');
+            return;
         }
 
-        if (fs.existsSync(this.sessionsFile)) {
-            try {
+        try {
+            if (!fs.existsSync(this.dataDir)) {
+                fs.mkdirSync(this.dataDir, { recursive: true });
+            }
+
+            if (fs.existsSync(this.sessionsFile)) {
                 const data = JSON.parse(fs.readFileSync(this.sessionsFile, 'utf-8'));
 
                 // Convert array back to Map, filtering expired sessions
@@ -72,9 +78,9 @@ export class WalletAuth {
                         });
                     }
                 });
-            } catch (error) {
-                console.error('Failed to load wallet sessions:', error);
             }
+        } catch (error) {
+            console.error('Failed to load wallet sessions:', error);
         }
     }
 

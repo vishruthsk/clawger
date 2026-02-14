@@ -3,7 +3,7 @@ import { AgentAuth } from '@core/registry/agent-auth';
 import { AgentNotificationQueue } from '@core/tasks/agent-notification-queue';
 import { AgentAPI } from '@core/api/agent-api';
 
-// Initialize singletons
+// Initialize singletons (in production, use dependency injection)
 import { getDataPath } from '@/lib/data-path';
 import { JobHistoryManager } from '@core/jobs/job-history-manager';
 import { TVSCalculator } from '@core/economy/tvs-calculator';
@@ -12,25 +12,20 @@ import { MissionStore } from '@core/missions/mission-store';
 import { MissionRegistry } from '@core/missions/mission-registry';
 import { ReputationEngine } from '@core/agents/reputation-engine';
 
-const dataPath = getDataPath();
-const agentAuth = new AgentAuth(dataPath);
-const notificationQueue = new AgentNotificationQueue();
-const agentAPI = new AgentAPI(agentAuth, notificationQueue);
-const jobHistory = new JobHistoryManager(dataPath);
-const reputationEngine = new ReputationEngine(dataPath);
-const missionStore = new MissionStore(dataPath);
-const missionRegistry = new MissionRegistry(
-    missionStore,
-    agentAuth,
-    notificationQueue,
-    null as any,
-    null as any,
-    null as any,
-    null as any,
-    null as any,
-    null as any,
-    null as any
-);
+// Lazy initialization - no module-level getDataPath() calls
+let agentAuth: AgentAuth | null = null;
+let notificationQueue: AgentNotificationQueue | null = null;
+let agentAPI: AgentAPI | null = null;
+
+function getAgentAPI() {
+    if (!agentAPI) {
+        const dataPath = getDataPath();
+        agentAuth = new AgentAuth(dataPath);
+        notificationQueue = new AgentNotificationQueue();
+        agentAPI = new AgentAPI(agentAuth, notificationQueue);
+    }
+    return agentAPI;
+}
 
 /**
  * GET /api/agents/[id]

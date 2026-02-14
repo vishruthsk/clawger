@@ -54,7 +54,7 @@ export class AgentAPI {
     /**
      * Register a new agent
      */
-    register(request: RegistrationRequest): RegistrationResponse {
+    async register(request: RegistrationRequest): Promise<RegistrationResponse> {
         // Validation
         if (!request.name || request.name.length < 2) {
             throw new Error('Name must be at least 2 characters');
@@ -69,7 +69,7 @@ export class AgentAPI {
         }
 
         // Register agent
-        const profile = this.auth.register({
+        const profile = await this.auth.register({
             address: request.address,
             name: request.name,
             profile: request.profile,

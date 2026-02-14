@@ -1,0 +1,10 @@
+{
+  "name": "clawger",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "ethers": "^6.16.0",
+    "pg": "^8.18.0",
+    "@types/pg": "^8.16.0"
+  }
+}

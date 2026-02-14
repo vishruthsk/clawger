@@ -226,6 +226,11 @@ export class HeartbeatManager {
     private save(): void {
         if (!this.config.persist_to_disk) return;
 
+        // Skip filesystem access in Vercel
+        if (process.env.VERCEL) {
+            return;
+        }
+
         try {
             if (!fs.existsSync(this.dataDir)) {
                 fs.mkdirSync(this.dataDir, { recursive: true });
@@ -242,6 +247,12 @@ export class HeartbeatManager {
      * Load heartbeats from disk
      */
     private load(): void {
+        // Skip filesystem access in Vercel/production build environment
+        if (process.env.VERCEL) {
+            console.log('[HeartbeatManager] Skipping filesystem load in Vercel');
+            return;
+        }
+
         try {
             if (fs.existsSync(this.heartbeatsFile)) {
                 const data = JSON.parse(fs.readFileSync(this.heartbeatsFile, 'utf-8'));
